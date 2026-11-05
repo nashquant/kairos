@@ -16,8 +16,8 @@ adapter = (SRC / "adapter.js").read_text(encoding="utf-8")
 decks = json.loads((ROOT / "data" / "decks.json").read_text(encoding="utf-8"))
 cards = json.loads((ROOT / "data" / "cards.json").read_text(encoding="utf-8"))
 
-priv_blob = "".join(p.read_text() for p in sorted((ROOT / "data" / "private").glob("*.json")))
-version = hashlib.sha256((app + adapter + json.dumps(decks) + json.dumps(cards) + priv_blob).encode()).hexdigest()[:12]
+config = json.loads((ROOT / "data" / "config.json").read_text(encoding="utf-8"))
+version = hashlib.sha256((app + adapter + json.dumps(decks) + json.dumps(cards) + json.dumps(config)).encode()).hexdigest()[:12]
 
 head = """<!doctype html>
 <html lang="pt-BR">
@@ -42,7 +42,8 @@ head = """<!doctype html>
 # The adapter must define window.claude before the app script runs.
 marker = "<script>\n/* ---------- utils ---------- */"
 assert app.count(marker) == 1, "app.html main script marker not found"
-app = app.replace(marker, "<script>\n" + adapter + "\n</script>\n" + marker, 1)
+SUPABASE_JS = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"
+app = app.replace(marker, '<script src="' + SUPABASE_JS + '"></script>\n<script>\nwindow.KAIROS_CONFIG = ' + json.dumps(config) + ';\n' + adapter + "\n</script>\n" + marker, 1)
 app = app.replace("Abra esta página no claude.ai para acessar seus cards.", "Não foi possível carregar os cards. Abra o site com internet uma vez.")
 
 tail = """
@@ -64,7 +65,6 @@ for f in (SRC / "icons").glob("*.png"):
     shutil.copy(f, OUT / f.name)
 (OUT / "data" / "decks.json").write_text(json.dumps(decks, ensure_ascii=False), encoding="utf-8")
 (OUT / "data" / "cards.json").write_text(json.dumps(cards, ensure_ascii=False), encoding="utf-8")
-shutil.copytree(ROOT / "data" / "private", OUT / "data" / "private")
 manifest = {
     "name": "Kairos", "short_name": "Kairos",
     "description": "Flashcards com repetição espaçada FSRS.",

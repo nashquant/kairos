@@ -1,45 +1,55 @@
 /* Kairos web adapter.
-   The app (app.html) talks to a document store through window.claude.use('db').
-   On GitHub Pages there is no claude.ai store, so this file provides a local one
-   with the same small API the app uses:
+   The app (app.html) talks to a document store through window.claude.use('db'):
      db.collection(path).onSnapshot(next, error)
      db.doc(path).set(body) / .delete() / .onSnapshot(next, error)
-   Base data (decks, cards) comes from data/*.json in the repo, served by the site.
-   Everything the viewer writes (progress, log, settings, own card edits) lives in
-   localStorage on this device. A local write is a tombstone or a full document. */
+   This file provides that store for the website:
+   - Public decks and cards come from data/*.json in the repo.
+   - Every write (progress, daily log, settings, own card edits) lands in localStorage
+     first, so the app works offline.
+   - When the user is signed in (Supabase Auth, email code), writes sync to the
+     user's rows in Supabase and changes from other devices are pulled in.
+     Newest write per document wins; daily logs are merged entry by entry.
+   - Private decks and cards are read from Supabase for the signed-in owner. */
 (function(){
   'use strict';
-  var STORE_KEY = 'kairos.local.v1';
+  var STORE_KEY = 'kairos.local.v1', SYNC_KEY = 'kairos.sync.v1';
   var DATA_FILES = { decks: 'data/decks.json', cards: 'data/cards.json' };
+  var CFG = window.KAIROS_CONFIG || {};
 
-  function readStore(){ try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { return {}; } }
-  function writeStore(s){ try { localStorage.setItem(STORE_KEY, JSON.stringify(s)); return true; } catch (e) { return false; } }
+  function readJSON(k, d){ try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } }
+  function writeJSON(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } }
 
-  var local = readStore();            // { "reviews/c1": {...} | {"__deleted": true}, ... }
-  var base = { decks: {}, cards: {} };// from the repo
-  var baseLoaded = false;
-  var listeners = [];                 // { kind: 'coll'|'doc', path, next }
+  var local = readJSON(STORE_KEY, {});               // path -> body | {__deleted:true}
+  var sync = readJSON(SYNC_KEY, {});                  // {meta:{path:ms}, dirty:{path:1}, since, uid}
+  sync.meta = sync.meta || {}; sync.dirty = sync.dirty || {};
+  var base = { decks: {}, cards: {} };                // public data from the repo
+  var priv = { decks: {}, cards: {} };                // private data from Supabase
+  var baseLoaded = false, listeners = [];
 
   function clone(v){ return v == null ? v : JSON.parse(JSON.stringify(v)); }
-  function collOf(path){ return path.split('/')[0]; }
-  function idOf(path){ return path.split('/').slice(1).join('/'); }
+  function collOf(p){ return p.split('/')[0]; }
+  function idOf(p){ return p.split('/').slice(1).join('/'); }
+  function persist(){ var a = writeJSON(STORE_KEY, local), b = writeJSON(SYNC_KEY, sync); return a && b; }
 
+  function lookup(coll, id){
+    var p = coll + '/' + id;
+    if (p in local) return local[p] && local[p].__deleted ? undefined : local[p];
+    if (priv[coll] && id in priv[coll]) return priv[coll][id];
+    return (base[coll] || {})[id];
+  }
   function collectionDocs(coll){
-    var out = {}, k;
-    var b = base[coll] || {};
+    var out = {}, k, b = base[coll] || {}, pv = priv[coll] || {};
     for (k in b) out[k] = b[k];
+    for (k in pv) out[k] = pv[k];
     for (k in local){
       if (collOf(k) !== coll) continue;
-      var id = idOf(k);
-      if (local[k] && local[k].__deleted) delete out[id]; else out[id] = local[k];
+      if (local[k] && local[k].__deleted) delete out[idOf(k)]; else out[idOf(k)] = local[k];
     }
     return out;
   }
   function docSnap(path){
-    var coll = collOf(path), id = idOf(path), v;
-    if (path in local) v = local[path] && local[path].__deleted ? undefined : local[path];
-    else v = (base[coll] || {})[id];
-    return { id: id, exists: v !== undefined, data: function(){ return clone(v); }, metadata: { fromCache: !baseLoaded, hasPendingWrites: false } };
+    var v = lookup(collOf(path), idOf(path));
+    return { id: idOf(path), exists: v !== undefined, data: function(){ return clone(v); }, metadata: { fromCache: !baseLoaded, hasPendingWrites: false } };
   }
   function collSnap(coll){
     var docs = collectionDocs(coll), arr = Object.keys(docs).sort().map(function(id){
@@ -49,111 +59,148 @@
     return { docs: arr, size: arr.length, empty: !arr.length, metadata: { fromCache: !baseLoaded, hasPendingWrites: false }, docChanges: function(){ return []; } };
   }
   function emit(){
-    listeners.forEach(function(l){
-      if (l.dead) return;
-      try { l.next(l.kind === 'coll' ? collSnap(l.path) : docSnap(l.path)); } catch (e) { console.error(e); }
-    });
+    listeners.forEach(function(l){ if (!l.dead) try { l.next(l.kind === 'coll' ? collSnap(l.path) : docSnap(l.path)); } catch (e) { console.error(e); } });
+    notifyAccount();
   }
   var emitQueued = false;
   function emitSoon(){ if (emitQueued) return; emitQueued = true; setTimeout(function(){ emitQueued = false; emit(); }, 0); }
 
   function write(path, body){
     local[path] = body;
-    if (!writeStore(local)) return Promise.reject({ code: 'quota_exceeded', message: 'Device storage is full.' });
-    emitSoon();
+    sync.meta[path] = Math.max(Date.now(), (sync.meta[path] || 0) + 1);
+    sync.dirty[path] = 1;
+    if (!persist()) return Promise.reject({ code: 'quota_exceeded', message: 'Device storage is full.' });
+    emitSoon(); syncSoon();
     return Promise.resolve();
   }
 
-  // Other tabs of the same app on this device stay in step.
-  window.addEventListener('storage', function(e){ if (e.key === STORE_KEY){ local = readStore(); emitSoon(); } });
+  window.addEventListener('storage', function(e){
+    if (e.key === STORE_KEY || e.key === SYNC_KEY){ local = readJSON(STORE_KEY, {}); sync = readJSON(SYNC_KEY, {}); sync.meta = sync.meta || {}; sync.dirty = sync.dirty || {}; emitSoon(); }
+  });
 
   function loadBase(){
     var names = Object.keys(DATA_FILES);
     return Promise.all(names.map(function(n){
       return fetch(DATA_FILES[n], { cache: 'no-cache' }).then(function(r){ if (!r.ok) throw new Error(n + ' ' + r.status); return r.json(); });
     })).then(function(res){
-      var fresh = {};
-      names.forEach(function(n, i){ fresh[n] = res[i] || {}; });
-      return loadPrivate(fresh).catch(function(err){ console.warn('Kairos: private decks', err); }).then(function(){ base = fresh; });
-    }).catch(function(err){
-      console.warn('Kairos: could not load card data', err);
-    }).then(function(){ baseLoaded = true; emitSoon(); });
+      var fresh = {}; names.forEach(function(n, i){ fresh[n] = res[i] || {}; }); base = fresh;
+    }).catch(function(err){ console.warn('Kairos: could not load card data', err); })
+      .then(function(){ baseLoaded = true; emitSoon(); });
   }
 
-  /* ---------- private decks ----------
-     data/private/index.json lists encrypted chunks. Each chunk:
-       {v:1, kid, ek: RSA-OAEP-SHA256(aesKey), iv, ct: AES-256-GCM(json)}  (base64)
-     The JSON is {decks:{id:deck|null}, cards:{id:card|null}}; null deletes; later chunks win.
-     The device keeps its RSA private key in localStorage (kairos.key.v1). */
-  var KEY_STORE = 'kairos.key.v1';
-  var subtle = (window.crypto && window.crypto.subtle) || null;
-  var enc = { encode: function(t){ return new TextEncoder().encode(t); } }, dec = { decode: function(b){ return new TextDecoder().decode(b); } };
-  function b64d(s){ var bin = atob(s.replace(/-/g,'+').replace(/_/g,'/')); var u = new Uint8Array(bin.length); for (var i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i); return u; }
-  function b64e(u){ var s=''; u=new Uint8Array(u); for (var i=0;i<u.length;i++) s+=String.fromCharCode(u[i]); return btoa(s); }
-  function readKey(){ try { return JSON.parse(localStorage.getItem(KEY_STORE)); } catch (e) { return null; } }
-  var status = { files: 0, opened: 0, wrongKey: 0 };
+  /* ---------- account and sync ---------- */
+  var sb = null, user = null, state = { syncing: false, lastSync: sync.lastSync || null, error: null };
+  var accountListeners = [];
+  function notifyAccount(){ accountListeners.forEach(function(f){ try { f(); } catch (e) {} }); }
+  function configured(){ return !!(CFG.supabaseUrl && CFG.supabaseAnonKey && window.supabase && window.supabase.createClient); }
 
-  async function loadPrivate(target){
-    status = { files: 0, opened: 0, wrongKey: 0 };
-    var idx;
-    try { var r = await fetch('data/private/index.json', { cache: 'no-cache' }); if (!r.ok) return; idx = await r.json(); } catch (e) { return; }
-    var files = (idx && idx.files) || [];
-    status.files = files.length;
-    var k = readKey();
-    if (!files.length || !k || !subtle) return;
-    var priv = await subtle.importKey('jwk', k.priv, { name: 'RSA-OAEP', hash: 'SHA-256' }, false, ['decrypt']);
-    for (var i = 0; i < files.length; i++){
-      var chunk;
-      try { chunk = await (await fetch('data/private/' + files[i], { cache: 'no-cache' })).json(); } catch (e) { continue; }
-      if (chunk.kid !== k.kid){ status.wrongKey++; continue; }
-      var raw = await subtle.decrypt({ name: 'RSA-OAEP' }, priv, b64d(chunk.ek));
-      var aes = await subtle.importKey('raw', raw, { name: 'AES-GCM' }, false, ['decrypt']);
-      var pt = await subtle.decrypt({ name: 'AES-GCM', iv: b64d(chunk.iv) }, aes, b64d(chunk.ct));
-      var obj = JSON.parse(dec.decode(pt));
-      ['decks', 'cards'].forEach(function(coll){
-        var m = obj[coll] || {};
-        Object.keys(m).forEach(function(id){
-          if (m[id] === null) delete target[coll][id];
-          else { var v = m[id]; if (coll === 'decks') v.private = true; target[coll][id] = v; }
-        });
-      });
-      status.opened++;
+  function mergeLog(a, b){
+    var seen = {}, out = [];
+    (a || []).concat(b || []).forEach(function(e){ var k = e.c + '|' + e.t; if (!seen[k]){ seen[k] = 1; out.push(e); } });
+    out.sort(function(x, y){ return x.t - y.t; });
+    return out;
+  }
+  function resetLocal(){ local = {}; sync = { meta: {}, dirty: {} }; priv = { decks: {}, cards: {} }; persist(); }
+
+  var syncTimer = null, running = null;
+  function syncSoon(ms){ if (!user) return; clearTimeout(syncTimer); syncTimer = setTimeout(runSync, ms == null ? 1500 : ms); }
+  function runSync(){
+    if (!user || !sb) return Promise.resolve();
+    if (running) return running;
+    state.syncing = true; notifyAccount();
+    running = (async function(){
+      try {
+        // push
+        var paths = Object.keys(sync.dirty);
+        for (var i = 0; i < paths.length; i += 200){
+          var batch = paths.slice(i, i + 200), sent = {};
+          var docs = batch.map(function(p){ sent[p] = sync.meta[p] || Date.now(); var v = local[p]; return { path: p, body: v && v.__deleted ? null : (v === undefined ? null : v), updated_at: sent[p] }; });
+          var r = await sb.rpc('put_docs', { docs: docs });
+          if (r.error) throw r.error;
+          batch.forEach(function(p){ if (sync.meta[p] === sent[p]) delete sync.dirty[p]; });
+        }
+        // pull
+        for (var guard = 0; guard < 50; guard++){
+          var q = sb.from('user_docs').select('path,body,updated_at,server_at').order('server_at', { ascending: true }).limit(1000);
+          if (sync.since) q = q.gt('server_at', sync.since);
+          var res = await q;
+          if (res.error) throw res.error;
+          var rows = res.data || [];
+          rows.forEach(function(row){
+            var p = row.path, lm = sync.meta[p] || 0, ru = Number(row.updated_at);
+            if (p.indexOf('log/') === 0){
+              var mine = local[p] && !local[p].__deleted ? local[p].entries : [];
+              var theirs = row.body ? row.body.entries : [];
+              var merged = mergeLog(mine, theirs);
+              local[p] = { entries: merged };
+              if (merged.length !== (theirs || []).length){ sync.meta[p] = Math.max(Date.now(), ru + 1); sync.dirty[p] = 1; }
+              else { sync.meta[p] = Math.max(lm, ru); delete sync.dirty[p]; }
+            } else if (ru > lm){
+              local[p] = row.body === null ? { __deleted: true } : row.body;
+              sync.meta[p] = ru; delete sync.dirty[p];
+            }
+            if (!sync.since || row.server_at > sync.since) sync.since = row.server_at;
+          });
+          if (rows.length < 1000) break;
+        }
+        // private decks
+        var pr = await sb.from('private_docs').select('coll,id,body');
+        if (!pr.error){
+          var np = { decks: {}, cards: {} };
+          (pr.data || []).forEach(function(row){ var v = row.body; if (row.coll === 'decks') v = Object.assign({}, v, { private: true }); np[row.coll][row.id] = v; });
+          priv = np;
+        }
+        state.lastSync = sync.lastSync = Date.now(); state.error = null;
+        persist(); emitSoon();
+        if (Object.keys(sync.dirty).length) syncSoon(500);
+      } catch (e) {
+        state.error = (e && (e.message || e.msg)) || String(e);
+      } finally {
+        state.syncing = false; running = null; notifyAccount();
+      }
+    })();
+    return running;
+  }
+
+  async function onUser(u){
+    var prev = user; user = u;
+    if (u){
+      if (sync.uid && sync.uid !== u.id) resetLocal();   // another account used this device
+      sync.uid = u.id; persist();
+      if (!prev || prev.id !== u.id) await runSync();
     }
+    notifyAccount(); emitSoon();
+  }
+  function initAuth(){
+    if (!configured()) return;
+    sb = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey, { auth: { persistSession: true, autoRefreshToken: true, storageKey: 'kairos.auth' } });
+    sb.auth.getSession().then(function(r){ onUser(r && r.data && r.data.session ? r.data.session.user : null); });
+    sb.auth.onAuthStateChange(function(ev, session){ var u = session ? session.user : null; if ((u && u.id) !== (user && user.id)) onUser(u); });
+    window.addEventListener('online', function(){ syncSoon(0); });
+    document.addEventListener('visibilitychange', function(){ if (!document.hidden) syncSoon(0); });
+    setInterval(function(){ syncSoon(0); }, 60000);
   }
 
-  async function sha16(text){ var h = await subtle.digest('SHA-256', enc.encode(text)); return Array.from(new Uint8Array(h)).slice(0, 8).map(function(x){ return x.toString(16).padStart(2, '0'); }).join(''); }
-  async function passKey(pass, salt){
-    var base = await subtle.importKey('raw', enc.encode(pass), 'PBKDF2', false, ['deriveKey']);
-    return subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: 600000, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
-  }
-  var keys = {
-    has: function(){ return !!readKey(); },
-    kid: function(){ var k = readKey(); return k ? k.kid : ''; },
-    publicText: function(){ var k = readKey(); return k ? JSON.stringify({ kid: k.kid, alg: 'RSA-OAEP-256', n: k.pub.n, e: k.pub.e }) : ''; },
-    generate: async function(){
-      if (!subtle) throw new Error('Este navegador não tem criptografia (WebCrypto).');
-      var kp = await subtle.generateKey({ name: 'RSA-OAEP', modulusLength: 3072, publicExponent: new Uint8Array([1, 0, 1]), hash: 'SHA-256' }, true, ['encrypt', 'decrypt']);
-      var pub = await subtle.exportKey('jwk', kp.publicKey), priv = await subtle.exportKey('jwk', kp.privateKey);
-      var kid = await sha16(pub.n);
-      localStorage.setItem(KEY_STORE, JSON.stringify({ kid: kid, pub: { kty: 'RSA', n: pub.n, e: pub.e }, priv: priv }));
-      return kid;
+  var account = {
+    configured: configured,
+    user: function(){ return user ? { email: user.email, id: user.id } : null; },
+    state: function(){ return { syncing: state.syncing, lastSync: state.lastSync, error: state.error, pending: Object.keys(sync.dirty).length }; },
+    onChange: function(f){ accountListeners.push(f); },
+    sendCode: async function(email){
+      var r = await sb.auth.signInWithOtp({ email: email, options: { shouldCreateUser: true, emailRedirectTo: location.origin + location.pathname } });
+      if (r.error) throw r.error;
     },
-    exportBackup: async function(pass){
-      var salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
-      var ct = await subtle.encrypt({ name: 'AES-GCM', iv: iv }, await passKey(pass, salt), enc.encode(localStorage.getItem(KEY_STORE)));
-      var all = new Uint8Array(28 + ct.byteLength); all.set(salt, 0); all.set(iv, 16); all.set(new Uint8Array(ct), 28);
-      return 'KAIROS1.' + b64e(all);
+    verify: async function(email, code){
+      var r = await sb.auth.verifyOtp({ email: email, token: code, type: 'email' });
+      if (r.error) throw r.error;
+      await onUser(r.data.user || (r.data.session && r.data.session.user));
     },
-    importBackup: async function(code, pass){
-      if (!/^KAIROS1\./.test(code)) throw new Error('bad-pass');
-      var all = b64d(code.slice(8));
-      var pt;
-      try { pt = await subtle.decrypt({ name: 'AES-GCM', iv: all.slice(16, 28) }, await passKey(pass, all.slice(0, 16)), all.slice(28)); }
-      catch (e) { throw new Error('bad-pass'); }
-      var k = JSON.parse(dec.decode(pt)); if (!k.kid || !k.priv) throw new Error('bad-pass');
-      localStorage.setItem(KEY_STORE, JSON.stringify(k));
+    signOut: async function(){
+      try { await runSync(); } catch (e) {}
+      await sb.auth.signOut();
+      resetLocal(); user = null; notifyAccount(); emitSoon();
     },
-    forget: function(){ localStorage.removeItem(KEY_STORE); }
+    syncNow: function(){ return runSync(); }
   };
 
   var db = {
@@ -173,7 +220,7 @@
   };
 
   loadBase();
-  window.KAIROS_WEB = { reload: loadBase, keys: keys, exportProgress: function(){ return clone(local); } };
-  Object.defineProperty(window.KAIROS_WEB, 'privateStatus', { get: function(){ return status; } });
+  initAuth();
+  window.KAIROS_WEB = { reload: loadBase, account: account, exportProgress: function(){ return clone(local); } };
   window.claude = { use: function(name){ return Promise.resolve(name === 'db' ? db : null); } };
 })();

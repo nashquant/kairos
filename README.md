@@ -13,17 +13,17 @@ The mark is the spaced-repetition sawtooth. Memory decays along the forgetting c
 | | claude.ai artifact | Website (GitHub Pages) |
 |---|---|---|
 | URL | private artifact link | https://nashquant.github.io/kairos/ |
-| Cards | artifact database (frozen) | `data/cards.json` (public) and `data/private/*.enc.json` (encrypted) |
-| Progress | artifact database | this device (`localStorage`) |
+| Cards | artifact database (frozen) | `data/cards.json` (public); private decks in Supabase |
+| Progress | artifact database | this device; synced through Supabase after login |
 | Offline | only while the tab stays open | opens with no connection after the first visit; installable |
 
 Both run from the same `app.html`. `scripts/build_web.py` wraps it for the website with a local data adapter (`web-src/adapter.js`), a service worker and a manifest. Each push to `main` builds, tests and deploys the site.
 
 Install on a phone: open the site, then Share → Add to Home Screen (iOS) or menu → Install app (Android).
 
-## Private decks
+## Accounts, sync and private decks
 
-Private decks are published encrypted (RSA-OAEP-256 wrapping an AES-256-GCM key). Each device holds a private key, created in the app under **Baralhos privados**; the public key goes to `data/public-key.json`. Claude encrypts new private chunks with `scripts/encrypt_private.py` and never sees the private key. A backup code (PBKDF2 + AES-GCM, protected by a password) moves the key to another device.
+Login is optional (email code via Supabase Auth). Signed-in users get progress synced across devices and their private decks. Private decks reach Supabase through an encrypted chunk in `data/private/` and the *Ingest private decks* workflow; see `docs/spec.md`.
 
 ## Study filters
 

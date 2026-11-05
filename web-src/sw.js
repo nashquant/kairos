@@ -6,13 +6,14 @@ const VERSION = '__BUILD__';
 const SHELL = 'kairos-shell-' + VERSION;
 const RUNTIME = 'kairos-runtime';
 const MATHJAX = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js';
-const PRECACHE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png', './data/decks.json', './data/cards.json', './data/private/index.json'];
+const SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
+const PRECACHE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png', './data/decks.json', './data/cards.json'];
 
 self.addEventListener('install', e => {
   e.waitUntil((async () => {
     const c = await caches.open(SHELL);
     await c.addAll(PRECACHE);
-    try { const r = await fetch(MATHJAX, { mode: 'cors' }); if (r.ok) await (await caches.open(RUNTIME)).put(MATHJAX, r); } catch (err) {}
+    for (const u of [MATHJAX, SUPABASE_JS]) { try { const r = await fetch(u, { mode: 'cors' }); if (r.ok) await (await caches.open(RUNTIME)).put(u, r); } catch (err) {} }
     await self.skipWaiting();
   })());
 });
@@ -56,7 +57,7 @@ self.addEventListener('fetch', e => {
     e.respondWith(cacheFirst(req, SHELL));
     return;
   }
-  if (/^(cdnjs\.cloudflare\.com|fonts\.googleapis\.com|fonts\.gstatic\.com)$/.test(url.hostname)) {
+  if (/^(cdnjs\.cloudflare\.com|cdn\.jsdelivr\.net|fonts\.googleapis\.com|fonts\.gstatic\.com)$/.test(url.hostname)) {
     e.respondWith(cacheFirst(req, RUNTIME));
   }
 });

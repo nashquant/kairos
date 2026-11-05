@@ -235,7 +235,7 @@ function schedule(prev,g,now){
 }
 
 /* ---------- state ---------- */
-const S={filter:(()=>{const f=ls.get('kairos.filter',{});return {off:Array.isArray(f.off)?f.off:[]}})(),panels:new Set(ls.get('kairos.panels',[])),pk:{},db:null,decks:new Map(),cards:new Map(),revs:new Map(),settings:{newPerDay:20,retention:0.9},
+const S={login:{email:'',sent:false,busy:false},filter:(()=>{const f=ls.get('kairos.filter',{});return {off:Array.isArray(f.off)?f.off:[]}})(),panels:new Set(ls.get('kairos.panels',[])),pk:{},db:null,decks:new Map(),cards:new Map(),revs:new Map(),settings:{newPerDay:20,retention:0.9},
   log:[],logKey:null,logUnsub:null,ready:new Set(),stale:false,err:null,nodb:false,
   view:'home',study:null,open:new Set(ls.get('fich.open',[])),browse:{q:'',deck:''},edit:null,undo:null,confirmDel:false};
 /* ---------- outbox: every write goes to localStorage first, then syncs ----------
@@ -421,7 +421,7 @@ function treeHTML(node,depth,cap){
 }
 function homeHTML(){
   const cm=deckCounts(), root=buildTree(), all=sumNode(root,cm), cap=newLeft();
-  let h='<div class="top"><div class="brand">'+LOGO+'<div><h1>Kairos</h1><div class="tagline">no momento certo</div><div class="today mono">Hoje: '+S.log.length+' respostas · '+newToday()+'/'+(+S.settings.newPerDay||0)+' novos</div></div></div>'+
+  let h='<div class="top"><div class="brand">'+LOGO+'<div><h1>Kairos</h1><div class="tagline">no momento certo</div><div class="today mono">Hoje: '+S.log.length+' respostas · '+newToday()+'/'+(+S.settings.newPerDay||0)+' novos'+syncLine()+'</div></div></div>'+
     '<button class="btn" data-go="browse">Ver cards</button></div><div class="stack">'+syncHTML();
   if(S.stale&&!S.ready.size)h+='<div class="notice">Os dados ainda não chegaram. Verifique a conexão; a página atualiza sozinha.</div>';
   if(!S.decks.size){
@@ -432,7 +432,7 @@ function homeHTML(){
   }
   const r=+S.settings.retention||0.9;
   h+=filterHTML();
-  if(window.KAIROS_WEB&&((window.KAIROS_WEB.privateStatus||{}).files||window.KAIROS_WEB.keys.has()))h+=privateHTML();
+  h+=accountHTML();
   h+='<details class="settings" data-panel="ajustes"'+(S.panels.has('ajustes')?' open':'')+'><summary>Ajustes</summary>'+
     '<div class="field"><label for="set-new">Cards novos por dia</label><input id="set-new" type="number" min="0" max="999" value="'+(+S.settings.newPerDay||0)+'"><span class="hint">Limite somado de todos os baralhos. Cada card novo gera cerca de 10 revisões no primeiro mês.</span></div>'+
     '<div class="field"><label for="set-ret">Retenção desejada</label><select id="set-ret">'+[0.8,0.85,0.9,0.93,0.95].map(v=>'<option value="'+v+'"'+(Math.abs(v-r)<1e-6?' selected':'')+'>'+Math.round(v*100)+'%</option>').join('')+'</select><span class="hint">Probabilidade de lembrar no dia da revisão. Mais alta encurta os intervalos e aumenta a carga.</span></div>'+
@@ -511,52 +511,56 @@ function doRender(){
   if(S.err){app.innerHTML='<div class="notice">A conexão com os dados caiu ('+esc(S.err)+'). Recarregue a página.</div>';return}
   if(S.view==='study'&&S.study&&(!S.study.cur||!S.cards.get(S.study.cur))){S.study.cur=null;advance()}
   const focus=document.activeElement&&document.activeElement.id, sel=focus==='b-q'?document.activeElement.selectionStart:null;
+  const keep={};for(const id of ['acct-email','acct-code','set-new']){const el=document.getElementById(id);if(el&&document.activeElement===el)keep[id]=el.value}
   if(!S.edit){
     app.innerHTML=(S.view==='study'&&S.study?studyHTML():S.view==='browse'?browseHTML():homeHTML())+answerBarHTML();
     if(S.view==='study'&&S.study&&S.study.cur){
       const c=S.cards.get(S.study.cur), f=document.getElementById('face-front'), b=document.getElementById('face-back');
       if(f){f.innerHTML=md(c.front);typeset(f)} if(b){b.innerHTML=md(c.back);typeset(b)}
     }
+    for(const id in keep){const el=document.getElementById(id);if(el){el.value=keep[id];el.focus()}}
     if(focus==='b-q'){const i=document.getElementById('b-q');if(i){i.focus();if(sel!=null)i.setSelectionRange(sel,sel)}}
   }
   ov.innerHTML=editorHTML();
 }
 
-/* ---------- private decks (website only) ----------
-   Private decks are published encrypted (RSA-OAEP + AES-GCM). Each device holds a
-   private key; Claude encrypts with the public key in the repo and never sees the key. */
-function privateHTML(){
-  const K=window.KAIROS_WEB.keys, st=window.KAIROS_WEB.privateStatus||{files:0,opened:0,wrongKey:0}, pk=S.pk;
-  let b='<p class="hint" style="margin:0 0 10px">Baralhos privados ficam criptografados no repositório. Só abrem em aparelhos com a sua chave.</p>';
-  b+='<p class="hint mono" style="margin:0 0 10px">'+st.files+' arquivo(s) privado(s) · '+st.opened+' aberto(s)'+(st.wrongKey?' · '+st.wrongKey+' de outra chave':'')+'</p>';
-  if(!K.has()){
-    b+='<div class="row" style="margin-bottom:12px"><button class="btn primary" data-pk="generate">Criar chave neste aparelho</button></div>';
-    b+='<div class="field"><label for="pk-import">Já tem chave em outro aparelho? Cole o código de backup</label><textarea id="pk-import" class="codebox" placeholder="KAIROS1.…"></textarea></div>';
-    b+='<div class="field"><label for="pk-pass-in">Senha do backup</label><input id="pk-pass-in" type="password" autocomplete="current-password"></div>';
-    b+='<div class="row" style="margin-bottom:16px"><button class="btn" data-pk="import">Importar chave</button></div>';
-  }else{
-    b+='<p style="margin:0 0 10px">Chave ativa: <span class="mono">'+esc(K.kid())+'</span></p>';
-    b+='<div class="field"><label for="pk-pub">Chave pública (mande para o Claude uma vez)</label><textarea id="pk-pub" class="codebox" readonly>'+esc(K.publicText())+'</textarea></div>';
-    b+='<div class="row" style="margin-bottom:14px"><button class="btn" data-pk="copy-pub">Copiar chave pública</button></div>';
-    b+='<div class="field"><label for="pk-pass1">Backup: escolha uma senha para levar a chave a outro aparelho</label><input id="pk-pass1" type="password" autocomplete="new-password" placeholder="mínimo 12 caracteres"><input id="pk-pass2" type="password" autocomplete="new-password" placeholder="repita a senha" style="margin-top:8px"></div>';
-    b+='<div class="row" style="margin-bottom:10px"><button class="btn" data-pk="backup">Gerar código de backup</button></div>';
-    if(pk.backup)b+='<div class="field"><label for="pk-backup">Código de backup (guarde num gerenciador de senhas)</label><textarea id="pk-backup" class="codebox" readonly>'+esc(pk.backup)+'</textarea><div class="row"><button class="btn" data-pk="copy-backup">Copiar código</button></div></div>';
-    b+='<div class="row" style="margin-bottom:16px"><button class="btn danger" data-pk="forget">'+(pk.confirmForget?'Confirmar: remover chave':'Remover chave deste aparelho')+'</button></div>';
-  }
-  return '<details class="settings" data-panel="privados"'+(S.panels.has('privados')?' open':'')+'><summary>Baralhos privados</summary>'+b+'</details>';
+/* ---------- account and sync (website only) ---------- */
+function acct(){return window.KAIROS_WEB&&window.KAIROS_WEB.account}
+function syncLine(){
+  const A=acct(); if(!A||!A.configured())return '';
+  const u=A.user(), st=A.state();
+  if(!u)return ' · <span class="muted">só neste aparelho</span>';
+  if(st.error)return ' · <span style="color:var(--again)">sincronização falhou</span>';
+  if(st.syncing||st.pending)return ' · sincronizando…';
+  return ' · sincronizado';
 }
-function copyField(id){const el=document.getElementById(id);if(!el)return;const done=()=>toast('Copiado');try{navigator.clipboard.writeText(el.value).then(done,()=>{el.select();toast('Selecionado: copie manualmente')})}catch(e){el.select();toast('Selecionado: copie manualmente')}}
-async function pkAction(a){
-  const K=window.KAIROS_WEB&&window.KAIROS_WEB.keys; if(!K)return;
+function accountHTML(){
+  const A=acct(); if(!A||!A.configured())return '';
+  const u=A.user(), st=A.state(), f=S.login;
+  let b;
+  if(u){
+    const when=st.lastSync?new Date(st.lastSync).toLocaleString('pt-BR',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'}):'ainda não';
+    b='<p style="margin:0 0 8px">Conectado como <b>'+esc(u.email)+'</b>.</p>'+
+      '<p class="hint" style="margin:0 0 12px">Última sincronização: '+esc(when)+(st.pending?' · '+st.pending+' alteração(ões) a enviar':'')+(st.error?' · erro: '+esc(st.error):'')+'</p>'+
+      '<div class="row" style="margin-bottom:16px"><button class="btn" data-acct="sync">Sincronizar agora</button><button class="btn ghost" data-acct="signout">Sair</button></div>';
+  }else{
+    b='<p class="hint" style="margin:0 0 12px">Entre para sincronizar o progresso entre aparelhos e ver seus baralhos privados. Sem login, tudo continua funcionando neste aparelho.</p>'+
+      '<div class="field"><label for="acct-email">E-mail</label><input id="acct-email" type="email" autocomplete="email" inputmode="email" value="'+esc(f.email)+'"></div>';
+    if(f.sent)b+='<div class="field"><label for="acct-code">Código de 6 dígitos enviado para o e-mail</label><input id="acct-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="10"></div>'+
+      '<div class="row" style="margin-bottom:16px"><button class="btn primary" data-acct="verify"'+(f.busy?' disabled':'')+'>Entrar</button><button class="btn ghost" data-acct="send"'+(f.busy?' disabled':'')+'>Reenviar código</button></div>';
+    else b+='<div class="row" style="margin-bottom:16px"><button class="btn primary" data-acct="send"'+(f.busy?' disabled':'')+'>Enviar código</button></div>';
+  }
+  return '<details class="settings" data-panel="conta"'+(S.panels.has('conta')?' open':'')+'><summary>Conta e sincronização'+(u?'':' <span class="pill">opcional</span>')+'</summary>'+b+'</details>';
+}
+async function acctAction(a){
+  const A=acct(); if(!A)return; const f=S.login;
   try{
-    if(a==='generate'){toast('Gerando chave…');await K.generate();toast('Chave criada. Copie a chave pública e mande para o Claude.')}
-    else if(a==='import'){const code=document.getElementById('pk-import').value.trim(),pass=document.getElementById('pk-pass-in').value;await K.importBackup(code,pass);toast('Chave importada');await window.KAIROS_WEB.reload()}
-    else if(a==='copy-pub')copyField('pk-pub');
-    else if(a==='copy-backup')copyField('pk-backup');
-    else if(a==='backup'){const p1=document.getElementById('pk-pass1').value,p2=document.getElementById('pk-pass2').value;if(p1.length<12){toast('Use pelo menos 12 caracteres');return}if(p1!==p2){toast('As senhas não conferem');return}S.pk.backup=await K.exportBackup(p1)}
-    else if(a==='forget'){if(!S.pk.confirmForget){S.pk.confirmForget=true;render();return}K.forget();S.pk={};toast('Chave removida deste aparelho');await window.KAIROS_WEB.reload()}
-  }catch(e){toast(e&&e.message==='bad-pass'?'Senha ou código errado':'Falhou: '+(e&&e.message||e))}
-  render();
+    if(a==='send'){const email=(document.getElementById('acct-email').value||'').trim();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){toast('Digite um e-mail válido');return}f.email=email;f.busy=true;render();await A.sendCode(email);f.sent=true;toast('Código enviado. Confira o e-mail.')}
+    else if(a==='verify'){const code=(document.getElementById('acct-code').value||'').replace(/\D/g,'');if(code.length<6){toast('Digite o código de 6 dígitos');return}f.busy=true;render();await A.verify(f.email,code);S.login={email:'',sent:false,busy:false};toast('Conectado')}
+    else if(a==='sync'){await A.syncNow();toast(A.state().error?'Falhou: '+A.state().error:'Sincronizado')}
+    else if(a==='signout'){await A.signOut();toast('Você saiu. Os dados deste aparelho foram limpos.')}
+  }catch(e){toast((e&&e.message)||'Falhou')}
+  finally{f.busy=false;render()}
 }
 
 /* ---------- events ---------- */
@@ -567,7 +571,7 @@ document.addEventListener('click',ev=>{
   if(d.closeScrim!==undefined||d.close!==undefined){S.edit=null;S.confirmDel=false;render();return}
   if(d.tag){const off=S.filter.off;const i=off.indexOf(d.tag);if(i>=0)off.splice(i,1);else off.push(d.tag);saveFilter();if(S.study)S.study.cur=null;render();return}
   if(d.tagReset!==undefined){S.filter.off=[];saveFilter();render();return}
-  if(d.pk){pkAction(d.pk);return}
+  if(d.acct){acctAction(d.acct);return}
   if(d.tog){S.open.has(d.tog)?S.open.delete(d.tog):S.open.add(d.tog);ls.set('fich.open',[...S.open]);render();return}
   if(d.study){startStudy(d.study,d.study.split('::').join(' › '));return}
   if(d.studyAll!==undefined){startStudy(null,'Todos os baralhos');return}
@@ -663,4 +667,5 @@ function subscribeAll(){
   subLog(S.logKey||dayKey(Date.now()));
 }
 boot();
+if(window.KAIROS_WEB&&window.KAIROS_WEB.account)window.KAIROS_WEB.account.onChange(()=>render());
 </script>
