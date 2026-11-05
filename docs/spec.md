@@ -16,7 +16,7 @@ The website (https://nashquant.github.io/kairos/) is the app. Claude adds cards 
 - Progress (FSRS state, daily log, settings) stays on each device; Claude never writes it.
 
 ## Tags (fixed vocabulary, 1–3 per card; `datado` extra)
-`fundamentos`, `medidas-de-risco`, `cva`, `hedge`, `netting`, `colateral`, `close-out`, `wrong-way`, `credito`, `juros`, `equity-fx`, `amc`, `simulacao`, `regulatorio`, `datado` (practice that has since changed). New subjects may add tags; add a label in `TAG_LABELS` in `app.html`.
+`fundamentos`, `medidas-de-risco`, `cva`, `hedge`, `netting`, `colateral`, `close-out`, `wrong-way`, `credito`, `juros`, `equity-fx`, `amc`, `simulacao`, `regulatorio`, `delta-one`, `datado` (practice that has since changed). New subjects may add tags; add a label in `TAG_LABELS` in `app.html`.
 
 ## Ingest rules
 1. Confirm deck path and visibility with the user before creating a deck.

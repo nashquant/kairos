@@ -290,7 +290,7 @@ function syncHTML(){
   return '<div class="sync" role="status"><span class="dot"></span>'+what+'</div>';
 }
 
-const TAG_LABELS={fundamentos:'Fundamentos','medidas-de-risco':'Medidas de risco',cva:'CVA',hedge:'Hedge',netting:'Netting e alocação',colateral:'Colateral','close-out':'Close-out','wrong-way':'Wrong-way risk',credito:'Modelos de crédito',juros:'Modelos de juros','equity-fx':'Equity, FX e inflação',amc:'American Monte Carlo',simulacao:'Simulação e medidas',regulatorio:'Regulatório',datado:'Prática de 2009 (datado)'};
+const TAG_LABELS={fundamentos:'Fundamentos','medidas-de-risco':'Medidas de risco',cva:'CVA',hedge:'Hedge',netting:'Netting e alocação',colateral:'Colateral','close-out':'Close-out','wrong-way':'Wrong-way risk',credito:'Modelos de crédito',juros:'Modelos de juros','equity-fx':'Equity, FX e inflação',amc:'American Monte Carlo',simulacao:'Simulação e medidas',regulatorio:'Regulatório','delta-one':'Delta One',datado:'Prática de 2009 (datado)'};
 const tagLabel=t=>TAG_LABELS[t]||t;
 function passesFilter(c){const off=S.filter.off;if(!off.length)return true;for(const t of (c.tags||[]))if(off.includes(t))return false;return true}
 function saveFilter(){ls.set('kairos.filter',S.filter)}

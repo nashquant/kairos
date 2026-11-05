@@ -3604,8 +3604,7 @@
   "front": "Client is long a TRS paying SOFR + spread; desk funds the hedge at SOFR + x. Why can you ignore SOFR when pricing?",
   "back": "Client pays SOFR and the desk pays SOFR to fund. SOFR cancels.\nOnly spreads over SOFR matter, in bp per year on notional.",
   "tags": [
-   "delta-one",
-   "funding"
+   "delta-one"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000000,
@@ -3617,9 +3616,7 @@
   "back": "1. Secured funding (repo).\n2. Unsecured funding of the haircut.\n3. Leverage (SLR) charge.\n4. Counterparty capital on the client swap.\n5. Sec lending income (negative cost).",
   "tags": [
    "delta-one",
-   "funding",
-   "slr",
-   "sec-lending"
+   "regulatorio"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000001,
@@ -3630,9 +3627,7 @@
   "front": "Who funds the desk's inventory, and how is the desk charged?",
   "back": "Treasury / ALM funds it and charges an internal funds transfer price (FTP).\nThe FTP covers debt cost plus a charge for scarce balance sheet.",
   "tags": [
-   "delta-one",
-   "funding",
-   "alm"
+   "delta-one"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000002,
@@ -3643,9 +3638,7 @@
   "front": "Shares worth 10m, repo haircut 15%. How is the position funded?",
   "back": "8.5m secured at the repo rate.\n1.5m (the haircut) unsecured at the firm's higher unsecured rate.\nThe haircut sets the weights of the blend.",
   "tags": [
-   "delta-one",
-   "funding",
-   "repo"
+   "delta-one"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000003,
@@ -3656,9 +3649,7 @@
   "front": "Repo at SOFR + 30 bp, unsecured at SOFR + 100 bp, haircut 15%. Funding cost in bp?",
   "back": "$0.85 \\times 30 + 0.15 \\times 100 = 25.5 + 15 = 40.5$ bp.",
   "tags": [
-   "delta-one",
-   "funding",
-   "repo"
+   "delta-one"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000004,
@@ -3670,8 +3661,7 @@
   "back": "$\\text{charge} = \\text{exposure ratio} \\times \\text{leverage \\%} \\times (K_e - \\text{debt cost})$.\nEquity replaces debt in funding the asset. Debt cost is already in the funding lines, so charge only the excess return equity demands.",
   "tags": [
    "delta-one",
-   "slr",
-   "capital"
+   "regulatorio"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000005,
@@ -3683,7 +3673,7 @@
   "back": "$100\\% \\times 4.5\\% \\times 7\\% = 31.5$ bp.\nUsually the largest line of the physical hedge.",
   "tags": [
    "delta-one",
-   "slr"
+   "regulatorio"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000006,
@@ -3695,7 +3685,7 @@
   "back": "The SLR counts every asset at full size, with no risk weighting.\nSo 10m of a GC name uses the same leverage exposure as 10m of a risky one.",
   "tags": [
    "delta-one",
-   "slr"
+   "regulatorio"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000007,
@@ -3707,8 +3697,7 @@
   "back": "Before: 3% + fixed 2% buffer = 5%.\nAfter: 3% + half the Method 1 GSIB surcharge (usually below 5%).\nIt **lowered** the leverage charge on balance-sheet-heavy trades.",
   "tags": [
    "delta-one",
-   "slr",
-   "regulation"
+   "regulatorio"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000008,
@@ -3720,7 +3709,7 @@
   "back": "$5\\% \\times 7\\% = 35$ bp → $4.5\\% \\times 7\\% = 31.5$ bp.\n−3.5 bp per year on notional.",
   "tags": [
    "delta-one",
-   "slr"
+   "regulatorio"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000009,
@@ -3732,8 +3721,7 @@
   "back": "Leverage: total assets (SLR), no risk weighting.\nCounterparty capital: risk-weighted exposure to the client defaulting on the swap.\nTwo different constraints, often charged separately.",
   "tags": [
    "delta-one",
-   "slr",
-   "capital"
+   "regulatorio"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000010,
@@ -3744,8 +3732,7 @@
   "front": "Who lends the desk's long inventory to shorts, and what does the desk get?",
   "back": "Prime Brokerage / Sec Lending lends it and earns the borrow fee.\nThe desk receives a share of that fee as income.",
   "tags": [
-   "delta-one",
-   "sec-lending"
+   "delta-one"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000011,
@@ -3756,8 +3743,7 @@
   "front": "Illustrative stack: repo 25.5, haircut 15, leverage 31.5, capital 10, lending −10. Client pays SOFR + 50. Desk P&L?",
   "back": "Cost $= 72$ bp. P&L $= 50 - 72 = -22$ bp ≈ −22k USD/yr on 10m.\n50 bp does not cover a standalone physical hedge.",
   "tags": [
-   "delta-one",
-   "pnl"
+   "delta-one"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000012,
@@ -3768,10 +3754,7 @@
   "front": "Same stack, but the name goes special: fee 300 bp, desk keeps half. Desk P&L?",
   "back": "Lending income $= -150$ bp. Cost $= 82 - 150 = -68$ bp (net income).\nP&L $= 50 + 68 = +118$ bp ≈ +118k USD/yr.\nOn a special, the long hedge pays for itself.",
   "tags": [
-   "delta-one",
-   "pnl",
-   "sec-lending",
-   "htb"
+   "delta-one"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000013,
@@ -3782,9 +3765,7 @@
   "front": "Decision rule: when does a physical hedge make money?",
   "back": "client spread ≥ funding spread + leverage charge + counterparty capital − lending income.\nIf not: internalize, or hedge synthetically.",
   "tags": [
-   "delta-one",
-   "pnl",
-   "decision"
+   "delta-one"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000014,
@@ -3796,8 +3777,7 @@
   "back": "Capital also replaces debt that the funding lines already charged.\nFull $K_e$ double-counts the debt cost. Use $K_e$ − debt cost.",
   "tags": [
    "delta-one",
-   "capital",
-   "pitfall"
+   "regulatorio"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000015,
@@ -3809,7 +3789,7 @@
   "back": "1. Internalize against a client short.\n2. Buy the stock (physical).\n3. Swap facility with a street dealer.\n4. Listed options: long call + short put.\n(Index: futures.)",
   "tags": [
    "delta-one",
-   "hedge-routes"
+   "hedge"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000016,
@@ -3821,8 +3801,7 @@
   "back": "Netting a client long against a client short needs no hedge, no shares, no balance sheet.\nCost is near zero; the desk earns the spread on both sides.",
   "tags": [
    "delta-one",
-   "hedge-routes",
-   "internalization"
+   "hedge"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000017,
@@ -3834,8 +3813,8 @@
   "back": "Physical stock counts 100% of notional in the SLR denominator.\nA derivative counts replacement cost + PFE add-on (SA-CCR), e.g. ~15% for a margined 1y swap.",
   "tags": [
    "delta-one",
-   "slr",
-   "synthetic"
+   "regulatorio",
+   "hedge"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000018,
@@ -3847,8 +3826,8 @@
   "back": "$15\\% \\times 4.5\\% \\times 7\\% \\approx 4.7$ bp, vs 31.5 bp physical.",
   "tags": [
    "delta-one",
-   "slr",
-   "synthetic"
+   "regulatorio",
+   "hedge"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000019,
@@ -3860,7 +3839,7 @@
   "back": "1. Cheaper funding or balance sheet than yours.\n2. It nets your trade against its own client flow.\nIts spread is your cost; add your own leverage and capital lines.",
   "tags": [
    "delta-one",
-   "swap-facility"
+   "hedge"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000020,
@@ -3872,8 +3851,7 @@
   "back": "Long call + short put, same strike and expiry = synthetic long forward.\nLong put + short call is synthetic **short**.",
   "tags": [
    "delta-one",
-   "options",
-   "synthetic"
+   "hedge"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000021,
@@ -3884,9 +3862,7 @@
   "front": "What is the real cost of a synthetic forward from listed options? Why not the premium?",
   "back": "The premium buys an asset worth it, so it is not a cost.\nThe cost is the **implied financing rate** inside the option prices, versus your own funding.",
   "tags": [
-   "delta-one",
-   "options",
-   "implied-financing"
+   "delta-one"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000022,
@@ -3897,9 +3873,7 @@
   "front": "Write put-call parity with dividends and say what you solve for.",
   "back": "$C - P = S - PV(\\text{div}) - K \\cdot DF(T)$.\nSolve for $DF(T)$ → implied financing rate. Intuition: the combo is the stock with deferred payment.",
   "tags": [
-   "delta-one",
-   "options",
-   "implied-financing"
+   "delta-one"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000023,
@@ -3910,9 +3884,7 @@
   "front": "How does the options market reveal borrow cost on a hard-to-borrow name?",
   "back": "Shorts can't borrow the stock, so they sell synthetic forwards instead.\nThe implied forward drops below theoretical; the gap prices the borrow fee.",
   "tags": [
-   "delta-one",
-   "options",
-   "htb"
+   "delta-one"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000024,
@@ -3924,8 +3896,7 @@
   "back": "Conversion: long stock + long put + short call (synthetic short on top of stock).\nReversal: short stock + long call + short put.\nSwitching a physical long to synthetic = sell stock, buy call, sell put.",
   "tags": [
    "delta-one",
-   "options",
-   "switch"
+   "hedge"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000025,
@@ -3937,7 +3908,7 @@
   "back": "Move a hedge between physical and synthetic with no delta change.\n1. Name goes special → go physical, earn lending income.\n2. Balance-sheet pressure (reporting dates) → go synthetic.\n3. Relative cost moves.",
   "tags": [
    "delta-one",
-   "switch"
+   "hedge"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000026,
@@ -3949,7 +3920,7 @@
   "back": "Trade both legs as one package at one price.\nDealer: sell shares and enter the swap at the same price. Options: reversal. Index: EFP (exchange for physical).",
   "tags": [
    "delta-one",
-   "switch"
+   "hedge"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000027,
@@ -3961,8 +3932,7 @@
   "back": "When the saving over the remaining tenor exceeds the bid-ask paid on both legs.",
   "tags": [
    "delta-one",
-   "switch",
-   "decision"
+   "hedge"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000028,
@@ -3973,9 +3943,7 @@
   "front": "Client short TRS, desk short the stock. Why is borrow a term-mismatch risk?",
   "back": "Client spread is fixed for the swap's term.\nThe borrow fee floats daily and the lender can recall the shares.\nTerm liability, overnight funding.",
   "tags": [
-   "delta-one",
-   "htb",
-   "borrow"
+   "delta-one"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000029,
@@ -3986,9 +3954,7 @@
   "front": "Four ways a desk manages borrow risk on short swaps.",
   "back": "1. Term borrow (lock the fee, pay a premium).\n2. Repricing rights in the confirm.\n3. ISDA disruption events: increased cost / loss of stock borrow.\n4. Pricing buffer on high-utilization names.",
   "tags": [
-   "delta-one",
-   "htb",
-   "borrow"
+   "delta-one"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000030,
@@ -4000,8 +3966,7 @@
   "back": "All-in cost = spread + exposure ratio × leverage % × ($K_e$ − debt) + capital − lending income + roll/execution.\nPick the lowest. Recompute when an input moves.",
   "tags": [
    "delta-one",
-   "decision",
-   "hedge-routes"
+   "hedge"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000031,
@@ -4012,9 +3977,7 @@
   "front": "What is the DPR on a single-stock TRS, and where does the desk's dividend risk come from?",
   "back": "Dividend pass-through ratio: the share of the dividend paid to the client (e.g. 100% gross, 70%).\nDesk P&L = dividend received net of tax − dividend paid under the DPR.",
   "tags": [
-   "delta-one",
-   "dividends",
-   "dpr"
+   "delta-one"
   ],
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000032,
@@ -4025,9 +3988,7 @@
   "front": "GTR vs NTR index: how are dividends treated?",
   "back": "Both reinvest dividends in the index level.\nGTR: gross. NTR: net of the provider's standard withholding rate.",
   "tags": [
-   "delta-one",
-   "dividends",
-   "index"
+   "delta-one"
   ],
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000033,
@@ -4038,9 +3999,7 @@
   "front": "Why can an NTR index swap generate a dividend edge for the desk?",
   "back": "If the firm's real withholding is lower than the index provider's rate (treaty, structure), the difference is profit.\nPart is passed to clients through a tighter spread. It is a tax-yield enhancement, not a funding benefit.",
   "tags": [
-   "delta-one",
-   "dividends",
-   "withholding"
+   "delta-one"
   ],
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000034,
@@ -4051,9 +4010,7 @@
   "front": "Why must index rebalance trades be executed at the close?",
   "back": "Client swaps and the index use the official closing price.\nCap weights depend on spot, so the desk executes the pro-forma basket at the close, usually via the closing auction.",
   "tags": [
-   "delta-one",
-   "index",
-   "rebalance"
+   "delta-one"
   ],
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000035,
@@ -4064,9 +4021,7 @@
   "front": "What is restrike risk on an index rebalance?",
   "back": "Slippage between the desk's execution prices and the official close.\nTrading early reduces market impact but adds this slippage: a trade-off.",
   "tags": [
-   "delta-one",
-   "index",
-   "restrike"
+   "delta-one"
   ],
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000036,
