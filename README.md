@@ -8,6 +8,19 @@ Flashcards with spaced repetition. Each card comes back at the right moment (*ka
 
 The mark is the spaced-repetition sawtooth. Memory decays along the forgetting curve. Each bronze dot is a review at the right moment; it lifts recall back up, and the next decay is slower.
 
+## Two ways to run
+
+| | claude.ai artifact | Website (GitHub Pages) |
+|---|---|---|
+| URL | private artifact link | https://nashquant.github.io/kairos/ |
+| Cards | artifact database, written by Claude | `data/cards.json` in this repo |
+| Progress | artifact database | this device (`localStorage`) |
+| Offline | only while the tab stays open | opens with no connection after the first visit; installable |
+
+Both run from the same `app.html`. `scripts/build_web.py` wraps it for the website with a local data adapter (`web-src/adapter.js`), a service worker and a manifest. Each push to `main` builds, tests and deploys the site.
+
+Install on a phone: open the site, then Share → Add to Home Screen (iOS) or menu → Install app (Android).
+
 ## How it works
 
 - `app.html` is the whole app: one HTML page, no build step.

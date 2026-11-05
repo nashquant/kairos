@@ -1,0 +1,37 @@
+{
+ "cesari-01-intro": {
+  "name": "Finanças::Risco de Contraparte::Cesari 2009::01 Introdução",
+  "desc": "Conceitos base: exposure, EE, PFE, netting, CVA, AMC",
+  "created": 1793930000000
+ },
+ "cesari-02-framework": {
+  "name": "Finanças::Risco de Contraparte::Cesari 2009::02 Modelling Framework",
+  "desc": "Definição formal de exposure e dinâmica dos fatores",
+  "created": 1793930000001
+ },
+ "cesari-03-simulation": {
+  "name": "Finanças::Risco de Contraparte::Cesari 2009::03 Simulation Models",
+  "desc": "Hull-White, modelos de equity/FX, default e copulas",
+  "created": 1793930000002
+ },
+ "cesari-04-valuation": {
+  "name": "Finanças::Risco de Contraparte::Cesari 2009::04 Valuation and Sensitivities",
+  "desc": "American Monte Carlo, vieses e gregas por regressão",
+  "created": 1793930000003
+ },
+ "cesari-12-aggregation": {
+  "name": "Finanças::Risco de Contraparte::Cesari 2009::12 Aggregation and Mitigation",
+  "desc": "Netting, colateral, close-out, alocação de risco",
+  "created": 1793930000004
+ },
+ "cesari-13-market-credit": {
+  "name": "Finanças::Risco de Contraparte::Cesari 2009::13 Market and Credit Risk",
+  "desc": "Mudança de medida, stress e wrong-way risk",
+  "created": 1793930000005
+ },
+ "cesari-14-pricing": {
+  "name": "Finanças::Risco de Contraparte::Cesari 2009::14 Pricing CCR",
+  "desc": "CVA, C-CDS e hedge de risco de contraparte",
+  "created": 1793930000006
+ }
+}
