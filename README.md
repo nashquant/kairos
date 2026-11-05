@@ -16,6 +16,10 @@ The mark is the spaced-repetition sawtooth. Memory decays along the forgetting c
 - Scheduling: FSRS-4.5 with default weights, plus Anki-style learning steps (1 min, 10 min; relearning 10 min).
 - Cards support simple Markdown and LaTeX (`$…$`, `$$…$$`) through MathJax.
 
+## Offline
+
+Every write goes to a local outbox (`localStorage`) first and syncs when the connection allows. Pending answers stay on screen and survive a closed tab. The page itself needs a connection to open: claude.ai blocks service workers. Test: `npm i jsdom@24 && node tests/offline.test.js`.
+
 ## Limits
 
 - Outside claude.ai the page shows a notice and loads no data. Hosting elsewhere (GitHub Pages) needs a new storage layer.
