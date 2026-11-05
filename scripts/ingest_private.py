@@ -28,7 +28,8 @@ class Supabase:
     def call(self, method, path, body=None, prefer=None):
         req = urllib.request.Request(self.url + path, method=method, data=None if body is None else json.dumps(body).encode())
         req.add_header("apikey", self.key)
-        req.add_header("Authorization", "Bearer " + self.key)
+        if self.key.startswith("eyJ"):  # legacy JWT service_role key; new sb_secret_ keys go on apikey only
+            req.add_header("Authorization", "Bearer " + self.key)
         req.add_header("Content-Type", "application/json")
         if prefer:
             req.add_header("Prefer", prefer)

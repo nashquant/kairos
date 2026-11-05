@@ -42,7 +42,7 @@ head = """<!doctype html>
 # The adapter must define window.claude before the app script runs.
 marker = "<script>\n/* ---------- utils ---------- */"
 assert app.count(marker) == 1, "app.html main script marker not found"
-SUPABASE_JS = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"
+SUPABASE_JS = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js"
 app = app.replace(marker, '<script src="' + SUPABASE_JS + '"></script>\n<script>\nwindow.KAIROS_CONFIG = ' + json.dumps(config) + ';\n' + adapter + "\n</script>\n" + marker, 1)
 app = app.replace("Abra esta página no claude.ai para acessar seus cards.", "Não foi possível carregar os cards. Abra o site com internet uma vez.")
 

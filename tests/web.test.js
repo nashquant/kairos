@@ -6,7 +6,7 @@ let pass=0,fail=0; const ok=(c,m)=>{if(c){pass++;console.log('  ok  ',m)}else{fa
 const srv=http.createServer((q,r)=>{const f=path.join(WEB,decodeURIComponent(q.url.split('?')[0])==='/'?'index.html':decodeURIComponent(q.url.split('?')[0]));
   fs.readFile(f,(e,b)=>{if(e){r.writeHead(404);r.end();return}r.writeHead(200);r.end(b)})});
 async function open(port,storage){
-  const html=fs.readFileSync(path.join(WEB,'index.html'),'utf8').replace(/<script src=[^>]+><\/script>/g,'').replace(/<link rel="stylesheet"[^>]+>/g,'');
+  const html=fs.readFileSync(path.join(WEB,'index.html'),'utf8').replace(/<script src=[^>]+><\/script>/g,'').replace(/<link rel="stylesheet"[^>]+>/g,'').replace(/"supabaseAnonKey": "[^"]*"/,'"supabaseAnonKey": ""');
   const errors=[];
   const dom=new JSDOM(html,{runScripts:'dangerously',url:`http://127.0.0.1:${port}/`,pretendToBeVisual:true,
     beforeParse(w){w.scrollTo=()=>{};w.fetch=(u,o)=>fetch(new URL(u,`http://127.0.0.1:${port}/`),o);

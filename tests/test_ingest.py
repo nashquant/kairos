@@ -6,14 +6,14 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DB = {"ingest_state": {}, "private_docs": {}, "users": [{"id": "u-me", "email": "Me@X.com"}, {"id": "u-other", "email": "o@x.com"}]}
-KEY = "service-test"
+KEY = "sb_secret_test"
 
 
 class H(BaseHTTPRequestHandler):
     def log_message(self, *a): pass
 
     def _auth(self):
-        if self.headers.get("apikey") != KEY or self.headers.get("Authorization") != "Bearer " + KEY:
+        if self.headers.get("apikey") != KEY or (KEY.startswith("eyJ") and self.headers.get("Authorization") != "Bearer " + KEY):
             self.send_response(401); self.end_headers(); return False
         return True
 
