@@ -33,5 +33,20 @@
   "name": "Finanças::Risco de Contraparte::Cesari 2009::14 Pricing CCR",
   "desc": "CVA, C-CDS e hedge de risco de contraparte",
   "created": 1793930000006
+ },
+ "d1-01-physical": {
+  "name": "Finanças::Delta One::01 Physical hedge cost",
+  "desc": "Funding, haircut, leverage (SLR) charge, capital, sec lending income",
+  "created": 1794000000000
+ },
+ "d1-02-synthetic": {
+  "name": "Finanças::Delta One::02 Synthetic hedges and switches",
+  "desc": "Dealer swaps, options-implied financing, internalization, switches, borrow risk",
+  "created": 1794000000001
+ },
+ "d1-03-divs-index": {
+  "name": "Finanças::Delta One::03 Dividends and index events",
+  "desc": "DPR, GTR/NTR, withholding edge, closing auction, restrike",
+  "created": 1794000000002
  }
 }

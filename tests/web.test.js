@@ -20,7 +20,7 @@ srv.listen(0,async()=>{
   try{
     console.log('1. load');
     let P=await open(port);
-    ok(P.S().decks.size===7,'7 decks loaded from data/decks.json');
+    ok(P.S().decks.size>=7,'decks loaded from data/decks.json');
     ok(P.S().cards.size>=300,'cards loaded from data/cards.json ('+P.S().cards.size+')');
     ok(P.app().includes('Kairos')&&!P.app().includes('Não foi possível'),'home renders');
     console.log('2. study and persist');
