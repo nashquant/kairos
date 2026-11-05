@@ -1,0 +1,512 @@
+<title>Kairos</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=JetBrains+Mono:wght@400;600&display=swap">
+<script>
+window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'},startup:{typeset:false}};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js" async></script>
+<style>
+/* Layout: one narrow column, phone first. Deck tree on home; index card + fixed answer bar in study. */
+:root{
+  --bg:#E8ECF0; --surface:#FFFFFF; --ink:#16202B; --muted:#5A6775; --line:#D2D9E1;
+  --rule:#D7E1EF; --margin:#D25A4E; --accent:#1F4FD1; --accent-ink:#FFFFFF;
+  --again:#B93A28; --hard:#A86A12; --good:#2A7A51; --easy:#2563A8;
+  --new:#2563A8; --learn:#B93A28; --due:#2A7A51; --shadow:0 1px 2px rgba(22,32,43,.06),0 8px 24px rgba(22,32,43,.07);
+  --f-ui:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-card:"Newsreader",Georgia,"Times New Roman",serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1318; --surface:#171F28; --ink:#E5EAF0; --muted:#94A2B1; --line:#2A3542;
+  --rule:#1F2D3F; --margin:#B5483F; --accent:#86A6FF; --accent-ink:#0E1318;
+  --again:#F0907E; --hard:#E3B562; --good:#6FC79A; --easy:#7DB3F0;
+  --new:#7DB3F0; --learn:#F0907E; --due:#6FC79A; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1318; --surface:#171F28; --ink:#E5EAF0; --muted:#94A2B1; --line:#2A3542;
+  --rule:#1F2D3F; --margin:#B5483F; --accent:#86A6FF; --accent-ink:#0E1318;
+  --again:#F0907E; --hard:#E3B562; --good:#6FC79A; --easy:#7DB3F0;
+  --new:#7DB3F0; --learn:#F0907E; --due:#6FC79A; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:15px;line-height:1.45}
+#app{max-width:680px;margin:0 auto;padding-block:16px 120px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+h1{font-size:26px;font-weight:700;letter-spacing:-.01em;margin:0;text-wrap:balance}
+h2{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.today{font-size:13px;color:var(--muted)}
+.stack{display:flex;flex-direction:column;gap:16px}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 14px;font-weight:600}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--muted);padding:8px 10px}
+.btn.danger{color:var(--again)}
+.btn:disabled{opacity:.45;cursor:default}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.notice{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:16px;color:var(--muted)}
+/* counts */
+.counts{display:flex;gap:10px;font-family:var(--f-mono);font-size:13px;font-variant-numeric:tabular-nums;flex-shrink:0}
+.counts span{min-width:22px;text-align:right}
+.c-new{color:var(--new)} .c-learn{color:var(--learn)} .c-due{color:var(--due)} .c-zero{color:var(--line)}
+/* study-all strip */
+.all{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--surface);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow);border:none;width:100%;text-align:left}
+.all b{font-size:16px}
+/* tree */
+.tree{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.node{display:flex;align-items:center;gap:6px;border-top:1px solid var(--line);min-height:48px;padding-right:14px}
+.tree>.node:first-child{border-top:none}
+.tog{width:36px;height:48px;border:none;background:none;color:var(--muted);flex-shrink:0;display:grid;place-items:center}
+.tog svg{transition:transform .15s}
+.tog.open svg{transform:rotate(90deg)}
+.tog.leaf{visibility:hidden}
+.dname{flex:1;min-width:0;border:none;background:none;text-align:left;padding:12px 0;font-weight:500}
+.dname small{display:block;font-weight:400;color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--muted);justify-content:flex-end}
+details.settings{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0 16px}
+details.settings summary{padding:14px 0;font-weight:600;cursor:pointer}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-size:13px;font-weight:600}
+.field .hint{font-size:12px;color:var(--muted)}
+input[type=text],input[type=number],input[type=search],select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%}
+textarea{min-height:110px;resize:vertical;font-family:var(--f-mono);font-size:13px;line-height:1.5}
+/* study */
+.studybar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px}
+.studybar .title{min-width:0;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.index{background:var(--surface);border-radius:6px;box-shadow:var(--shadow);overflow:hidden}
+.index .head{display:flex;justify-content:space-between;gap:8px;padding:12px 18px 8px;font-size:12px;color:var(--muted);border-bottom:2px solid var(--margin)}
+.index .head span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.face{font-family:var(--f-card);font-size:20px;line-height:1.55;padding:18px 18px 22px;
+  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 30px,var(--rule) 30px,var(--rule) 31px);background-position:0 18px;min-height:140px;overflow-wrap:anywhere}
+.face.back{border-top:1px dashed var(--line);font-size:18px}
+.face p{margin:0 0 .6em}
+.face ul,.face ol{margin:.2em 0 .6em;padding-left:1.3em}
+.face code{font-family:var(--f-mono);font-size:.8em;background:var(--bg);padding:1px 5px;border-radius:4px}
+.face pre{font-family:var(--f-mono);font-size:13px;line-height:1.5;background:var(--bg);padding:12px;border-radius:6px;overflow-x:auto;margin:.4em 0}
+.face h3{font-family:var(--f-ui);font-size:15px;margin:.4em 0;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.face mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden}
+.face mjx-container[display="true"]{margin:.5em 0!important}
+.meta{display:flex;justify-content:space-between;gap:8px;margin-top:10px;font-size:12px;color:var(--muted)}
+.meta .btn{font-size:13px}
+.answerbar{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid var(--line);padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));z-index:5}
+.answerbar .inner{max-width:680px;margin:0 auto}
+.grades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.grade{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.grade b{font-size:14px}
+.grade span{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.g1 b{color:var(--again)} .g2 b{color:var(--hard)} .g3 b{color:var(--good)} .g4 b{color:var(--easy)}
+.reveal{width:100%;padding:14px;font-size:16px}
+.done{text-align:center;padding:40px 16px}
+.done h1{margin-bottom:8px}
+/* browse */
+.filters{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:12px}
+@media (min-width:560px){.filters{grid-template-columns:2fr 1fr}}
+.list{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.item{display:flex;flex-direction:column;gap:4px;width:100%;text-align:left;border:none;border-top:1px solid var(--line);background:none;padding:12px 16px}
+.list .item:first-child{border-top:none}
+.item .q{font-family:var(--f-card);font-size:16px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow-wrap:anywhere}
+.item .info{display:flex;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--muted);align-items:center}
+.chip{font-size:11px;font-weight:600;border-radius:99px;padding:2px 8px;border:1px solid currentColor}
+.chip.new{color:var(--new)} .chip.learn{color:var(--learn)} .chip.rev{color:var(--due)} .chip.sus{color:var(--muted)}
+/* sheet */
+.scrim{position:fixed;inset:0;background:rgba(10,14,18,.5);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--surface);width:100%;max-width:680px;max-height:92%;overflow:auto;border-radius:16px 16px 0 0;padding-top:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+@media (min-width:720px){.scrim{align-items:center}.sheet{border-radius:16px}}
+.sheet .bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.check{display:flex;gap:8px;align-items:center;font-size:14px;margin-bottom:14px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(96px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;z-index:30;max-width:90%}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div id="app"><p class="muted">Carregando seus baralhos…</p></div>
+<div id="overlay"></div>
+<div id="toast" class="toast" hidden></div>
+
+<script>
+/* ---------- utils ---------- */
+const MIN=6e4, DAY=864e5;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ls={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+function nextRollover(now){const d=new Date(now);d.setHours(4,0,0,0);if(d.getTime()<=now)d.setDate(d.getDate()+1);return d.getTime()}
+function dayKey(now){const d=new Date(now-4*3600e3);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function fmtIvl(ms){
+  const m=ms/MIN; if(m<60)return Math.max(1,Math.round(m))+' min';
+  const h=m/60; if(h<24)return Math.round(h)+' h';
+  const d=ms/DAY; if(d<30)return Math.round(d)+' d';
+  if(d<365)return (d/30).toFixed(1).replace('.',',')+' m';
+  return (d/365).toFixed(1).replace('.',',')+' a';
+}
+let toastT; function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,3200)}
+
+/* ---------- markdown + math ---------- */
+function md(src){
+  const keep=[]; const ph=s=>{keep.push(s);return '\u0000'+(keep.length-1)+'\u0000'};
+  let t=String(src||'').replace(/\r/g,'');
+  t=t.replace(/```[^\n]*\n([\s\S]*?)```/g,(_,c)=>ph('<pre><code>'+esc(c.replace(/\n$/,''))+'</code></pre>'));
+  t=t.replace(/(\$\$[\s\S]+?\$\$|\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|\$[^$\n]+?\$)/g,m=>ph(esc(m)));
+  t=t.replace(/`([^`\n]+)`/g,(_,c)=>ph('<code>'+esc(c)+'</code>'));
+  t=esc(t).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/(^|[^*])\*([^*\n]+)\*/g,'$1<em>$2</em>');
+  const out=[]; let list=null, para=[];
+  const flushP=()=>{if(para.length){out.push('<p>'+para.join('<br>')+'</p>');para=[]}};
+  const flushL=()=>{if(list){out.push('<'+list.tag+'>'+list.items.map(i=>'<li>'+i+'</li>').join('')+'</'+list.tag+'>');list=null}};
+  for(const line of t.split('\n')){
+    let m;
+    if((m=line.match(/^\s*[-•]\s+(.*)$/))){flushP();if(!list||list.tag!=='ul'){flushL();list={tag:'ul',items:[]}}list.items.push(m[1]);continue}
+    if((m=line.match(/^\s*\d+[.)]\s+(.*)$/))){flushP();if(!list||list.tag!=='ol'){flushL();list={tag:'ol',items:[]}}list.items.push(m[1]);continue}
+    flushL();
+    if((m=line.match(/^#{1,4}\s+(.*)$/))){flushP();out.push('<h3>'+m[1]+'</h3>');continue}
+    if(!line.trim()){flushP();continue}
+    para.push(line);
+  }
+  flushP();flushL();
+  return out.join('').replace(/\u0000(\d+)\u0000/g,(_,i)=>keep[+i]);
+}
+function plain(src){return String(src||'').replace(/```[\s\S]*?```/g,'[código]').replace(/[*#`]/g,'').replace(/\s+/g,' ').trim()}
+function typeset(el){
+  const go=()=>{try{MathJax.typesetClear&&MathJax.typesetClear([el]);MathJax.typesetPromise([el]).catch(()=>{})}catch(e){}};
+  if(window.MathJax&&MathJax.typesetPromise){MathJax.startup.promise.then(go)}
+  else{let n=0;const w=setInterval(()=>{if(window.MathJax&&MathJax.typesetPromise){clearInterval(w);MathJax.startup.promise.then(go)}else if(++n>40)clearInterval(w)},250)}
+}
+
+/* ---------- FSRS-4.5 scheduler ---------- */
+const W=[0.4872,1.4003,3.7145,13.8206,5.1618,1.2298,0.8975,0.031,1.6474,0.1367,1.0461,2.1072,0.0793,0.3246,1.587,0.2272,2.8755];
+const DECAY=-0.5, FACTOR=19/81, STEPS=[1,10], RELEARN=[10];
+const clampD=d=>Math.min(10,Math.max(1,d));
+const retr=(t,s)=>Math.pow(1+FACTOR*t/s,DECAY);
+const ivl=(s,r)=>Math.max(1,Math.min(36500,Math.round(s/FACTOR*(Math.pow(r,1/DECAY)-1))));
+const initS=g=>Math.max(0.1,W[g-1]);
+const initD=g=>clampD(W[4]-(g-3)*W[5]);
+const nextD=(d,g)=>clampD(W[7]*initD(4)+(1-W[7])*(d-W[6]*(g-3)));
+const recallS=(d,s,r,g)=>s*(1+Math.exp(W[8])*(11-d)*Math.pow(s,-W[9])*(Math.exp((1-r)*W[10])-1)*(g===2?W[15]:1)*(g===4?W[16]:1));
+const forgetS=(d,s,r)=>Math.min(s,W[11]*Math.pow(d,-W[12])*(Math.pow(s+1,W[13])-1)*Math.exp((1-r)*W[14]));
+
+function schedule(prev,g,now){
+  const r=+S.settings.retention||0.9;
+  const base=prev||{state:'new',reps:0,lapses:0};
+  let {state,s,d}=base; const step=base.step||0;
+  const out={reps:(base.reps||0)+1,lapses:base.lapses||0,last:now};
+  const learn=(st,arr,i,ss,dd,due)=>({...out,state:st,s:ss,d:dd,step:i,due:due??now+arr[i]*MIN});
+  const grad=(ss,dd,days)=>({...out,state:'review',s:ss,d:dd,step:0,ivl:days,due:now+days*DAY});
+  if(state==='new'){
+    s=initS(g); d=initD(g);
+    if(g===1)return learn('learning',STEPS,0,s,d);
+    if(g===2)return learn('learning',STEPS,0,s,d,now+Math.round((STEPS[0]+STEPS[1])/2)*MIN);
+    if(g===3)return learn('learning',STEPS,1,s,d);
+    return grad(s,d,ivl(s,r));
+  }
+  if(state==='learning'||state==='relearning'){
+    const arr=state==='learning'?STEPS:RELEARN;
+    if(g===1)return learn(state,arr,0,s,d);
+    if(g===2)return learn(state,arr,step,s,d);
+    if(g===3&&step+1<arr.length)return learn(state,arr,step+1,s,d);
+    if(g===4){
+      if(state==='learning'){const s4=Math.max(s,W[3]);return grad(s4,d,ivl(s4,r))}
+      return grad(s,d,ivl(s,r)+1);
+    }
+    return grad(s,d,ivl(s,r));
+  }
+  const t=Math.max(0,(now-(base.last||now))/DAY), R=retr(t,s);
+  if(g===1)return {...learn('relearning',RELEARN,0,forgetS(d,s,R),nextD(d,1)),lapses:out.lapses+1};
+  const c=[2,3,4].map(x=>({s:recallS(d,s,R,x),d:nextD(d,x)}));
+  let h=ivl(c[0].s,r), gd=ivl(c[1].s,r), e=ivl(c[2].s,r);
+  h=Math.min(h,gd); gd=Math.max(gd,h+1); e=Math.max(e,gd+1);
+  return grad(c[g-2].s,c[g-2].d,[h,gd,e][g-2]);
+}
+
+/* ---------- state ---------- */
+const S={db:null,decks:new Map(),cards:new Map(),revs:new Map(),settings:{newPerDay:20,retention:0.9},
+  log:[],logKey:null,logUnsub:null,ready:new Set(),stale:false,err:null,nodb:false,
+  view:'home',study:null,open:new Set(ls.get('fich.open',[])),browse:{q:'',deck:''},edit:null,undo:null,confirmDel:false};
+let q=Promise.resolve();
+function enqueue(f){q=q.then(f).catch(e=>{toast(e&&e.code==='quota_exceeded'?'Limite de armazenamento atingido. Apague cards antigos.':'Não salvou: '+(e&&e.message||e))})}
+
+function deckName(id){const d=S.decks.get(id);return d?(d.name||id):'(sem baralho)'}
+function deckIdsUnder(path){const out=[];for(const [id,d] of S.decks){const n=d.name||id;if(n===path||n.startsWith(path+'::'))out.push(id)}return out}
+function newToday(){const seen=new Set();for(const e of S.log)if(e.p==='new')seen.add(e.c);return seen.size}
+function newLeft(){return Math.max(0,(+S.settings.newPerDay||0)-newToday())}
+function cardsOrdered(){return [...S.cards.entries()].sort((a,b)=>((a[1].created||0)-(b[1].created||0))||(a[0]<b[0]?-1:1))}
+
+function deckCounts(){
+  const now=Date.now(), roll=nextRollover(now), m=new Map();
+  for(const [id,c] of S.cards){
+    if(c.suspended)continue;
+    const k=c.deck; if(!m.has(k))m.set(k,{n:0,l:0,r:0,total:0});
+    const o=m.get(k); o.total++;
+    const rv=S.revs.get(id);
+    if(!rv)o.n++;
+    else if(rv.state==='review'){if(rv.due<roll)o.r++}
+    else if(rv.due<roll)o.l++;
+  }
+  return m;
+}
+
+/* ---------- study queue ---------- */
+function nextCard(deckSet){
+  const now=Date.now(), roll=nextRollover(now);
+  let learn=[],rev=[],fresh=[];
+  for(const [id,c] of cardsOrdered()){
+    if(c.suspended||!deckSet.has(c.deck))continue;
+    const rv=S.revs.get(id);
+    if(!rv)fresh.push(id);
+    else if(rv.state==='review'){if(rv.due<roll)rev.push([id,rv.due])}
+    else learn.push([id,rv.due]);
+  }
+  learn.sort((a,b)=>a[1]-b[1]); rev.sort((a,b)=>a[1]-b[1]);
+  const dueLearn=learn.filter(x=>x[1]<=now);
+  const left=newLeft();
+  const counts={n:Math.min(fresh.length,left),l:learn.filter(x=>x[1]<roll).length,r:rev.length};
+  let pick=null;
+  if(dueLearn.length)pick=dueLearn[0][0];
+  else if(rev.length&&(!left||!fresh.length||S.study.flip%3!==2))pick=rev[0][0];
+  else if(left&&fresh.length)pick=fresh[0];
+  else if(rev.length)pick=rev[0][0];
+  else if(learn.length&&learn[0][1]<=now+20*MIN)pick=learn[0][0];
+  const wait=(!pick&&learn.length&&learn[0][1]<roll)?learn[0][1]:null;
+  return {pick,counts,wait};
+}
+function startStudy(path,label){
+  const ids=path==null?[...S.decks.keys()]:deckIdsUnder(path);
+  S.study={deckSet:new Set(ids),label,cur:null,revealed:false,flip:0,shown:null};
+  S.undo=null; S.view='study'; advance(); render(); scrollTo(0,0);
+}
+function advance(){
+  if(!S.study)return;
+  const r=nextCard(S.study.deckSet);
+  S.study.cur=r.pick; S.study.revealed=false; S.study.flip++;
+}
+let waitTimer;
+function answer(g){
+  const st=S.study; const id=st.cur; if(!id||!st.revealed)return;
+  const now=Date.now(), prev=S.revs.get(id)||null, next=schedule(prev,g,now);
+  const key=dayKey(now); if(key!==S.logKey)subLog(key);
+  const entry={c:id,g,t:now,p:prev?prev.state:'new'};
+  S.revs.set(id,next); S.log=[...S.log,entry];
+  const logCopy=S.log.slice();
+  S.undo={id,prev,t:now,key};
+  enqueue(()=>S.db.doc('reviews/'+id).set(next));
+  enqueue(()=>S.db.doc('log/'+key).set({entries:logCopy}));
+  advance(); render();
+}
+function undo(){
+  const u=S.undo; if(!u)return; S.undo=null;
+  if(u.prev)S.revs.set(u.id,u.prev); else S.revs.delete(u.id);
+  S.log=S.log.filter(e=>e.t!==u.t); const logCopy=S.log.slice();
+  enqueue(()=>u.prev?S.db.doc('reviews/'+u.id).set(u.prev):S.db.doc('reviews/'+u.id).delete());
+  if(u.key===S.logKey)enqueue(()=>S.db.doc('log/'+u.key).set({entries:logCopy}));
+  S.study.cur=u.id; S.study.revealed=false; render(); toast('Resposta desfeita');
+}
+
+/* ---------- views ---------- */
+const chev='<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M5 3l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function countsHTML(o,cap){
+  const n=cap!=null?Math.min(o.n,cap):o.n;
+  const cell=(v,cls)=>'<span class="'+(v?cls:'c-zero')+'">'+v+'</span>';
+  return '<span class="counts">'+cell(n,'c-new')+cell(o.l,'c-learn')+cell(o.r,'c-due')+'</span>';
+}
+function buildTree(){
+  const root={children:new Map(),ids:[],path:''};
+  for(const [id,d] of S.decks){
+    const parts=(d.name||id).split('::').map(s=>s.trim()).filter(Boolean); let n=root; const p=[];
+    for(const part of parts){p.push(part);if(!n.children.has(part))n.children.set(part,{name:part,path:p.join('::'),children:new Map(),ids:[]});n=n.children.get(part)}
+    n.ids.push(id);
+  }
+  return root;
+}
+function sumNode(node,cm){
+  const o={n:0,l:0,r:0,total:0};
+  for(const id of node.ids){const c=cm.get(id);if(c){o.n+=c.n;o.l+=c.l;o.r+=c.r;o.total+=c.total}}
+  for(const ch of node.children.values()){const s=sumNode(ch,cm);o.n+=s.n;o.l+=s.l;o.r+=s.r;o.total+=s.total}
+  node.sum=o; return o;
+}
+function treeHTML(node,depth,cap){
+  let h='';
+  const kids=[...node.children.values()].sort((a,b)=>a.name.localeCompare(b.name,'pt'));
+  for(const ch of kids){
+    const has=ch.children.size>0, open=S.open.has(ch.path);
+    const desc=ch.ids.length===1?(S.decks.get(ch.ids[0]).desc||''):'';
+    h+='<div class="node" style="padding-left:'+(depth*18)+'px">'+
+      '<button class="tog'+(has?'':' leaf')+(open?' open':'')+'" data-tog="'+esc(ch.path)+'" aria-label="'+(open?'Recolher':'Expandir')+'" aria-expanded="'+open+'">'+chev+'</button>'+
+      '<button class="dname" data-study="'+esc(ch.path)+'">'+esc(ch.name)+'<small>'+(desc?esc(desc)+' · ':'')+ch.sum.total+' cards</small></button>'+
+      countsHTML(ch.sum,cap)+'</div>';
+    if(has&&open)h+=treeHTML(ch,depth+1,cap);
+  }
+  return h;
+}
+function homeHTML(){
+  const cm=deckCounts(), root=buildTree(), all=sumNode(root,cm), cap=newLeft();
+  let h='<div class="top"><div><h1>Kairos</h1><div class="today mono">Hoje: '+S.log.length+' respostas · '+newToday()+'/'+(+S.settings.newPerDay||0)+' cards novos</div></div>'+
+    '<button class="btn" data-go="browse">Ver cards</button></div><div class="stack">';
+  if(S.stale&&!S.ready.size)h+='<div class="notice">Os dados ainda não chegaram. Verifique a conexão; a página atualiza sozinha.</div>';
+  if(!S.decks.size){
+    h+='<div class="notice"><b>Nenhum baralho ainda.</b><br>Mande um material no chat do projeto Flashcards (PDF, capítulo, anotações). O Claude cria o baralho e os cards; eles aparecem aqui sozinhos.</div>';
+  }else{
+    h+='<button class="all" data-study-all><span><b>Estudar tudo</b><br><span class="muted" style="font-size:13px">'+all.total+' cards em '+S.decks.size+' baralhos</span></span>'+countsHTML(all,cap)+'</button>';
+    h+='<div><div class="legend" style="margin-bottom:6px"><span class="c-new">novos</span><span class="c-learn">aprendendo</span><span class="c-due">a revisar</span></div><div class="tree">'+treeHTML(root,0,cap)+'</div></div>';
+  }
+  const r=+S.settings.retention||0.9;
+  h+='<details class="settings"><summary>Ajustes</summary>'+
+    '<div class="field"><label for="set-new">Cards novos por dia</label><input id="set-new" type="number" min="0" max="999" value="'+(+S.settings.newPerDay||0)+'"><span class="hint">Limite somado de todos os baralhos. Cada card novo gera cerca de 10 revisões no primeiro mês.</span></div>'+
+    '<div class="field"><label for="set-ret">Retenção desejada</label><select id="set-ret">'+[0.8,0.85,0.9,0.93,0.95].map(v=>'<option value="'+v+'"'+(Math.abs(v-r)<1e-6?' selected':'')+'>'+Math.round(v*100)+'%</option>').join('')+'</select><span class="hint">Probabilidade de lembrar no dia da revisão. Mais alta encurta os intervalos e aumenta a carga.</span></div>'+
+    '<div class="row" style="margin-bottom:16px"><button class="btn primary" data-save-settings>Salvar ajustes</button></div></details>';
+  return h+'</div>';
+}
+function studyHTML(){
+  const st=S.study, r=nextCard(st.deckSet), c=st.cur&&S.cards.get(st.cur);
+  const head='<div class="studybar"><button class="btn ghost" data-go="home" aria-label="Voltar">← Baralhos</button><span class="title">'+esc(st.label)+'</span>'+countsHTML(r.counts)+'</div>';
+  if(!c){
+    clearTimeout(waitTimer);
+    let msg='Nada para revisar agora neste baralho.';
+    if(r.wait){msg='Próximo card em aprendizado volta em '+fmtIvl(r.wait-Date.now())+'. A tela atualiza sozinha.';waitTimer=setTimeout(()=>{advance();render()},Math.max(1000,r.wait-Date.now()-20*MIN+500))}
+    else if(newLeft()===0)msg+=' O limite de cards novos de hoje acabou.';
+    return head+'<div class="done"><h1>Feito por agora</h1><p class="muted">'+msg+'</p><div class="row" style="justify-content:center;margin-top:16px">'+(S.undo?'<button class="btn" data-undo>Desfazer última</button>':'')+'<button class="btn primary" data-go="home">Voltar aos baralhos</button></div></div>';
+  }
+  const rv=S.revs.get(st.cur);
+  const tag=!rv?'Novo':rv.state==='review'?'Revisão · '+(rv.lapses?rv.lapses+' lapsos':'sem lapsos'):'Aprendendo';
+  return head+'<article class="index"><div class="head"><span>'+esc(deckName(c.deck))+'</span><span>'+tag+'</span></div>'+
+    '<div class="face" id="face-front"></div>'+(st.revealed?'<div class="face back" id="face-back"></div>':'')+'</article>'+
+    '<div class="meta"><span>'+(c.source?esc(c.source):'')+'</span><span class="row">'+(S.undo?'<button class="btn ghost" data-undo>Desfazer</button>':'')+'<button class="btn ghost" data-edit="'+esc(st.cur)+'">Editar</button></span></div>';
+}
+function answerBarHTML(){
+  const st=S.study; if(S.view!=='study'||!st||!st.cur||!S.cards.get(st.cur))return '';
+  if(!st.revealed)return '<div class="answerbar"><div class="inner"><button class="btn primary reveal" data-reveal>Mostrar resposta</button></div></div>';
+  const now=Date.now(), prev=S.revs.get(st.cur)||null, names=['Errei','Difícil','Bom','Fácil'];
+  return '<div class="answerbar"><div class="inner grades">'+[1,2,3,4].map(g=>{const n=schedule(prev,g,now);return '<button class="grade g'+g+'" data-grade="'+g+'"><b>'+names[g-1]+'</b><span>'+fmtIvl(n.due-now)+'</span></button>'}).join('')+'</div></div>';
+}
+function stateChip(id,c){
+  if(c.suspended)return '<span class="chip sus">Suspenso</span>';
+  const rv=S.revs.get(id); if(!rv)return '<span class="chip new">Novo</span>';
+  if(rv.state!=='review')return '<span class="chip learn">Aprendendo</span>';
+  const d=rv.due-Date.now(); return '<span class="chip rev">'+(d<=0?'Para hoje':'Em '+fmtIvl(d))+'</span>';
+}
+function browseHTML(){
+  const b=S.browse, ql=b.q.trim().toLowerCase();
+  const names=[...new Set([...S.decks.values()].map(d=>d.name))].sort((a,b)=>a.localeCompare(b,'pt'));
+  const paths=new Set(); for(const n of names){const p=n.split('::');for(let i=1;i<=p.length;i++)paths.add(p.slice(0,i).join('::'))}
+  const deckSet=b.deck?new Set(deckIdsUnder(b.deck)):null;
+  const rows=cardsOrdered().filter(([id,c])=>(!deckSet||deckSet.has(c.deck))&&(!ql||(c.front+' '+c.back+' '+(c.tags||[]).join(' ')+' '+(c.source||'')).toLowerCase().includes(ql)));
+  let h='<div class="studybar"><button class="btn ghost" data-go="home">← Baralhos</button><span class="title">Cards</span><button class="btn" data-new-card'+(S.decks.size?'':' disabled')+'>Novo card</button></div>'+
+    '<div class="filters"><input id="b-q" type="search" placeholder="Buscar na frente, verso, tags ou fonte" value="'+esc(b.q)+'"><select id="b-deck"><option value="">Todos os baralhos</option>'+[...paths].sort((a,b)=>a.localeCompare(b,'pt')).map(p=>'<option value="'+esc(p)+'"'+(p===b.deck?' selected':'')+'>'+esc(p.split('::').join(' › '))+'</option>').join('')+'</select></div>';
+  if(!rows.length)return h+'<div class="notice">Nenhum card encontrado.</div>';
+  h+='<p class="muted mono" style="font-size:12px;margin:0 0 8px">'+(rows.length>200?'Mostrando 200 de '+rows.length:rows.length+' cards')+'</p><div class="list">';
+  for(const [id,c] of rows.slice(0,200)){
+    h+='<button class="item" data-edit="'+esc(id)+'"><span class="q">'+esc(plain(c.front))+'</span><span class="info">'+stateChip(id,c)+'<span>'+esc(deckName(c.deck).split('::').join(' › '))+'</span>'+((c.tags||[]).length?'<span>#'+c.tags.map(esc).join(' #')+'</span>':'')+'</span></button>';
+  }
+  return h+'</div>';
+}
+function editorHTML(){
+  const e=S.edit; if(!e)return '';
+  const c=e.id?S.cards.get(e.id):null; if(e.id&&!c)return '';
+  const v=c||{deck:e.deck||[...S.decks.keys()][0],front:'',back:'',tags:[],source:'',suspended:false};
+  const opts=[...S.decks.entries()].sort((a,b)=>(a[1].name||a[0]).localeCompare(b[1].name||b[0],'pt')).map(([id,d])=>'<option value="'+esc(id)+'"'+(id===v.deck?' selected':'')+'>'+esc((d.name||id).split('::').join(' › '))+'</option>').join('');
+  const rv=e.id&&S.revs.get(e.id);
+  return '<div class="scrim" data-close-scrim><div class="sheet" role="dialog" aria-modal="true" aria-label="'+(e.id?'Editar card':'Novo card')+'">'+
+    '<div class="bar"><h2>'+(e.id?'Editar card':'Novo card')+'</h2><button class="btn ghost" data-close>Fechar</button></div>'+
+    '<div class="field"><label for="e-deck">Baralho</label><select id="e-deck">'+opts+'</select></div>'+
+    '<div class="field"><label for="e-front">Frente</label><textarea id="e-front">'+esc(v.front)+'</textarea><span class="hint">Markdown simples e LaTeX entre $…$ ou $$…$$.</span></div>'+
+    '<div class="field"><label for="e-back">Verso</label><textarea id="e-back">'+esc(v.back)+'</textarea></div>'+
+    '<div class="field"><label for="e-tags">Tags</label><input id="e-tags" type="text" value="'+esc((v.tags||[]).join(', '))+'" placeholder="separe por vírgula"></div>'+
+    '<div class="field"><label for="e-src">Fonte</label><input id="e-src" type="text" value="'+esc(v.source||'')+'" placeholder="livro, capítulo, página"></div>'+
+    '<label class="check"><input id="e-sus" type="checkbox"'+(v.suspended?' checked':'')+'> Suspenso (não aparece no estudo)</label>'+
+    (rv?'<p class="muted mono" style="font-size:12px">Estabilidade '+(rv.s||0).toFixed(1)+' d · dificuldade '+(rv.d||0).toFixed(1)+'/10 · '+(rv.reps||0)+' respostas · '+(rv.lapses||0)+' lapsos</p>':'')+
+    '<div class="row" style="justify-content:space-between"><span class="row">'+
+      (e.id?'<button class="btn danger" data-del>'+(S.confirmDel?'Confirmar exclusão':'Excluir')+'</button>':'')+
+      (rv?'<button class="btn" data-reset>Zerar progresso</button>':'')+
+    '</span><button class="btn primary" data-save>Salvar</button></div></div></div>';
+}
+
+let raf=0; function render(){if(!raf)raf=requestAnimationFrame(doRender)}
+function doRender(){
+  raf=0;
+  const app=document.getElementById('app'), ov=document.getElementById('overlay');
+  if(S.nodb){app.innerHTML='<div class="notice">Abra esta página no claude.ai para acessar seus cards.</div>';return}
+  if(S.err){app.innerHTML='<div class="notice">A conexão com os dados caiu ('+esc(S.err)+'). Recarregue a página.</div>';return}
+  if(S.view==='study'&&S.study&&(!S.study.cur||!S.cards.get(S.study.cur))){S.study.cur=null;advance()}
+  const focus=document.activeElement&&document.activeElement.id, sel=focus==='b-q'?document.activeElement.selectionStart:null;
+  if(!S.edit){
+    app.innerHTML=(S.view==='study'&&S.study?studyHTML():S.view==='browse'?browseHTML():homeHTML())+answerBarHTML();
+    if(S.view==='study'&&S.study&&S.study.cur){
+      const c=S.cards.get(S.study.cur), f=document.getElementById('face-front'), b=document.getElementById('face-back');
+      if(f){f.innerHTML=md(c.front);typeset(f)} if(b){b.innerHTML=md(c.back);typeset(b)}
+    }
+    if(focus==='b-q'){const i=document.getElementById('b-q');if(i){i.focus();if(sel!=null)i.setSelectionRange(sel,sel)}}
+  }
+  ov.innerHTML=editorHTML();
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click',ev=>{
+  const t=ev.target.closest('button,[data-close-scrim]'); if(!t)return;
+  const d=t.dataset;
+  if(d.closeScrim!==undefined&&ev.target!==t)return;
+  if(d.closeScrim!==undefined||d.close!==undefined){S.edit=null;S.confirmDel=false;render();return}
+  if(d.tog){S.open.has(d.tog)?S.open.delete(d.tog):S.open.add(d.tog);ls.set('fich.open',[...S.open]);render();return}
+  if(d.study){startStudy(d.study,d.study.split('::').join(' › '));return}
+  if(d.studyAll!==undefined){startStudy(null,'Todos os baralhos');return}
+  if(d.go){S.view=d.go;if(d.go!=='study')clearTimeout(waitTimer);render();scrollTo(0,0);return}
+  if(d.reveal!==undefined){S.study.revealed=true;render();return}
+  if(d.grade){answer(+d.grade);return}
+  if(d.undo!==undefined){undo();return}
+  if(d.edit){S.edit={id:d.edit};S.confirmDel=false;render();return}
+  if(d.newCard!==undefined){const ids=S.browse.deck?deckIdsUnder(S.browse.deck):[];S.edit={id:null,deck:ids[0]};render();return}
+  if(d.saveSettings!==undefined){
+    const n=Math.max(0,Math.min(999,parseInt(document.getElementById('set-new').value,10)||0)), r=parseFloat(document.getElementById('set-ret').value)||0.9;
+    S.settings={...S.settings,newPerDay:n,retention:r}; const copy={...S.settings};
+    enqueue(()=>S.db.doc('config/settings').set(copy).then(()=>toast('Ajustes salvos'))); render(); return}
+  if(d.save!==undefined){
+    const e=S.edit, old=e.id?S.cards.get(e.id):null, now=Date.now();
+    const front=document.getElementById('e-front').value.trim(), back=document.getElementById('e-back').value.trim();
+    if(!front){toast('A frente não pode ficar vazia');return}
+    const body={...(old||{created:now}),deck:document.getElementById('e-deck').value,front,back,
+      tags:document.getElementById('e-tags').value.split(',').map(s=>s.trim()).filter(Boolean),
+      source:document.getElementById('e-src').value.trim(),suspended:document.getElementById('e-sus').checked,updated:now};
+    const id=e.id||('u-'+now.toString(36)+Math.random().toString(36).slice(2,6));
+    S.cards.set(id,body); S.edit=null; enqueue(()=>S.db.doc('cards/'+id).set(body).then(()=>toast('Card salvo'))); render(); return}
+  if(d.del!==undefined){
+    if(!S.confirmDel){S.confirmDel=true;render();return}
+    const id=S.edit.id; S.cards.delete(id); S.revs.delete(id); S.edit=null; S.confirmDel=false;
+    enqueue(()=>S.db.doc('cards/'+id).delete()); enqueue(()=>S.db.doc('reviews/'+id).delete().then(()=>toast('Card excluído'))); render(); return}
+  if(d.reset!==undefined){const id=S.edit.id; S.revs.delete(id); enqueue(()=>S.db.doc('reviews/'+id).delete().then(()=>toast('Progresso zerado'))); render(); return}
+});
+document.addEventListener('input',ev=>{
+  if(ev.target.id==='b-q'){S.browse.q=ev.target.value;render()}
+});
+document.addEventListener('change',ev=>{
+  if(ev.target.id==='b-deck'){S.browse.deck=ev.target.value;render()}
+});
+document.addEventListener('keydown',ev=>{
+  if(S.edit){if(ev.key==='Escape'){S.edit=null;render()}return}
+  if(/INPUT|TEXTAREA|SELECT/.test(document.activeElement&&document.activeElement.tagName))return;
+  if(S.view!=='study'||!S.study||!S.study.cur)return;
+  if(!S.study.revealed&&(ev.key===' '||ev.key==='Enter')){ev.preventDefault();S.study.revealed=true;render();return}
+  if(S.study.revealed&&/^[1-4]$/.test(ev.key)){answer(+ev.key);return}
+  if(S.study.revealed&&ev.key===' '){ev.preventDefault();answer(3);return}
+  if(ev.key==='u'||ev.key==='z')undo();
+});
+
+/* ---------- data ---------- */
+function subLog(key){
+  if(S.logUnsub)S.logUnsub(); S.logKey=key; S.log=[];
+  S.logUnsub=S.db.doc('log/'+key).onSnapshot(d=>{const e=d.exists?d.data().entries:null;S.log=Array.isArray(e)?e.slice():[];render()},e=>{});
+}
+async function boot(){
+  render();
+  const timer=setTimeout(()=>{S.stale=true;render()},10000);
+  let db=null;
+  try{db=window.claude&&window.claude.use?await window.claude.use('db'):null}catch(e){db=null}
+  if(!db){clearTimeout(timer);S.nodb=true;render();return}
+  S.db=db;
+  const fail=e=>{clearTimeout(timer);S.err=e&&e.code||'unavailable';render()};
+  const coll=(path,key,map)=>db.collection(path).onSnapshot(snap=>{
+    const m=new Map(); for(const d of snap.docs)m.set(d.id,d.data()); S[map]=m;
+    if(!snap.metadata.fromCache){S.ready.add(key);if(S.ready.size>=3){clearTimeout(timer);S.stale=false}}
+    render();
+  },fail);
+  coll('decks','decks','decks'); coll('cards','cards','cards'); coll('reviews','revs','revs');
+  db.doc('config/settings').onSnapshot(d=>{if(d.exists)S.settings={...S.settings,...d.data()};render()},()=>{});
+  subLog(dayKey(Date.now()));
+  setInterval(()=>{const k=dayKey(Date.now());if(k!==S.logKey){subLog(k);render()}},60000);
+}
+boot();
+</script>
