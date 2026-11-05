@@ -1,6 +1,6 @@
 # Kairos — data spec and ingest rules
 
-The website (https://nashquant.github.io/kairos/) is the app. Claude adds cards by committing to this repo; each push to `main` builds, tests and deploys. (The older claude.ai artifact is frozen; do not write to it.)
+The website (https://nashquant.github.io/kairos/) is the app. Claude adds cards by committing to this repo; each push to `main` builds, tests and deploys.
 
 ## Public vs private
 - **Public decks** live in plain JSON: `data/decks.json` and `data/cards.json`. The repo is public: anyone can read them.

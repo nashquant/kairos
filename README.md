@@ -4,26 +4,19 @@
 
 Flashcards with spaced repetition. Each card comes back at the right moment (*kairos*), before you forget it.
 
+**App:** https://nashquant.github.io/kairos/
+
+Install on a phone: open the site, then Share → Add to Home Screen (iOS) or menu → Install app (Android). After the first visit it opens with no connection.
+
 ## Logo
 
 The mark is the spaced-repetition sawtooth. Memory decays along the forgetting curve. Each bronze dot is a review at the right moment; it lifts recall back up, and the next decay is slower.
 
-## Two ways to run
-
-| | claude.ai artifact | Website (GitHub Pages) |
-|---|---|---|
-| URL | private artifact link | https://nashquant.github.io/kairos/ |
-| Cards | artifact database (frozen) | `data/cards.json` (public); private decks in Supabase |
-| Progress | artifact database | this device; synced through Supabase after login |
-| Offline | only while the tab stays open | opens with no connection after the first visit; installable |
-
-Both run from the same `app.html`. `scripts/build_web.py` wraps it for the website with a local data adapter (`web-src/adapter.js`), a service worker and a manifest. Each push to `main` builds, tests and deploys the site.
-
-Install on a phone: open the site, then Share → Add to Home Screen (iOS) or menu → Install app (Android).
-
 ## Accounts, sync and private decks
 
-Login is optional (email code via Supabase Auth). Signed-in users get progress synced across devices and their private decks. Private decks reach Supabase through an encrypted chunk in `data/private/` and the *Ingest private decks* workflow; see `docs/spec.md`.
+Login is optional (6-digit email code via Supabase Auth). Without login, progress stays on the device. Signed-in users get progress synced across devices (newest write per card wins; daily logs merge) and their private decks. Sign-out clears the device. Schema: `supabase/schema.sql`.
+
+Private decks reach Supabase through an encrypted chunk in `data/private/` and the *Ingest private decks* workflow; see `docs/spec.md`.
 
 ## Study filters
 
@@ -31,17 +24,12 @@ Under **Filtros de estudo**, turn a theme off to hide every card that has that t
 
 ## How it works
 
-- `app.html` is the whole app: one HTML page, no build step.
-- It runs as a claude.ai artifact and stores data in the artifact database (`claude.use("db")`).
-- Claude creates cards from materials sent in the claude.ai Project "Flashcards". The spec is in [`docs/spec.md`](docs/spec.md).
+- `app.html` is the app: one HTML page. `scripts/build_web.py` wraps it with the data adapter (`web-src/adapter.js`), the service worker and the manifest into `web/`. Each push to `main` builds, tests and deploys.
+- Public cards: `data/decks.json`, `data/cards.json`. Claude adds cards by committing here; the spec is in [`docs/spec.md`](docs/spec.md).
+- Every write goes to a local outbox first, so the app works offline and syncs later.
 - Scheduling: FSRS-4.5 with default weights, plus Anki-style learning steps (1 min, 10 min; relearning 10 min).
 - Cards support simple Markdown and LaTeX (`$…$`, `$$…$$`) through MathJax.
 
-## Offline
+## Tests
 
-Every write goes to a local outbox (`localStorage`) first and syncs when the connection allows. Pending answers stay on screen and survive a closed tab. The page itself needs a connection to open: claude.ai blocks service workers. Test: `npm i jsdom@24 && node tests/offline.test.js`.
-
-## Limits
-
-- Outside claude.ai the page shows a notice and loads no data. Hosting elsewhere (GitHub Pages) needs a new storage layer.
-- Review progress is single-user. Share the artifact with others as "Can view" only.
+`npm i --no-save jsdom@24 && pip install cryptography`, then `python3 scripts/build_web.py` and `node tests/web.test.js`, `node tests/offline.test.js`, `node tests/sync.test.js`, `python3 tests/test_ingest.py`.
