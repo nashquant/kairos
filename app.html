@@ -126,6 +126,13 @@ textarea{min-height:110px;resize:vertical;font-family:var(--f-mono);font-size:13
 @media (min-width:720px){.scrim{align-items:center}.sheet{border-radius:16px}}
 .sheet .bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .check{display:flex;gap:8px;align-items:center;font-size:14px;margin-bottom:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip-t{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--accent);background:var(--surface);color:var(--ink);border-radius:99px;padding:6px 12px;font-size:13px}
+.chip-t .mono{color:var(--muted);font-size:12px}
+.chip-t.off{border-color:var(--line);color:var(--muted);text-decoration:line-through;background:transparent}
+.pill{display:inline-block;font-size:11px;font-weight:600;color:var(--bronze);border:1px solid currentColor;border-radius:99px;padding:1px 7px;margin-left:6px;vertical-align:middle;text-decoration:none}
+.hint{font-size:12px;color:var(--muted)}
+.codebox{font-family:var(--f-mono);font-size:11px;min-height:80px;word-break:break-all}
 .sync{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-bottom:12px}
 .sync .dot{width:8px;height:8px;border-radius:50%;background:var(--bronze);flex-shrink:0}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(96px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;z-index:30;max-width:90%}
@@ -228,7 +235,7 @@ function schedule(prev,g,now){
 }
 
 /* ---------- state ---------- */
-const S={db:null,decks:new Map(),cards:new Map(),revs:new Map(),settings:{newPerDay:20,retention:0.9},
+const S={filter:(()=>{const f=ls.get('kairos.filter',{});return {off:Array.isArray(f.off)?f.off:[]}})(),panels:new Set(ls.get('kairos.panels',[])),pk:{},db:null,decks:new Map(),cards:new Map(),revs:new Map(),settings:{newPerDay:20,retention:0.9},
   log:[],logKey:null,logUnsub:null,ready:new Set(),stale:false,err:null,nodb:false,
   view:'home',study:null,open:new Set(ls.get('fich.open',[])),browse:{q:'',deck:''},edit:null,undo:null,confirmDel:false};
 /* ---------- outbox: every write goes to localStorage first, then syncs ----------
@@ -283,6 +290,22 @@ function syncHTML(){
   return '<div class="sync" role="status"><span class="dot"></span>'+what+'</div>';
 }
 
+const TAG_LABELS={fundamentos:'Fundamentos','medidas-de-risco':'Medidas de risco',cva:'CVA',hedge:'Hedge',netting:'Netting e alocação',colateral:'Colateral','close-out':'Close-out','wrong-way':'Wrong-way risk',credito:'Modelos de crédito',juros:'Modelos de juros','equity-fx':'Equity, FX e inflação',amc:'American Monte Carlo',simulacao:'Simulação e medidas',regulatorio:'Regulatório',datado:'Prática de 2009 (datado)'};
+const tagLabel=t=>TAG_LABELS[t]||t;
+function passesFilter(c){const off=S.filter.off;if(!off.length)return true;for(const t of (c.tags||[]))if(off.includes(t))return false;return true}
+function saveFilter(){ls.set('kairos.filter',S.filter)}
+function filterHTML(){
+  const counts=new Map();
+  for(const c of S.cards.values()){if(c.suspended)continue;for(const t of (c.tags||[]))counts.set(t,(counts.get(t)||0)+1)}
+  if(!counts.size)return '';
+  const tags=[...counts.keys()].sort((a,b)=>(a==='datado')-(b==='datado')||tagLabel(a).localeCompare(tagLabel(b),'pt'));
+  const off=S.filter.off.filter(t=>counts.has(t));
+  const hidden=[...S.cards.values()].filter(c=>!c.suspended&&!passesFilter(c)).length;
+  return '<details class="settings" data-panel="filtros"'+(S.panels.has('filtros')?' open':'')+'><summary>Filtros de estudo'+(off.length?' <span class="pill">'+off.length+' tema'+(off.length>1?'s':'')+' oculto'+(off.length>1?'s':'')+'</span>':'')+'</summary>'+
+    '<p class="hint" style="margin:0 0 10px">Desligue um tema para esconder todos os cards que o tocam. Vale para o estudo e para as contagens deste aparelho.</p>'+
+    '<div class="chips">'+tags.map(t=>'<button class="chip-t'+(off.includes(t)?' off':'')+'" data-tag="'+esc(t)+'" aria-pressed="'+!off.includes(t)+'"><span>'+esc(tagLabel(t))+'</span><span class="mono">'+counts.get(t)+'</span></button>').join('')+'</div>'+
+    '<div class="row" style="margin:12px 0 16px;justify-content:space-between"><span class="hint">'+(hidden?hidden+' cards ocultos':'Todos os cards visíveis')+'</span>'+(off.length?'<button class="btn ghost" data-tag-reset>Mostrar tudo</button>':'')+'</div></details>';
+}
 function deckName(id){const d=S.decks.get(id);return d?(d.name||id):'(sem baralho)'}
 function deckIdsUnder(path){const out=[];for(const [id,d] of S.decks){const n=d.name||id;if(n===path||n.startsWith(path+'::'))out.push(id)}return out}
 function newToday(){const seen=new Set();for(const e of S.log)if(e.p==='new')seen.add(e.c);return seen.size}
@@ -292,7 +315,7 @@ function cardsOrdered(){return [...S.cards.entries()].sort((a,b)=>((a[1].created
 function deckCounts(){
   const now=Date.now(), roll=nextRollover(now), m=new Map();
   for(const [id,c] of S.cards){
-    if(c.suspended)continue;
+    if(c.suspended||!passesFilter(c))continue;
     const k=c.deck; if(!m.has(k))m.set(k,{n:0,l:0,r:0,total:0});
     const o=m.get(k); o.total++;
     const rv=S.revs.get(id);
@@ -308,7 +331,7 @@ function nextCard(deckSet){
   const now=Date.now(), roll=nextRollover(now);
   let learn=[],rev=[],fresh=[];
   for(const [id,c] of cardsOrdered()){
-    if(c.suspended||!deckSet.has(c.deck))continue;
+    if(c.suspended||!passesFilter(c)||!deckSet.has(c.deck))continue;
     const rv=S.revs.get(id);
     if(!rv)fresh.push(id);
     else if(rv.state==='review'){if(rv.due<roll)rev.push([id,rv.due])}
@@ -390,7 +413,7 @@ function treeHTML(node,depth,cap){
     const desc=ch.ids.length===1?(S.decks.get(ch.ids[0]).desc||''):'';
     h+='<div class="node" style="padding-left:'+(depth*18)+'px">'+
       '<button class="tog'+(has?'':' leaf')+(open?' open':'')+'" data-tog="'+esc(ch.path)+'" aria-label="'+(open?'Recolher':'Expandir')+'" aria-expanded="'+open+'">'+chev+'</button>'+
-      '<button class="dname" data-study="'+esc(ch.path)+'">'+esc(ch.name)+'<small>'+(desc?esc(desc)+' · ':'')+ch.sum.total+' cards</small></button>'+
+      '<button class="dname" data-study="'+esc(ch.path)+'">'+esc(ch.name)+(ch.ids.some(id=>S.decks.get(id)&&S.decks.get(id).private)?' <span class="pill">privado</span>':'')+'<small>'+(desc?esc(desc)+' · ':'')+ch.sum.total+' cards</small></button>'+
       countsHTML(ch.sum,cap)+'</div>';
     if(has&&open)h+=treeHTML(ch,depth+1,cap);
   }
@@ -408,7 +431,9 @@ function homeHTML(){
     h+='<div><div class="legend" style="margin-bottom:6px"><span class="c-new">novos</span><span class="c-learn">aprendendo</span><span class="c-due">a revisar</span></div><div class="tree">'+treeHTML(root,0,cap)+'</div></div>';
   }
   const r=+S.settings.retention||0.9;
-  h+='<details class="settings"><summary>Ajustes</summary>'+
+  h+=filterHTML();
+  if(window.KAIROS_WEB)h+=privateHTML();
+  h+='<details class="settings" data-panel="ajustes"'+(S.panels.has('ajustes')?' open':'')+'><summary>Ajustes</summary>'+
     '<div class="field"><label for="set-new">Cards novos por dia</label><input id="set-new" type="number" min="0" max="999" value="'+(+S.settings.newPerDay||0)+'"><span class="hint">Limite somado de todos os baralhos. Cada card novo gera cerca de 10 revisões no primeiro mês.</span></div>'+
     '<div class="field"><label for="set-ret">Retenção desejada</label><select id="set-ret">'+[0.8,0.85,0.9,0.93,0.95].map(v=>'<option value="'+v+'"'+(Math.abs(v-r)<1e-6?' selected':'')+'>'+Math.round(v*100)+'%</option>').join('')+'</select><span class="hint">Probabilidade de lembrar no dia da revisão. Mais alta encurta os intervalos e aumenta a carga.</span></div>'+
     '<div class="row" style="margin-bottom:16px"><button class="btn primary" data-save-settings>Salvar ajustes</button></div></details>';
@@ -497,12 +522,52 @@ function doRender(){
   ov.innerHTML=editorHTML();
 }
 
+/* ---------- private decks (website only) ----------
+   Private decks are published encrypted (RSA-OAEP + AES-GCM). Each device holds a
+   private key; Claude encrypts with the public key in the repo and never sees the key. */
+function privateHTML(){
+  const K=window.KAIROS_WEB.keys, st=window.KAIROS_WEB.privateStatus||{files:0,opened:0,wrongKey:0}, pk=S.pk;
+  let b='<p class="hint" style="margin:0 0 10px">Baralhos privados ficam criptografados no repositório. Só abrem em aparelhos com a sua chave.</p>';
+  b+='<p class="hint mono" style="margin:0 0 10px">'+st.files+' arquivo(s) privado(s) · '+st.opened+' aberto(s)'+(st.wrongKey?' · '+st.wrongKey+' de outra chave':'')+'</p>';
+  if(!K.has()){
+    b+='<div class="row" style="margin-bottom:12px"><button class="btn primary" data-pk="generate">Criar chave neste aparelho</button></div>';
+    b+='<div class="field"><label for="pk-import">Já tem chave em outro aparelho? Cole o código de backup</label><textarea id="pk-import" class="codebox" placeholder="KAIROS1.…"></textarea></div>';
+    b+='<div class="field"><label for="pk-pass-in">Senha do backup</label><input id="pk-pass-in" type="password" autocomplete="current-password"></div>';
+    b+='<div class="row" style="margin-bottom:16px"><button class="btn" data-pk="import">Importar chave</button></div>';
+  }else{
+    b+='<p style="margin:0 0 10px">Chave ativa: <span class="mono">'+esc(K.kid())+'</span></p>';
+    b+='<div class="field"><label for="pk-pub">Chave pública (mande para o Claude uma vez)</label><textarea id="pk-pub" class="codebox" readonly>'+esc(K.publicText())+'</textarea></div>';
+    b+='<div class="row" style="margin-bottom:14px"><button class="btn" data-pk="copy-pub">Copiar chave pública</button></div>';
+    b+='<div class="field"><label for="pk-pass1">Backup: escolha uma senha para levar a chave a outro aparelho</label><input id="pk-pass1" type="password" autocomplete="new-password" placeholder="mínimo 12 caracteres"><input id="pk-pass2" type="password" autocomplete="new-password" placeholder="repita a senha" style="margin-top:8px"></div>';
+    b+='<div class="row" style="margin-bottom:10px"><button class="btn" data-pk="backup">Gerar código de backup</button></div>';
+    if(pk.backup)b+='<div class="field"><label for="pk-backup">Código de backup (guarde num gerenciador de senhas)</label><textarea id="pk-backup" class="codebox" readonly>'+esc(pk.backup)+'</textarea><div class="row"><button class="btn" data-pk="copy-backup">Copiar código</button></div></div>';
+    b+='<div class="row" style="margin-bottom:16px"><button class="btn danger" data-pk="forget">'+(pk.confirmForget?'Confirmar: remover chave':'Remover chave deste aparelho')+'</button></div>';
+  }
+  return '<details class="settings" data-panel="privados"'+(S.panels.has('privados')?' open':'')+'><summary>Baralhos privados</summary>'+b+'</details>';
+}
+function copyField(id){const el=document.getElementById(id);if(!el)return;const done=()=>toast('Copiado');try{navigator.clipboard.writeText(el.value).then(done,()=>{el.select();toast('Selecionado: copie manualmente')})}catch(e){el.select();toast('Selecionado: copie manualmente')}}
+async function pkAction(a){
+  const K=window.KAIROS_WEB&&window.KAIROS_WEB.keys; if(!K)return;
+  try{
+    if(a==='generate'){toast('Gerando chave…');await K.generate();toast('Chave criada. Copie a chave pública e mande para o Claude.')}
+    else if(a==='import'){const code=document.getElementById('pk-import').value.trim(),pass=document.getElementById('pk-pass-in').value;await K.importBackup(code,pass);toast('Chave importada');await window.KAIROS_WEB.reload()}
+    else if(a==='copy-pub')copyField('pk-pub');
+    else if(a==='copy-backup')copyField('pk-backup');
+    else if(a==='backup'){const p1=document.getElementById('pk-pass1').value,p2=document.getElementById('pk-pass2').value;if(p1.length<12){toast('Use pelo menos 12 caracteres');return}if(p1!==p2){toast('As senhas não conferem');return}S.pk.backup=await K.exportBackup(p1)}
+    else if(a==='forget'){if(!S.pk.confirmForget){S.pk.confirmForget=true;render();return}K.forget();S.pk={};toast('Chave removida deste aparelho');await window.KAIROS_WEB.reload()}
+  }catch(e){toast(e&&e.message==='bad-pass'?'Senha ou código errado':'Falhou: '+(e&&e.message||e))}
+  render();
+}
+
 /* ---------- events ---------- */
 document.addEventListener('click',ev=>{
   const t=ev.target.closest('button,[data-close-scrim]'); if(!t)return;
   const d=t.dataset;
   if(d.closeScrim!==undefined&&ev.target!==t)return;
   if(d.closeScrim!==undefined||d.close!==undefined){S.edit=null;S.confirmDel=false;render();return}
+  if(d.tag){const off=S.filter.off;const i=off.indexOf(d.tag);if(i>=0)off.splice(i,1);else off.push(d.tag);saveFilter();if(S.study)S.study.cur=null;render();return}
+  if(d.tagReset!==undefined){S.filter.off=[];saveFilter();render();return}
+  if(d.pk){pkAction(d.pk);return}
   if(d.tog){S.open.has(d.tog)?S.open.delete(d.tog):S.open.add(d.tog);ls.set('fich.open',[...S.open]);render();return}
   if(d.study){startStudy(d.study,d.study.split('::').join(' › '));return}
   if(d.studyAll!==undefined){startStudy(null,'Todos os baralhos');return}
@@ -531,6 +596,7 @@ document.addEventListener('click',ev=>{
     queue('cards/'+id,'del'); queue('reviews/'+id,'del'); toast('Card excluído'); render(); return}
   if(d.reset!==undefined){const id=S.edit.id; S.revs.delete(id); queue('reviews/'+id,'del'); toast('Progresso zerado'); render(); return}
 });
+document.addEventListener('toggle',ev=>{const p=ev.target&&ev.target.dataset&&ev.target.dataset.panel;if(!p)return;if(ev.target.open)S.panels.add(p);else S.panels.delete(p);ls.set('kairos.panels',[...S.panels])},true);
 document.addEventListener('input',ev=>{
   if(ev.target.id==='b-q'){S.browse.q=ev.target.value;render()}
 });

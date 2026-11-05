@@ -13,13 +13,21 @@ The mark is the spaced-repetition sawtooth. Memory decays along the forgetting c
 | | claude.ai artifact | Website (GitHub Pages) |
 |---|---|---|
 | URL | private artifact link | https://nashquant.github.io/kairos/ |
-| Cards | artifact database, written by Claude | `data/cards.json` in this repo |
+| Cards | artifact database (frozen) | `data/cards.json` (public) and `data/private/*.enc.json` (encrypted) |
 | Progress | artifact database | this device (`localStorage`) |
 | Offline | only while the tab stays open | opens with no connection after the first visit; installable |
 
 Both run from the same `app.html`. `scripts/build_web.py` wraps it for the website with a local data adapter (`web-src/adapter.js`), a service worker and a manifest. Each push to `main` builds, tests and deploys the site.
 
 Install on a phone: open the site, then Share → Add to Home Screen (iOS) or menu → Install app (Android).
+
+## Private decks
+
+Private decks are published encrypted (RSA-OAEP-256 wrapping an AES-256-GCM key). Each device holds a private key, created in the app under **Baralhos privados**; the public key goes to `data/public-key.json`. Claude encrypts new private chunks with `scripts/encrypt_private.py` and never sees the private key. A backup code (PBKDF2 + AES-GCM, protected by a password) moves the key to another device.
+
+## Study filters
+
+Under **Filtros de estudo**, turn a theme off to hide every card that has that tag. The choice stays on the device and applies to study and counts.
 
 ## How it works
 

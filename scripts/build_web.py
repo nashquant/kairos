@@ -16,7 +16,8 @@ adapter = (SRC / "adapter.js").read_text(encoding="utf-8")
 decks = json.loads((ROOT / "data" / "decks.json").read_text(encoding="utf-8"))
 cards = json.loads((ROOT / "data" / "cards.json").read_text(encoding="utf-8"))
 
-version = hashlib.sha256((app + adapter + json.dumps(decks) + json.dumps(cards)).encode()).hexdigest()[:12]
+priv_blob = "".join(p.read_text() for p in sorted((ROOT / "data" / "private").glob("*.json")))
+version = hashlib.sha256((app + adapter + json.dumps(decks) + json.dumps(cards) + priv_blob).encode()).hexdigest()[:12]
 
 head = """<!doctype html>
 <html lang="pt-BR">
@@ -63,6 +64,7 @@ for f in (SRC / "icons").glob("*.png"):
     shutil.copy(f, OUT / f.name)
 (OUT / "data" / "decks.json").write_text(json.dumps(decks, ensure_ascii=False), encoding="utf-8")
 (OUT / "data" / "cards.json").write_text(json.dumps(cards, ensure_ascii=False), encoding="utf-8")
+shutil.copytree(ROOT / "data" / "private", OUT / "data" / "private")
 manifest = {
     "name": "Kairos", "short_name": "Kairos",
     "description": "Flashcards com repetição espaçada FSRS.",

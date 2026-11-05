@@ -4,7 +4,7 @@
   "front": "Como o livro define counterparty credit exposure?",
   "back": "É o valor que A pode perder se uma contraparte B der default.\nCalcula-se simulando o preço das transações com B em vários cenários e datas futuras e resumindo cada distribuição com uma estatística (média, quantil, média da parte positiva).",
   "tags": [
-   "exposure"
+   "fundamentos"
   ],
   "source": "Cesari 2009, §1.1, p. 3–4",
   "created": 1793930000000,
@@ -15,7 +15,7 @@
   "front": "Para derivativos, por que estimar counterparty risk é mais difícil que para um empréstimo?",
   "back": "No empréstimo, o valor devido é conhecido; o foco é só a capacidade de pagar.\nNo derivativo, o valor futuro da transação é incerto. Estimá-lo é tão importante quanto avaliar o crédito da contraparte.",
   "tags": [
-   "exposure"
+   "fundamentos"
   ],
   "source": "Cesari 2009, §1.3, p. 10",
   "created": 1793930000001,
@@ -26,7 +26,7 @@
   "front": "Quais são os quatro usos de modelos de credit exposure numa instituição financeira, segundo o livro?",
   "back": "1. Limites de negócio por contraparte.\n2. Hedge dinâmico do counterparty risk (comprar proteção).\n3. Risk-weighted assets e capital.\n4. Visão de preços de produtos complexos em cenários futuros (parente de VaR e stress test).",
   "tags": [
-   "exposure"
+   "fundamentos"
   ],
   "source": "Cesari 2009, §1.3, p. 10",
   "created": 1793930000002,
@@ -37,8 +37,8 @@
   "front": "Exposure e VaR usam a mesma distribuição de preços futuros. Qual cauda interessa a cada um?",
   "back": "Exposure: a cauda alta (quanto o valor pode **subir**, logo quanto a contraparte pode nos dever).\nVaR / stress: a cauda baixa (quanto o valor pode **cair**).",
   "tags": [
-   "exposure",
-   "pfe"
+   "medidas-de-risco",
+   "fundamentos"
   ],
   "source": "Cesari 2009, §1.3, p. 10",
   "created": 1793930000003,
@@ -49,8 +49,8 @@
   "front": "Na fórmula $$V_t = N_t\\,\\mathbb{E}\\Big[\\sum_{T_i>t}^{T_n} \\frac{X_{T_i}}{N_{T_i}}\\,\\Big|\\,\\mathcal{F}_t\\Big],$$ o que é $V_t$ visto de hoje e por que é uma distribuição, não um número?",
   "back": "$V_t$ é o preço do portfólio na data futura $t$: o valor esperado dos fluxos restantes $X_{T_i}$ ($T_i>t$), descontados pelo numeraire, condicionado à informação $\\mathcal{F}_t$.\nComo $\\mathcal{F}_t$ ainda não é conhecido hoje, $V_t$ é aleatório. Em $t=0$ a distribuição degenera no preço atual.",
   "tags": [
-   "exposure",
-   "numeraire"
+   "fundamentos",
+   "simulacao"
   ],
   "source": "Cesari 2009, §1.4.1, p. 11",
   "created": 1793930000004,
@@ -61,8 +61,7 @@
   "front": "Para que medida se quer a distribuição de $V_t$ em counterparty exposure?",
   "back": "Pode ser a medida real ou a de pricing (risk-neutral), conforme o uso.\nIntuição: limites e capital olham cenários \"reais\"; preço e hedge (CVA) exigem a medida de pricing.",
   "tags": [
-   "exposure",
-   "numeraire"
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §1.4.1–1.4.2, p. 11–12",
   "created": 1793930000005,
@@ -73,7 +72,7 @@
   "front": "Quais quatro fatores fazem a distribuição de $V_t$ mudar com $t$?",
   "back": "1. Condições de mercado.\n2. Composição do portfólio (ex.: fluxos já pagos saem).\n3. Valor do tempo.\n4. Termos contratuais: collateral, netting, break clauses.",
   "tags": [
-   "exposure"
+   "fundamentos"
   ],
   "source": "Cesari 2009, §1.4.1, p. 11",
   "created": 1793930000006,
@@ -84,8 +83,8 @@
   "front": "Quais são os três passos do Monte Carlo clássico de exposure usado na indústria?",
   "back": "1. **Scenario generation**: simular os risk factors em datas futuras.\n2. **Pricing**: precificar cada trade em cada cenário e data.\n3. **Aggregation**: agregar os preços aplicando netting e collateral, e extrair estatísticas.",
   "tags": [
-   "exposure",
-   "monte-carlo"
+   "simulacao",
+   "fundamentos"
   ],
   "source": "Cesari 2009, §1.4.1, p. 11",
   "created": 1793930000007,
@@ -96,8 +95,7 @@
   "front": "Para quais produtos o Monte Carlo clássico de exposure funciona \"ao pé da letra\"?",
   "back": "Só para produtos com preço analítico (ou boa aproximação analítica) e sem calibração complexa dependente do cenário.\nExóticos, e até um cancellable swap, ficam fora.",
   "tags": [
-   "exposure",
-   "monte-carlo"
+   "simulacao"
   ],
   "source": "Cesari 2009, §1.4.1, p. 11",
   "created": 1793930000008,
@@ -108,8 +106,8 @@
   "front": "O que é o exposure profile de um trade?",
   "back": "O gráfico de $\\mathrm{PFE}_{\\alpha,t}$ em função de $t$ (muitas vezes junto com EPE e quantis baixos).\nO preço em datas futuras por cenário chama-se às vezes *Mark-to-Future*.",
   "tags": [
-   "pfe",
-   "exposure"
+   "fundamentos",
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §1.2.1 e §1.4.2, p. 5, 12",
   "created": 1793930000010,
@@ -120,8 +118,7 @@
   "front": "Como o livro define $\\mathrm{EPE}_t$ no Cap. 1, e qual o nome moderno dessa quantidade?",
   "back": "$\\mathrm{EPE}_t = \\mathbb{E}[V_t^+]$: média da parte positiva da distribuição em $t$, função do tempo.\nNa terminologia atual (Basel), isso é o **Expected Exposure (EE)**; EPE costuma ser a média temporal do EE. O próprio livro avisa que outras definições de EPE servem melhor para CVA (Caps. 12 e 14).",
   "tags": [
-   "ee",
-   "pfe"
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §1.4.2, p. 12",
   "created": 1793930000011,
@@ -132,8 +129,8 @@
   "front": "Por que a exposure usa $V_t^+$ e não $V_t$?",
   "back": "Se $V_t<0$, A deve à contraparte. No default de B, A continua devendo; não perde nada.\nSó o valor positivo (o que B deve a A) vira perda.",
   "tags": [
-   "exposure",
-   "ee"
+   "fundamentos",
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §1.4.8, p. 17",
   "created": 1793930000012,
@@ -144,7 +141,7 @@
   "front": "Para um swap de A, o quantil de 2,5% visto por A equivale a quê visto por B?",
   "back": "Ao quantil de 97,5% (PFE) visto por B.\nA distribuição de B é a de A com sinal trocado.",
   "tags": [
-   "pfe"
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §1.2.1, p. 5",
   "created": 1793930000013,
@@ -155,8 +152,8 @@
   "front": "Num interest-rate swap vanilla de 10 anos, por que o PFE começa em zero, sobe e volta a zero (pico perto de 4 anos)?",
   "back": "- Em $t=0$: taxa fixa é par, valor zero.\n- Meio: dois efeitos opostos. A difusão das taxas aumenta a variância; a amortização (menos fluxos restantes) a reduz.\n- Fim: resta só um fluxo, logo exposure pequena.\nResultado: perfil em corcova (*diffusion vs amortization*).",
   "tags": [
-   "pfe",
-   "swap"
+   "juros",
+   "fundamentos"
   ],
   "source": "Cesari 2009, §1.2.1, p. 5",
   "created": 1793930000014,
@@ -167,8 +164,8 @@
   "front": "Num payer swap (A paga fixo, recebe Libor), em que cenário de taxas A tem exposure a B, e por quê?",
   "back": "Quando as swap rates **sobem**. O swap fica in the money para A.\nSe B der default, A precisa repor os fluxos flutuantes no mercado a um custo maior que o fixo que pagava.",
   "tags": [
-   "exposure",
-   "swap"
+   "fundamentos",
+   "juros"
   ],
   "source": "Cesari 2009, §1.2.1, p. 4–5",
   "created": 1793930000015,
@@ -179,8 +176,8 @@
   "front": "Num cancellable swap, o que acontece com a exposure de A se A é **long** callability (A pode cancelar a custo zero)?",
   "back": "Quase nada muda: o PFE fica parecido com o do swap vanilla.\nA racional só cancela quando o swap vale pouco para ele, nunca quando tem exposure alta.\nExceção: em $t=0$, o nível é o valor da opção de cancelamento.",
   "tags": [
-   "pfe",
-   "callable"
+   "juros",
+   "fundamentos"
   ],
   "source": "Cesari 2009, §1.2.2, p. 7",
   "created": 1793930000016,
@@ -191,8 +188,8 @@
   "front": "Num cancellable swap em que A é **short** callability (B pode cancelar), qual é o PFE de A nas datas de cancelamento e entre elas?",
   "back": "Nas datas de cancelamento: zero. B racional cancela justamente quando perde, isto é, quando A está in the money.\nEntre datas: só a exposure dos cupons até a próxima data de cancelamento.\nEm $t=0$ o valor é negativo para A (B detém a opção).",
   "tags": [
-   "pfe",
-   "callable"
+   "juros",
+   "fundamentos"
   ],
   "source": "Cesari 2009, §1.2.2, p. 7",
   "created": 1793930000017,
@@ -203,9 +200,8 @@
   "front": "Por que o cancellable swap (Bermudan) quebra o Monte Carlo clássico de exposure, e o vanilla não?",
   "back": "O vanilla tem preço analítico e model-independent: precifica-se direto em cada cenário e data.\nO cancellable exige lattice ou MC para precificar. A exposure viraria Monte Carlo de Monte Carlo (simulação aninhada), inviável.\n(Se a opção for europeia, há fórmula fechada.)",
   "tags": [
-   "monte-carlo",
-   "callable",
-   "amc"
+   "amc",
+   "simulacao"
   ],
   "source": "Cesari 2009, §1.2.2, p. 7–8",
   "created": 1793930000018,
@@ -239,8 +235,7 @@
   "front": "O que é close-out risk?",
   "back": "A perda possível entre o momento em que a contraparte é declarada em default e o momento em que o trade foi encerrado ou substituído no mercado.\nMede quanto o valor do trade (e do collateral) pode mudar nesse intervalo.",
   "tags": [
-   "close-out",
-   "colateral"
+   "close-out"
   ],
   "source": "Cesari 2009, §1.2.3 e §1.4.4, p. 8, 13",
   "created": 1793930000021,
@@ -275,8 +270,7 @@
   "front": "A compra CDS de C sobre B para hedgear exposure a B. Que risco sobra?",
   "back": "Counterparty exposure a C, o vendedor da proteção.\nO risco de B é transferido para C, não eliminado. (O trade A–C costuma ser totalmente colateralizado.)",
   "tags": [
-   "cva",
-   "cds"
+   "hedge"
   ],
   "source": "Cesari 2009, §1.2.3, p. 8–9",
   "created": 1793930000024,
@@ -287,8 +281,8 @@
   "front": "Regra de bolso do livro: quanto custa proteger 100 mUSD de exposure por 10 anos com spread de 100 bps?",
   "back": "Cerca de 10 mUSD.\nAproximação: duration de 10 anos × spread de 10 anos.",
   "tags": [
-   "cva",
-   "cds"
+   "hedge",
+   "cva"
   ],
   "source": "Cesari 2009, §1.2.3, p. 8–9",
   "created": 1793930000026,
@@ -299,9 +293,7 @@
   "front": "Na exposure a C de um CDS comprado sobre B (100 mUSD, $R=40\\%$), por que o PFE 97,5% não mostra o salto de 60 mUSD do default de B?",
   "back": "O default de B ocorre em menos de 2,5% dos cenários. O quantil 97,5% não chega à cauda.\nPara vê-lo: usar quantil mais alto (ex. 99,9%) ou Expected Shortfall.",
   "tags": [
-   "pfe",
-   "es",
-   "cds"
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §1.2.3, p. 9",
   "created": 1793930000027,
@@ -357,8 +349,8 @@
   "front": "Na fórmula simplificada $\\mathrm{CVA} = \\sum_i \\mathrm{EPE}_i\\,(T_i - T_{i-1})\\,D_{0,T_i}\\,s_i$, qual portfólio de CDS replica o CVA?",
   "back": "Uma carteira de forward-starting CDS com notional constante por trecho igual ao perfil de EPE.\nA disponibilidade de CDS em vários vencimentos define a discretização do perfil.",
   "tags": [
-   "cva",
-   "hedge"
+   "hedge",
+   "cva"
   ],
   "source": "Cesari 2009, §1.4.6, p. 15",
   "created": 1793930000037,
@@ -369,8 +361,8 @@
   "front": "Para uma call europeia comprada (não path-dependent), em que data está o PFE máximo e por quê?",
   "back": "Em geral, no vencimento $T$.\nA exposure é monotônica no subjacente e cresce com o tempo (a variância de $S_t$ aumenta e não há amortização de fluxos).",
   "tags": [
-   "pfe",
-   "equity"
+   "equity-fx",
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §1.4.7, p. 16",
   "created": 1793930000039,
@@ -381,8 +373,8 @@
   "front": "Para uma call comprada sob GBM com taxas determinísticas, qual é o PFE no vencimento ao nível $\\alpha$?",
   "back": "$$\\mathrm{PFE}_T = \\Big[F_{0,T}\\exp\\big(\\sigma\\sqrt{T}\\,\\tilde q_\\alpha - \\tfrac12\\sigma^2 T\\big) - K\\Big]^+,\\quad \\tilde q_\\alpha=\\Phi^{-1}(\\alpha)$$\nIntuição: é o payoff no quantil $\\alpha$ do forward lognormal. Funciona porque o payoff é monotônico em $S_T$.\n(A Eq. 1.8 do livro usa 1,965 para 97,5%; o correto é 1,96.)",
   "tags": [
-   "pfe",
-   "equity"
+   "equity-fx",
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §1.4.7–1.4.8, p. 16–17",
   "created": 1793930000040,
@@ -393,8 +385,8 @@
   "front": "Para uma call comprada com taxa constante $r$, por que $\\mathrm{EPE}_t = V_0 e^{rt}$ sob a medida de pricing?",
   "back": "A call nunca tem valor negativo, logo $V_t^+ = V_t$.\nO preço descontado é martingale: $\\mathbb{E}[V_t] = V_0 e^{rt}$.\nO EE cresce à taxa livre de risco a partir do prêmio.",
   "tags": [
-   "ee",
-   "equity"
+   "medidas-de-risco",
+   "equity-fx"
   ],
   "source": "Cesari 2009, §1.4.7, p. 16",
   "created": 1793930000041,
@@ -406,7 +398,7 @@
   "back": "Taylor de 1ª ordem: $\\mathrm{CloseOut}_t \\approx V_0 + \\Delta\\,(S_t - S_0)$.\nO livro avisa que close-out risk real é bem mais sutil.",
   "tags": [
    "close-out",
-   "equity"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §1.4.7, p. 16",
   "created": 1793930000042,
@@ -417,8 +409,8 @@
   "front": "Na simulação de exposure, por que o livro prefere simular forwards $F_{t,T}$ em vez do spot?",
   "back": "O forward é martingale na medida apropriada: só a estrutura de volatilidade importa; não é preciso especificar drift nem dividendos.\nCom $dF_{t,T} = F_{t,T}\\,\\sigma\\, dW_t$ a solução é exata, $F_{t,T}=F_{0,T}\\exp(-\\tfrac12\\sigma^2t+\\sigma W_t)$, sem erro de discretização.\n(A eq. 1.14 do livro imprime $F_{0,T}$ no lugar de $F_{t,T}$; a solução 1.15 confirma a forma lognormal.)",
   "tags": [
-   "monte-carlo",
-   "equity"
+   "simulacao",
+   "equity-fx"
   ],
   "source": "Cesari 2009, §1.4.8, p. 17",
   "created": 1793930000043,
@@ -429,8 +421,7 @@
   "front": "Por que gerar cenários consistentes para exposure é mais exigente que para pricing de front office ou P&L de risco?",
   "back": "Todos os produtos de uma contraparte precisam dos mesmos cenários e da mesma família de modelos, expressos no mesmo numeraire (discount factors de equity coerentes com FX e rates).\nBancos costumam ter sistemas separados por asset class, o que dificulta isso.",
   "tags": [
-   "monte-carlo",
-   "architecture"
+   "simulacao"
   ],
   "source": "Cesari 2009, §1.4.9, p. 18–19",
   "created": 1793930000044,
@@ -441,8 +432,7 @@
   "front": "Por que produtos path-dependent complicam o uso das pricing libraries existentes no cálculo de exposure?",
   "back": "A exposure depende de toda a história do cenário até $t$.\nCada sistema de pricing guarda essa história num formato diferente, e as libraries não foram desenhadas para isso.",
   "tags": [
-   "monte-carlo",
-   "architecture"
+   "simulacao"
   ],
   "source": "Cesari 2009, §1.4.9, p. 19",
   "created": 1793930000045,
@@ -453,7 +443,7 @@
   "front": "Por que as aproximações de produto usadas no Monte Carlo clássico são aceitáveis para risco mas problemáticas para CVA?",
   "back": "Para limites, uma aproximação basta.\nPara precificar e hedgear counterparty risk, o preço e as sensibilidades precisam ser precisos e consistentes com o front office.",
   "tags": [
-   "monte-carlo",
+   "simulacao",
    "cva"
   ],
   "source": "Cesari 2009, §1.4.9, p. 19",
@@ -465,8 +455,7 @@
   "front": "Além do custo, que segundo problema surge ao precificar exóticos por PDE/MC dentro de cada cenário de exposure?",
   "back": "Calibração: o modelo de pricing teria de ser recalibrado em cada cenário e data, o que pode ser problemático.",
   "tags": [
-   "monte-carlo",
-   "amc"
+   "simulacao"
   ],
   "source": "Cesari 2009, §1.4.9, p. 19",
   "created": 1793930000047,
@@ -488,8 +477,7 @@
   "front": "Por que o AMC permite uma arquitetura modular de exposure?",
   "back": "É genérico: só precisa da descrição do payoff.\nUm único modelo híbrido, arbitrage-free, cobre todos os drivers do portfólio; trades novos entram sem código específico por produto.",
   "tags": [
-   "amc",
-   "architecture"
+   "amc"
   ],
   "source": "Cesari 2009, §1.4.10, p. 20",
   "created": 1793930000049,
@@ -500,7 +488,8 @@
   "front": "Qual é o principal desafio de modelagem que o AMC impõe para um portfólio grande?",
   "back": "Construir um modelo híbrido que precifique o portfólio inteiro como um único produto, com todos os drivers estocásticos de forma consistente e arbitrage-free.",
   "tags": [
-   "amc"
+   "amc",
+   "simulacao"
   ],
   "source": "Cesari 2009, §1.4.10, p. 20",
   "created": 1793930000050,
@@ -511,8 +500,8 @@
   "front": "Na definição formal do Cesari, qual é a estrutura genérica de um produto $P$ com opcionalidade?",
   "back": "$P$ paga cashflows $X$ e dá ao holder o direito de trocar $X$, **uma única vez**, por outro produto $Q$ (cashflows $Y$) em datas pré-definidas.\nVanilla = caso sem exercício.",
   "tags": [
-   "exposure",
-   "callable"
+   "amc",
+   "simulacao"
   ],
   "source": "Cesari 2009, §2.1, p. 23–24",
   "created": 1793930000052,
@@ -523,8 +512,7 @@
   "front": "Por que o conjunto de datas de exercício $\\mathcal{T}=\\{\\tau_1,\\dots,\\tau_{n_E}\\}\\cup\\{\\infty\\}$ inclui $\\infty$?",
   "back": "$\\infty$ representa a estratégia de **nunca exercer**.\nPara vanilla sem callability, $\\mathcal{T}=\\{\\infty\\}$ e não há problema de otimização.",
   "tags": [
-   "exposure",
-   "callable"
+   "amc"
   ],
   "source": "Cesari 2009, §2.1, p. 24",
   "created": 1793930000053,
@@ -535,8 +523,7 @@
   "front": "Em $V_t^P = N_t\\sup_{\\tau_E}\\{\\Pi^{no}_t/N_t + \\dots\\}$, o que representam os dois termos dentro do sup?",
   "back": "1. $\\Pi^{no}_t$: valor do portfólio de **não-exercício** (cashflows $X$ até $\\tau_E\\wedge T_X$).\n2. $V^Q_t$: valor de **entrar em $Q$** no exercício $\\tau_E$.\nO sup escolhe a estratégia de exercício ótima.",
   "tags": [
-   "exposure",
-   "callable"
+   "amc"
   ],
   "source": "Cesari 2009, §2.1, p. 24–25",
   "created": 1793930000055,
@@ -547,8 +534,8 @@
   "front": "Para um produto exercível em $Q$, por que a exposure pode existir depois da maturidade $T_X$ dos fluxos originais?",
   "back": "Após o exercício em $\\tau_E^*$, o valor passa a ser $V^Q_t$. A exposure segue pela vida de $Q$, que pode ir além de $T_X$.\nEx.: swaption com entrega física vira swap.",
   "tags": [
-   "exposure",
-   "callable"
+   "fundamentos",
+   "amc"
   ],
   "source": "Cesari 2009, §2.1, p. 25",
   "created": 1793930000056,
@@ -559,9 +546,8 @@
   "front": "Num mercado completo, o que depende e o que não depende da medida escolhida para simular exposure?",
   "back": "- **Preço**: não depende do numeraire/medida (replicação única).\n- **Distribuição de preços futuros**, que gera a exposure: depende da medida dos processos simulados.\nPor isso pode fazer sentido simular na medida física e precificar na medida do numeraire.",
   "tags": [
-   "exposure",
-   "numeraire",
-   "medida"
+   "simulacao",
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §2.1, p. 25",
   "created": 1793930000057,
@@ -572,7 +558,6 @@
   "front": "Quais são os três ingredientes para simular a distribuição de $V_t$ no framework do Cesari?",
   "back": "1. Simular o **numeraire** $N$.\n2. Simular os **cashflows** $X$ de $P$ e os de $Q$ (Chap. 3).\n3. Estimar $\\Pi^{no}$ e $V^Q$ em cada data e tratar o **sup** numericamente (Chap. 4).",
   "tags": [
-   "exposure",
    "simulacao"
   ],
   "source": "Cesari 2009, §2.1, p. 25",
@@ -584,8 +569,7 @@
   "front": "Qual é a desvantagem de simular variáveis observáveis (Libor, swap rates, FX spot) para exposure?",
   "back": "Um payoff novo pode exigir simular **quantidades novas** que o framework não suporta.",
   "tags": [
-   "simulacao",
-   "framework"
+   "simulacao"
   ],
   "source": "Cesari 2009, §2.2, p. 26",
   "created": 1793930000059,
@@ -596,8 +580,7 @@
   "front": "Quais são as duas propriedades da abordagem de simulação do Cesari?",
   "back": "1. Todas as quantidades de todos os payoffs saem do **mesmo** conjunto de martingales; não é preciso aumentá-lo para payoff novo.\n2. As curvas de time-zero são reproduzidas **por construção**; um modelo novo só precisa especificar a volatilidade.",
   "tags": [
-   "simulacao",
-   "framework"
+   "simulacao"
   ],
   "source": "Cesari 2009, §2.2, p. 26",
   "created": 1793930000060,
@@ -608,8 +591,7 @@
   "front": "Defina o martingale $M_{t,T}$ do Cesari e diga o que ele representa.",
   "back": "$$M_{t,T}=\\left.\\frac{d\\mathbb{N}^T}{d\\mathbb{N}}\\right|_{\\mathcal{F}_t}=\\frac{D_{t,T}/D_{0,T}}{N_t/N_0}$$\nÉ a densidade de troca da medida do numeraire $N$ para a T-forward. Equivale ao preço do T-bond em unidades de $N$, normalizado. Adimensional, $M_{0,T}=1$.",
   "tags": [
-   "numeraire",
-   "martingale",
+   "simulacao",
    "juros"
   ],
   "source": "Cesari 2009, §2.2–2.3, p. 26–28",
@@ -621,9 +603,8 @@
   "front": "Por que modelar $M_{\\cdot,T}$ garante que a curva de juros de time-zero é replicada?",
   "back": "$p_0 = D_{0,T}\\,\\mathbb{E}^{\\mathbb{N}}[M_{T,T}X_T]$. O preço é múltiplo do $D_{0,T}$ observado.\nCom $X_T=1$ e $\\mathbb{E}[M_{T,T}]=1$, sai exatamente $D_{0,T}$.",
   "tags": [
-   "numeraire",
-   "martingale",
-   "juros"
+   "juros",
+   "simulacao"
   ],
   "source": "Cesari 2009, §2.2, p. 26–27",
   "created": 1793930000062,
@@ -634,8 +615,7 @@
   "front": "No framework do Cesari, como o numeraire $N_T$ fica determinado pelo martingale $M$?",
   "back": "$$N_T^{-1}=D_{0,T}\\,M_{T,T}$$\n(com $N_0=1$). O numeraire depende só dos valores \"diagonais\" $M_{t,t}$.",
   "tags": [
-   "numeraire",
-   "martingale"
+   "simulacao"
   ],
   "source": "Cesari 2009, §2.2–2.3, p. 27–28",
   "created": 1793930000063,
@@ -646,9 +626,8 @@
   "front": "Na abordagem do Cesari, quais são as duas fontes de aleatoriedade que cada nova classe de ativo (moeda, equity, inflação) adiciona?",
   "back": "1. Um martingale $M^{(i)}_{\\cdot,T}$ para o rendimento de deter o ativo (juros da moeda estrangeira; dividend yield da ação).\n2. Um processo $Y^{(i)}$ para o preço do ativo em outra unidade (FX spot; preço da ação).",
   "tags": [
-   "framework",
-   "fx",
-   "equity"
+   "equity-fx",
+   "simulacao"
   ],
   "source": "Cesari 2009, §2.2, p. 27",
   "created": 1793930000064,
@@ -659,8 +638,7 @@
   "front": "Como se obtém o preço do T-bond em $t$ a partir dos martingales $M$?",
   "back": "$$D_{t,T}=\\frac{D_{0,T}}{D_{0,t}}\\frac{M_{t,T}}{M_{t,t}}$$\nForward de time-zero vezes a razão de dois martingales. Por isso é preciso simular $M_{t,T}$ para todo $T\\ge t$, não só a diagonal.",
   "tags": [
-   "juros",
-   "martingale"
+   "juros"
   ],
   "source": "Cesari 2009, §2.3, p. 28",
   "created": 1793930000065,
@@ -684,7 +662,6 @@
   "back": "$$\\left(L_{t,[T_1,T_2]}+\\alpha^{-1}\\right)M_{t,T_2}=\\left(L_{0,[T_1,T_2]}+\\alpha^{-1}\\right)M_{t,T_1},\\quad \\alpha=T_2-T_1$$\nCurva inicial + martingales simulados bastam para simular Libor.\n(Prática de 2009; hoje LIBOR foi descontinuada e substituída por RFRs como SOFR.)",
   "tags": [
    "juros",
-   "libor",
    "datado"
   ],
   "source": "Cesari 2009, §2.3, p. 29",
@@ -708,8 +685,7 @@
   "front": "No modelo de um fator $dM_{t,T}=M_{t,T}\\sigma_{t,T}dW_t$, o que acontece se $\\sigma$ não depende de $T$?",
   "back": "$M_{t,T}=M_{t,t}$, logo $D_{t,T}=D_{0,T}/D_{0,t}$. Os preços de bonds ficam **determinísticos** (forwards de time-zero).\nA dependência em $T$ de $\\sigma$ é o que gera risco de curva.",
   "tags": [
-   "juros",
-   "volatilidade"
+   "juros"
   ],
   "source": "Cesari 2009, §2.3.1, p. 30",
   "created": 1793930000069,
@@ -720,9 +696,7 @@
   "front": "O que é a especificação separável de volatilidade $\\sigma_{t,T}=f_t g_T$ e qual é a forma de $M_{t,T}$?",
   "back": "$f,g$ positivas e determinísticas. Com $X_t=\\int_0^t f_u dW_u$:\n$$M_{t,T}=M_{0,T}\\exp\\left(g_T X_t-\\tfrac12 F_t^2 g_T^2\\right),\\quad F_t^2=\\int_0^t f_u^2du$$\nHull-White é um caso particular.",
   "tags": [
-   "juros",
-   "volatilidade",
-   "hull-white"
+   "juros"
   ],
   "source": "Cesari 2009, §2.3.1, p. 30–31",
   "created": 1793930000070,
@@ -734,8 +708,7 @@
   "back": "Basta simular **poucos** Brownianos $X^{(i)}$ para obter $M_{t,T}$ para **todo** $T$.\nSem separabilidade, seria preciso calcular ou armazenar $\\int_0^t\\sigma_{u,T}dW_u$ para cada maturidade $T$.",
   "tags": [
    "juros",
-   "simulacao",
-   "volatilidade"
+   "simulacao"
   ],
   "source": "Cesari 2009, §2.3.1, p. 31",
   "created": 1793930000071,
@@ -746,8 +719,7 @@
   "front": "Por que a condição de drift HJM é satisfeita automaticamente no framework do Cesari?",
   "back": "O framework impõe desde o início que bonds descontados pelo numeraire são martingales ($D_{t,T}N_t^{-1}\\propto M_{t,T}$). A condição de no-arbitrage do HJM é exatamente essa propriedade.",
   "tags": [
-   "juros",
-   "hjm"
+   "juros"
   ],
   "source": "Cesari 2009, §2.3.2, p. 32",
   "created": 1793930000072,
@@ -758,8 +730,7 @@
   "front": "Qual é a relação entre a vol do forward rate HJM $\\mathbf{s}_{t,T}$ e a vol do martingale $\\boldsymbol{\\sigma}_{t,T}$ do Cesari?",
   "back": "$$\\mathbf{s}_{t,T}=-\\frac{\\partial}{\\partial T}\\boldsymbol{\\sigma}_{t,T}$$\n$\\sigma_{t,T}$ é a vol do bond descontado; derivar em $T$ dá a vol do forward instantâneo.",
   "tags": [
-   "juros",
-   "hjm"
+   "juros"
   ],
   "source": "Cesari 2009, §2.3.2, p. 32",
   "created": 1793930000073,
@@ -770,7 +741,7 @@
   "front": "Por que o Cesari considera o Libor Market Model (BGM) pouco adequado para exposure?",
   "back": "1. Nem todas as Libors são simuladas; é preciso **interpolar entre tenores**.\n2. Principal: as Libors simuladas não vêm de um processo estocástico comum, logo a simulação é **computacionalmente pesada**.\nVantagem do LMM: calibração fácil a caplets.",
   "tags": [
-   "lmm",
+   "juros",
    "simulacao",
    "datado"
   ],
@@ -783,9 +754,8 @@
   "front": "No modelo multimoeda do Cesari, defina $Y_t$ e diga por que é $\\mathbb{N}$-martingale.",
   "back": "$$Y_t=\\frac{\\chi_t}{\\chi_0}\\frac{\\tilde N_t}{N_t}=\\left.\\frac{d\\tilde{\\mathbb{N}}}{d\\mathbb{N}}\\right|_{\\mathcal{F}_t}$$\n$\\chi_t$ = valor em moeda de referência de 1 unidade estrangeira. $\\chi\\tilde N$ é tradable em moeda doméstica; dividido por $N$, é martingale (Radon-Nikodym).",
   "tags": [
-   "fx",
-   "numeraire",
-   "medida"
+   "equity-fx",
+   "simulacao"
   ],
   "source": "Cesari 2009, §2.4, p. 34",
   "created": 1793930000075,
@@ -796,8 +766,7 @@
   "front": "No modelo FX do Cesari, qual identidade liga $Y$, $\\tilde M$, o forward FX normalizado $\\bar F$ e $M$?",
   "back": "$$Y_t\\tilde M_{t,T}=\\bar F_{t,T}M_{t,T}=\\frac{\\chi_t\\tilde D_{t,T}/\\chi_0\\tilde D_{0,T}}{N_t/N_0}$$\n$\\bar F_{t,T}=F_{t,T}/F_{0,T}$. É a troca de $\\mathbb{N}$ para a T-forward estrangeira $\\tilde{\\mathbb{N}}^T$.",
   "tags": [
-   "fx",
-   "medida"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §2.4, p. 35",
   "created": 1793930000076,
@@ -808,8 +777,7 @@
   "front": "No modelo FX exato do Cesari, qual componente é livre para modelar e como se obtém o FX spot?",
   "back": "Só $Y$ é livre ($M$ e $\\tilde M$ já calibrados aos juros). FX spot:\n$$\\chi_t=F_{0,t}Y_t\\tilde M_{t,t}/M_{t,t}$$\nA vol de $Y$ precisa reproduzir as opções de FX, dadas as vols e covariâncias de $M,\\tilde M,\\bar F$.",
   "tags": [
-   "fx",
-   "calibracao"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §2.4, p. 35",
   "created": 1793930000077,
@@ -820,8 +788,7 @@
   "front": "Qual simplificação o Cesari adota para FX e por quê?",
   "back": "Modela o forward FX normalizado $\\hat F$ como **independente** de $M,\\tilde M$, com as mesmas marginais de $\\bar F$.\nMotivo: o modelo exato fica tedioso com muitas moedas; com independência, a vol de $\\hat F$ sai direto das opções de FX.",
   "tags": [
-   "fx",
-   "calibracao"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §2.4, p. 35–36",
   "created": 1793930000078,
@@ -832,8 +799,7 @@
   "front": "Qual é o custo da hipótese de FX forward $\\hat F$ independente dos juros, e como o Cesari o mitiga?",
   "back": "$M\\hat F/\\tilde M$ e $M\\hat F$ deixam de ser $\\mathbb{N}$-martingales.\nMitigação: correção de drift em $\\tilde M$ para manter as **expectativas** iguais a 1 (vistas de $t=0$):\n$$\\mathbb{E}[\\tilde M_{t,T}]=1-\\mathrm{Cov}(M_{t,t}\\tilde M_{t,t}^{-1},\\tilde M_{t,T})$$",
   "tags": [
-   "fx",
-   "pitfall"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §2.4, p. 36",
   "created": 1793930000079,
@@ -844,8 +810,7 @@
   "front": "Por que a correção de drift do modelo FX simplificado do Cesari só vale a partir de $\\mathcal{F}_0$?",
   "back": "Com $\\hat F$ independente, $\\hat FM$ e $\\hat FM/\\tilde M$ não são martingales verdadeiros. A condição só se impõe em expectativa vista de $t=0$.\nA independência contradiz o fato de que forwards FX condicionais dependem dos preços de bonds observados.",
   "tags": [
-   "fx",
-   "pitfall"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §2.4, p. 36",
   "created": 1793930000080,
@@ -856,9 +821,8 @@
   "front": "Com vols determinísticas, qual é o drift do Browniano $\\tilde X$ que dirige o martingale estrangeiro $\\tilde M$ sob $\\mathbb{N}$?",
   "back": "$$\\alpha(t)=\\tilde\\sigma_{t,t}-\\rho\\,\\sigma_{t,t}$$\n$\\rho$ = correlação instantânea entre os Brownianos de $M$ e $\\tilde M$ (input do modelo). Só depende de $t$.",
   "tags": [
-   "fx",
-   "juros",
-   "medida"
+   "equity-fx",
+   "juros"
   ],
   "source": "Cesari 2009, §2.4, p. 36–37",
   "created": 1793930000081,
@@ -869,9 +833,8 @@
   "front": "Na simplificação FX do Cesari, que consequência a independência tem para as outras classes de ativo?",
   "back": "Juros de moedas diferentes podem ser correlacionados, mas **todas as outras classes de ativo são independentes dos juros**.\nRisco: perde-se dependência juros–FX/equity no perfil de exposure.",
   "tags": [
-   "fx",
-   "pitfall",
-   "wrong-way"
+   "equity-fx",
+   "juros"
   ],
   "source": "Cesari 2009, §2.4, p. 36 (nota 9)",
   "created": 1793930000082,
@@ -882,8 +845,7 @@
   "front": "Como o Cesari modela inflação dentro do framework multimoeda?",
   "back": "Trata nominal e real como um par de moedas (local e estrangeira). O índice de inflação (ex.: UK RPI em GBP) é o \"FX\" $\\chi$. $\\tilde M$ é calibrado à vol dos juros reais.\nCalibração: curva de inflation-linked bonds e opções de inflação.",
   "tags": [
-   "inflacao",
-   "fx"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §2.5, p. 37",
   "created": 1793930000083,
@@ -894,8 +856,7 @@
   "front": "Como o Cesari modela uma ação dentro do framework multimoeda?",
   "back": "Como ativo \"estrangeiro\": $\\chi$ = valor de 1 ação na sua moeda; o martingale $M^{(S)}$ controla a vol do **dividend yield**; o componente livre é $\\tilde Y^{(S)}$ (preço).",
   "tags": [
-   "equity",
-   "fx"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §2.6, p. 37–38",
   "created": 1793930000084,
@@ -906,9 +867,7 @@
   "front": "Para uma ação em moeda estrangeira, qual é o quanto adjustment no framework do Cesari?",
   "back": "$$\\tilde Y^{(S)}_s=\\mathbb{E}[\\tilde Y^{(S)}_t|\\mathcal{F}_s]+Y_s^{-1}\\mathrm{Cov}[Y_t,\\tilde Y^{(S)}_t|\\mathcal{F}_s]$$\nO 2º termo é o quanto adjustment. Lognormal com vol determinística: drift $\\mu^{(S)}_t=-\\rho_t\\sigma_t\\sigma^{(S)}_t$.",
   "tags": [
-   "equity",
-   "quanto",
-   "fx"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §2.6, p. 38",
   "created": 1793930000085,
@@ -930,8 +889,7 @@
   "front": "Em vez de modelar credit spreads, o que o Cesari simula para crédito e por quê?",
   "back": "Simula **default probabilities estocásticas** diretamente.\nAssim crédito entra no mesmo esquema de \"achar o martingale e especificar sua dinâmica\" usado em juros e FX.",
   "tags": [
-   "credito",
-   "framework"
+   "credito"
   ],
   "source": "Cesari 2009, §2.7, p. 38–39",
   "created": 1793930000087,
@@ -942,9 +900,7 @@
   "front": "Qual é a principal limitação da dependência Gaussiana usada pelo Cesari para crédito?",
   "back": "A Gaussian copula **não gera dependência na cauda** (defaults conjuntos extremos).\nCopulas mais realistas existem, mas a matemática fica mais pesada.",
   "tags": [
-   "copula",
-   "credito",
-   "pitfall"
+   "credito"
   ],
   "source": "Cesari 2009, §2.7, p. 39",
   "created": 1793930000088,
@@ -955,9 +911,7 @@
   "front": "Num CDS com spread $s$, recovery $R$ e $\\bar R=1-R$, escreva o fee leg e o protection leg.",
   "back": "$p_i$ = prob. de default em $(t,T_i]$, $\\alpha_i$ = accrual.\n$$A_t=s\\sum_i D_{t,T_i}\\alpha_i(1-p_i)$$\n$$B_t=\\bar R\\sum_i D_{t,T_i}(p_i-p_{i-1})$$\nSpread par: $A_t=B_t$. Default pago nas datas do grid.",
   "tags": [
-   "credito",
-   "cds",
-   "survival"
+   "credito"
   ],
   "source": "Cesari 2009, §2.7.1, p. 40",
   "created": 1793930000089,
@@ -968,9 +922,7 @@
   "front": "Com um único período, qual é a default probability implícita de um CDS par com spread $s$ e recovery $R$?",
   "back": "$$p_1=\\frac{\\alpha_1 s}{\\alpha_1 s+(1-R)}$$\nEx.: $s=100$bp, $R=40\\%$, $\\alpha_1=1$: $p_1=0.01/0.61\\approx1.6\\%$. Para $\\alpha_1s\\ll\\bar R$: $p_1\\approx\\alpha_1 s/(1-R)$.",
   "tags": [
-   "credito",
-   "cds",
-   "survival"
+   "credito"
   ],
   "source": "Cesari 2009, §2.7.1, p. 40",
   "created": 1793930000090,
@@ -981,9 +933,7 @@
   "front": "Como o Cesari extrai a curva de default probabilities de vários CDS par?",
   "back": "**Bootstrapping**: $p_1$ vem do CDS mais curto. Cada $p_j$ sai do spread $s_{t,T_j}$, dados $p_1,\\dots,p_{j-1}$ (eq. 2.68).\nResultado: probabilidades consistentes com os spreads observados em $t$.",
   "tags": [
-   "credito",
-   "cds",
-   "survival"
+   "credito"
   ],
   "source": "Cesari 2009, §2.7.1, p. 40–41",
   "created": 1793930000091,
@@ -994,9 +944,7 @@
   "front": "Defina o martingale de crédito $\\bar M_{t,T}$ do Cesari e seu valor inicial.",
   "back": "$$\\bar M_{t,T}=\\mathbb{E}[\\mathbb{1}_{\\tau>T}|\\mathcal{F}_t],\\qquad \\bar M_{0,T}=q_{0,T}=1-p_{0,T}$$\nO valor inicial replica exatamente a curva de survival probabilities do CDS.",
   "tags": [
-   "credito",
-   "survival",
-   "martingale"
+   "credito"
   ],
   "source": "Cesari 2009, §2.7.2, p. 41",
   "created": 1793930000092,
@@ -1007,9 +955,7 @@
   "front": "No modelo de crédito do Cesari, o que a filtração $\\mathcal{F}$ contém e como $\\bar M_{t,T}$ se liga à hazard rate $\\lambda$?",
   "back": "$\\mathcal{F}$ contém os drivers da economia, **não** os defaults observados.\n$$\\bar M_{t,T}=e^{-\\int_0^t\\lambda_udu}\\,\\mathbb{E}\\left[e^{-\\int_t^T\\lambda_udu}\\Big|\\mathcal{F}_t\\right]=\\bar M_{t,t}\\,q_{t,T}$$\n$q_{t,T}$ = survival até $T$, dado survival até $t$ e $\\mathcal{F}_t$.",
   "tags": [
-   "credito",
-   "survival",
-   "hazard-rate"
+   "credito"
   ],
   "source": "Cesari 2009, §2.7.2, p. 41",
   "created": 1793930000093,
@@ -1021,8 +967,7 @@
   "back": "Crédito e juros são **independentes**. Logo $\\bar M_{t,T}$ é martingale sob qualquer numeraire de juros.\nConsequência: não captura wrong-way risk entre juros e crédito.",
   "tags": [
    "credito",
-   "wrong-way",
-   "pitfall"
+   "wrong-way"
   ],
   "source": "Cesari 2009, §2.7.2, p. 41",
   "created": 1793930000094,
@@ -1034,8 +979,7 @@
   "back": "1. Sortear $U\\sim\\mathcal{U}(0,1)$.\n2. $\\tau=\\min\\{t\\ge0:\\bar M_{t,t}\\le U\\}$.\n$\\bar M_{t,t}$ é a survival acumulada, decrescente; default ocorre quando cruza $U$.",
   "tags": [
    "credito",
-   "simulacao",
-   "default"
+   "simulacao"
   ],
   "source": "Cesari 2009, §2.7.2, p. 41",
   "created": 1793930000095,
@@ -1046,8 +990,7 @@
   "front": "Quais são os dois canais de dependência entre nomes no modelo de crédito do Cesari?",
   "back": "1. Dependência entre os uniformes $U^{(i)}$ (**default times**).\n2. Correlação entre os Brownianos de $\\bar M^{(i)}$ (**spreads / survival probabilities**).",
   "tags": [
-   "credito",
-   "copula"
+   "credito"
   ],
   "source": "Cesari 2009, §2.7.2, p. 42",
   "created": 1793930000096,
@@ -1058,7 +1001,6 @@
   "front": "Na Gaussian copula do Cesari, $U^{(i)}=1-\\Phi(\\boldsymbol\\rho^{(i)}\\cdot\\mathbf M+\\bar\\rho^{(i)}M^{(i)})$. Qual é o papel de cada termo?",
   "back": "- $\\mathbf M$: fator de mercado comum; gera dependência entre default times.\n- $M^{(i)}$: fator idiossincrático.\n- $\\bar\\rho^{(i)}=\\sqrt{1-\\boldsymbol\\rho^{(i)}\\cdot\\boldsymbol\\rho^{(i)}}$: garante normal padrão, logo $U^{(i)}$ uniforme.\nAnálogo para spreads: $dW^{(i)}=\\boldsymbol\\eta^{(i)}\\cdot d\\mathbf Z+\\bar\\eta^{(i)}dZ^{(i)}$.",
   "tags": [
-   "copula",
    "credito"
   ],
   "source": "Cesari 2009, §2.7.2, p. 42",
@@ -1070,8 +1012,7 @@
   "front": "Defina a perda fracionária $L_t$ de um portfólio de $n$ bonds no Cesari.",
   "back": "$$L_t=\\frac{\\sum_i(1-R_i)A_i\\mathbb{1}_{\\{\\tau^{(i)}\\le t\\}}}{\\sum_i A_i}$$\n$A_i$ = nominal; $R_i$ = recovery. Adimensional, em $[0,1]$. Sua distribuição depende da dependência entre defaults.",
   "tags": [
-   "credito",
-   "perda"
+   "credito"
   ],
   "source": "Cesari 2009, §2.7.3, p. 42–43",
   "created": 1793930000098,
@@ -1082,8 +1023,7 @@
   "front": "Para exposure de produtos de juros simples, que classe de modelo de juros o livro considera suficiente?",
   "back": "Modelos arbitrage-free com volatilidade determinística. A dinâmica deles já reproduz distribuições simuladas de preço com as propriedades corretas.",
   "tags": [
-   "juros",
-   "simulacao"
+   "juros"
   ],
   "source": "Cesari 2009, §3.1, p. 45",
   "created": 1793930000101,
@@ -1094,8 +1034,7 @@
   "front": "Que tipo de produto de juros pode exigir mais de um fator ou uma estrutura de volatilidade mais rica na simulação de exposure?",
   "back": "Produtos que dependem de pontos diferentes da curva, como steepeners. Um fator só implica correlação perfeita entre os pontos da curva.",
   "tags": [
-   "juros",
-   "fatores"
+   "juros"
   ],
   "source": "Cesari 2009, §3.1, p. 45",
   "created": 1793930000102,
@@ -1106,7 +1045,6 @@
   "front": "O que significa volatilidade **separável** no martingale de bonds $M_{t,T}$?",
   "back": "A volatilidade fatora em um termo só de $t$ e outro só de $T$:\n$$dM_{t,T}=M_{t,T}\\,\\mathbf g_T\\cdot(\\mathbf f_t\\mathbf R\\,d\\mathbf W_t)$$\n$\\mathbf g_T$ é determinístico em $T$; $\\mathbf f_t$ é uma matriz diagonal determinística em $t$.",
   "tags": [
-   "separavel",
    "juros"
   ],
   "source": "Cesari 2009, §3.1.1, p. 46",
@@ -1118,7 +1056,7 @@
   "front": "Com volatilidade separável, por que basta simular um único processo $X_t=\\int_0^t \\mathbf f_u\\mathbf R\\,d\\mathbf W_u$ para obter todos os bonds?",
   "back": "Porque $M_{t,T}=M_{0,T}\\exp\\left(\\mathbf g_T\\cdot X_t-\\tfrac12\\Sigma^2_{t,T}t\\right)$. Dado $X_t$, qualquer $M_{t,T}$ (e qualquer $D_{t,T}$) sai em forma fechada, para todo vencimento $T$. O estado tem a dimensão do número de fatores, não do número de vencimentos.",
   "tags": [
-   "separavel",
+   "juros",
    "simulacao"
   ],
   "source": "Cesari 2009, §3.1.1, p. 46-47",
@@ -1130,7 +1068,6 @@
   "front": "No modelo separável de um fator, como se escreve o bond $D_{t,T}$ em função do estado simulado $X_t$?",
   "back": "$$D_{t,T}=\\frac{D_{0,T}}{D_{0,t}}\\,\\frac{\\exp(g_TX_t-\\tfrac12\\Sigma^2_{t,T}t)}{\\exp(g_tX_t-\\tfrac12\\Sigma^2_{t,t}t)},\\qquad t\\Sigma^2_{t,T}=tF_t^2g_T^2$$\nO bond é função determinística de $X_t$, e a curva de $t=0$ é reproduzida por construção.",
   "tags": [
-   "separavel",
    "juros"
   ],
   "source": "Cesari 2009, §3.1.1, p. 46-47",
@@ -1142,7 +1079,6 @@
   "front": "No modelo separável com $f_t\\equiv1$ e $g_T=a(1-e^{-\\kappa T})$, como a volatilidade do bond $(g_T-g_t)F_t$ varia com $t$ e com o tenor $\\tau=T-t$?",
   "back": "$(g_T-g_t)F_t=ae^{-\\kappa t}(1-e^{-\\kappa\\tau})$. Ela **cai** com $t$ e **sobe** com o tenor. Logo as implied vols de caplets caem com o expiry e sobem com o tenor.",
   "tags": [
-   "separavel",
    "juros"
   ],
   "source": "Cesari 2009, §3.1.1, p. 47",
@@ -1154,7 +1090,6 @@
   "front": "Na calibração do modelo de juros para exposure, qual trade-off o livro destaca na escolha do número de parâmetros?",
   "back": "Parcimônia versus qualidade do fit a preços de mercado. O livro alerta também que a calibração pode alterar materialmente o perfil de counterparty risk.",
   "tags": [
-   "calibracao",
    "juros"
   ],
   "source": "Cesari 2009, §3.1.1, p. 47",
@@ -1166,8 +1101,7 @@
   "front": "No modelo separável, por que caplets têm preço em forma fechada (tipo Black)?",
   "back": "O caplet depende do martingale $\\bar M^k_t=M_{t,T_{k-1}}/M_{t,T_k}$. Com vol separável ele é lognormal, com variância $s^2_{T_{k-1},T_k}T_{k-1}$, $s^2=(g_{T_{k-1}}-g_{T_k})\\cdot F^2_{T_{k-1}}(g_{T_{k-1}}-g_{T_k})$. As probabilidades viram $\\Phi(d_k)$ e $\\Phi(d_k-s\\sqrt{T_{k-1}})$.",
   "tags": [
-   "calibracao",
-   "caps"
+   "juros"
   ],
   "source": "Cesari 2009, §3.1.1.1, p. 47-48",
   "created": 1793930000108,
@@ -1178,8 +1112,7 @@
   "front": "Num modelo separável de **um fator**, como se precifica uma swaption para calibração?",
   "back": "Com o truque de Jamshidian. Cada $M_{T,T_i}/M_{T,T}$ é função monótona de um único $X_T$. Acha-se por root-search o $X^*$ que zera o payoff e os strikes $K_i^*=h_i(h^{-1}(0))$. A swaption vira soma de puts sobre zero-coupons, cada uma em fórmula fechada.",
   "tags": [
-   "calibracao",
-   "swaptions"
+   "juros"
   ],
   "source": "Cesari 2009, §3.1.1.2, p. 48-49",
   "created": 1793930000109,
@@ -1190,7 +1123,6 @@
   "front": "No Hull-White $dr_t=(\\theta_t-ar_t)dt+\\sigma dW_t$, qual é a distribuição de $r_t$ e sua variância?",
   "back": "Normal, com variância $\\sigma^2\\frac{1-e^{-2at}}{2a}$. A variância satura em $\\sigma^2/(2a)$ para $t$ grande: a mean reversion limita o espalhamento das taxas em horizontes longos de exposure.",
   "tags": [
-   "hull-white",
    "juros"
   ],
   "source": "Cesari 2009, §3.1.2, p. 50",
@@ -1202,8 +1134,7 @@
   "front": "No Hull-White, o que fixa $\\theta_t$ e o que sobra para calibrar?",
   "back": "A curva forward inicial $f(0,t)$ determina $\\theta_t$ (fit exato da curva). Sobram $a$ (mean reversion) e $\\sigma$ para calibrar a opções (caps/swaptions).",
   "tags": [
-   "hull-white",
-   "calibracao"
+   "juros"
   ],
   "source": "Cesari 2009, §3.1.2, p. 50",
   "created": 1793930000111,
@@ -1214,7 +1145,6 @@
   "front": "No Hull-White, qual é a volatilidade de $\\log D_{t,T}$?",
   "back": "$-\\sigma B_{t,T}$, com $B_{t,T}=\\frac1a(1-e^{-a(T-t)})$. É determinística: bonds são lognormais e todos dependem do mesmo $W$.",
   "tags": [
-   "hull-white",
    "juros"
   ],
   "source": "Cesari 2009, §3.1.2, p. 51",
@@ -1226,8 +1156,7 @@
   "front": "Por que o Hull-White cabe no framework separável, e com quantos fatores formais?",
   "back": "$\\sigma_{t,T}=\\frac{\\sigma}{a}e^{at}e^{-aT}-\\frac{\\sigma}{a}e^{-at}$ é soma de **duas** formas separáveis. Usa-se $n=2$, $f_t=\\mathrm{Diag}(e^{at},e^{-at})$, $g_T=(\\frac{\\sigma}{a}e^{-aT},-\\frac{\\sigma}{a})$.",
   "tags": [
-   "hull-white",
-   "separavel"
+   "juros"
   ],
   "source": "Cesari 2009, §3.1.2, p. 51-52",
   "created": 1793930000113,
@@ -1238,8 +1167,7 @@
   "front": "Na representação do Hull-White com $n=2$, por que o modelo continua sendo de um fator só?",
   "back": "A matriz $R=\\frac1{\\sqrt2}\\begin{pmatrix}1&1\\\\1&1\\end{pmatrix}$ é degenerada. As duas componentes de $RW$ são o mesmo Brownian $(W_1+W_2)/\\sqrt2$: há uma única fonte de ruído.",
   "tags": [
-   "hull-white",
-   "separavel"
+   "juros"
   ],
   "source": "Cesari 2009, §3.1.2, p. 52",
   "created": 1793930000114,
@@ -1250,8 +1178,7 @@
   "front": "No framework, qual processo os modelos de equity/FX modelam, e por que impor vol nele equivale a impor vol no spot?",
   "back": "Modelam $Y_t=F_{t,T}/F_{0,T}$ (com juros determinísticos, $M=\\tilde M\\equiv1$). Como $S_t=F_{0,t}Y_t$, temos $\\frac{dS_t}{S_t}=\\frac{\\dot F_{0,t}}{F_{0,t}}dt+\\frac{dY_t}{Y_t}$: a parte de difusão é a mesma.",
   "tags": [
-   "equity-fx",
-   "simulacao"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §3.2, p. 53",
   "created": 1793930000115,
@@ -1262,8 +1189,7 @@
   "front": "No modelo Black do framework ($dY_t=Y_tg(t)dW_t$), como se calibra $g$ às opções ATM?",
   "back": "Casando a variância acumulada com a implied vol ATM de cada maturidade:\n$$\\frac1{T_i}\\int_0^{T_i}g_u^2du=\\Sigma^{BS}(F_{0,T_i},T_i)^2$$\nO modelo pega a estrutura a termo, mas ignora o smile.",
   "tags": [
-   "black",
-   "calibracao"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §3.2.1, p. 53-54",
   "created": 1793930000116,
@@ -1274,8 +1200,7 @@
   "front": "No modelo local vol $g(t,x)=g(t)f(x)$, qual é a regra de Derman sobre skew?",
   "back": "Perto do ATM, a local vol varia com a moneyness **duas vezes mais rápido** (taxa $\\beta=f'(1)$) que a implied vol (taxa $\\tfrac12\\beta$).",
   "tags": [
-   "local-vol",
-   "skew"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §3.2.2, p. 55",
   "created": 1793930000117,
@@ -1286,8 +1211,7 @@
   "front": "Que resultado de Gyöngy liga stochastic vol e local vol, e qual é a fórmula?",
   "back": "Se $dY=Y\\sqrt{v_t}dW$ tem solução única, existe um modelo local vol com o **mesmo law marginal** de $Y_t$ para cada $t$:\n$$b^2(t,y)=\\mathbb E[v_t\\mid Y_t=y]$$",
   "tags": [
-   "stoch-vol",
-   "local-vol"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §3.2.3, p. 58",
   "created": 1793930000118,
@@ -1298,9 +1222,7 @@
   "front": "Por que local vol e stochastic vol calibrados ao mesmo smile podem dar exposures diferentes?",
   "back": "Gyöngy garante apenas marginais iguais em cada $t$, logo preços europeus iguais. A dinâmica de transição (smile futuro, dependência entre datas) difere. A exposure em datas futuras depende do smile condicional nessas datas.\n(Consequência padrão; o livro mostra só a igualdade das marginais.)",
   "tags": [
-   "stoch-vol",
-   "local-vol",
-   "exposure"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §3.2.3, p. 58",
   "created": 1793930000119,
@@ -1311,7 +1233,7 @@
   "front": "Para simular Heston em Monte Carlo (ex.: exposure), que esquema o livro recomenda no lugar de Euler/Milstein?",
   "back": "O esquema de Andersen, baseado em moment matching. Euler e Milstein não são boas escolhas para discretizar o par preço/variância CIR.",
   "tags": [
-   "heston",
+   "equity-fx",
    "simulacao"
   ],
   "source": "Cesari 2009, §3.2.3, p. 59",
@@ -1324,7 +1246,7 @@
   "back": "Esses modelos foram feitos para fitar vols implícitas; juros constantes simplificam o desconto. Na exposure, todos os ativos e o juro precisam ser simulados juntos e de forma consistente; juros determinísticos são uma restrição severa.",
   "tags": [
    "equity-fx",
-   "juros-estocasticos"
+   "juros"
   ],
   "source": "Cesari 2009, §3.2.5, p. 60",
   "created": 1793930000121,
@@ -1335,8 +1257,8 @@
   "front": "Como o livro estende modelos de equity/FX para juros estocásticos sem refazer a calibração do smile?",
   "back": "Decompõe $\\bar F_{t,T}=\\left[Y^{\\vdash}_t\\tilde M_{t,T}/M_{t,T}\\right]Y^{\\perp}_t$, com $Y^{\\vdash}$ (lognormal) **independente** de $Y^{\\perp}$. $Y^{\\perp}$ é a parte ortogonal aos juros e leva o modelo de smile (LV/SV). A parte entre colchetes carrega os juros.",
   "tags": [
-   "juros-estocasticos",
-   "equity-fx"
+   "equity-fx",
+   "juros"
   ],
   "source": "Cesari 2009, §3.2.5, p. 61",
   "created": 1793930000122,
@@ -1347,8 +1269,8 @@
   "front": "Na extensão para juros estocásticos, como fica o preço do call sobre $F$?",
   "back": "Condiciona-se na parte lognormal $\\bar F^{\\vdash}_{T,T}$ e integra-se sobre sua lei:\n$$C=D_{0,T}F_{0,T}\\int C^{\\perp}\\!\\left(1,\\,m/\\mathcal E(z+\\sqrt T\\Sigma^{\\vdash},T,\\Sigma^{\\vdash}_T),\\,T\\right)\\phi(z)dz$$\n$C^{\\perp}$ vem do modelo de smile sem juros. A integral se faz por quadratura gaussiana.",
   "tags": [
-   "juros-estocasticos",
-   "calibracao"
+   "equity-fx",
+   "juros"
   ],
   "source": "Cesari 2009, §3.2.5, p. 61-62",
   "created": 1793930000123,
@@ -1359,8 +1281,8 @@
   "front": "Na extensão para juros estocásticos, o que determina a variância total $T(\\Sigma^{\\vdash}_T)^2$ da parte lognormal?",
   "back": "As vols Black de $Y^{\\vdash}$, $\\tilde M$ e $M$ e as correlações entre os Brownians:\n$$T(\\Sigma^{\\vdash}_T)^2=\\int_0^T \\mathbf g_u\\cdot\\mathbf R\\,\\mathbf g_u\\,du$$\nA correlação ativo–juros entra aqui.",
   "tags": [
-   "juros-estocasticos",
-   "correlacao"
+   "equity-fx",
+   "juros"
   ],
   "source": "Cesari 2009, §3.2.5, p. 62",
   "created": 1793930000124,
@@ -1371,8 +1293,8 @@
   "front": "Que vantagem prática a decomposição $Y=Y^{\\vdash}Y^{\\perp}$ traz à calibração?",
   "back": "A calibração é feita em dois passos separados. Primeiro, o modelo do ativo (smile) em $Y^{\\perp}$. Depois, o efeito dos juros pela lei de $\\bar F^{\\vdash}$. $Y^{\\perp}$ pode ainda ser decomposto em componentes independentes (LV, SV, saltos) se as funções características forem conhecidas.",
   "tags": [
-   "juros-estocasticos",
-   "calibracao"
+   "equity-fx",
+   "juros"
   ],
   "source": "Cesari 2009, §3.2.5, p. 61-63",
   "created": 1793930000125,
@@ -1383,8 +1305,7 @@
   "front": "Qual é a diferença típica entre as superfícies de vol de equity e de FX?",
   "back": "Equity tem **skew negativo** (assimetria). FX tem **smile** (kurtosis). Exemplo do livro: equity com ATM skew −10% e convexity 0%; FX com skew 0% e convexity 30%.",
   "tags": [
-   "modelos",
-   "skew"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §3.2.7, p. 63-64",
   "created": 1793930000127,
@@ -1395,8 +1316,7 @@
   "front": "Que razão econômica o livro dá para equity ter skew e FX ter smile?",
   "back": "Investidores tradicionais em equity só podem ficar long. Em FX sempre se pode ficar short, trocando a moeda das posições; o mercado é simétrico.",
   "tags": [
-   "modelos",
-   "skew"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §3.2.7, p. 63",
   "created": 1793930000128,
@@ -1407,8 +1327,7 @@
   "front": "Por que o livro desaconselha dinâmicas complexas para índices de inflação e juros reais?",
   "back": "Inflação é uma extensão de FX, mas um mercado menos completo. Faltam opções líquidas para calibrar. Um modelo complexo pode ser contraproducente.",
   "tags": [
-   "modelos",
-   "inflacao"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §3.2.7, p. 63-64",
   "created": 1793930000129,
@@ -1419,9 +1338,7 @@
   "front": "Por que calibrar uma correlação separada para cada tranche de CDO (base correlation) não serve para simulação de exposure?",
   "back": "Na simulação, um único modelo precisa gerar distribuições de perda corretas para **todas** as tranches ao mesmo tempo. Uma correlação por tranche é inconsistente entre tranches.",
   "tags": [
-   "copula",
-   "credito",
-   "calibracao"
+   "credito"
   ],
   "source": "Cesari 2009, §3.3, p. 65",
   "created": 1793930000130,
@@ -1432,8 +1349,7 @@
   "front": "Que dinâmica o livro escolhe para o martingale de survival probability $\\bar M_{t,T}$, e qual é sua distribuição?",
   "back": "Normal com vol separável: $d\\bar M_{t,T}=f_tg_TdW_t$, $\\bar M_{0,T}=q_{0,T}$. Logo\n$$\\bar M_{t,T}=q_{0,T}+g_TX_t\\sim N(q_{0,T},\\,g_T^2F_t^2t)$$",
   "tags": [
-   "credito",
-   "separavel"
+   "credito"
   ],
   "source": "Cesari 2009, §3.3.1, p. 66",
   "created": 1793930000132,
@@ -1445,7 +1361,7 @@
   "back": "Ela dá acesso rápido a qualquer valor do martingale a partir de um único $X_t$. Assim obtém-se qualquer quantidade necessária, por exemplo um par CDS spread em cada cenário.",
   "tags": [
    "credito",
-   "separavel"
+   "simulacao"
   ],
   "source": "Cesari 2009, §3.3.1, p. 66",
   "created": 1793930000133,
@@ -1456,8 +1372,7 @@
   "front": "No modelo normal de survival probability, por que opções sobre CDS têm preço em forma fechada?",
   "back": "O payoff é uma soma linear de valores de $\\bar M$, todos funções de um mesmo $X_T$ normal. A soma é normal com média $\\mu$ e desvio $\\eta$, e\n$$\\text{CDSS}=\\mu\\Phi(\\mu/\\eta)+\\eta\\phi(\\mu/\\eta)$$\n(desprezando a estocasticidade dos juros).",
   "tags": [
-   "credito",
-   "calibracao"
+   "credito"
   ],
   "source": "Cesari 2009, §3.3.1, p. 67",
   "created": 1793930000134,
@@ -1468,8 +1383,7 @@
   "front": "Qual é a principal falha do modelo normal para survival probabilities, e como o livro a controla?",
   "back": "$\\bar M_{t,T}$ pode sair de $[0,1]$. Escolhe-se $g_T$ de modo que $\\bar M\\in[0,1]$ com probabilidade $p$:\n$$g_TF_t\\sqrt t\\le\\frac{\\min(q_{0,T},1-q_{0,T})}{q},\\quad q=\\Phi^{-1}\\!\\left(\\tfrac12(p+1)\\right)$$",
   "tags": [
-   "credito",
-   "armadilha"
+   "credito"
   ],
   "source": "Cesari 2009, §3.3.1, p. 67-68",
   "created": 1793930000135,
@@ -1480,8 +1394,7 @@
   "front": "Como se comportam as implied vols Black de opções sobre CDS geradas pelo modelo normal separável?",
   "back": "1. Caem com o expiry da opção.\n2. Sobem e depois caem com a maturidade do CDS subjacente (pico perto de 5Y no exemplo).\n3. Sobem com o nível do par spread.",
   "tags": [
-   "credito",
-   "calibracao"
+   "credito"
   ],
   "source": "Cesari 2009, §3.3.1, p. 69",
   "created": 1793930000136,
@@ -1492,7 +1405,6 @@
   "front": "No modelo de crédito, em que caso ele colapsa no Gaussian copula estático de um fator?",
   "back": "Quando $\\eta\\equiv0$ (ou $g\\equiv0$). As survival probabilities deixam de ser estocásticas: $\\bar M_{t,T}=q_{0,T}=q_{t,T}$.",
   "tags": [
-   "copula",
    "credito"
   ],
   "source": "Cesari 2009, §3.3.2, p. 71",
@@ -1504,7 +1416,6 @@
   "front": "Por que $U^{(i)}$ e $X^{(i)}$ são escritos como somas de fatores comuns e idiosincráticos independentes?",
   "back": "Condicionando nos fatores comuns $M$ e $Z$, os default times ficam **condicionalmente independentes**. A perda condicional é uma soma de perdas independentes. A distribuição incondicional sai por quadratura sobre as densidades gaussianas de $M$ e $Z$.",
   "tags": [
-   "copula",
    "credito"
   ],
   "source": "Cesari 2009, §3.3.2, p. 71-72",
@@ -1516,7 +1427,6 @@
   "front": "Como a recursão calcula a distribuição de $S_j=\\sum_{i\\le j}Y_i$ para variáveis discretas independentes?",
   "back": "Começa com $p(0,0)=1$. Para cada $j$: $p(j,k)=\\sum_{i=0}^k p(j-1,i)\\,p_j(k-i)$. Para nomes Bernoulli (default ou não), só dois termos da soma são não nulos.",
   "tags": [
-   "recursao",
    "credito"
   ],
   "source": "Cesari 2009, §3.3.3, p. 72",
@@ -1528,7 +1438,6 @@
   "front": "Para aplicar a recursão à perda de um portfólio de crédito, como se discretiza a perda?",
   "back": "Escolhe-se um quantum de perda $\\epsilon$ e escreve-se $A^{-1}A_i\\bar R_i\\approx\\psi_i\\epsilon$, com $\\psi_i$ inteiro. A perda de cada nome vale $0$ ou $\\psi_i$ quanta. Trade-off: $\\epsilon$ menor aproxima melhor, mas exige mais quanta $K$ e mais tempo.",
   "tags": [
-   "recursao",
    "credito"
   ],
   "source": "Cesari 2009, §3.3.3, p. 72-73",
@@ -1540,8 +1449,7 @@
   "front": "Quais são as hipóteses do modelo Large Homogeneous Portfolio (Vasicek)?",
   "back": "Gaussian copula de um fator. Correlação $\\rho$, recovery e default probability iguais para todos os nomes. Número de nomes tendendo a infinito.",
   "tags": [
-   "lhp",
-   "copula"
+   "credito"
   ],
   "source": "Cesari 2009, §3.3.4, p. 73-74",
   "created": 1793930000143,
@@ -1552,8 +1460,7 @@
   "front": "No LHP, qual é a CDF da fração de nomes em default $\\hat L_t$?",
   "back": "$$\\mathbb N[\\hat L_t\\le h]=\\Phi\\!\\left(\\frac{\\bar\\rho\\,\\Phi^{-1}(h)-\\Phi^{-1}(1-q_{0,t})}{\\rho}\\right),\\quad\\bar\\rho=\\sqrt{1-\\rho^2}$$\nNo limite, a perda só depende do fator comum: o idiosincrático é diversificado.",
   "tags": [
-   "lhp",
-   "copula"
+   "credito"
   ],
   "source": "Cesari 2009, §3.3.4, p. 74",
   "created": 1793930000144,
@@ -1564,8 +1471,7 @@
   "front": "No LHP, o que acontece com a distribuição de perda nos casos $\\rho=0$ e $\\rho\\to1$?",
   "back": "$\\rho=0$: lei dos grandes números; a perda é a default probability individual, sem incerteza. $\\rho\\to1$: a perda é Bernoulli (todos ou nenhum dão default).",
   "tags": [
-   "lhp",
-   "copula"
+   "credito"
   ],
   "source": "Cesari 2009, §3.3.4, p. 74",
   "created": 1793930000145,
@@ -1576,8 +1482,7 @@
   "front": "No LHP, como um aumento de $\\rho$ afeta o valor de proteção das tranches equity e senior?",
   "back": "$\\rho$ maior põe mais massa na cauda direita da perda. A proteção de equity $[0,k_d]$ **cai**. A proteção senior $[k_a,1]$ **sobe**. Para mezzanine, o efeito depende de $k_a$, $k_d$ e $\\rho$.",
   "tags": [
-   "lhp",
-   "cdo"
+   "credito"
   ],
   "source": "Cesari 2009, §3.3.4, p. 74",
   "created": 1793930000146,
@@ -1588,8 +1493,7 @@
   "front": "Como o livro calibra os parâmetros de dependência $\\rho^{(i)}$ e $\\eta^{(i)}$?",
   "back": "Escolhe-os para que os preços de modelo de tranches de CDO escolhidas fiquem próximos dos de mercado, com um único conjunto de parâmetros. Os fatores $M$ e $Z$ representam fatores de mercado, como região geográfica e nível de spread (rating).",
   "tags": [
-   "copula",
-   "calibracao"
+   "credito"
   ],
   "source": "Cesari 2009, §3.3.5, p. 75",
   "created": 1793930000147,
@@ -1600,7 +1504,6 @@
   "front": "Quais são as quatro restrições que guiam a escolha de modelo para exposure no livro?",
   "back": "1. O objetivo é pricing e hedging de exposure: precisão é crucial.\n2. Consistência de cenários: todos os processos simulados juntos.\n3. Portfólios grandes: compromisso entre precisão e velocidade.\n4. Modelo de juros comum a todas as classes de ativos.",
   "tags": [
-   "escolha-modelo",
    "simulacao"
   ],
   "source": "Cesari 2009, §3.4, p. 75-77",
@@ -1612,8 +1515,7 @@
   "front": "Que modelos os autores concluem que funcionam para simular milhares de trades em várias classes, e o que importa mais que a sofisticação?",
   "back": "Modelos de um fator com volatilidade separável. Importa mais um framework consistente e modular, extensível a novos produtos, do que a sofisticação de cada modelo.",
   "tags": [
-   "escolha-modelo",
-   "separavel"
+   "simulacao"
   ],
   "source": "Cesari 2009, §3.4, p. 77",
   "created": 1793930000149,
@@ -1635,8 +1537,7 @@
   "front": "No framework do Cap. 4, um produto $P$ entrega cashflows $X$ e dá o direito de trocá-los por $Q$ em datas $\\mathcal{T}$. Qual a diferença entre **physical settlement** e **cash settlement** do exercício?",
   "back": "- Physical: os flows $X$ são trocados pelos flows $Y$ até $T_Y$; a distribuição de preço vai até $T_X \\vee T_Y$.\n- Cash: o NPV de todos os $Y$ é pago em $\\tau_E$ e o trade termina; a distribuição vai só até $\\tau_{n_E}$.\nAmbos dão o **mesmo valor** ao holder.",
   "tags": [
-   "amc",
-   "exercicio"
+   "amc"
   ],
   "source": "Cesari 2009, §4.1.1, p. 81–82",
   "created": 1793930000154,
@@ -1648,8 +1549,7 @@
   "back": "O perfil temporal da exposure muda. No physical, o holder fica exposto aos flows $Y$ até $T_Y$ (ex.: swaption física expõe ao swap subjacente por mais 5 anos). No cash, a exposure acaba no exercício.",
   "tags": [
    "amc",
-   "exposure",
-   "exercicio"
+   "fundamentos"
   ],
   "source": "Cesari 2009, §4.1.1–4.1.2, p. 81, 84",
   "created": 1793930000155,
@@ -1660,8 +1560,7 @@
   "front": "No framework AMC do livro, o que é **intrinsic exercise** e por que vale menos que o exercício não-intrínseco?",
   "back": "O holder recebe só o flow $Y_{\\tau_E}$ e nada depois: $\\pi^{ex}_t = Y_t\\,\\mathbb{1}_{t=\\tau_E}$. Vale menos porque perde os flows $Y_t$ para $t>\\tau_E$. Exemplos: Bermudan option, cancellable swap.",
   "tags": [
-   "amc",
-   "exercicio"
+   "amc"
   ],
   "source": "Cesari 2009, §4.1.1, p. 81–82",
   "created": 1793930000156,
@@ -1672,8 +1571,7 @@
   "front": "Como o framework AMC do livro representa um trade **sem** early exercise?",
   "back": "Define $\\mathcal{T} = \\{\\infty\\}$: o exercício nunca ocorre. Alternativa equivalente: $V^Q_t=-\\infty$ (long callability). A primeira forma é mais limpa, pois o algoritmo nem considera exercer.",
   "tags": [
-   "amc",
-   "exercicio"
+   "amc"
   ],
   "source": "Cesari 2009, §4.1.2.1, p. 83",
   "created": 1793930000157,
@@ -1684,8 +1582,7 @@
   "front": "No framework AMC, por que a Bermudan put é escrita com $Y_t = K - S$ e não $(K-S)^+$?",
   "back": "O **algoritmo de decisão** de exercício já aplica a otimalidade. Ele só exerce quando vale a pena; o $\\max$ não vai no payoff.",
   "tags": [
-   "amc",
-   "exercicio"
+   "amc"
   ],
   "source": "Cesari 2009, §4.1.2.2, p. 84",
   "created": 1793930000158,
@@ -1696,8 +1593,7 @@
   "front": "Por que um cancellable swap com fee fixo de cancelamento é modelado como **intrinsic** exercise?",
   "back": "Ao cancelar, o holder só paga uma penalidade única no exercício ($Y=-0.01$) e não recebe flows depois. Logo $V^Q_t = Y_t\\,\\mathbb{1}_{t=\\tau_E}$.",
   "tags": [
-   "amc",
-   "exercicio"
+   "amc"
   ],
   "source": "Cesari 2009, §4.1.2.2, p. 84",
   "created": 1793930000159,
@@ -1708,8 +1604,7 @@
   "front": "No framework AMC, o que são os **observables** $\\Theta$ e qual o seu papel?",
   "back": "Processos (ex.: preços de instrumentos de mercado) que dependem dos mesmos fatores $\\Xi$ que o produto. Hipótese-chave: a decisão de exercer em $t$ é função **só dos valores em $t$** dos observables.",
   "tags": [
-   "amc",
-   "observables"
+   "amc"
   ],
   "source": "Cesari 2009, §4.1.1, p. 82",
   "created": 1793930000160,
@@ -1720,8 +1615,7 @@
   "front": "A hipótese \"exercício depende só dos observables em $t$\" exclui produtos path-dependent do AMC?",
   "back": "Não. Basta tomar como observable o preço de um instrumento path-dependent; seu valor em $t$ resume o histórico relevante.",
   "tags": [
-   "amc",
-   "observables"
+   "amc"
   ],
   "source": "Cesari 2009, §4.1.1, nota 2, p. 82",
   "created": 1793930000161,
@@ -1732,8 +1626,7 @@
   "front": "Na backward induction do AMC, qual é o caso base e em que data ocorre?",
   "back": "Em $T = T_X \\vee T_Y$, depois do qual $X$ e $Y$ são zero. Ali o valor é trivial: $\\hat V_T = \\max(\\hat X_T, \\hat Y_T)$ se $T\\in\\mathcal{T}$; senão $\\hat X_T$, path a path.",
   "tags": [
-   "amc",
-   "backward-induction"
+   "amc"
   ],
   "source": "Cesari 2009, §4.1.3, p. 85–86",
   "created": 1793930000162,
@@ -1744,8 +1637,7 @@
   "front": "Na backward induction do AMC, qual a decomposição do continuation value $F_{t_k}$?",
   "back": "$$\\frac{F_{t_k}}{N_{t_k}} = \\mathbb{E}\\Big[\\int_{t_k}^{t_{k+1}} \\tfrac{X_u}{N_u}du \\,\\Big|\\, \\Theta_{t_k}\\Big] + \\mathbb{E}\\Big[\\tfrac{V_{t_{k+1}}}{N_{t_{k+1}}} \\,\\Big|\\, \\Theta_{t_k}\\Big]$$\nFlows acumulados por esperar mais um passo + valor descontado da estratégia ótima a partir de $t_{k+1}$.",
   "tags": [
-   "amc",
-   "backward-induction"
+   "amc"
   ],
   "source": "Cesari 2009, §4.1.3, eq. 4.33, p. 87",
   "created": 1793930000163,
@@ -1756,8 +1648,7 @@
   "front": "Na derivação do continuation value do AMC, por que é legítimo trocar o $\\sup$ e a esperança condicional em $\\Theta_{t_k}$ (tower law)?",
   "back": "Porque, condicionado à informação de $\\Theta_{t_{k+1}}$, a informação de $\\Theta_{t_k}$ é irrelevante para a maximização. Isso permite escrever o termo como $\\mathbb{E}[V_{t_{k+1}}/N_{t_{k+1}} \\mid \\Theta_{t_k}]$.",
   "tags": [
-   "amc",
-   "backward-induction"
+   "amc"
   ],
   "source": "Cesari 2009, §4.1.3, p. 87",
   "created": 1793930000164,
@@ -1768,8 +1659,7 @@
   "front": "No passo indutivo do AMC, como se obtém $\\hat V_{t_k}$ para **long** e para **short** optionality?",
   "back": "- Long (holder recebe): $\\hat V_{t_k} = \\max\\{V^Q_{t_k}, \\hat F_{t_k}\\}$.\n- Short (holder é o pagador): $\\hat V_{t_k} = \\min\\{V^Q_{t_k}, \\hat F_{t_k}\\}$.\nCompara-se o valor de exercer com o de continuar.",
   "tags": [
-   "amc",
-   "backward-induction"
+   "amc"
   ],
   "source": "Cesari 2009, §4.1.3, eq. 4.34–4.35, p. 87",
   "created": 1793930000165,
@@ -1780,8 +1670,7 @@
   "front": "Qual é o termo da backward induction que exigiria simulações aninhadas, e que os algoritmos AMC aproximam?",
   "back": "A esperança condicional $\\Theta_{t_k} \\mapsto \\mathbb{E}[V_{t_{k+1}}/N_{t_{k+1}} \\mid \\Theta_{t_k}]$. Os algoritmos diferem só em como estimam essa função (bundling ou regression).",
   "tags": [
-   "amc",
-   "backward-induction"
+   "amc"
   ],
   "source": "Cesari 2009, §4.1.3–4.2, p. 88",
   "created": 1793930000167,
@@ -1792,8 +1681,7 @@
   "front": "Como o algoritmo de **Tilley** estima o continuation value?",
   "back": "Ordena os paths por um único observable $\\theta$ e os divide em bundles de igual tamanho. Em cada bundle, o continuation value é a **média amostral** de $\\hat V_{t_{k+1}}/N_{t_{k+1}}$ dos paths do bundle.",
   "tags": [
-   "amc",
-   "tilley"
+   "amc"
   ],
   "source": "Cesari 2009, §4.2.1, eq. 4.38, p. 88–89",
   "created": 1793930000168,
@@ -1804,9 +1692,7 @@
   "front": "Qual a diferença de forma funcional entre Tilley e Longstaff-Schwartz na estimação do continuation value?",
   "back": "- Tilley: particiona o domínio dos observables (bundling); equivale a um ajuste por partes.\n- Longstaff-Schwartz: ajusta uma única função não-linear (combinação de basis functions) a todo o conjunto de dados.",
   "tags": [
-   "amc",
-   "tilley",
-   "longstaff-schwartz"
+   "amc"
   ],
   "source": "Cesari 2009, §4.2–4.2.1, p. 88–89",
   "created": 1793930000169,
@@ -1817,8 +1703,7 @@
   "front": "Como o algoritmo de **Longstaff-Schwartz** estima o continuation value em $t_k$?",
   "back": "Regride os valores descontados $\\frac{N_{t_k}}{N_{t_{k+1}}}\\hat V_{t_{k+1}}$ dos $n$ paths em $\\mu$ basis functions $L_j(\\Theta_{t_k})$, em geral polinômios: $F_{t_k}(\\Theta) = \\sum_j a_j L_j(\\Theta)$.",
   "tags": [
-   "amc",
-   "longstaff-schwartz"
+   "amc"
   ],
   "source": "Cesari 2009, §4.2.2, eq. 4.39–4.41, p. 89–90",
   "created": 1793930000170,
@@ -1829,8 +1714,7 @@
   "front": "No Longstaff-Schwartz original (American put), quais paths entram na regressão em $t_k$?",
   "back": "Só os paths **in the money** ($S_{t_k} < K$), onde exercer dá payoff não nulo.",
   "tags": [
-   "amc",
-   "longstaff-schwartz"
+   "amc"
   ],
   "source": "Cesari 2009, §4.2.2, p. 90",
   "created": 1793930000171,
@@ -1841,9 +1725,7 @@
   "front": "No Tilley, o que causa a **granularity bias** e em que direção ela afeta o preço?",
   "back": "Bundles grandes demais: todos os paths de um bundle usam o mesmo continuation value. A regra de exercício fica sub-ótima, então o preço tem **viés para baixo**. Some se cada path for seu próprio bundle.",
   "tags": [
-   "amc",
-   "vies",
-   "tilley"
+   "amc"
   ],
   "source": "Cesari 2009, §4.2.3, p. 90",
   "created": 1793930000172,
@@ -1854,9 +1736,7 @@
   "front": "No Tilley, o que causa a **small-sample bias** e em que direção ela afeta o preço?",
   "back": "Bundles pequenos demais: poucos paths por bundle geram uma regra de exercício sub-ótima. O preço tem **viés para baixo**.",
   "tags": [
-   "amc",
-   "vies",
-   "tilley"
+   "amc"
   ],
   "source": "Cesari 2009, §4.2.3, p. 90",
   "created": 1793930000173,
@@ -1867,8 +1747,7 @@
   "front": "No AMC, o que causa a **look-back bias** (foresight bias) e em que direção ela afeta o preço?",
   "back": "Usar os **mesmos paths** para estimar a regra de exercício e para valorar o resultado dessa regra. A regra \"enxerga\" o futuro de cada path. O preço tem **viés para cima**.",
   "tags": [
-   "amc",
-   "vies"
+   "amc"
   ],
   "source": "Cesari 2009, §4.2.3, p. 90–91",
   "created": 1793930000175,
@@ -1879,8 +1758,7 @@
   "front": "Nenhuma regra estimada supera a regra ótima. Por que então a look-back bias pode gerar preço **acima** do verdadeiro?",
   "back": "Por Jensen e convexidade do $\\max$. O algoritmo calcula a **esperança dos máximos** por path ($\\mathbb{E}[\\max]$), e não o **máximo das esperanças** sobre estratégias admissíveis. No limite de um path por bundle, cada path exerce com conhecimento perfeito do próprio futuro.",
   "tags": [
-   "amc",
-   "vies"
+   "amc"
   ],
   "source": "Cesari 2009, §4.2.3, p. 91",
   "created": 1793930000176,
@@ -1891,9 +1769,7 @@
   "front": "Quais limitações de Tilley e de Longstaff-Schwartz motivam o algoritmo AMC do livro para credit exposure?",
   "back": "- Tilley faz bundling com **um só observable**; trades reais dependem de vários.\n- Longstaff-Schwartz faz regression, mas **sem bundling**.\nO livro combina os dois e adiciona correção de viés.",
   "tags": [
-   "amc",
-   "tilley",
-   "longstaff-schwartz"
+   "amc"
   ],
   "source": "Cesari 2009, §4.2.4, p. 91",
   "created": 1793930000179,
@@ -1904,8 +1780,7 @@
   "front": "No AMC do livro, como funciona o **recursive bundling** com $n_{obs}$ observables?",
   "back": "Em $t_k$, divide os paths em $m_1$ bundles pelo nível de $\\theta_1$. Cada bundle é subdividido em $m_2$ pelo nível de $\\theta_2$, e assim por diante. Total: $m_1 m_2 \\cdots m_{n_{obs}}$ bundles.",
   "tags": [
-   "amc",
-   "bundling"
+   "amc"
   ],
   "source": "Cesari 2009, §4.2.4.1, p. 91",
   "created": 1793930000180,
@@ -1916,8 +1791,7 @@
   "front": "No recursive bundling, qual o objetivo de agrupar os paths?",
   "back": "Garantir que dois paths no mesmo bundle tenham valores **parecidos de todos** os observables.",
   "tags": [
-   "amc",
-   "bundling"
+   "amc"
   ],
   "source": "Cesari 2009, §4.2.4.1, p. 91",
   "created": 1793930000181,
@@ -1928,8 +1802,7 @@
   "front": "Por que a alocação em bundles de igual tamanho falha para um observable descontínuo (ex.: default indicator), e qual o remédio do livro?",
   "back": "Paths com o **mesmo** valor do observable podem cair em bundles diferentes. O remédio é um **clustering check**: mover um path para outro bundle se isso reduz a distância até seu vizinho mais próximo no bundle.",
   "tags": [
-   "amc",
-   "bundling"
+   "amc"
   ],
   "source": "Cesari 2009, §4.2.4.1, p. 91–92",
   "created": 1793930000182,
@@ -1940,8 +1813,7 @@
   "front": "No AMC do livro, qual modelo de regressão é ajustado dentro de cada bundle?",
   "back": "$$\\hat V_{t_k} = \\sum_{j=0}^{J} a_j\\,\\theta_{1,t_k}^j + \\sum_{l=0}^{L} b_l\\,\\theta_{l+1,t_k} + \\varepsilon_{t_k}$$\nPolinômio de ordem $J$ no **primeiro** observable e linear nos outros $L+1$. Resíduos $\\varepsilon_{t_k}\\sim N(0,\\sigma^2_{t_k})$, independentes entre datas.",
   "tags": [
-   "amc",
-   "regression"
+   "amc"
   ],
   "source": "Cesari 2009, §4.2.4.2, eq. 4.44, p. 92",
   "created": 1793930000183,
@@ -1952,8 +1824,7 @@
   "front": "Na regressão por bundle do AMC, por que os cashflows pagos em $t_k$ ficam fora da regressão?",
   "back": "São quantidades **conhecidas** em $t_k$. Não há nada a estimar; só o valor futuro precisa de esperança condicional.",
   "tags": [
-   "amc",
-   "regression"
+   "amc"
   ],
   "source": "Cesari 2009, §4.2.4.2, p. 92",
   "created": 1793930000184,
@@ -1964,9 +1835,7 @@
   "front": "Na correção da look-back bias (Fries), qual a fonte do viés na decisão de exercício com valor intrínseco $K$?",
   "back": "O estimador tem erro: $f(\\Theta)=\\mathbb{E}[V_{t_{k+1}}/N_{t_{k+1}}\\mid\\Theta]+\\varepsilon$. O algoritmo obtém $\\mathbb{E}[\\max(K,f(\\Theta))]$, que por Jensen excede o valor teórico $\\max(K,\\mathbb{E}[V_{t_{k+1}}/N_{t_{k+1}}\\mid\\Theta])$.",
   "tags": [
-   "amc",
-   "vies",
-   "regression"
+   "amc"
   ],
   "source": "Cesari 2009, §4.2.4.3, eq. 4.47–4.49, p. 92–93",
   "created": 1793930000185,
@@ -1977,8 +1846,7 @@
   "front": "Na correção analítica da look-back bias, qual a fórmula de $\\mathbb{E}[\\max(a, b+\\varepsilon)]$ com $\\varepsilon\\sim N(0,\\sigma^2)$, e o que ela permite?",
   "back": "$$\\mathbb{E}[\\max(a,b+\\varepsilon)] = \\sigma\\phi(\\eta) + \\eta\\sigma\\Phi(\\eta) + a,\\quad \\eta=\\tfrac{b-a}{\\sigma}$$\nCom o $\\sigma$ do resíduo da regressão, ela quantifica o excesso sobre $\\max(a,b)$ gerado pelo ruído. Assim o viés pode ser **removido analiticamente**.",
   "tags": [
-   "amc",
-   "vies"
+   "amc"
   ],
   "source": "Cesari 2009, §4.2.4.3, eq. 4.50, p. 93",
   "created": 1793930000186,
@@ -1989,8 +1857,7 @@
   "front": "Intuição: na fórmula $\\mathbb{E}[\\max(a,b+\\varepsilon)] = a + \\sigma[\\phi(\\eta)+\\eta\\Phi(\\eta)]$, quando o viés da look-back é maior?",
   "back": "Quando $\\sigma$ é grande e $|\\eta|$ é pequeno, isto é, continuation value estimado **perto** do valor de exercício e com muito ruído. Longe da fronteira de exercício o ruído quase não muda a decisão.",
   "tags": [
-   "amc",
-   "vies"
+   "amc"
   ],
   "source": "Cesari 2009, §4.2.4.3, eq. 4.50, p. 93",
   "created": 1793930000187,
@@ -2001,8 +1868,7 @@
   "front": "Como se aplica a correção da look-back bias para **short** optionality?",
   "back": "Usa-se $\\mathbb{E}[\\min(a,b+\\varepsilon)] = -\\mathbb{E}[\\max(-a,-b-\\varepsilon)]$ e a mesma fórmula do caso long.",
   "tags": [
-   "amc",
-   "vies"
+   "amc"
   ],
   "source": "Cesari 2009, §4.2.4.3, eq. 4.51, p. 93",
   "created": 1793930000188,
@@ -2013,8 +1879,7 @@
   "front": "No pós-processamento da distribuição de preço do AMC, por que é preciso localizar o **primeiro** tempo de exercício $\\tau_E^{(\\nu)*}$ em cada path?",
   "back": "A backward induction diz, em cada $t_k$, se exercer é ótimo **dado que não houve exercício antes**. O exercício real acontece na data mais cedo em que $V^Q_{t_k} \\ge \\hat F_{t_k}$. Os valores após essa data seguem o regime pós-exercício.",
   "tags": [
-   "amc",
-   "pos-processamento"
+   "amc"
   ],
   "source": "Cesari 2009, §4.3, eq. 4.52, p. 93",
   "created": 1793930000189,
@@ -2025,9 +1890,7 @@
   "front": "Após o exercício $\\tau_E^*$ num path, quais valores o pós-processamento atribui para $t_k\\ge\\tau_E^*$ em cada tipo de exercício?",
   "back": "- Cash settlement não-intrínseco: $V^Q_{t_k}\\mathbb{1}_{t_k=\\tau_E^*}$ (paga uma vez e termina).\n- Physical settlement: $V^Q_{t_k}$ (o portfólio $Q$ continua vivo).\n- Intrinsic: $Y_{t_k}\\mathbb{1}_{t_k=\\tau_E^*}$.",
   "tags": [
-   "amc",
-   "pos-processamento",
-   "exposure"
+   "amc"
   ],
   "source": "Cesari 2009, §4.3, eq. 4.53, p. 93",
   "created": 1793930000190,
@@ -2039,7 +1902,7 @@
   "back": "Escolher quantidades ligadas à variável subjacente do trade: taxa de juros curta ou **par swap rate** (e quantidades relacionadas). Para a swaption, $S$ e o annuity $A$ bastam para decidir em $t=5$.\n(Exemplo do livro usa LIBOR; hoje: taxas RFR, ex.: SOFR.)",
   "tags": [
    "amc",
-   "observables",
+   "juros",
    "datado"
   ],
   "source": "Cesari 2009, §4.4, p. 93–94",
@@ -2051,7 +1914,7 @@
   "front": "Quais os dois problemas do cálculo de sensibilidades por finite difference (bumping)?",
   "back": "1. **Velocidade**: cada bump exige reavaliar toda a distribuição de preço; delta e gamma num só driver já triplicam o custo.\n2. **Flexibilidade**: nem todo driver pode ser movido com os outros fixos (ex.: swap rate é combinação de várias variáveis estocásticas).",
   "tags": [
-   "sensibilidades"
+   "amc"
   ],
   "source": "Cesari 2009, §4.5.1, p. 95",
   "created": 1793930000192,
@@ -2062,8 +1925,7 @@
   "front": "Como o livro calcula sensibilidades por **regression** dentro do AMC, quase sem custo extra?",
   "back": "Gera a distribuição de preço num tempo curto $\\varepsilon$. Regride $\\Delta V = V_\\varepsilon - V_0$ num polinômio de $\\Delta\\xi^{(i)} = \\xi^{(i)}(\\varepsilon)-\\xi^{(i)}(0)$:\n$$\\Delta V = \\sum_{k=0}^m a_k (\\Delta\\xi^{(i)})^k,\\qquad \\frac{d^kV}{d(\\xi^{(i)})^k} = k!\\,a_k$$",
   "tags": [
-   "sensibilidades",
-   "regression"
+   "amc"
   ],
   "source": "Cesari 2009, §4.5.2, eq. 4.57–4.59, p. 95",
   "created": 1793930000193,
@@ -2074,8 +1936,7 @@
   "front": "Por que a sensibilidade obtida por regressão univariada de $\\Delta V$ em $\\Delta\\xi^{(i)}$ não é uma derivada parcial?",
   "back": "É a **derivada total**. Como $\\xi^{(i)}$ é correlacionado a outros drivers, o coeficiente também capta o efeito deles sobre $V$.",
   "tags": [
-   "sensibilidades",
-   "correlacao"
+   "amc"
   ],
   "source": "Cesari 2009, §4.5.2–4.5.3, p. 95–96",
   "created": 1793930000194,
@@ -2086,8 +1947,7 @@
   "front": "Quando a sensibilidade **correlacionada** (derivada total) é útil, e quando é indesejável?",
   "back": "- Útil: quando se calcula **uma só** sensibilidade; traz mais informação de risco e hedges melhores.\n- Indesejável: no **P&L explain** diário e quando se quer sensibilidades a vários drivers.",
   "tags": [
-   "sensibilidades",
-   "correlacao"
+   "amc"
   ],
   "source": "Cesari 2009, §4.5.3, p. 96",
   "created": 1793930000195,
@@ -2098,8 +1958,7 @@
   "front": "Na decorrelação de sensibilidades, qual a relação entre os coeficientes univariados $\\tilde\\alpha$ e os multivariados $\\alpha$, e como se recuperam as derivadas parciais?",
   "back": "$$\\tilde\\alpha = D^{-1}(\\hat X^T\\hat X)\\,\\alpha \\;\\Rightarrow\\; \\alpha = (\\hat X^T\\hat X)^{-1}D\\,\\tilde\\alpha$$\n$\\hat X^T\\hat X$ é $(m-1)\\times$covariância amostral dos $\\Delta\\xi$; $D$ é sua diagonal. $\\alpha$ = derivadas parciais; $\\tilde\\alpha$ = derivadas totais.",
   "tags": [
-   "sensibilidades",
-   "correlacao"
+   "amc"
   ],
   "source": "Cesari 2009, §4.5.3, eq. 4.62–4.67, p. 97",
   "created": 1793930000196,
@@ -2110,8 +1969,7 @@
   "front": "Intuição: por que a regressão univariada de $\\Delta V$ em $\\Delta\\xi^{(i)}$ dá $\\tilde\\alpha_i = \\sum_j \\frac{\\mathrm{Cov}(\\xi^{(i)},\\xi^{(j)})}{\\mathrm{Var}(\\xi^{(i)})}\\alpha_j$?",
   "back": "Mover $\\xi^{(i)}$ em uma unidade move, em média, cada $\\xi^{(j)}$ em $\\beta_{ji}=\\mathrm{Cov}/\\mathrm{Var}$. A derivada total soma o efeito direto ($\\alpha_i$) e os efeitos indiretos via drivers correlacionados ($\\beta_{ji}\\alpha_j$).",
   "tags": [
-   "sensibilidades",
-   "correlacao"
+   "amc"
   ],
   "source": "Cesari 2009, §4.5.3, eq. 4.66, p. 97",
   "created": 1793930000197,
@@ -2122,8 +1980,7 @@
   "front": "Que hipótese sobre os incrementos dos risk drivers a decorrelação de sensibilidades usa, e por que é razoável?",
   "back": "Incrementos $\\Delta\\xi$ **normais com média zero**. Razoável porque o horizonte $\\varepsilon$ é muito curto e todos os drivers do framework vêm de Brownian Motions simuladas.",
   "tags": [
-   "sensibilidades",
-   "correlacao"
+   "amc"
   ],
   "source": "Cesari 2009, §4.5.3, p. 97",
   "created": 1793930000198,
@@ -2134,8 +1991,7 @@
   "front": "No exemplo do livro (receber EUR, pagar GBP), o que a comparação entre deltas por bumping, correlacionados e decorrelacionados mostrou?",
   "back": "Deltas correlacionados diferem muito dos de bumping (o delta de GBP Rates troca até de sinal). Os decorrelacionados ficam próximos do bumping e custam cerca de 1/4 do tempo (1.09 s vs 4.27 s).",
   "tags": [
-   "sensibilidades",
-   "correlacao"
+   "amc"
   ],
   "source": "Cesari 2009, §4.5.3, Tab. 4.2, p. 98",
   "created": 1793930000199,
@@ -2146,7 +2002,7 @@
   "front": "Antes de usar sensibilidades por regressão num portfólio grande, que validação o livro exige?",
   "back": "Avaliar a precisão por tipo de produto e por horizonte. Ex.: prever movimentos do portfólio com as sensibilidades e comparar com valuations históricas ou com revaluation completa (**P&L explain**).",
   "tags": [
-   "sensibilidades"
+   "amc"
   ],
   "source": "Cesari 2009, §4.5.3, p. 98",
   "created": 1793930000200,
@@ -2157,7 +2013,7 @@
   "front": "No capítulo 12, qual é a diferença entre *Risk Control* e *Managing Credit Risk*?",
   "back": "- **Risk Control**: função de Credit Risk Control; define limites e collateral e monitora PFE contra eles. É estática.\n- **Managing Credit Risk**: precificar e fazer hedge do counterparty risk durante a vida do trade. É dinâmica, de front office.",
   "tags": [
-   "gestao-risco"
+   "fundamentos"
   ],
   "source": "Cesari 2009, intro, p. 184",
   "created": 1793930000201,
@@ -2191,7 +2047,7 @@
   "front": "Defina PFE como medida de risco (eq. 12.1). Quais níveis de $\\alpha$ são usuais?",
   "back": "$$\\mathrm{PFE}_{\\alpha,t}=q_{\\alpha,t}=\\inf\\{x: P(V_t\\le x)\\ge\\alpha\\}$$\nÉ um quantil alto da distribuição de preço do portfólio em $t$. Usual: 95%, 97,5% ou 99%. Unidade: moeda.",
   "tags": [
-   "pfe"
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §12.1, p. 184–185",
   "created": 1793930000204,
@@ -2202,8 +2058,7 @@
   "front": "Defina Expected Shortfall de exposure (eq. 12.2) e diga qual propriedade a torna superior à PFE.",
   "back": "$$\\mathrm{ES}_{\\alpha,t}=\\mathbb{E}[V_t\\mid V_t\\ge q_{\\alpha,t}]$$\nMédia da cauda além do quantil, na medida $P$. ES é **coerente** (subaditiva); o quantil não é.",
   "tags": [
-   "pfe",
-   "es"
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §12.1, p. 185",
   "created": 1793930000205,
@@ -2214,8 +2069,7 @@
   "front": "Que pergunta a PFE responde e que pergunta a ES responde?",
   "back": "- PFE: qual o **melhor** resultado se ocorrer um evento de confiança $\\alpha$? Ignora a cauda além do quantil.\n- ES: qual o resultado **esperado** se ocorrer um evento de confiança $\\alpha$? Dá noção do tail risk.",
   "tags": [
-   "pfe",
-   "es"
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §12.1, p. 185",
   "created": 1793930000206,
@@ -2226,8 +2080,7 @@
   "front": "Qual nível de ES dá o mesmo número que uma PFE/VaR de 99% (e de 97,5%) quando a distribuição é normal?",
   "back": "- PFE 99% ↔ ES 97,4%.\n- PFE 97,5% ↔ ES 93,6%.\nIdeia: manter o número do padrão de mercado sob normalidade, mas ganhar coerência e sensibilidade à cauda quando não é normal.",
   "tags": [
-   "es",
-   "pfe"
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §12.1, p. 185",
   "created": 1793930000208,
@@ -2238,8 +2091,7 @@
   "front": "No cap. 12, para que se usa na prática o perfil $\\mathrm{EPE}_t=\\mathbb{E}[V_t^+]$, e em que medida ele deve ser calculado para hedge?",
   "back": "Para hedge de counterparty exposure (notional do CDS ligado ao perfil EPE) e para RWA/capital.\nPara hedge, deve ser calculado na medida de pricing.\n(Nota: o livro chama de EPE o que hoje se chama EE em $t$.)",
   "tags": [
-   "epe",
-   "ee"
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §12.1, p. 185",
   "created": 1793930000209,
@@ -2250,7 +2102,7 @@
   "front": "Defina a *modified EPE* (eq. 12.4). Quando ela é necessária no lugar de $\\mathbb{E}[V_t^+]$?",
   "back": "$$\\mathrm{EPE}^{mod}_t=\\frac{1}{D_{0,t}}\\,\\mathbb{E}\\!\\left[\\frac{V_t^+}{N_t}\\,\\middle|\\,\\tau=t\\right]$$\n$N_t$: numeraire; $D_{0,t}$: zero-coupon bond com vencimento $t$; $\\tau$: default time. Necessária quando $V_t$ **não é independente** do numeraire ou do default time da contraparte (ex.: wrong-way risk).",
   "tags": [
-   "epe",
+   "medidas-de-risco",
    "wrong-way"
   ],
   "source": "Cesari 2009, §12.1, p. 186",
@@ -2262,8 +2114,8 @@
   "front": "O que é a Reverse EPE (eq. 12.5), para que serve e qual é seu sinal?",
   "back": "$$\\text{Reverse EPE}_t=\\mathbb{E}[V_t^-],\\quad V_t^-=\\min(V_t,0)$$\nÉ a exposure vista pela contraparte. Base da **DVA** (a CVA vista pela contraparte). Na definição do livro ela é negativa; multiplique por $-1$ para lê-la como exposure.",
   "tags": [
-   "epe",
-   "dva"
+   "medidas-de-risco",
+   "cva"
   ],
   "source": "Cesari 2009, §12.1, p. 186",
   "created": 1793930000212,
@@ -2274,7 +2126,7 @@
   "front": "No Monte Carlo clássico para **medir** (não precificar) counterparty risk, em que medida se geram cenários e em que medida se precifica?",
   "back": "Cenários na medida **real** ($P$); pricing em cada cenário na medida **risk-neutral**. Geração de cenários e pricing são passos distintos.",
   "tags": [
-   "medida",
+   "medidas-de-risco",
    "simulacao"
   ],
   "source": "Cesari 2009, §12.2, p. 186",
@@ -2286,8 +2138,8 @@
   "front": "Por que usar AMC para exposure cria um problema de escolha de medida em controle de risco e capital?",
   "back": "AMC usa os **mesmos** cenários para projetar o mundo e para precificar. Logo, os cenários ficam na medida de pricing. Não se separa mais a medida real (para cenários) da risk-neutral (para preço).",
   "tags": [
-   "amc",
-   "medida"
+   "medidas-de-risco",
+   "amc"
   ],
   "source": "Cesari 2009, §12.2, p. 186",
   "created": 1793930000214,
@@ -2298,8 +2150,8 @@
   "front": "Por que modelos calibrados diariamente ao mercado (pricing) podem atrapalhar o backtesting de EAD?",
   "back": "A calibração diária incorpora de imediato a visão do mercado. O backtest compara exposures projetadas com valores realizados num período. Isso pode exigir parâmetros diferentes da visão de mercado atual.",
   "tags": [
-   "medida",
-   "backtest",
+   "regulatorio",
+   "medidas-de-risco",
    "datado"
   ],
   "source": "Cesari 2009, §12.2, p. 187",
@@ -2311,7 +2163,7 @@
   "front": "Que tipo de medida as funções de Risk Control costumam preferir, em contraste com o pricing?",
   "back": "Medidas **conservadoras e estáveis no tempo**: cenários que atravessam ciclos econômicos, em vez de replicar o mercado.",
   "tags": [
-   "medida"
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §12.2, p. 187",
   "created": 1793930000216,
@@ -2322,7 +2174,7 @@
   "front": "Segundo o capítulo 12, como é a EAD do Basel II no método interno?",
   "back": "EPE medida em horizonte de 1 ano com regras específicas. Para usá-la, a exposure precisa passar requisitos de backtesting acordados com o regulador.\n(Prática de 2009, Basel II. O IMM já usava $\\mathrm{EAD}=\\alpha\\times$ Effective EPE. O Basel III manteve o IMM, exigiu também calibração em período de stress e introduziu o SA-CCR como método padronizado.)",
   "tags": [
-   "capital",
+   "regulatorio",
    "datado"
   ],
   "source": "Cesari 2009, §12.2, p. 186–187",
@@ -2334,7 +2186,8 @@
   "front": "Qual solução o livro propõe para o conflito de medida (pricing vs controle), e qual é o limite dela?",
   "back": "Simular e precificar na medida risk-neutral; depois aplicar uma **mudança de medida** à distribuição de preço (detalhada no cap. 13). Limite: nem sempre resolve todos os problemas.",
   "tags": [
-   "medida"
+   "medidas-de-risco",
+   "simulacao"
   ],
   "source": "Cesari 2009, §12.2, p. 187",
   "created": 1793930000218,
@@ -2345,7 +2198,8 @@
   "front": "Por que não basta cada desk enviar PV e sensibilidades para agregar counterparty exposure?",
   "back": "Exposure só faz sentido no nível da contraparte e depende da **distribuição conjunta** dos preços. Agregar exige os mesmos cenários em todos os produtos (scenario consistency), path a path e time step a time step.",
   "tags": [
-   "agregacao"
+   "netting",
+   "simulacao"
   ],
   "source": "Cesari 2009, §12.3, p. 187",
   "created": 1793930000219,
@@ -2356,8 +2210,8 @@
   "front": "Portfólio: call comprada na ação A e put comprada na ação B, com A e B correlacionadas positivamente. Por que a PFE do portfólio difere da soma das PFEs isoladas?",
   "back": "A call tem exposure alta quando a ação sobe; a put, quando cai. Com scenario consistency, não se pode ter preços altos e baixos ao mesmo tempo. O pior cenário de uma é benigno para a outra, então a PFE do portfólio fica abaixo da soma.",
   "tags": [
-   "agregacao",
-   "pfe"
+   "netting",
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §12.3, p. 187",
   "created": 1793930000220,
@@ -2368,8 +2222,8 @@
   "front": "Quando se pode somar PFEs de trades isolados para obter a PFE do portfólio?",
   "back": "Só em casos muito específicos. Em geral quantis não são aditivos; é preciso somar valores path a path e tirar o quantil da distribuição agregada.",
   "tags": [
-   "agregacao",
-   "pfe"
+   "netting",
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §12.3.2, p. 189",
   "created": 1793930000221,
@@ -2380,7 +2234,7 @@
   "front": "Num cross-currency swap, qual a consequência de medir exposure na moeda recebida vs na moeda paga?",
   "back": "- Moeda recebida: a perda máxima é a soma dos fluxos a receber.\n- Moeda paga: a perda potencial é, em teoria, ilimitada.",
   "tags": [
-   "moeda"
+   "netting"
   ],
   "source": "Cesari 2009, §12.3.1, p. 188",
   "created": 1793930000222,
@@ -2391,7 +2245,7 @@
   "front": "Qual reference currency o livro recomenda para (a) reporte e limites, (b) contraparte colateralizada, (c) risco hedgeado com CDS?",
   "back": "(a) Moeda de reporte (ex.: USD para firma americana, EUR para europeia); entra a vol de FX dessa moeda.\n(b) Moeda do collateral.\n(c) Moeda dos hedges ou do domicílio da contraparte.",
   "tags": [
-   "moeda"
+   "netting"
   ],
   "source": "Cesari 2009, §12.3.1, p. 188",
   "created": 1793930000223,
@@ -2413,8 +2267,7 @@
   "front": "Duas calls na mesma ação, com strikes diferentes, uma comprada e uma vendida. O que muda na PFE com e sem netting?",
   "back": "Com netting: a PFE vem de um único cenário (ação alta) e a posição vendida compensa a comprada. Sem netting: o valor negativo da vendida vira zero e a compensação desaparece.",
   "tags": [
-   "netting",
-   "pfe"
+   "netting"
   ],
   "source": "Cesari 2009, §12.3.2, p. 189",
   "created": 1793930000225,
@@ -2425,7 +2278,7 @@
   "front": "O que é repudiation risk?",
   "back": "O risco de a contraparte (tipicamente soberana) decidir não honrar parte dos contratos. É relevante mesmo sem default formal.",
   "tags": [
-   "default"
+   "fundamentos"
   ],
   "source": "Cesari 2009, §12.3.2, p. 188–189 (nota 8)",
   "created": 1793930000226,
@@ -2436,7 +2289,7 @@
   "front": "O que é uma break clause e qual é a diferença para um trade cancellable?",
   "back": "- Break clause: permite encerrar o trade numa data futura **liquidando o MtM** naquele cenário. Não tem valor econômico; só encurta o período de exposure.\n- Cancellable: opção embutida de encerrar a zero (ou a valor predefinido). Tem valor econômico.",
   "tags": [
-   "break-clause"
+   "netting"
   ],
   "source": "Cesari 2009, §12.3.3, p. 189 (nota 9)",
   "created": 1793930000227,
@@ -2447,7 +2300,7 @@
   "front": "Que tipos de break clause existem quanto a quem exerce e quando?",
   "back": "- Mútua (ambas as partes) ou one-sided (só uma).\n- Condicional a eventos (MtM acima de um threshold, downgrade de rating, fusão/reestruturação) ou mandatória.",
   "tags": [
-   "break-clause"
+   "netting"
   ],
   "source": "Cesari 2009, §12.3.3, p. 189",
   "created": 1793930000228,
@@ -2458,8 +2311,7 @@
   "front": "Qual é o efeito de break clauses nos anos 3, 5 e 8 sobre o perfil de exposure de um portfólio de swaps?",
   "back": "A exposure vai a zero (ou cai) após cada data de break, pois o MtM é liquidado e o trade sai do portfólio. O perfil fica truncado.",
   "tags": [
-   "break-clause",
-   "ee"
+   "netting"
   ],
   "source": "Cesari 2009, §12.3.3, p. 189–190 (Fig. 12.1)",
   "created": 1793930000229,
@@ -2481,8 +2333,7 @@
   "front": "Num CSA, o que é **threshold**?",
   "back": "O nível de exposure que se tolera sem pedir collateral. Só o excesso acima dele é colateralizado. Unidade: moeda. Pode ser diferente para cada parte ($T_1$, $T_2$).",
   "tags": [
-   "colateral",
-   "threshold"
+   "colateral"
   ],
   "source": "Cesari 2009, §12.4, p. 191",
   "created": 1793930000232,
@@ -2493,8 +2344,7 @@
   "front": "Num CSA, o que é **Minimum Transfer Amount (MTA)** e qual é sua regra?",
   "back": "Valor mínimo de transferência para evitar pagamentos pequenos. Há pagamento só se, numa data de margem, a exposure exceder o threshold **e** a transferência devida exceder o MTA.",
   "tags": [
-   "colateral",
-   "mta"
+   "colateral"
   ],
   "source": "Cesari 2009, §12.4, p. 191",
   "created": 1793930000233,
@@ -2540,8 +2390,7 @@
   "front": "Quais são os três passos para calcular a exposure de uma contraparte colateralizada?",
   "back": "1. Distribuição de preço $V_t$ do portfólio, com netting e break clauses.\n2. Distribuição de preço do collateral $C_t=\\Phi_t B_t$ (simples se cash; complexa se notes).\n3. Unidades de collateral trocadas em cada data de margem, conforme o CSA, $V_t$ e $C_t$.",
   "tags": [
-   "colateral",
-   "simulacao"
+   "colateral"
   ],
   "source": "Cesari 2009, §12.4.1, p. 191",
   "created": 1793930000237,
@@ -2552,8 +2401,7 @@
   "front": "Escreva a transferência de collateral numa data de margem $t_i$ (eq. 12.6), com thresholds $T_1$, $T_2$.",
   "back": "$$\\Delta_{collateral}=(V_{t_i}-T_1)^+-(-V_{t_i}-T_2)^+-\\Phi_{t_{i-1}}B_{t_i}$$\nCollateral exigido líquido (recebido menos postado) menos o collateral já detido. Valor negativo = collateral devolvido.",
   "tags": [
-   "colateral",
-   "threshold"
+   "colateral"
   ],
   "source": "Cesari 2009, §12.4.1, p. 192",
   "created": 1793930000238,
@@ -2575,8 +2423,7 @@
   "front": "Como a eq. 12.6 muda para (a) CSA one-way e (b) com MTA?",
   "back": "(a) $\\Delta_{1way}=(\\Delta_{collateral})^+$: só há chamadas, nunca devoluções.\n(b) $\\Delta_{collateral}\\,\\mathbb{1}_{\\Delta_{collateral}>MTA}$: transferências abaixo do MTA são zeradas.",
   "tags": [
-   "colateral",
-   "mta"
+   "colateral"
   ],
   "source": "Cesari 2009, §12.4.1, p. 192",
   "created": 1793930000240,
@@ -2587,8 +2434,7 @@
   "front": "O que é **haircut** sobre collateral não-cash?",
   "back": "Redução no valor de um título usado como collateral para tratá-lo como cash equivalente. Cobre seus possíveis movimentos de preço.",
   "tags": [
-   "colateral",
-   "haircut"
+   "colateral"
   ],
   "source": "Cesari 2009, §12.4.1, p. 192",
   "created": 1793930000241,
@@ -2599,9 +2445,7 @@
   "front": "CSA two-way, threshold 1,5 mUSD, MTA 100 kUSD, sem collateral detido. A exposure vai a 1,55 mUSD. Há margin call? E se for a 2,9 mUSD?",
   "back": "- 1,55: excesso = 0,05 mUSD < MTA → nada.\n- 2,9: excesso = 1,4 mUSD > MTA → transfere 1,4 mUSD.",
   "tags": [
-   "colateral",
-   "mta",
-   "threshold"
+   "colateral"
   ],
   "source": "Cesari 2009, §12.4.2, p. 192–193",
   "created": 1793930000242,
@@ -2613,8 +2457,7 @@
   "back": "- One-way: collateral não é devolvido quando o MtM vai a favor da contraparte; o lado baixo (2,5%) fica intacto.\n- A EPE está abaixo do threshold de 10 mUSD, então nenhuma chamada a afeta.\n- Só a cauda alta passa do threshold e é cortada.",
   "tags": [
    "colateral",
-   "pfe",
-   "threshold"
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §12.4.2, p. 193–194 (Fig. 12.3)",
   "created": 1793930000243,
@@ -2625,7 +2468,8 @@
   "front": "Escreva o close-out em $t$ (eq. 12.9) com período de close-out $\\delta$.",
   "back": "$$\\text{Close-out}_t=(V_{t+\\delta}-\\Phi_tB_{t+\\delta})^+-(V_t-\\Phi_tB_t)^+$$\nAs unidades de collateral $\\Phi_t$ ficam fixas: a contraparte em default não posta mais. Calcula-se path a path, como pós-processamento.",
   "tags": [
-   "close-out"
+   "close-out",
+   "colateral"
   ],
   "source": "Cesari 2009, §12.5, p. 195",
   "created": 1793930000245,
@@ -2637,6 +2481,7 @@
   "back": "(a) Quantil alto, ex.: 97,5% ou 99%.\n(b) EPE.",
   "tags": [
    "close-out",
+   "medidas-de-risco",
    "cva"
   ],
   "source": "Cesari 2009, §12.5, p. 195",
@@ -2649,7 +2494,6 @@
   "back": "Do tempo para perceber o default (inclui grace period para checar solvência), da liquidez dos trades e do tamanho da posição. Faixa: de 1 dia (swaps em moedas principais) a vários meses (derivativos de crédito ilíquidos).\n(Hoje o Basel III fixa pisos de MPoR: em geral 10 dias úteis para OTC bilateral com margem diária, maior para netting sets grandes ou ilíquidos.)",
   "tags": [
    "close-out",
-   "mpor",
    "datado"
   ],
   "source": "Cesari 2009, §12.5, p. 195",
@@ -2661,8 +2505,8 @@
   "front": "Segundo o capítulo 12, qual seria o initial margin \"correto\" em princípio?",
   "back": "O valor do close-out risk ao longo da vida do trade. É o collateral que, em princípio, a contraparte deveria postar. Também chamado initial margin ou haircut.",
   "tags": [
-   "close-out",
-   "colateral"
+   "colateral",
+   "close-out"
   ],
   "source": "Cesari 2009, §12.5, p. 195",
   "created": 1793930000249,
@@ -2673,7 +2517,7 @@
   "front": "Para que serve alocar a exposure do portfólio de volta aos trades, e por que isso não é trivial?",
   "back": "Para saber quais trades reduzem risco e para alocar exposure a linhas de negócio. Não é trivial porque quantis **não são aditivos**.",
   "tags": [
-   "alocacao"
+   "netting"
   ],
   "source": "Cesari 2009, §12.6, p. 195",
   "created": 1793930000250,
@@ -2684,7 +2528,7 @@
   "front": "Escreva a naive allocation (eq. 12.10) e diga sua falha.",
   "back": "$$r_i=\\frac{q_i}{\\sum_j q_j}\\,q$$\n$q$: PFE/EPE da contraparte; $q_i$: PFE/EPE do trade isolado. Falha: ignora netting. Todo $r_i\\ge0$, mesmo para trades que reduzem o risco.",
   "tags": [
-   "alocacao"
+   "netting"
   ],
   "source": "Cesari 2009, §12.6.1, p. 196",
   "created": 1793930000251,
@@ -2695,8 +2539,7 @@
   "front": "Enuncie a Euler allocation (eq. 12.11) para $V=\\sum_i\\lambda_iX_i$.",
   "back": "$$\\rho(V)=\\sum_i\\lambda_i\\frac{\\partial\\rho(V)}{\\partial\\lambda_i}=\\sum_i r_i$$\nA contribuição $r_i$ é a sensibilidade marginal da medida ao peso do trade. A soma fecha exatamente porque $\\rho$ é positivamente homogênea de grau 1.",
   "tags": [
-   "alocacao",
-   "euler"
+   "netting"
   ],
   "source": "Cesari 2009, §12.6.2, p. 196",
   "created": 1793930000252,
@@ -2707,8 +2550,7 @@
   "front": "Para $\\rho$ = quantil $q_\\alpha$ e $\\lambda=1$, qual é a contribuição de Euler do trade $i$ (eq. 12.12)? Por que ajuda?",
   "back": "$$r_i=\\frac{\\partial q_\\alpha}{\\partial\\lambda_i}=\\mathbb{E}[X_i\\mid V=q_\\alpha]$$\nTroca uma derivada no Monte Carlo por uma esperança condicional: o valor médio do trade nos paths em que o portfólio está no quantil. Calcula-se em cada time slice.",
   "tags": [
-   "alocacao",
-   "euler"
+   "netting"
   ],
   "source": "Cesari 2009, §12.6.2, p. 196",
   "created": 1793930000253,
@@ -2719,8 +2561,7 @@
   "front": "Como estimar $\\mathbb{E}[X_i\\mid V=q_\\alpha]$ num único Monte Carlo? Compare as opções.",
   "back": "- Um só path (o do quantil): barato, mas ruidoso e instável entre rodadas.\n- **Bundle** de paths com $V$ próximo de $q_\\alpha$: média local; bom custo-precisão. Melhora com pesos tipo Harrell–Davis.\n- Repetir a simulação: inviável.",
   "tags": [
-   "alocacao",
-   "euler",
+   "netting",
    "simulacao"
   ],
   "source": "Cesari 2009, §12.6.2, p. 197",
@@ -2732,8 +2573,6 @@
   "front": "Receiver swap 3Y + payer swap 7Y com netting. Como naive e Euler alocam a PFE nos anos 1–3?",
   "back": "- Naive: positiva para os dois (ex.: ano 3: 3Y 2,12; 7Y 7,85).\n- Euler: negativa para o 3Y e positiva para o 7Y (ano 3: 3Y −2,82; 7Y 12,79).\nO 3Y reduz a exposure do 7Y. Após o ano 3 as duas coincidem.",
   "tags": [
-   "alocacao",
-   "euler",
    "netting"
   ],
   "source": "Cesari 2009, §12.6.3, p. 197–198 (Tab. 12.2)",
@@ -2745,7 +2584,7 @@
   "front": "Como alocar exposure de trades colateralizados de forma numericamente estável?",
   "back": "Tratar o collateral como mais uma perna gera resultados instáveis. Melhor: calcular contribuições **sem** collateral; depois a exposure com collateral. A contribuição do CSA é a diferença entre exposure com e sem collateral.",
   "tags": [
-   "alocacao",
+   "netting",
    "colateral"
   ],
   "source": "Cesari 2009, §12.6.4, p. 199",
@@ -2757,7 +2596,8 @@
   "front": "No framework AMC do livro, sob qual medida as distribuições de valor futuro são simuladas, e quais são as três situações em que se precisa de outra medida?",
   "back": "Simula-se sob a medida martingale de pricing $\\mathbb{N}$. Precisa-se de outra medida para:\n1. exposure sob a medida real-world (os ativos evoluem em $\\mathbb{P}$, não em $\\mathbb{N}$);\n2. stress testing (fatores de risco condicionados a um cenário);\n3. right-way/wrong-way risk (condicionar no default da contraparte).",
   "tags": [
-   "mudanca-medida"
+   "simulacao",
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §13 intro, p. 201",
   "created": 1793930000257,
@@ -2768,7 +2608,7 @@
   "front": "Por que o livro quer obter a distribuição de valor sob uma nova medida via change of measure, e não por uma nova simulação?",
   "back": "Para reaproveitar as mesmas trajetórias e os mesmos valores AMC já calculados sob $\\mathbb{N}$. Basta re-ponderar cada cenário pelo Radon-Nikodym $\\zeta^{(i)}$. Não há custo de nova simulação nem de novo pricing.",
   "tags": [
-   "mudanca-medida",
+   "simulacao",
    "amc"
   ],
   "source": "Cesari 2009, §13 intro, p. 201",
@@ -2780,7 +2620,7 @@
   "front": "Como se calcula o CDF do valor $V_t$ sob uma medida $\\mathbb{P}$ usando apenas amostras simuladas sob $\\mathbb{N}$?",
   "back": "$$F_t^{\\mathbb{P}}(v)=\\mathbb{E}^{\\mathbb{P}}[\\mathbb{1}\\{V_t\\le v\\}]=\\mathbb{E}^{\\mathbb{N}}[\\mathbb{1}\\{V_t\\le v\\}\\,\\zeta_t],\\quad \\zeta_t=\\left.\\tfrac{d\\mathbb{P}}{d\\mathbb{N}}\\right|_{\\mathcal{F}_t}$$\nEmpiricamente: média amostral de $\\mathbb{1}\\{V_t^{(i)}\\le v\\}\\,\\zeta_t^{(i)}$.",
   "tags": [
-   "mudanca-medida"
+   "simulacao"
   ],
   "source": "Cesari 2009, §13.1, p. 202",
   "created": 1793930000260,
@@ -2791,8 +2631,8 @@
   "front": "Depois de obter $\\hat F_t^{\\mathbb{P}}$ e $\\hat F_t^{\\mathbb{N}}$, como o livro gera uma amostra de $V_t$ sob $\\mathbb{P}$?",
   "back": "Por quantile mapping: $\\tilde V_t^{(i)}=(\\hat F_t^{\\mathbb{P}})^{-1}\\big(\\hat F_t^{\\mathbb{N}}(V_t^{(i)})\\big)$.\nInverte-se $\\hat F_t^{\\mathbb{P}}$ por interpolação. Na amostra $\\{\\tilde V_t^{(i)}\\}$ calculam-se quantis (PFE) e médias como na amostra original.",
   "tags": [
-   "mudanca-medida",
-   "pfe"
+   "simulacao",
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §13.1, p. 202",
   "created": 1793930000261,
@@ -2803,8 +2643,8 @@
   "front": "Com fatores de risco $Y=RX$ ($X$ Brownian motion em $\\mathbb{R}^d$), que escolha de $\\gamma_t$ no Radon-Nikodym leva da medida martingale $\\mathbb{N}$ à real-world $\\mathbb{P}$?",
   "back": "$$\\gamma_t=(R^{\\top}R)^{-1}R^{\\top}\\delta,\\quad \\delta\\in\\mathbb{R}^d \\text{ constante}$$\nIsso adiciona drift $\\delta$ a $Y$. Para ir a $\\mathbb{P}$, $\\delta_i$ = market price of risk do fator $i$.",
   "tags": [
-   "mudanca-medida",
-   "real-world"
+   "medidas-de-risco",
+   "simulacao"
   ],
   "source": "Cesari 2009, §13.1, p. 202–203",
   "created": 1793930000262,
@@ -2815,7 +2655,7 @@
   "front": "Para um fator de risco log-normal, a que corresponde o market price of risk $\\delta$ usado na mudança para a medida real-world?",
   "back": "Ao Sharpe ratio: (retorno esperado $-$ taxa livre de risco) / volatilidade.\nEx.: $\\delta=0.3$ com $\\sigma=30\\%$ dá excesso de retorno de $0.3\\times0.3=9\\%$ a.a.",
   "tags": [
-   "real-world"
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §13.1–13.2, p. 203",
   "created": 1793930000263,
@@ -2826,8 +2666,7 @@
   "front": "Quando é especialmente importante estimar exposure sob a medida real-world em vez da risk-neutral?",
   "back": "Quando o underlying tem drift real acentuado. A PFE risk-neutral só tem o drift da taxa livre de risco. Com um drift real forte, o payoff realizado pode ultrapassar a PFE estimada na originação.",
   "tags": [
-   "real-world",
-   "pfe"
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §13.2, p. 203",
   "created": 1793930000264,
@@ -2838,8 +2677,8 @@
   "front": "No exemplo do forward de petróleo (jul/2007, 100 barris a USD 72), o que aconteceu com a PFE 97.5% risk-neutral, e que lição isso dá?",
   "back": "A PFE máxima estimada era ~USD 5000. O petróleo chegou a ~USD 130 em jul/2008. O payoff realizado foi ~USD 6000, acima da PFE.\nLição: analisar na originação a exposure com um drift imposto ao driver (aqui $\\delta=0.3$, i.e. 9% de excesso de retorno).",
   "tags": [
-   "real-world",
-   "pfe"
+   "medidas-de-risco",
+   "equity-fx"
   ],
   "source": "Cesari 2009, §13.2, p. 203",
   "created": 1793930000265,
@@ -2850,8 +2689,8 @@
   "front": "Por que o livro trata o drift real-world $\\delta$ como um cenário, e não como um parâmetro estimado?",
   "back": "Estimar drift de séries históricas é muito difícil. Além do ruído estatístico, as séries alternam regimes muito diferentes. Logo, $\\delta$ serve para ver como a exposure se comporta num regime escolhido.",
   "tags": [
-   "real-world",
-   "stress"
+   "simulacao",
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §13.2, p. 204",
   "created": 1793930000266,
@@ -2862,8 +2701,7 @@
   "front": "Em stress testing via change of measure, como o livro representa um conjunto de cenários de stress?",
   "back": "Como medidas $\\mathbb{P}_1,\\dots,\\mathbb{P}_n$. Em cada uma, o driver de risco de interesse recebe um drift $\\delta_i$ diferente (crescimento acelerado ou desacelerado). A distribuição de valor sob cada $\\mathbb{P}_i$ sai da mesma simulação por re-ponderação.",
   "tags": [
-   "stress",
-   "mudanca-medida"
+   "simulacao"
   ],
   "source": "Cesari 2009, §13.3, p. 204",
   "created": 1793930000267,
@@ -2874,8 +2712,8 @@
   "front": "Dado um conjunto de medidas de stress $\\mathcal{P}=\\{\\mathbb{P}_i\\}$, que medida de risco o livro propõe e que propriedade ela tem?",
   "back": "$$\\rho(V)=\\sup_{\\mathbb{P}_i\\in\\mathcal{P}}\\mathbb{E}^{\\mathbb{P}_i}[V]$$\nÉ uma medida de risco **coerente** (em particular, subaditiva). Calcula-se a média de $V$ sob cada cenário e toma-se a maior.",
   "tags": [
-   "stress",
-   "coerencia"
+   "simulacao",
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §13.3, p. 204",
   "created": 1793930000268,
@@ -2886,8 +2724,8 @@
   "front": "No exemplo de um trade com driver ouro e um cenário $\\mathbb{P}^*$ de alta extrema do ouro, qual é a medida de risco coerente?",
   "back": "$\\rho(V_t)=\\max\\{\\mathbb{E}^*(V_t),\\,\\mathbb{E}(V_t)\\}$: a maior entre a média sob o cenário de stress e a média sob a medida original, a cada data $t$.",
   "tags": [
-   "stress",
-   "coerencia"
+   "simulacao",
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §13.3, p. 205",
   "created": 1793930000269,
@@ -2898,8 +2736,8 @@
   "front": "Segundo a definição do livro, o credit exposure numa data $t$ é a distribuição de qual quantidade, e quando ela coincide com a price exposure?",
   "back": "É a distribuição do valor do trade **condicional ao default da contraparte em $t$**. Coincide com a distribuição não condicional (price exposure) quando o default não altera (ou altera pouco) a distribuição de valor, i.e. valor e qualidade de crédito são independentes.",
   "tags": [
-   "ee",
-   "wrong-way"
+   "wrong-way",
+   "fundamentos"
   ],
   "source": "Cesari 2009, §13.4, p. 205–206",
   "created": 1793930000270,
@@ -2932,8 +2770,7 @@
   "front": "Num trade de petróleo e gás com uma contraparte do setor de commodities, sob que medida se deve analisar a credit exposure?",
   "back": "Sob uma medida em que petróleo e gás têm um drift fortemente negativo. O default da firma é consistente com preços baixos dessas commodities. Condicionar no default equivale a olhar esse regime.",
   "tags": [
-   "wrong-way",
-   "mudanca-medida"
+   "wrong-way"
   ],
   "source": "Cesari 2009, §13.4, p. 206",
   "created": 1793930000273,
@@ -2944,8 +2781,7 @@
   "front": "Quais são as duas abordagens do livro para right-way/wrong-way exposure, e qual é a restrição da segunda?",
   "back": "1. Change of measure: impor um drift escolhido ao driver de risco ligado ao default.\n2. Abordagem Merton: correlacionar um fator de mercado gaussiano com o distance-to-default da contraparte.\nA abordagem Merton (com o mapeamento $V\\to Z$) só funciona se o payoff for monotônico nos fatores de risco.",
   "tags": [
-   "wrong-way",
-   "merton"
+   "wrong-way"
   ],
   "source": "Cesari 2009, §13.4, p. 206",
   "created": 1793930000274,
@@ -2956,7 +2792,6 @@
   "front": "Na abordagem Merton para wrong-way risk, como se modela o default da contraparte num horizonte fixo?",
   "back": "$X=\\rho Z+\\bar\\rho\\tilde X$, com $Z,\\tilde X\\sim N(0,1)$ independentes e $\\bar\\rho=\\sqrt{1-\\rho^2}$.\nDefault $\\Leftrightarrow X<C$, com $C=\\Phi^{-1}(p)$ e $p$ a probabilidade de default no horizonte.\n$Z$ é o fator de mercado que move o valor do trade.",
   "tags": [
-   "merton",
    "wrong-way"
   ],
   "source": "Cesari 2009, §13.4.1, p. 206–207",
@@ -2968,7 +2803,7 @@
   "front": "Na abordagem Merton para wrong-way risk, qual é a interpretação econômica da variável latente $X$?",
   "back": "O (log-)retorno do valor dos ativos da contraparte, após transformação/re-escala. Default quando o retorno fica abaixo de um nível $C$: ideia de distance-to-default.",
   "tags": [
-   "merton"
+   "wrong-way"
   ],
   "source": "Cesari 2009, §13.4.1, p. 207",
   "created": 1793930000276,
@@ -2979,8 +2814,7 @@
   "front": "Na abordagem Merton, qual é a densidade de $Z$ condicional ao default $\\{X<C\\}$?",
   "back": "$$\\tilde\\phi(z)=\\frac{\\Phi\\!\\left(\\frac{C-\\rho z}{\\bar\\rho}\\right)}{\\Phi(C)}\\,\\phi(z)$$\nVem de Bayes: $\\mathbb{P}[Z=z\\mid X<C]=\\mathbb{P}[X<C\\mid Z=z]\\,\\phi(z)/\\mathbb{P}[X<C]$.",
   "tags": [
-   "merton",
-   "mudanca-medida"
+   "wrong-way"
   ],
   "source": "Cesari 2009, §13.4.1, p. 207",
   "created": 1793930000277,
@@ -2991,8 +2825,7 @@
   "front": "Na densidade condicional $\\tilde\\phi(z)=\\phi(z)\\,\\Phi\\!\\left(\\frac{C-\\rho z}{\\bar\\rho}\\right)/\\Phi(C)$, qual é a intuição do fator de re-ponderação?",
   "back": "É o Radon-Nikodym $\\zeta(Z)=\\mathbb{P}[X<C\\mid Z]/\\mathbb{P}[X<C]$. Cada cenário $z$ ganha peso proporcional a quão mais (ou menos) provável o default é dado esse $z$, relativo à PD marginal.",
   "tags": [
-   "merton",
-   "mudanca-medida"
+   "wrong-way"
   ],
   "source": "Cesari 2009, §13.4.1, p. 208",
   "created": 1793930000278,
@@ -3003,7 +2836,7 @@
   "front": "Na abordagem Merton, para onde se desloca a massa da distribuição condicional de $Z$ quando $\\rho>0$? E quando $\\rho<0$?",
   "back": "$\\rho>0$: default associado a $X$ baixo e, logo, $Z$ baixo; massa vai para a esquerda.\n$\\rho<0$: massa vai para a direita.\n$\\rho=0$: densidade não condicional $\\phi$. Com PD pequena (0.1%) e $|\\rho|$ alto o deslocamento é grande.",
   "tags": [
-   "merton"
+   "wrong-way"
   ],
   "source": "Cesari 2009, §13.4.1, p. 208",
   "created": 1793930000279,
@@ -3014,8 +2847,7 @@
   "front": "Na abordagem Merton, como se estima o quantil $q$ da exposure condicional ao default a partir das simulações não condicionais $z^{(i)}$?",
   "back": "Resolve-se em $x_q^{(\\rho)}$:\n$$q=\\sum_{\\{z:\\,V\\le x_q^{(\\rho)}\\}}\\frac{\\Phi(\\frac{C-\\rho z}{\\bar\\rho})}{\\Phi(C)}\\Big/\\sum_{\\{z\\}}\\frac{\\Phi(\\frac{C-\\rho z}{\\bar\\rho})}{\\Phi(C)}$$\nÉ um quantil ponderado pelos pesos $\\zeta(z^{(i)})$. Não exige simular $V$ sob a medida condicional.",
   "tags": [
-   "merton",
-   "pfe"
+   "wrong-way"
   ],
   "source": "Cesari 2009, §13.4.1, p. 209",
   "created": 1793930000280,
@@ -3026,8 +2858,8 @@
   "front": "No estimador do quantil condicional da abordagem Merton, por que se mantém o denominador $\\sum_i \\zeta(z^{(i)})$ se o seu valor exato é 1?",
   "back": "Porque a média amostral dos pesos não é exatamente 1. Normalizar garante que a distribuição condicional empírica tenha massa total correta. (O valor teórico é 1 porque a PD condicional média iguala a PD marginal.)",
   "tags": [
-   "merton",
-   "monte-carlo"
+   "wrong-way",
+   "simulacao"
   ],
   "source": "Cesari 2009, §13.4.1, p. 209",
   "created": 1793930000281,
@@ -3038,7 +2870,6 @@
   "front": "O que é o \"inverse problem\" da abordagem Merton para wrong-way risk, e para que serve?",
   "back": "Achar a probabilidade de default da contraparte **condicional a um nível de exposure** observado $V=v$.\nServe para: (i) ver a PD condicional a um cenário de mercado; (ii) mapear a distribuição de preço (função de vários fatores correlacionados) num único fator normal $Z$.",
   "tags": [
-   "merton",
    "wrong-way"
   ],
   "source": "Cesari 2009, §13.4.2, p. 209–210",
@@ -3050,7 +2881,7 @@
   "front": "No inverse problem, como se constrói o fator normal $Z$ a partir da distribuição de valor $V$ de um trade com vários fatores de risco?",
   "back": "$Z=\\Phi^{-1}(F(V))$, com $F$ o CDF empírico de $V$. $F(V)$ é uniforme; aplicar $\\Phi^{-1}$ dá uma normal padrão. Assim $V=G(Z)$ com $G$ monotônica.",
   "tags": [
-   "merton"
+   "wrong-way"
   ],
   "source": "Cesari 2009, §13.4.2, p. 210",
   "created": 1793930000283,
@@ -3061,7 +2892,7 @@
   "front": "No inverse problem, qual é a PD da contraparte condicional a $V=v$?",
   "back": "Com $z=\\Phi^{-1}(F(v))$:\n$$\\mathbb{P}[X<C\\mid V=v]=\\Phi\\!\\left(\\frac{C-\\rho z}{\\bar\\rho}\\right)=\\frac{\\tilde\\phi(z)}{\\phi(z)}\\,\\Phi(C)$$",
   "tags": [
-   "merton"
+   "wrong-way"
   ],
   "source": "Cesari 2009, §13.4.2, p. 210",
   "created": 1793930000284,
@@ -3072,7 +2903,7 @@
   "front": "Quando falha o mapeamento $Z=\\Phi^{-1}(F(V))$ do inverse problem, e por quê?",
   "back": "Quando o payoff não é monotônico nos fatores de risco. Aí um mesmo valor $v$ vem de cenários de mercado distintos (ex.: straddle: alta e baixa forte). Não há um $z$ único por nível de exposure.",
   "tags": [
-   "merton"
+   "wrong-way"
   ],
   "source": "Cesari 2009, §13.4.2, p. 210",
   "created": 1793930000285,
@@ -3084,7 +2915,7 @@
   "back": "A exposure aumenta. O drift extra torna mais prováveis os cenários com a call in-the-money. No livro: drifts de $0.05\\sigma$, $0.1\\sigma$, $0.15\\sigma$ acima da taxa livre de risco.",
   "tags": [
    "wrong-way",
-   "pfe"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §13.4.3, p. 210–211",
   "created": 1793930000286,
@@ -3095,7 +2926,6 @@
   "front": "Na abordagem Merton aplicada a uma call comprada sobre uma ação, como a exposure varia com $\\rho$ entre a ação e a qualidade de crédito da contraparte?",
   "back": "A exposure cai quando $\\rho$ sobe. Com $\\rho$ alto, default vem com a ação baixa e a call OTM. No limite (call sobre a ação da própria contraparte) a exposure vai a zero. Com $\\rho=0$ volta ao quantil não condicional.",
   "tags": [
-   "merton",
    "wrong-way"
   ],
   "source": "Cesari 2009, §13.4.3, p. 211",
@@ -3108,7 +2938,7 @@
   "back": "Porque o valor da carteira sobe com o preço do petróleo. Drift extra positivo empurra a distribuição para cenários de valor maior. A monotonicidade também permite usar a abordagem Merton.",
   "tags": [
    "wrong-way",
-   "pfe"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §13.4.4, p. 212",
   "created": 1793930000288,
@@ -3120,7 +2950,7 @@
   "back": "Right-way. Apreciação da GBP aumenta o risco de default da firma. Ao mesmo tempo, como se recebe USD e se paga GBP, a apreciação da GBP reduz o valor do swap. Default vem com exposure menor.",
   "tags": [
    "wrong-way",
-   "fx"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §13.4.5, p. 212–213",
   "created": 1793930000289,
@@ -3131,8 +2961,7 @@
   "front": "Qual é a diferença de input entre a abordagem Merton e a abordagem change of measure para wrong-way risk?",
   "back": "Ambas são casos de change of measure.\n- Merton: input é a correlação $\\rho$ entre o driver gaussiano do trade e o distance-to-default.\n- Change of measure: input é um drift escolhido no driver que se acredita causar ou sofrer com o default.",
   "tags": [
-   "wrong-way",
-   "merton"
+   "wrong-way"
   ],
   "source": "Cesari 2009, §13.4.6, p. 212–213",
   "created": 1793930000290,
@@ -3143,7 +2972,6 @@
   "front": "Como o livro estima na prática a correlação $\\rho$ da abordagem Merton, e que cuidado recomenda?",
   "back": "Usa a correlação linear entre os retornos da ação da contraparte e os retornos do driver do trade. Como $\\rho$ é difícil de estimar, recomenda calcular a exposure para uma faixa de valores de $\\rho$ e ver a sensibilidade.",
   "tags": [
-   "merton",
    "wrong-way"
   ],
   "source": "Cesari 2009, §13.4.6, p. 213",
@@ -3155,8 +2983,7 @@
   "front": "Qual é a vantagem da abordagem change of measure (drift imposto) sobre a Merton para wrong-way risk?",
   "back": "Controle explícito da evolução do driver de risco escolhido: impõe-se diretamente o cenário (ex.: petróleo caindo). A Merton depende de um $\\rho$ difícil de estimar e exige payoff monotônico.",
   "tags": [
-   "wrong-way",
-   "mudanca-medida"
+   "wrong-way"
   ],
   "source": "Cesari 2009, §13.4.6, p. 213",
   "created": 1793930000292,
@@ -3167,7 +2994,6 @@
   "front": "Por que hedge de counterparty risk via CDS single-name nem sempre é direto? (4 motivos do livro)",
   "back": "1. CDS da contraparte pode ser ilíquido ou sem a maturidade desejada.\n2. Não há forma única de definir os notionals dos CDS.\n3. O recovery do bond entregue no CDS pouco tem a ver com o recovery do trade hedgeado.\n4. Reajustar o perfil de proteção após o início pode ser caro demais.",
   "tags": [
-   "cva",
    "hedge"
   ],
   "source": "Cesari 2009, cap. 14 intro, p. 215",
@@ -3179,9 +3005,7 @@
   "front": "Quando falta liquidez no CDS da contraparte, que instrumento se usa e qual sua limitação?",
   "back": "Índices de crédito (CDX, iTraxx; ABX, CMBX para ABS).\nVantagem: liquidez e custo menor.\nLimitação: são genéricos e não pagam a proteção cheia no default da contraparte. Servem sobretudo para hedgear o risco de spread de mercado.",
   "tags": [
-   "cva",
-   "hedge",
-   "indices"
+   "hedge"
   ],
   "source": "Cesari 2009, cap. 14 intro, p. 215",
   "created": 1793930000294,
@@ -3192,7 +3016,6 @@
   "front": "Por que comprar uma quantidade fixa de CDS no início do trade é um hedge fraco de counterparty risk? Qual a analogia do livro?",
   "back": "É como hedgear uma opção com quantidade fixa da ação.\nA exposure é estocástica; o hedge deve ser dinâmico, para que o valor do portfólio no default iguale $V_\\tau^+$.",
   "tags": [
-   "cva",
    "hedge"
   ],
   "source": "Cesari 2009, cap. 14 intro, p. 215",
@@ -3204,8 +3027,8 @@
   "front": "O que é um contingent credit default swap (C-CDS)?",
   "back": "Um contrato que, no default da contraparte, paga exatamente a exposure positiva $V_\\tau^+$ do trade (ou portfólio) protegido.\nÉ um derivativo sobre o processo de valor $V_t$.",
   "tags": [
-   "c-cds",
-   "cva"
+   "cva",
+   "hedge"
   ],
   "source": "Cesari 2009, §14.2, p. 216–217",
   "created": 1793930000296,
@@ -3216,7 +3039,6 @@
   "front": "Qual a relação entre CVA e C-CDS?",
   "back": "O CVA é o valor em $t=0$ do C-CDS.\nÉ o custo de montar o portfólio replicante da credit exposure (também chamado *credit charge*).",
   "tags": [
-   "c-cds",
    "cva"
   ],
   "source": "Cesari 2009, cap. 14 intro, p. 216",
@@ -3228,8 +3050,8 @@
   "front": "Além de proteger contra default, por que um banco precisa hedgear o CVA?",
   "back": "O CVA entra no P&L do banco.\nPor isso é uma fonte grande de volatilidade de P&L, mesmo sem default.",
   "tags": [
-   "cva",
-   "hedge"
+   "hedge",
+   "cva"
   ],
   "source": "Cesari 2009, cap. 14 intro, p. 216",
   "created": 1793930000298,
@@ -3263,8 +3085,7 @@
   "front": "Escreva o CVA em $t=0$ até o horizonte $T$ (forma com expectativa condicional ao default).",
   "back": "$$\\mathrm{CVA}_{0,T}=(1-R_V)\\int_0^T \\mathbb{E}\\big[N_u^{-1}V_u^+\\,\\big|\\,\\tau=u\\big]\\,\\mathbb{N}(\\tau\\in(u,u+du))$$\n$R_V$: recovery esperado no portfólio; $N$: numeraire; $\\tau$: default da contraparte.",
   "tags": [
-   "cva",
-   "formula"
+   "cva"
   ],
   "source": "Cesari 2009, §14.1, eq. 14.1, p. 216",
   "created": 1793930000301,
@@ -3288,8 +3109,7 @@
   "back": "$$\\mathrm{CVA}_{0,T}=\\frac{1-R_V}{1-R}\\int_0^T \\mathrm{EPE}^{mod}_u\\,d\\mathrm{CDS}_u$$\ncom $\\mathrm{EPE}^{mod}_u:=D_{0,u}^{-1}\\mathbb{E}[N_u^{-1}V_u^+\\mid\\tau=u]$ e $\\mathrm{CDS}_t:=(1-R)\\int_0^t D_{0,u}\\,\\mathbb{N}(\\tau\\in(u,u+du))$ (protection leg com maturidade $t$).",
   "tags": [
    "cva",
-   "formula",
-   "epe"
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §14.1, eqs. 14.2–14.4, p. 216–217",
   "created": 1793930000303,
@@ -3300,8 +3120,7 @@
   "front": "Na forma $\\mathrm{CVA}=\\frac{1-R_V}{1-R}\\int \\mathrm{EPE}^{mod}_u\\,d\\mathrm{CDS}_u$, por que aparece a razão $\\frac{1-R_V}{1-R}$?",
   "back": "$d\\mathrm{CDS}_u$ já embute a LGD $(1-R)$ do CDS de mercado.\nA razão troca essa LGD pela do trade, $(1-R_V)$. Os dois recoveries em geral diferem.",
   "tags": [
-   "cva",
-   "recovery"
+   "cva"
   ],
   "source": "Cesari 2009, §14.1, eq. 14.2, p. 216–217",
   "created": 1793930000304,
@@ -3312,8 +3131,7 @@
   "front": "Por que o $\\mathrm{EPE}^{mod}$ multiplica por $D_{0,u}^{-1}$?",
   "back": "$\\mathbb{E}[N_u^{-1}V_u^+|\\tau=u]$ é valor presente.\n$D_{0,u}^{-1}$ o leva a valor forward em $u$, porque $d\\mathrm{CDS}_u$ já desconta com $D_{0,u}$. Assim não se desconta duas vezes.",
   "tags": [
-   "cva",
-   "epe"
+   "cva"
   ],
   "source": "Cesari 2009, §14.1, eq. 14.4, p. 217",
   "created": 1793930000305,
@@ -3324,8 +3142,8 @@
   "front": "A fórmula $\\int \\mathrm{EPE}^{mod}\\,d\\mathrm{CDS}$ sugere hedgear com uma escada de CDS de várias maturidades. Por que isso falha?",
   "back": "- A escada protege só a exposure esperada original, não o MtM real no default.\n- Quando $V_t$ e o spread se movem, o CVA muda.\n- Variações de CVA por fatores de mercado (não-spread) ficam sem hedge e geram volatilidade de P&L.",
   "tags": [
-   "cva",
-   "hedge"
+   "hedge",
+   "cva"
   ],
   "source": "Cesari 2009, §14.1, p. 217",
   "created": 1793930000306,
@@ -3336,8 +3154,7 @@
   "front": "Escreva o preço do C-CDS no tempo $t$.",
   "back": "$$\\mathrm{CVA}_{t,T}=(1-R_V)N_t\\int_t^T \\mathbb{E}\\big[N_u^{-1}V_u^+\\delta_{\\tau-u}\\,\\big|\\,\\mathcal{F}_t\\big]du$$\nA expectativa é na lei conjunta de $\\tau$ e $V$, pois podem ser dependentes.",
   "tags": [
-   "c-cds",
-   "formula"
+   "cva"
   ],
   "source": "Cesari 2009, §14.2, eq. 14.5, p. 217",
   "created": 1793930000307,
@@ -3348,7 +3165,6 @@
   "front": "Qual a ideia central do livro para hedgear counterparty risk dinamicamente?",
   "back": "Tratar o C-CDS como um derivativo sobre $V_t$.\nAplica-se a ele as estratégias usuais de hedge de derivativos (delta, gamma, portfólio self-financing).",
   "tags": [
-   "c-cds",
    "hedge"
   ],
   "source": "Cesari 2009, §14.2, p. 217",
@@ -3360,7 +3176,7 @@
   "front": "Para avaliar o C-CDS como super-product, que três distribuições é preciso simular?",
   "back": "1. Distribuição de preço do portfólio subjacente $V_t$.\n2. Distribuição do numeraire $N_t$.\n3. Tempos de default $\\tau$ da contraparte.",
   "tags": [
-   "c-cds",
+   "cva",
    "amc"
   ],
   "source": "Cesari 2009, §14.2.1, p. 218",
@@ -3372,7 +3188,7 @@
   "front": "No AMC do C-CDS, qual o payoff na data discretizada $T_i$?",
   "back": "$$\\Pi_{CCDS}(T_i)=V_{T_i}^+\\,\\mathbb{1}_{\\tau\\in\\,]T_{i-1},T_i]}$$\nPaga a exposure positiva se o default cai no intervalo.",
   "tags": [
-   "c-cds",
+   "cva",
    "amc"
   ],
   "source": "Cesari 2009, §14.2.1, eq. 14.6, p. 218",
@@ -3384,9 +3200,8 @@
   "front": "Na regressão AMC do C-CDS, quais observables devem entrar no mínimo?",
   "back": "1. Spreads de CDS simulados da contraparte.\n2. A distribuição de preço $V$ do portfólio.",
   "tags": [
-   "c-cds",
-   "amc",
-   "regression"
+   "cva",
+   "amc"
   ],
   "source": "Cesari 2009, §14.2.1, p. 218",
   "created": 1793930000311,
@@ -3397,9 +3212,9 @@
   "front": "Que vantagem o livro destaca em avaliar o C-CDS por Monte Carlo?",
   "back": "A correlação entre $V$ e $\\tau$ entra automaticamente.\nA distribuição de preços já é computada condicional ao default da contraparte.",
   "tags": [
-   "c-cds",
-   "amc",
-   "wrong-way"
+   "cva",
+   "wrong-way",
+   "amc"
   ],
   "source": "Cesari 2009, §14.2.1, p. 218",
   "created": 1793930000312,
@@ -3410,8 +3225,8 @@
   "front": "Qual o payoff do C-CDS numa swap payer (paga fixo $K$, recebe float) com maturidade $T$?",
   "back": "$$\\Pi_{CCDS}(T_i)=A_{T_i,T}\\,(s_{T_i,T}-K)^+\\,\\mathbb{1}_{\\tau\\in\\,]T_{i-1},T_i]}$$\n$A$: annuity; $s$: par rate. A exposure é um payoff de swaption.",
   "tags": [
-   "c-cds",
-   "irs"
+   "cva",
+   "juros"
   ],
   "source": "Cesari 2009, §14.2.2, eq. 14.7, p. 218",
   "created": 1793930000313,
@@ -3422,9 +3237,8 @@
   "front": "No exemplo do livro (swap USD 10 anos, notional 1 bi, CDS flat 130 bp), qual a lição de comparar CVA inicial com o PFE 97.5% do C-CDS?",
   "back": "CVA inicial ≈ 8.4 mi USD, mas pode chegar a ≈ 22 mi USD a 97.5%.\nO próprio CVA tem risco de juros e de spread relevante; precisa ser hedgeado.",
   "tags": [
-   "c-cds",
-   "irs",
-   "pfe"
+   "cva",
+   "medidas-de-risco"
   ],
   "source": "Cesari 2009, §14.2.2, p. 218–219",
   "created": 1793930000314,
@@ -3436,8 +3250,7 @@
   "back": "$$\\mathrm{CVA}_T\\simeq\\frac{2T}{3}\\,\\mathrm{EPE}_{max}\\,s_T$$\n$s_T$: spread de CDS da contraparte. Exemplo: $100\\times\\frac{2}{3}\\times0.013\\times10\\approx 8.6$ mi USD, próximo do 8.4 do MC.",
   "tags": [
    "cva",
-   "irs",
-   "aproximacao"
+   "juros"
   ],
   "source": "Cesari 2009, §14.2.2, nota 4, eq. 14.8, p. 219",
   "created": 1793930000315,
@@ -3448,7 +3261,6 @@
   "front": "Ao aplicar o hedge delta-gamma a um C-CDS, que três tipos de instrumento ou risco aparecem?",
   "back": "1. CDS na contraparte (risco de crédito).\n2. Instrumentos nos fatores de mercado que movem a exposure.\n3. Risco de correlação entre drivers (cross-gammas).",
   "tags": [
-   "c-cds",
    "hedge"
   ],
   "source": "Cesari 2009, §14.3, p. 220",
@@ -3460,9 +3272,7 @@
   "front": "Por que o risco de correlação entre drivers de um C-CDS é difícil de hedgear?",
   "back": "Faltam instrumentos que cubram as derivadas segundas cruzadas (cross-gammas).",
   "tags": [
-   "c-cds",
-   "hedge",
-   "correlacao"
+   "hedge"
   ],
   "source": "Cesari 2009, §14.3, p. 220",
   "created": 1793930000317,
@@ -3473,8 +3283,7 @@
   "front": "No optimal static hedge, que objetivo o livro propõe como exemplo para escolher os pesos $\\alpha$?",
   "back": "Maximizar o Sharpe ratio do P&L do hedge, usando a gain process $G_\\alpha(t)$ escalada pelo numeraire:\n$$\\max_\\alpha \\frac{M(t,1)}{\\sqrt{M(t,2)-M(t,1)^2}}$$\n$M(t,k)$: k-ésimo momento de $G_\\alpha(t)$.",
   "tags": [
-   "hedge",
-   "c-cds"
+   "hedge"
   ],
   "source": "Cesari 2009, §14.4, eqs. 14.14–14.16, p. 221",
   "created": 1793930000318,
@@ -3497,8 +3306,7 @@
   "back": "O AMC estima a distribuição de preço como função de variáveis estocásticas escolhidas.\nDeriva-se essa função regredida em relação às variáveis. Custo: um passo extra de regressão.",
   "tags": [
    "cva",
-   "amc",
-   "sensitivities"
+   "amc"
   ],
   "source": "Cesari 2009, §14.5, p. 221–222",
   "created": 1793930000320,
@@ -3510,8 +3318,7 @@
   "back": "Limitação: não dá sensitivity a quantidades não-estocásticas.\nCuidado: dá a sensitivity ao observable escolhido, não a um fator isolado. Para manter os outros fatores fixos, é preciso de-correlacionar (Sect. 4.5.3).",
   "tags": [
    "cva",
-   "amc",
-   "sensitivities"
+   "amc"
   ],
   "source": "Cesari 2009, §14.5, p. 222",
   "created": 1793930000321,
@@ -3523,8 +3330,7 @@
   "back": "O credit spread da contraparte.\nHedge com CDS da contraparte, decomposto em time buckets que casam com as maturidades de CDS disponíveis. Sensitivity: finite difference na eq. (14.2).",
   "tags": [
    "cva",
-   "sensitivities",
-   "spread"
+   "hedge"
   ],
   "source": "Cesari 2009, §14.5, p. 222",
   "created": 1793930000322,
@@ -3535,8 +3341,6 @@
   "front": "Se a contraparte não tem CDS líquido e se hedgeia com índices, que risco fica aberto?",
   "back": "O risco idiossincrático da contraparte.\nO índice cobre só risco genérico ou setorial.",
   "tags": [
-   "cva",
-   "indices",
    "hedge"
   ],
   "source": "Cesari 2009, §14.5, p. 222",
@@ -3548,7 +3352,6 @@
   "front": "Por que o livro prefere hedgear o market risk do CVA com futuros e opções listados?",
   "back": "Para não adicionar counterparty risk com outra contraparte.",
   "tags": [
-   "cva",
    "hedge"
   ],
   "source": "Cesari 2009, §14.5, p. 222",
@@ -3560,9 +3363,9 @@
   "front": "Por que o risco de correlação market/credit do CVA é difícil de hedgear, e como se lida com ele na prática?",
   "back": "Há várias formas realistas de modelar a dependência, e cada uma dá um preço de C-CDS diferente.\nNa prática se estuda um range de cenários de dependência em vez de fixar um valor.",
   "tags": [
-   "cva",
    "wrong-way",
-   "correlacao"
+   "hedge",
+   "cva"
   ],
   "source": "Cesari 2009, §14.5, p. 222–223",
   "created": 1793930000325,
@@ -3573,8 +3376,8 @@
   "front": "Para um portfólio de juros ou FX, quando a correlação market/credit não pode ser ignorada?",
   "back": "Quando a contraparte é soberana.\nFora disso, o livro diz que pode ser ignorada com segurança.",
   "tags": [
-   "cva",
-   "wrong-way"
+   "wrong-way",
+   "cva"
   ],
   "source": "Cesari 2009, §14.5, p. 223",
   "created": 1793930000326,
@@ -3586,7 +3389,7 @@
   "back": "Reduzem o C-CDS: não há fluxo a proteger após a break date. No portfólio, agem como amortização do notional.\nRisco: o banco pode não exercer o break (relação com o cliente). Aí precisa comprar mais proteção e recalcular o CVA.",
   "tags": [
    "cva",
-   "break-clause"
+   "netting"
   ],
   "source": "Cesari 2009, §14.5, p. 223",
   "created": 1793930000327,
@@ -3597,8 +3400,8 @@
   "front": "Com colateral, margin call diária e threshold zero, por que o CVA não vai a zero?",
   "back": "No default, o detentor precisa liquidar o colateral, o que leva tempo.\nNesse período o valor do trade muda: close-out risk. Com colateral ilíquido, o período é maior e o risco também.",
   "tags": [
-   "colateral",
    "close-out",
+   "colateral",
    "cva"
   ],
   "source": "Cesari 2009, §14.6, p. 223",
@@ -3611,7 +3414,7 @@
   "back": "Quando o portfólio subjacente contém instrumentos de crédito.\nNo default da contraparte, spreads de nomes correlacionados saltam e mudam $V$ de imediato.",
   "tags": [
    "wrong-way",
-   "c-cds"
+   "cva"
   ],
   "source": "Cesari 2009, §14.7, p. 224",
   "created": 1793930000329,
@@ -3623,7 +3426,6 @@
   "back": "Instrumentos sensíveis a correlação, como tranches de CDO que envolvam a contraparte e os nomes subjacentes.",
   "tags": [
    "wrong-way",
-   "c-cds",
    "hedge"
   ],
   "source": "Cesari 2009, §14.7, p. 224",
@@ -3636,7 +3438,7 @@
   "back": "Extraindo, na simulação, os paths em que a contraparte defaulta.\nComo default é raro, isso exige muito mais simulações.",
   "tags": [
    "wrong-way",
-   "amc"
+   "simulacao"
   ],
   "source": "Cesari 2009, §14.7, p. 224",
   "created": 1793930000331,
@@ -3647,9 +3449,8 @@
   "front": "Com $V$ independente de $\\tau$, como replicar o C-CDS de uma swap vanilla com swaptions e CDS?",
   "back": "$$\\mathrm{CCDS}_t\\simeq\\sum_{t_i>t}\\mathrm{Swaption}(t,t_i,T)\\,P(t,t_{i-1},t_i)$$\nSwaptions com expiry $t_i$, strike = taxa fixa da swap, pesadas pela probabilidade incremental de default.",
   "tags": [
-   "c-cds",
-   "irs",
-   "hedge"
+   "hedge",
+   "juros"
   ],
   "source": "Cesari 2009, §14.8.1, eqs. 14.17–14.18, p. 225",
   "created": 1793930000332,
@@ -3660,9 +3461,8 @@
   "front": "Quais as duas leituras equivalentes do C-CDS de uma swap vanilla (sem correlação)?",
   "back": "1. Um CDS amortizante até $T$ com notional igual ao perfil de modified EPE.\n2. Uma strip de swaptions com notionals iguais às probabilidades incrementais de default.\nLogo, o hedge dinâmico usa swaptions e CDS.",
   "tags": [
-   "c-cds",
-   "irs",
-   "hedge"
+   "hedge",
+   "cva"
   ],
   "source": "Cesari 2009, §14.8.1, p. 225",
   "created": 1793930000333,
@@ -3674,7 +3474,7 @@
   "back": "A exposure cai no pagamento do cupom.\n- Datas logo antes do pagamento: superestima o CVA.\n- Datas logo depois: subestima.",
   "tags": [
    "cva",
-   "discretizacao"
+   "simulacao"
   ],
   "source": "Cesari 2009, §14.8.2, p. 225–226",
   "created": 1793930000334,
@@ -3686,8 +3486,7 @@
   "back": "Soma uma strip de caplets nas datas de cupom $T_i$, pesados pela probabilidade de default no intervalo:\n$$+\\sum_{T_i>t}\\mathrm{Caplet}(t,T_i)\\,P(t,T_{i-1},T_i)$$",
   "tags": [
    "cva",
-   "discretizacao",
-   "irs"
+   "juros"
   ],
   "source": "Cesari 2009, §14.8.2, eq. 14.19, p. 225",
   "created": 1793930000335,
@@ -3698,9 +3497,9 @@
   "front": "Num forward (equity swap) colateralizado diariamente, threshold zero, sobre ação ilíquida, qual o valor em $t=0$ do close-out risk por ação?",
   "back": "$$\\mathbb{E}\\big[N_t^{-1}(S_t-S_{t-\\delta})^+\\big]$$\n$\\delta$: duração do close-out. Hedgear isso é hedgear um payoff tipo cliquet.",
   "tags": [
-   "colateral",
    "close-out",
-   "equity-swap"
+   "colateral",
+   "equity-fx"
   ],
   "source": "Cesari 2009, §14.8.3, eq. 14.20, p. 226",
   "created": 1793930000336,
@@ -3711,9 +3510,8 @@
   "front": "No case study (forward EUR/USD 20 anos, CDS 300 bp), quanto se perderia hedgeando só o spread, e por quê?",
   "back": "CVA foi de ≈ 10 para ≈ 24 mi USD em um ano, com o spread parado. Perda ≈ 14 mi USD.\nCausa: a queda do EUR/USD aumentou a exposure; o hedge de CDS não cobre isso.",
   "tags": [
-   "case-study",
-   "cva",
-   "hedge"
+   "hedge",
+   "cva"
   ],
   "source": "Cesari 2009, §14.9, p. 226–227",
   "created": 1793930000337,
@@ -3724,8 +3522,8 @@
   "front": "No case study, o valor do trade em 2009 estava fora do PFE calculado em 2008?",
   "back": "Não. Estava dentro do PFE de 2008.\nMas os novos perfis de EPE/PFE de 2009 saíram dos limites de 2008. O CVA mudou muito sem nenhum evento extremo.",
   "tags": [
-   "case-study",
-   "pfe"
+   "medidas-de-risco",
+   "cva"
   ],
   "source": "Cesari 2009, §14.9, p. 227",
   "created": 1793930000338,
@@ -3736,9 +3534,8 @@
   "front": "No case study, como o livro hedgeou o FX risk do CVA, e com que resultado?",
   "back": "Futuros de EUR/USD de um ano (líquidos, sem novo counterparty risk): long ≈ 37 mi EUR, pelo delta do CVA de ≈ −37 mi USD.\nResultado: lucro ≈ 1 mi USD contra perda de 14 mi USD sem hedge.",
   "tags": [
-   "case-study",
    "hedge",
-   "fx"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §14.9, p. 227–228",
   "created": 1793930000339,
@@ -3749,7 +3546,6 @@
   "front": "No case study com spread subindo de 300 para 400 bp, compare os resultados: sem hedge, só CDS, hedge completo.",
   "back": "- Sem hedge: perda ≈ 18 mi USD.\n- Só CDS (estático): perda ≈ 16 mi USD.\n- FX + CDS: perda ≈ 1 mi USD.",
   "tags": [
-   "case-study",
    "hedge"
   ],
   "source": "Cesari 2009, §14.9, p. 228–229",
@@ -3761,8 +3557,6 @@
   "front": "No case study, o portfólio tem 20 anos mas só o CDS de 5 anos é líquido. Como se dimensiona o hedge de spread?",
   "back": "Iguala-se o credit delta do CVA (≈ 20 kUSD/bp) ao delta do CDS 5Y (≈ 400 USD/bp por 1 mi USD).\nNotional ≈ 50 mi USD.",
   "tags": [
-   "case-study",
-   "spread",
    "hedge"
   ],
   "source": "Cesari 2009, §14.9, p. 228–229",
@@ -3774,8 +3568,8 @@
   "front": "Num cálculo clássico de CVA (EPE estático × spread), qual componente do hedge é difícil de computar e qual é difícil de executar?",
   "back": "Componente de mercado: difícil de computar (exige sensitivities do EPE aos fatores), mas usa instrumentos listados.\nComponente de crédito: fácil de computar, mas usa CDS OTC, nem sempre disponível em todos os nomes e maturidades.",
   "tags": [
-   "cva",
-   "hedge"
+   "hedge",
+   "cva"
   ],
   "source": "Cesari 2009, §14.9, p. 229",
   "created": 1793930000342,
@@ -3787,8 +3581,7 @@
   "back": "Vega risk (movimentos da vol implícita).\nPara hedgear, inclui-se a volatilidade como driver estocástico no C-CDS (modelo de stochastic vol).",
   "tags": [
    "cva",
-   "vega",
-   "fx"
+   "equity-fx"
   ],
   "source": "Cesari 2009, §14.9, p. 229",
   "created": 1793930000343,

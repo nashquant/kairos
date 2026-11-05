@@ -6,7 +6,7 @@ const VERSION = '__BUILD__';
 const SHELL = 'kairos-shell-' + VERSION;
 const RUNTIME = 'kairos-runtime';
 const MATHJAX = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js';
-const PRECACHE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png', './data/decks.json', './data/cards.json'];
+const PRECACHE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png', './data/decks.json', './data/cards.json', './data/private/index.json'];
 
 self.addEventListener('install', e => {
   e.waitUntil((async () => {
