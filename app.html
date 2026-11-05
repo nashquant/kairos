@@ -1,30 +1,32 @@
 <title>Kairos</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Instrument+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=JetBrains+Mono:wght@400;600&display=swap">
 <script>
 window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'},startup:{typeset:false}};
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js" async></script>
 <style>
-/* Layout: one narrow column, phone first. Deck tree on home; index card + fixed answer bar in study. */
+/* Layout: one narrow column, phone first. Deck tree on home; index card + fixed answer bar in study.
+   Identity: Kairos as a weathered bronze. Verdigris accent, bronze for the moments of review (logo dots). Roman inscriptional caps for the wordmark. */
 :root{
-  --bg:#E8ECF0; --surface:#FFFFFF; --ink:#16202B; --muted:#5A6775; --line:#D2D9E1;
-  --rule:#D7E1EF; --margin:#D25A4E; --accent:#1F4FD1; --accent-ink:#FFFFFF;
+  --bg:#E9EDEC; --surface:#FFFFFF; --ink:#14201E; --muted:#566562; --line:#D0D9D7;
+  --rule:#DCE6E3; --margin:#B07A3A; --accent:#1C6B62; --accent-ink:#FFFFFF; --bronze:#A06A28;
   --again:#B93A28; --hard:#A86A12; --good:#2A7A51; --easy:#2563A8;
-  --new:#2563A8; --learn:#B93A28; --due:#2A7A51; --shadow:0 1px 2px rgba(22,32,43,.06),0 8px 24px rgba(22,32,43,.07);
+  --new:#2563A8; --learn:#B93A28; --due:#2A7A51; --shadow:0 1px 2px rgba(20,32,30,.06),0 8px 24px rgba(20,32,30,.07);
+  --f-brand:"Marcellus","Trajan Pro",Georgia,serif;
   --f-ui:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-card:"Newsreader",Georgia,"Times New Roman",serif;
   --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0E1318; --surface:#171F28; --ink:#E5EAF0; --muted:#94A2B1; --line:#2A3542;
-  --rule:#1F2D3F; --margin:#B5483F; --accent:#86A6FF; --accent-ink:#0E1318;
+  --bg:#0D1412; --surface:#16201E; --ink:#E3ECEA; --muted:#93A5A1; --line:#283633;
+  --rule:#1E2B28; --margin:#B98545; --accent:#62C3B4; --accent-ink:#0D1412; --bronze:#D6A45E;
   --again:#F0907E; --hard:#E3B562; --good:#6FC79A; --easy:#7DB3F0;
   --new:#7DB3F0; --learn:#F0907E; --due:#6FC79A; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0E1318; --surface:#171F28; --ink:#E5EAF0; --muted:#94A2B1; --line:#2A3542;
-  --rule:#1F2D3F; --margin:#B5483F; --accent:#86A6FF; --accent-ink:#0E1318;
+  --bg:#0D1412; --surface:#16201E; --ink:#E3ECEA; --muted:#93A5A1; --line:#283633;
+  --rule:#1E2B28; --margin:#B98545; --accent:#62C3B4; --accent-ink:#0D1412; --bronze:#D6A45E;
   --again:#F0907E; --hard:#E3B562; --good:#6FC79A; --easy:#7DB3F0;
   --new:#7DB3F0; --learn:#F0907E; --due:#6FC79A; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); color-scheme:dark}
 *{box-sizing:border-box}
@@ -35,7 +37,15 @@ button{cursor:pointer}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 .muted{color:var(--muted)}
-h1{font-size:26px;font-weight:700;letter-spacing:-.01em;margin:0;text-wrap:balance}
+h1{font-family:var(--f-brand);font-weight:400;font-size:24px;letter-spacing:.16em;text-transform:uppercase;margin:0;line-height:1.1}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand .mark{width:44px;height:44px;flex-shrink:0}
+.tagline{font-family:var(--f-card);font-style:italic;font-size:14px;color:var(--muted)}
+.mark .curve{fill:none;stroke:var(--accent);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.mark .jump{stroke:var(--accent);stroke-width:2.6;stroke-linecap:round;opacity:.45}
+.mark .dot{fill:var(--bronze)}
+.mark .frame{fill:none;stroke:var(--line);stroke-width:1.5}
+.done .mark{width:64px;height:64px;margin:0 auto 12px;display:block}
 h2{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0}
 .top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}
 .today{font-size:13px;color:var(--muted)}
@@ -299,6 +309,7 @@ function undo(){
 }
 
 /* ---------- views ---------- */
+const LOGO='<svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Kairos"><rect class="frame" x="1" y="1" width="46" height="46" rx="12"/><path class="curve" d="M9 11 C11.5 20 15 26 20 29"/><path class="jump" d="M20 29 V14"/><path class="curve" d="M20 14 C24 20 29 24 34 26"/><path class="jump" d="M34 26 V17"/><path class="curve" d="M34 17 C36.5 19.5 38.5 21 40 21.6"/><path class="curve" d="M9 38 H40" style="stroke:var(--line);stroke-width:1.5"/><circle class="dot" cx="20" cy="14" r="3.2"/><circle class="dot" cx="34" cy="17" r="3.2"/></svg>';
 const chev='<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M5 3l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 function countsHTML(o,cap){
   const n=cap!=null?Math.min(o.n,cap):o.n;
@@ -336,7 +347,7 @@ function treeHTML(node,depth,cap){
 }
 function homeHTML(){
   const cm=deckCounts(), root=buildTree(), all=sumNode(root,cm), cap=newLeft();
-  let h='<div class="top"><div><h1>Kairos</h1><div class="today mono">Hoje: '+S.log.length+' respostas · '+newToday()+'/'+(+S.settings.newPerDay||0)+' cards novos</div></div>'+
+  let h='<div class="top"><div class="brand">'+LOGO+'<div><h1>Kairos</h1><div class="tagline">no momento certo</div><div class="today mono">Hoje: '+S.log.length+' respostas · '+newToday()+'/'+(+S.settings.newPerDay||0)+' novos</div></div></div>'+
     '<button class="btn" data-go="browse">Ver cards</button></div><div class="stack">';
   if(S.stale&&!S.ready.size)h+='<div class="notice">Os dados ainda não chegaram. Verifique a conexão; a página atualiza sozinha.</div>';
   if(!S.decks.size){
@@ -360,7 +371,7 @@ function studyHTML(){
     let msg='Nada para revisar agora neste baralho.';
     if(r.wait){msg='Próximo card em aprendizado volta em '+fmtIvl(r.wait-Date.now())+'. A tela atualiza sozinha.';waitTimer=setTimeout(()=>{advance();render()},Math.max(1000,r.wait-Date.now()-20*MIN+500))}
     else if(newLeft()===0)msg+=' O limite de cards novos de hoje acabou.';
-    return head+'<div class="done"><h1>Feito por agora</h1><p class="muted">'+msg+'</p><div class="row" style="justify-content:center;margin-top:16px">'+(S.undo?'<button class="btn" data-undo>Desfazer última</button>':'')+'<button class="btn primary" data-go="home">Voltar aos baralhos</button></div></div>';
+    return head+'<div class="done">'+LOGO+'<h1>Feito por agora</h1><p class="muted">'+msg+'</p><div class="row" style="justify-content:center;margin-top:16px">'+(S.undo?'<button class="btn" data-undo>Desfazer última</button>':'')+'<button class="btn primary" data-go="home">Voltar aos baralhos</button></div></div>';
   }
   const rv=S.revs.get(st.cur);
   const tag=!rv?'Novo':rv.state==='review'?'Revisão · '+(rv.lapses?rv.lapses+' lapsos':'sem lapsos'):'Aprendendo';
