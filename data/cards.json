@@ -3609,7 +3609,8 @@
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000000,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-002": {
   "deck": "d1-01-physical",
@@ -3622,7 +3623,8 @@
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000001,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-003": {
   "deck": "d1-01-physical",
@@ -3634,7 +3636,8 @@
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000002,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-004": {
   "deck": "d1-01-physical",
@@ -3646,7 +3649,8 @@
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000003,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-005": {
   "deck": "d1-01-physical",
@@ -3658,7 +3662,8 @@
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000004,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-006": {
   "deck": "d1-01-physical",
@@ -3671,7 +3676,8 @@
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000005,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-007": {
   "deck": "d1-01-physical",
@@ -3684,7 +3690,8 @@
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000006,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-008": {
   "deck": "d1-01-physical",
@@ -3697,7 +3704,8 @@
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000007,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-009": {
   "deck": "d1-01-physical",
@@ -3710,7 +3718,9 @@
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000008,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "d1-01-physical-010": {
   "deck": "d1-01-physical",
@@ -3723,7 +3733,9 @@
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000009,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "d1-01-physical-011": {
   "deck": "d1-01-physical",
@@ -3736,7 +3748,8 @@
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000010,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-012": {
   "deck": "d1-01-physical",
@@ -3748,7 +3761,8 @@
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000011,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-013": {
   "deck": "d1-01-physical",
@@ -3760,7 +3774,8 @@
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000012,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-014": {
   "deck": "d1-01-physical",
@@ -3772,7 +3787,8 @@
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000013,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-015": {
   "deck": "d1-01-physical",
@@ -3784,7 +3800,8 @@
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000014,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-016": {
   "deck": "d1-01-physical",
@@ -3797,7 +3814,8 @@
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000015,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-02-synthetic-001": {
   "deck": "d1-02-synthetic",
@@ -3809,7 +3827,8 @@
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000016,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-02-synthetic-002": {
   "deck": "d1-02-synthetic",
@@ -3821,7 +3840,8 @@
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000017,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-02-synthetic-003": {
   "deck": "d1-02-synthetic",
@@ -3834,7 +3854,8 @@
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000018,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-02-synthetic-004": {
   "deck": "d1-02-synthetic",
@@ -3847,7 +3868,8 @@
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000019,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-02-synthetic-005": {
   "deck": "d1-02-synthetic",
@@ -3859,7 +3881,8 @@
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000020,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-02-synthetic-006": {
   "deck": "d1-02-synthetic",
@@ -3871,7 +3894,8 @@
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000021,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-02-synthetic-007": {
   "deck": "d1-02-synthetic",
@@ -3883,7 +3907,8 @@
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000022,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-02-synthetic-008": {
   "deck": "d1-02-synthetic",
@@ -3895,7 +3920,8 @@
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000023,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-02-synthetic-009": {
   "deck": "d1-02-synthetic",
@@ -3907,7 +3933,8 @@
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000024,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-02-synthetic-010": {
   "deck": "d1-02-synthetic",
@@ -3919,7 +3946,8 @@
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000025,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-02-synthetic-011": {
   "deck": "d1-02-synthetic",
@@ -3931,7 +3959,8 @@
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000026,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-02-synthetic-012": {
   "deck": "d1-02-synthetic",
@@ -3943,7 +3972,8 @@
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000027,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-02-synthetic-013": {
   "deck": "d1-02-synthetic",
@@ -3955,7 +3985,8 @@
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000028,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-02-synthetic-014": {
   "deck": "d1-02-synthetic",
@@ -3968,7 +3999,8 @@
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000029,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-02-synthetic-015": {
   "deck": "d1-02-synthetic",
@@ -3981,7 +4013,8 @@
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000030,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-02-synthetic-016": {
   "deck": "d1-02-synthetic",
@@ -3993,7 +4026,8 @@
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000031,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-03-divs-index-001": {
   "deck": "d1-03-divs-index",
@@ -4005,7 +4039,8 @@
   ],
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000032,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-03-divs-index-002": {
   "deck": "d1-03-divs-index",
@@ -4017,7 +4052,8 @@
   ],
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000033,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-03-divs-index-003": {
   "deck": "d1-03-divs-index",
@@ -4029,7 +4065,8 @@
   ],
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000034,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-03-divs-index-004": {
   "deck": "d1-03-divs-index",
@@ -4041,7 +4078,8 @@
   ],
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000035,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-03-divs-index-005": {
   "deck": "d1-03-divs-index",
@@ -4053,7 +4091,8 @@
   ],
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000036,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-017": {
   "deck": "d1-01-physical",
@@ -4065,7 +4104,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000000,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-018": {
   "deck": "d1-01-physical",
@@ -4077,7 +4117,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000001,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-019": {
   "deck": "d1-01-physical",
@@ -4089,7 +4130,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000002,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-020": {
   "deck": "d1-01-physical",
@@ -4101,7 +4143,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000003,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-021": {
   "deck": "d1-01-physical",
@@ -4113,7 +4156,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000004,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-022": {
   "deck": "d1-01-physical",
@@ -4125,7 +4169,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000005,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-023": {
   "deck": "d1-01-physical",
@@ -4138,7 +4183,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000006,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-024": {
   "deck": "d1-01-physical",
@@ -4150,7 +4196,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000007,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-01-physical-025": {
   "deck": "d1-01-physical",
@@ -4162,7 +4209,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000008,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-02-synthetic-017": {
   "deck": "d1-02-synthetic",
@@ -4174,7 +4222,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000009,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-02-synthetic-018": {
   "deck": "d1-02-synthetic",
@@ -4187,7 +4236,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000010,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-02-synthetic-019": {
   "deck": "d1-02-synthetic",
@@ -4199,7 +4249,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000011,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-03-divs-index-006": {
   "deck": "d1-03-divs-index",
@@ -4211,7 +4262,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000012,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-03-divs-index-007": {
   "deck": "d1-03-divs-index",
@@ -4223,7 +4275,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000013,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-03-divs-index-008": {
   "deck": "d1-03-divs-index",
@@ -4236,7 +4289,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000014,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-03-divs-index-009": {
   "deck": "d1-03-divs-index",
@@ -4249,7 +4303,9 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000015,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "d1-03-divs-index-010": {
   "deck": "d1-03-divs-index",
@@ -4262,7 +4318,9 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000016,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "d1-03-divs-index-011": {
   "deck": "d1-03-divs-index",
@@ -4275,7 +4333,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000017,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-03-divs-index-012": {
   "deck": "d1-03-divs-index",
@@ -4288,7 +4347,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000018,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-03-divs-index-013": {
   "deck": "d1-03-divs-index",
@@ -4300,7 +4360,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000019,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-03-divs-index-014": {
   "deck": "d1-03-divs-index",
@@ -4313,7 +4374,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000020,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-03-divs-index-015": {
   "deck": "d1-03-divs-index",
@@ -4325,7 +4387,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000021,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-03-divs-index-016": {
   "deck": "d1-03-divs-index",
@@ -4337,7 +4400,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000022,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-04-index-events-001": {
   "deck": "d1-04-index-events",
@@ -4349,7 +4413,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000023,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-04-index-events-002": {
   "deck": "d1-04-index-events",
@@ -4361,7 +4426,9 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000024,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "d1-04-index-events-003": {
   "deck": "d1-04-index-events",
@@ -4373,7 +4440,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000025,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-04-index-events-004": {
   "deck": "d1-04-index-events",
@@ -4385,7 +4453,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000026,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-04-index-events-005": {
   "deck": "d1-04-index-events",
@@ -4397,7 +4466,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000027,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-04-index-events-006": {
   "deck": "d1-04-index-events",
@@ -4409,7 +4479,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000028,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-04-index-events-007": {
   "deck": "d1-04-index-events",
@@ -4421,7 +4492,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000029,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-04-index-events-008": {
   "deck": "d1-04-index-events",
@@ -4433,7 +4505,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000030,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-04-index-events-009": {
   "deck": "d1-04-index-events",
@@ -4445,7 +4518,9 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000031,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "d1-04-index-events-010": {
   "deck": "d1-04-index-events",
@@ -4457,7 +4532,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000032,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-04-index-events-011": {
   "deck": "d1-04-index-events",
@@ -4469,7 +4545,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000033,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-04-index-events-012": {
   "deck": "d1-04-index-events",
@@ -4481,7 +4558,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000034,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-04-index-events-013": {
   "deck": "d1-04-index-events",
@@ -4493,7 +4571,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000035,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-04-index-events-014": {
   "deck": "d1-04-index-events",
@@ -4505,7 +4584,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000036,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-04-index-events-015": {
   "deck": "d1-04-index-events",
@@ -4517,7 +4597,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000037,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-04-index-events-016": {
   "deck": "d1-04-index-events",
@@ -4529,7 +4610,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000038,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-05-products-001": {
   "deck": "d1-05-products",
@@ -4541,7 +4623,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000039,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-05-products-002": {
   "deck": "d1-05-products",
@@ -4553,7 +4636,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000040,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-05-products-003": {
   "deck": "d1-05-products",
@@ -4565,7 +4649,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000041,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-05-products-004": {
   "deck": "d1-05-products",
@@ -4577,7 +4662,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000042,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-05-products-005": {
   "deck": "d1-05-products",
@@ -4590,7 +4676,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000043,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-05-products-006": {
   "deck": "d1-05-products",
@@ -4602,7 +4689,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000044,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-05-products-007": {
   "deck": "d1-05-products",
@@ -4615,7 +4703,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000045,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-05-products-008": {
   "deck": "d1-05-products",
@@ -4627,7 +4716,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000046,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-05-products-009": {
   "deck": "d1-05-products",
@@ -4640,7 +4730,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000047,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-05-products-010": {
   "deck": "d1-05-products",
@@ -4652,7 +4743,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000048,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-05-products-011": {
   "deck": "d1-05-products",
@@ -4664,7 +4756,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000049,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-05-products-012": {
   "deck": "d1-05-products",
@@ -4676,7 +4769,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000050,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-05-products-013": {
   "deck": "d1-05-products",
@@ -4688,7 +4782,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000051,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-05-products-014": {
   "deck": "d1-05-products",
@@ -4700,7 +4795,9 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000052,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "d1-05-products-015": {
   "deck": "d1-05-products",
@@ -4713,7 +4810,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000053,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-05-products-016": {
   "deck": "d1-05-products",
@@ -4726,7 +4824,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000054,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-06-desk-map-001": {
   "deck": "d1-06-desk-map",
@@ -4738,7 +4837,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000055,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-06-desk-map-002": {
   "deck": "d1-06-desk-map",
@@ -4750,7 +4850,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000056,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-06-desk-map-003": {
   "deck": "d1-06-desk-map",
@@ -4762,7 +4863,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000057,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-06-desk-map-004": {
   "deck": "d1-06-desk-map",
@@ -4775,7 +4877,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000058,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-06-desk-map-005": {
   "deck": "d1-06-desk-map",
@@ -4788,7 +4891,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000059,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-06-desk-map-006": {
   "deck": "d1-06-desk-map",
@@ -4801,7 +4905,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000060,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-06-desk-map-007": {
   "deck": "d1-06-desk-map",
@@ -4814,7 +4919,9 @@
   ],
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000061,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "d1-06-desk-map-008": {
   "deck": "d1-06-desk-map",
@@ -4826,7 +4933,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000062,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-06-desk-map-009": {
   "deck": "d1-06-desk-map",
@@ -4838,7 +4946,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000063,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-06-desk-map-010": {
   "deck": "d1-06-desk-map",
@@ -4851,7 +4960,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000064,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-06-desk-map-011": {
   "deck": "d1-06-desk-map",
@@ -4864,7 +4974,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000065,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-06-desk-map-012": {
   "deck": "d1-06-desk-map",
@@ -4877,7 +4988,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000066,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-06-desk-map-013": {
   "deck": "d1-06-desk-map",
@@ -4890,7 +5002,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000067,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-06-desk-map-014": {
   "deck": "d1-06-desk-map",
@@ -4902,7 +5015,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000068,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "d1-06-desk-map-015": {
   "deck": "d1-06-desk-map",
@@ -4914,7 +5028,8 @@
   ],
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000069,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-001": {
   "deck": "llm-01-transformers",
@@ -4926,7 +5041,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000070,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-002": {
   "deck": "llm-01-transformers",
@@ -4938,7 +5054,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000071,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-003": {
   "deck": "llm-01-transformers",
@@ -4950,7 +5067,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000072,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-004": {
   "deck": "llm-01-transformers",
@@ -4962,7 +5080,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000073,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-005": {
   "deck": "llm-01-transformers",
@@ -4974,7 +5093,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000074,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-006": {
   "deck": "llm-01-transformers",
@@ -4986,7 +5106,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000075,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-007": {
   "deck": "llm-01-transformers",
@@ -4998,7 +5119,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000076,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-008": {
   "deck": "llm-01-transformers",
@@ -5010,7 +5132,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000077,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-009": {
   "deck": "llm-01-transformers",
@@ -5022,7 +5145,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000078,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-010": {
   "deck": "llm-01-transformers",
@@ -5034,7 +5158,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000079,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-011": {
   "deck": "llm-01-transformers",
@@ -5046,7 +5171,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000080,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-012": {
   "deck": "llm-01-transformers",
@@ -5058,7 +5184,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000081,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-013": {
   "deck": "llm-01-transformers",
@@ -5070,7 +5197,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000082,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-014": {
   "deck": "llm-01-transformers",
@@ -5083,7 +5211,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000083,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-015": {
   "deck": "llm-01-transformers",
@@ -5095,7 +5224,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000084,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-016": {
   "deck": "llm-01-transformers",
@@ -5107,7 +5237,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000085,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-017": {
   "deck": "llm-01-transformers",
@@ -5119,7 +5250,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000086,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-018": {
   "deck": "llm-01-transformers",
@@ -5131,7 +5263,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000087,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-019": {
   "deck": "llm-01-transformers",
@@ -5143,7 +5276,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000088,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-020": {
   "deck": "llm-01-transformers",
@@ -5155,7 +5289,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000089,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-021": {
   "deck": "llm-01-transformers",
@@ -5167,7 +5302,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000090,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-022": {
   "deck": "llm-01-transformers",
@@ -5179,7 +5315,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000091,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-023": {
   "deck": "llm-01-transformers",
@@ -5191,7 +5328,8 @@
   ],
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000092,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-01-transformers-024": {
   "deck": "llm-01-transformers",
@@ -5204,7 +5342,8 @@
   ],
   "source": "Liu et al. 2023",
   "created": 1794100000093,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-02-training-001": {
   "deck": "llm-02-training",
@@ -5216,7 +5355,8 @@
   ],
   "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
   "created": 1794100000094,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-02-training-002": {
   "deck": "llm-02-training",
@@ -5228,7 +5368,8 @@
   ],
   "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
   "created": 1794100000095,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-02-training-003": {
   "deck": "llm-02-training",
@@ -5240,7 +5381,9 @@
   ],
   "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
   "created": 1794100000096,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "llm-02-training-004": {
   "deck": "llm-02-training",
@@ -5252,7 +5395,8 @@
   ],
   "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
   "created": 1794100000097,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-02-training-005": {
   "deck": "llm-02-training",
@@ -5264,7 +5408,8 @@
   ],
   "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
   "created": 1794100000098,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-02-training-006": {
   "deck": "llm-02-training",
@@ -5276,7 +5421,8 @@
   ],
   "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
   "created": 1794100000099,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-02-training-007": {
   "deck": "llm-02-training",
@@ -5288,7 +5434,8 @@
   ],
   "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
   "created": 1794100000100,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-02-training-008": {
   "deck": "llm-02-training",
@@ -5300,7 +5447,8 @@
   ],
   "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
   "created": 1794100000101,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-02-training-009": {
   "deck": "llm-02-training",
@@ -5312,7 +5460,8 @@
   ],
   "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
   "created": 1794100000102,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-02-training-010": {
   "deck": "llm-02-training",
@@ -5324,7 +5473,8 @@
   ],
   "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
   "created": 1794100000103,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-02-training-011": {
   "deck": "llm-02-training",
@@ -5336,7 +5486,8 @@
   ],
   "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
   "created": 1794100000104,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-02-training-012": {
   "deck": "llm-02-training",
@@ -5348,7 +5499,8 @@
   ],
   "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
   "created": 1794100000105,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-02-training-013": {
   "deck": "llm-02-training",
@@ -5361,7 +5513,8 @@
   ],
   "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
   "created": 1794100000106,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-02-training-014": {
   "deck": "llm-02-training",
@@ -5374,7 +5527,8 @@
   ],
   "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
   "created": 1794100000107,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-001": {
   "deck": "llm-03-agents",
@@ -5386,7 +5540,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000108,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-002": {
   "deck": "llm-03-agents",
@@ -5398,7 +5553,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000109,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-003": {
   "deck": "llm-03-agents",
@@ -5410,7 +5566,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000110,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-004": {
   "deck": "llm-03-agents",
@@ -5422,7 +5579,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000111,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-005": {
   "deck": "llm-03-agents",
@@ -5434,7 +5592,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000112,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-006": {
   "deck": "llm-03-agents",
@@ -5446,7 +5605,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000113,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-007": {
   "deck": "llm-03-agents",
@@ -5459,7 +5619,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000114,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-008": {
   "deck": "llm-03-agents",
@@ -5472,7 +5633,8 @@
   ],
   "source": "Simon Willison (2025)",
   "created": 1794100000115,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-009": {
   "deck": "llm-03-agents",
@@ -5485,7 +5647,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000116,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-010": {
   "deck": "llm-03-agents",
@@ -5497,7 +5660,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000117,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-011": {
   "deck": "llm-03-agents",
@@ -5509,7 +5673,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000118,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-012": {
   "deck": "llm-03-agents",
@@ -5521,7 +5686,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000119,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-013": {
   "deck": "llm-03-agents",
@@ -5533,7 +5699,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000120,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-014": {
   "deck": "llm-03-agents",
@@ -5545,7 +5712,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000121,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-015": {
   "deck": "llm-03-agents",
@@ -5557,7 +5725,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000122,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-016": {
   "deck": "llm-03-agents",
@@ -5569,7 +5738,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000123,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-017": {
   "deck": "llm-03-agents",
@@ -5582,7 +5752,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000124,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-018": {
   "deck": "llm-03-agents",
@@ -5594,7 +5765,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000125,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-019": {
   "deck": "llm-03-agents",
@@ -5607,7 +5779,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000126,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-020": {
   "deck": "llm-03-agents",
@@ -5619,7 +5792,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000127,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-021": {
   "deck": "llm-03-agents",
@@ -5631,7 +5805,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000128,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-022": {
   "deck": "llm-03-agents",
@@ -5643,7 +5818,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000129,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-023": {
   "deck": "llm-03-agents",
@@ -5655,7 +5831,8 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000130,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "llm-03-agents-024": {
   "deck": "llm-03-agents",
@@ -5667,7 +5844,9 @@
   ],
   "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
   "created": 1794100000131,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "llm-04-langgraph-001": {
   "deck": "llm-04-langgraph",
@@ -5679,7 +5858,9 @@
   ],
   "source": "LangGraph documentation",
   "created": 1794100000132,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "llm-04-langgraph-002": {
   "deck": "llm-04-langgraph",
@@ -5691,7 +5872,9 @@
   ],
   "source": "LangGraph documentation",
   "created": 1794100000133,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "llm-04-langgraph-003": {
   "deck": "llm-04-langgraph",
@@ -5703,7 +5886,9 @@
   ],
   "source": "LangGraph documentation",
   "created": 1794100000134,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "llm-04-langgraph-004": {
   "deck": "llm-04-langgraph",
@@ -5715,7 +5900,9 @@
   ],
   "source": "LangGraph documentation",
   "created": 1794100000135,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "llm-04-langgraph-005": {
   "deck": "llm-04-langgraph",
@@ -5727,7 +5914,9 @@
   ],
   "source": "LangGraph documentation",
   "created": 1794100000136,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "llm-04-langgraph-006": {
   "deck": "llm-04-langgraph",
@@ -5739,7 +5928,9 @@
   ],
   "source": "LangGraph documentation",
   "created": 1794100000137,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "llm-04-langgraph-007": {
   "deck": "llm-04-langgraph",
@@ -5752,7 +5943,9 @@
   ],
   "source": "LangGraph documentation",
   "created": 1794100000138,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "llm-04-langgraph-008": {
   "deck": "llm-04-langgraph",
@@ -5764,7 +5957,9 @@
   ],
   "source": "LangGraph documentation",
   "created": 1794100000139,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "llm-04-langgraph-009": {
   "deck": "llm-04-langgraph",
@@ -5776,7 +5971,9 @@
   ],
   "source": "LangGraph documentation",
   "created": 1794100000140,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "llm-04-langgraph-010": {
   "deck": "llm-04-langgraph",
@@ -5789,7 +5986,9 @@
   ],
   "source": "LangGraph documentation",
   "created": 1794100000141,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "llm-04-langgraph-011": {
   "deck": "llm-04-langgraph",
@@ -5801,7 +6000,9 @@
   ],
   "source": "LangGraph documentation",
   "created": 1794100000142,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "llm-04-langgraph-012": {
   "deck": "llm-04-langgraph",
@@ -5813,7 +6014,9 @@
   ],
   "source": "LangGraph documentation",
   "created": 1794100000143,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "llm-04-langgraph-013": {
   "deck": "llm-04-langgraph",
@@ -5825,7 +6028,9 @@
   ],
   "source": "LangGraph documentation",
   "created": 1794100000144,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "llm-04-langgraph-014": {
   "deck": "llm-04-langgraph",
@@ -5838,7 +6043,9 @@
   ],
   "source": "LangGraph documentation",
   "created": 1794100000145,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "llm-04-langgraph-015": {
   "deck": "llm-04-langgraph",
@@ -5850,7 +6057,9 @@
   ],
   "source": "LangGraph documentation",
   "created": 1794100000146,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "llm-04-langgraph-016": {
   "deck": "llm-04-langgraph",
@@ -5863,7 +6072,9 @@
   ],
   "source": "LangGraph documentation",
   "created": 1794100000147,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "llm-04-langgraph-017": {
   "deck": "llm-04-langgraph",
@@ -5875,7 +6086,9 @@
   ],
   "source": "LangGraph documentation",
   "created": 1794100000148,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "sd-01-scale-001": {
   "deck": "sd-01-scale",
@@ -5887,7 +6100,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000149,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-01-scale-002": {
   "deck": "sd-01-scale",
@@ -5899,7 +6113,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000150,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-01-scale-003": {
   "deck": "sd-01-scale",
@@ -5911,7 +6126,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000151,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-01-scale-004": {
   "deck": "sd-01-scale",
@@ -5923,7 +6139,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000152,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-01-scale-005": {
   "deck": "sd-01-scale",
@@ -5935,7 +6152,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000153,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-01-scale-006": {
   "deck": "sd-01-scale",
@@ -5947,7 +6165,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000154,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-01-scale-007": {
   "deck": "sd-01-scale",
@@ -5959,7 +6178,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000155,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-01-scale-008": {
   "deck": "sd-01-scale",
@@ -5971,7 +6191,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000156,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-01-scale-009": {
   "deck": "sd-01-scale",
@@ -5984,7 +6205,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000157,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-01-scale-010": {
   "deck": "sd-01-scale",
@@ -5996,7 +6218,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000158,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-01-scale-011": {
   "deck": "sd-01-scale",
@@ -6008,7 +6231,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000159,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-01-scale-012": {
   "deck": "sd-01-scale",
@@ -6020,7 +6244,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000160,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-01-scale-013": {
   "deck": "sd-01-scale",
@@ -6033,7 +6258,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000161,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-01-scale-014": {
   "deck": "sd-01-scale",
@@ -6046,7 +6272,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000162,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-01-scale-015": {
   "deck": "sd-01-scale",
@@ -6059,7 +6286,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000163,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-02-data-001": {
   "deck": "sd-02-data",
@@ -6071,7 +6299,8 @@
   ],
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000164,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-02-data-002": {
   "deck": "sd-02-data",
@@ -6083,7 +6312,8 @@
   ],
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000165,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-02-data-003": {
   "deck": "sd-02-data",
@@ -6095,7 +6325,8 @@
   ],
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000166,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-02-data-004": {
   "deck": "sd-02-data",
@@ -6107,7 +6338,8 @@
   ],
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000167,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-02-data-005": {
   "deck": "sd-02-data",
@@ -6120,7 +6352,8 @@
   ],
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000168,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-02-data-006": {
   "deck": "sd-02-data",
@@ -6132,7 +6365,8 @@
   ],
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000169,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-02-data-007": {
   "deck": "sd-02-data",
@@ -6145,7 +6379,8 @@
   ],
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000170,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-02-data-008": {
   "deck": "sd-02-data",
@@ -6157,7 +6392,8 @@
   ],
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000171,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-02-data-009": {
   "deck": "sd-02-data",
@@ -6169,7 +6405,8 @@
   ],
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000172,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-02-data-010": {
   "deck": "sd-02-data",
@@ -6181,7 +6418,8 @@
   ],
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000173,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-02-data-011": {
   "deck": "sd-02-data",
@@ -6193,7 +6431,8 @@
   ],
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000174,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-02-data-012": {
   "deck": "sd-02-data",
@@ -6205,7 +6444,8 @@
   ],
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000175,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-02-data-013": {
   "deck": "sd-02-data",
@@ -6217,7 +6457,8 @@
   ],
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000176,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-02-data-014": {
   "deck": "sd-02-data",
@@ -6229,7 +6470,8 @@
   ],
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000177,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-02-data-015": {
   "deck": "sd-02-data",
@@ -6241,7 +6483,8 @@
   ],
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000178,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-03-reliability-001": {
   "deck": "sd-03-reliability",
@@ -6253,7 +6496,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000179,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-03-reliability-002": {
   "deck": "sd-03-reliability",
@@ -6265,7 +6509,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000180,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-03-reliability-003": {
   "deck": "sd-03-reliability",
@@ -6277,7 +6522,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000181,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-03-reliability-004": {
   "deck": "sd-03-reliability",
@@ -6289,7 +6535,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000182,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-03-reliability-005": {
   "deck": "sd-03-reliability",
@@ -6302,7 +6549,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000183,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-03-reliability-006": {
   "deck": "sd-03-reliability",
@@ -6314,7 +6562,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000184,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-03-reliability-007": {
   "deck": "sd-03-reliability",
@@ -6326,7 +6575,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000185,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-03-reliability-008": {
   "deck": "sd-03-reliability",
@@ -6339,7 +6589,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000186,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-03-reliability-009": {
   "deck": "sd-03-reliability",
@@ -6352,7 +6603,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000187,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-03-reliability-010": {
   "deck": "sd-03-reliability",
@@ -6364,7 +6616,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000188,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-03-reliability-011": {
   "deck": "sd-03-reliability",
@@ -6376,7 +6629,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000189,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-03-reliability-012": {
   "deck": "sd-03-reliability",
@@ -6388,7 +6642,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000190,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-03-reliability-013": {
   "deck": "sd-03-reliability",
@@ -6400,7 +6655,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000191,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-03-reliability-014": {
   "deck": "sd-03-reliability",
@@ -6412,7 +6668,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000192,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-03-reliability-015": {
   "deck": "sd-03-reliability",
@@ -6424,7 +6681,8 @@
   ],
   "source": "Standard system design practice",
   "created": 1794100000193,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-04-web-security-001": {
   "deck": "sd-04-web-security",
@@ -6436,7 +6694,8 @@
   ],
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000194,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-04-web-security-002": {
   "deck": "sd-04-web-security",
@@ -6448,7 +6707,8 @@
   ],
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000195,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-04-web-security-003": {
   "deck": "sd-04-web-security",
@@ -6460,7 +6720,8 @@
   ],
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000196,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-04-web-security-004": {
   "deck": "sd-04-web-security",
@@ -6472,7 +6733,8 @@
   ],
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000197,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-04-web-security-005": {
   "deck": "sd-04-web-security",
@@ -6484,7 +6746,8 @@
   ],
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000198,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-04-web-security-006": {
   "deck": "sd-04-web-security",
@@ -6496,7 +6759,8 @@
   ],
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000199,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-04-web-security-007": {
   "deck": "sd-04-web-security",
@@ -6508,7 +6772,8 @@
   ],
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000200,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-04-web-security-008": {
   "deck": "sd-04-web-security",
@@ -6520,7 +6785,8 @@
   ],
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000201,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-04-web-security-009": {
   "deck": "sd-04-web-security",
@@ -6532,7 +6798,8 @@
   ],
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000202,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-04-web-security-010": {
   "deck": "sd-04-web-security",
@@ -6544,7 +6811,8 @@
   ],
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000203,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-04-web-security-011": {
   "deck": "sd-04-web-security",
@@ -6556,7 +6824,8 @@
   ],
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000204,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-04-web-security-012": {
   "deck": "sd-04-web-security",
@@ -6568,7 +6837,8 @@
   ],
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000205,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-04-web-security-013": {
   "deck": "sd-04-web-security",
@@ -6580,7 +6850,8 @@
   ],
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000206,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-04-web-security-014": {
   "deck": "sd-04-web-security",
@@ -6592,7 +6863,8 @@
   ],
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000207,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-04-web-security-015": {
   "deck": "sd-04-web-security",
@@ -6604,7 +6876,8 @@
   ],
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000208,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-04-web-security-016": {
   "deck": "sd-04-web-security",
@@ -6616,7 +6889,8 @@
   ],
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000209,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-04-web-security-017": {
   "deck": "sd-04-web-security",
@@ -6628,7 +6902,8 @@
   ],
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000210,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-04-web-security-018": {
   "deck": "sd-04-web-security",
@@ -6641,7 +6916,8 @@
   ],
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000211,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-05-web-apps-001": {
   "deck": "sd-05-web-apps",
@@ -6653,7 +6929,9 @@
   ],
   "source": "Next.js and React documentation; standard practice",
   "created": 1794100000212,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "sd-05-web-apps-002": {
   "deck": "sd-05-web-apps",
@@ -6665,7 +6943,9 @@
   ],
   "source": "Next.js and React documentation; standard practice",
   "created": 1794100000213,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "sd-05-web-apps-003": {
   "deck": "sd-05-web-apps",
@@ -6677,7 +6957,9 @@
   ],
   "source": "Next.js and React documentation; standard practice",
   "created": 1794100000214,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "sd-05-web-apps-004": {
   "deck": "sd-05-web-apps",
@@ -6690,7 +6972,9 @@
   ],
   "source": "Next.js and React documentation; standard practice",
   "created": 1794100000215,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "sd-05-web-apps-005": {
   "deck": "sd-05-web-apps",
@@ -6702,7 +6986,9 @@
   ],
   "source": "Next.js and React documentation; standard practice",
   "created": 1794100000216,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "sd-05-web-apps-006": {
   "deck": "sd-05-web-apps",
@@ -6715,7 +7001,9 @@
   ],
   "source": "Next.js and React documentation; standard practice",
   "created": 1794100000217,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "sd-05-web-apps-007": {
   "deck": "sd-05-web-apps",
@@ -6728,7 +7016,9 @@
   ],
   "source": "Next.js and React documentation; standard practice",
   "created": 1794100000218,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "sd-05-web-apps-008": {
   "deck": "sd-05-web-apps",
@@ -6740,7 +7030,9 @@
   ],
   "source": "Next.js and React documentation; standard practice",
   "created": 1794100000219,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  },
  "sd-06-trading-systems-001": {
   "deck": "sd-06-trading-systems",
@@ -6752,7 +7044,8 @@
   ],
   "source": "Standard industry practice",
   "created": 1794100000220,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-06-trading-systems-002": {
   "deck": "sd-06-trading-systems",
@@ -6764,7 +7057,8 @@
   ],
   "source": "Standard industry practice",
   "created": 1794100000221,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-06-trading-systems-003": {
   "deck": "sd-06-trading-systems",
@@ -6776,7 +7070,8 @@
   ],
   "source": "Standard industry practice",
   "created": 1794100000222,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-06-trading-systems-004": {
   "deck": "sd-06-trading-systems",
@@ -6788,7 +7083,8 @@
   ],
   "source": "Standard industry practice",
   "created": 1794100000223,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-06-trading-systems-005": {
   "deck": "sd-06-trading-systems",
@@ -6800,7 +7096,8 @@
   ],
   "source": "Standard industry practice",
   "created": 1794100000224,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-06-trading-systems-006": {
   "deck": "sd-06-trading-systems",
@@ -6813,7 +7110,8 @@
   ],
   "source": "Standard industry practice",
   "created": 1794100000225,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-06-trading-systems-007": {
   "deck": "sd-06-trading-systems",
@@ -6826,7 +7124,8 @@
   ],
   "source": "Standard industry practice",
   "created": 1794100000226,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-06-trading-systems-008": {
   "deck": "sd-06-trading-systems",
@@ -6838,7 +7137,8 @@
   ],
   "source": "Standard industry practice",
   "created": 1794100000227,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
  },
  "sd-06-trading-systems-009": {
   "deck": "sd-06-trading-systems",
@@ -6850,6 +7150,857 @@
   ],
   "source": "Standard industry practice",
   "created": 1794100000228,
-  "suspended": false
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-04-web-security-019": {
+  "deck": "sd-04-web-security",
+  "front": "SSO: what do the IdP and the SP (relying party) each do?",
+  "back": "IdP: authenticates the user and issues signed assertions or tokens.\nSP / relying party: trusts the IdP's signature and starts its own session. It never sees the password.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749, RFC 8693, SAML 2.0, OpenID Connect Core 1.0",
+  "created": 1794200000000,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-04-web-security-020": {
+  "deck": "sd-04-web-security",
+  "front": "How does SAML differ from OIDC in practice?",
+  "back": "SAML: XML assertions, signed, sent through the browser (POST); common for enterprise web SSO.\nOIDC: JSON/JWT on top of OAuth 2.0; fits SPAs, mobile and APIs.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749, RFC 8693, SAML 2.0, OpenID Connect Core 1.0",
+  "created": 1794200000001,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-04-web-security-021": {
+  "deck": "sd-04-web-security",
+  "front": "SP-initiated vs IdP-initiated SSO, and why prefer SP-initiated?",
+  "back": "SP-initiated: the app sends the user to the IdP with a request it can match on return.\nIdP-initiated: the IdP posts an unsolicited assertion; no request to match, so it is easier to inject or replay.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749, RFC 8693, SAML 2.0, OpenID Connect Core 1.0",
+  "created": 1794200000002,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-04-web-security-022": {
+  "deck": "sd-04-web-security",
+  "front": "After OIDC login, how many sessions exist, and why is logout hard?",
+  "back": "At least two: the IdP session and each app's own session.\nLogging out of one app does not end the IdP session or other apps' sessions. Single logout needs extra protocol work.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749, RFC 8693, SAML 2.0, OpenID Connect Core 1.0",
+  "created": 1794200000003,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-04-web-security-023": {
+  "deck": "sd-04-web-security",
+  "front": "Which OAuth flow fits machine-to-machine calls?",
+  "back": "Client credentials: the service authenticates as itself (client id + secret or key) and gets an access token. No user involved.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749, RFC 8693, SAML 2.0, OpenID Connect Core 1.0",
+  "created": 1794200000004,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-04-web-security-024": {
+  "deck": "sd-04-web-security",
+  "front": "Local JWT validation vs token introspection.",
+  "back": "Local: verify signature and claims with the IdP's public keys; fast, but cannot see revocation before expiry.\nIntrospection: ask the authorization server if the token is active; current, but a network call per check.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749, RFC 8693, SAML 2.0, OpenID Connect Core 1.0",
+  "created": 1794200000005,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-04-web-security-025": {
+  "deck": "sd-04-web-security",
+  "front": "Scopes vs roles.",
+  "back": "Scopes: what the client app may do on the user's behalf (e.g. `read:positions`).\nRoles or claims: what the user is allowed to do. Authorization needs both.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749, RFC 8693, SAML 2.0, OpenID Connect Core 1.0",
+  "created": 1794200000006,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-04-web-security-026": {
+  "deck": "sd-04-web-security",
+  "front": "RBAC vs ABAC.",
+  "back": "RBAC: permissions attach to roles; users get roles.\nABAC: rules on attributes of user, resource and context (desk, region, time). More expressive, harder to audit.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749, RFC 8693, SAML 2.0, OpenID Connect Core 1.0",
+  "created": 1794200000007,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-04-web-security-027": {
+  "deck": "sd-04-web-security",
+  "front": "An agent backend must call a downstream API as the signed-in user. What is the clean pattern?",
+  "back": "Token exchange (RFC 8693, \"on-behalf-of\"): trade the user's token for a new token scoped to the downstream API.\nDo not forward the user's original token everywhere, and do not use a shared service account that hides who acted.",
+  "tags": [
+   "system-design",
+   "seguranca-web",
+   "agentes"
+  ],
+  "source": "RFC 6749, RFC 8693, SAML 2.0, OpenID Connect Core 1.0",
+  "created": 1794200000008,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-07-crypto-001": {
+  "deck": "sd-07-crypto",
+  "front": "Hash vs HMAC vs digital signature vs encryption: what does each give?",
+  "back": "Hash: a fingerprint; detects changes, no key.\nHMAC: integrity + authenticity with a **shared** secret key.\nSignature: integrity + authenticity with a **private** key; anyone can verify with the public key.\nEncryption: confidentiality.",
+  "tags": [
+   "system-design",
+   "criptografia"
+  ],
+  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "created": 1794200000009,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-07-crypto-002": {
+  "deck": "sd-07-crypto",
+  "front": "Define HMAC.",
+  "back": "$\\text{HMAC}(K, m) = H\\big((K \\oplus \\text{opad}) \\,\\|\\, H((K \\oplus \\text{ipad}) \\,\\|\\, m)\\big)$.\nTwo nested hashes with the key mixed in. Only a key holder can produce or check the tag.",
+  "tags": [
+   "system-design",
+   "criptografia"
+  ],
+  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "created": 1794200000010,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-07-crypto-003": {
+  "deck": "sd-07-crypto",
+  "front": "Why not use $H(\\text{key} \\,\\|\\, \\text{message})$ as a MAC?",
+  "back": "With Merkle–Damgård hashes (e.g. SHA-256), an attacker can extend the message and compute a valid tag without the key (length-extension attack).\nHMAC's nested construction prevents it.",
+  "tags": [
+   "system-design",
+   "criptografia"
+  ],
+  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "created": 1794200000011,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-07-crypto-004": {
+  "deck": "sd-07-crypto",
+  "front": "Why compare MACs with a constant-time function?",
+  "back": "A normal comparison stops at the first different byte. Response timing then leaks how many bytes match, and the attacker guesses byte by byte.\nUse e.g. Python `hmac.compare_digest`.",
+  "tags": [
+   "system-design",
+   "criptografia"
+  ],
+  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "created": 1794200000012,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-07-crypto-005": {
+  "deck": "sd-07-crypto",
+  "front": "How do you verify a signed webhook?",
+  "back": "1. Recompute HMAC over the **raw** body (plus the timestamp) with the shared secret.\n2. Compare in constant time.\n3. Reject if the timestamp is outside a short window (replay).",
+  "tags": [
+   "system-design",
+   "criptografia",
+   "seguranca-web"
+  ],
+  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "created": 1794200000013,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-07-crypto-006": {
+  "deck": "sd-07-crypto",
+  "front": "HMAC vs digital signature: which gives non-repudiation, and why?",
+  "back": "The signature. Only the private-key holder can sign.\nWith HMAC, both parties hold the key, so either could have produced the tag.",
+  "tags": [
+   "system-design",
+   "criptografia"
+  ],
+  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "created": 1794200000014,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-07-crypto-007": {
+  "deck": "sd-07-crypto",
+  "front": "JWT HS256 vs RS256/ES256: when to use which?",
+  "back": "HS256: HMAC with a shared secret; every verifier can also mint tokens.\nRS256/ES256: the issuer signs with a private key; services verify with the public key. Use asymmetric when many services verify.",
+  "tags": [
+   "system-design",
+   "criptografia",
+   "seguranca-web"
+  ],
+  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "created": 1794200000015,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-07-crypto-008": {
+  "deck": "sd-07-crypto",
+  "front": "What is the JWT algorithm-confusion attack, and the fix?",
+  "back": "The attacker changes `alg` (to `none`, or from RS256 to HS256 using the public key as the HMAC secret) and the library accepts it.\nFix: pin the expected algorithm and key on the server; never trust `alg` from the token.",
+  "tags": [
+   "system-design",
+   "criptografia",
+   "seguranca-web"
+  ],
+  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "created": 1794200000016,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-07-crypto-009": {
+  "deck": "sd-07-crypto",
+  "front": "How should passwords be stored?",
+  "back": "With a slow, salted, memory-hard function: Argon2id (or bcrypt, scrypt).\nNever plain SHA-256: GPUs try billions of guesses per second.",
+  "tags": [
+   "system-design",
+   "criptografia",
+   "seguranca-web"
+  ],
+  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "created": 1794200000017,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-07-crypto-010": {
+  "deck": "sd-07-crypto",
+  "front": "What does a salt protect against?",
+  "back": "Precomputed tables and same-password detection. Each user gets a random salt, so identical passwords hash differently.\nA salt is not secret.",
+  "tags": [
+   "system-design",
+   "criptografia"
+  ],
+  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "created": 1794200000018,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-07-crypto-011": {
+  "deck": "sd-07-crypto",
+  "front": "Symmetric vs asymmetric encryption, and how TLS combines them.",
+  "back": "Symmetric (AES): one shared key; fast.\nAsymmetric: key pairs; slow, but no shared secret needed in advance.\nTLS uses asymmetric key exchange to agree a symmetric key, then encrypts data symmetrically.",
+  "tags": [
+   "system-design",
+   "criptografia"
+  ],
+  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "created": 1794200000019,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-07-crypto-012": {
+  "deck": "sd-07-crypto",
+  "front": "What is AEAD, and the one rule never to break?",
+  "back": "Authenticated encryption (e.g. AES-GCM, ChaCha20-Poly1305): confidentiality + integrity in one step.\nNever reuse a nonce with the same key: it can reveal plaintext and allow forgeries.",
+  "tags": [
+   "system-design",
+   "criptografia"
+  ],
+  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "created": 1794200000020,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-07-crypto-013": {
+  "deck": "sd-07-crypto",
+  "front": "What is envelope encryption?",
+  "back": "A data key encrypts the data; a master key in a KMS encrypts the data key.\nStore the encrypted data key with the data. Rotating or revoking the master key controls access without re-encrypting everything.",
+  "tags": [
+   "system-design",
+   "criptografia"
+  ],
+  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "created": 1794200000021,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-07-crypto-014": {
+  "deck": "sd-07-crypto",
+  "front": "What is mTLS, and where is it used?",
+  "back": "Mutual TLS: the client also presents a certificate, so both sides authenticate.\nCommon for service-to-service traffic in internal networks and service meshes.",
+  "tags": [
+   "system-design",
+   "criptografia",
+   "seguranca-web"
+  ],
+  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "created": 1794200000022,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-07-crypto-015": {
+  "deck": "sd-07-crypto",
+  "front": "How does a browser trust a server certificate?",
+  "back": "The certificate chains through intermediates to a root CA in the trust store.\nIt must match the hostname and be within its validity dates.",
+  "tags": [
+   "system-design",
+   "criptografia",
+   "seguranca-web"
+  ],
+  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "created": 1794200000023,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-07-crypto-016": {
+  "deck": "sd-07-crypto",
+  "front": "Rules for secrets in code.",
+  "back": "Never commit them; load from a secret manager or environment at run time.\nScope each secret narrowly, rotate it, and revoke immediately if it leaks (git history keeps it).",
+  "tags": [
+   "system-design",
+   "criptografia",
+   "seguranca-web"
+  ],
+  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "created": 1794200000024,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-001": {
+  "deck": "sd-08-patterns",
+  "front": "What does SOLID stand for?",
+  "back": "**S**ingle responsibility · **O**pen/closed · **L**iskov substitution · **I**nterface segregation · **D**ependency inversion.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000025,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-002": {
+  "deck": "sd-08-patterns",
+  "front": "Single responsibility principle: what is the test?",
+  "back": "A module should have one reason to change.\nA pricer that also loads market data and writes reports changes for three reasons: split it.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000026,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-003": {
+  "deck": "sd-08-patterns",
+  "front": "Open/closed principle.",
+  "back": "Open for extension, closed for modification: add a new product type by adding a class, not by editing every `if` chain.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000027,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-004": {
+  "deck": "sd-08-patterns",
+  "front": "Liskov substitution principle.",
+  "back": "A subtype must work anywhere its base type works, without surprising callers.\nA subclass that throws on a method the base supports breaks it.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000028,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-005": {
+  "deck": "sd-08-patterns",
+  "front": "Dependency inversion and dependency injection.",
+  "back": "Core logic depends on abstractions, not on concrete IO (DB, vendor API).\nPass dependencies in (constructor or argument). Tests inject fakes; production injects real ones.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000029,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-006": {
+  "deck": "sd-08-patterns",
+  "front": "Composition over inheritance: why?",
+  "back": "Inheritance couples a class to its parent's internals, and deep trees get rigid.\nComposition assembles behavior from small parts that can be swapped at run time.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000030,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-007": {
+  "deck": "sd-08-patterns",
+  "front": "Strategy pattern. Give a desk example.",
+  "back": "A family of interchangeable algorithms behind one interface; the caller picks one at run time.\nExample: hedge-route cost models (physical, dealer swap, options) behind `cost(trade)`.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000031,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-008": {
+  "deck": "sd-08-patterns",
+  "front": "Factory pattern.",
+  "back": "Create objects through a function or class that chooses the concrete type, so callers do not depend on it.\nExample: build the right product object from a trade's type field.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000032,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-009": {
+  "deck": "sd-08-patterns",
+  "front": "Builder pattern.",
+  "back": "Construct a complex object step by step, then build it, often validated at the end.\nUseful for objects with many optional parts (e.g. a swap with optional resets, fees, DPR).",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000033,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-010": {
+  "deck": "sd-08-patterns",
+  "front": "Adapter pattern.",
+  "back": "Wrap an incompatible interface so it matches the one your code expects.\nExample: normalize two vendors' market data into one internal quote type.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000034,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-011": {
+  "deck": "sd-08-patterns",
+  "front": "Facade pattern.",
+  "back": "One simple interface in front of a complex subsystem.\nExample: `book_trade()` hides validation, enrichment, persistence and messaging.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000035,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-012": {
+  "deck": "sd-08-patterns",
+  "front": "Decorator pattern, and its Python form.",
+  "back": "Add behavior around an object or function without changing it.\nPython decorators: `@retry`, `@cache`, `@timed` wrap a function.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000036,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-013": {
+  "deck": "sd-08-patterns",
+  "front": "Observer / pub-sub.",
+  "back": "Subscribers register for events and are notified when they occur; the publisher does not know them.\nExample: pricing and risk services subscribe to market data ticks.",
+  "tags": [
+   "system-design",
+   "design-patterns",
+   "mensageria"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000037,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-014": {
+  "deck": "sd-08-patterns",
+  "front": "Command pattern.",
+  "back": "Represent a request as an object.\nIt can then be queued, logged, retried or undone. Examples: a write outbox; LangGraph's `Command`.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000038,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-015": {
+  "deck": "sd-08-patterns",
+  "front": "Why model order or workflow lifecycles as explicit state machines?",
+  "back": "Allowed transitions become explicit (new → partially filled → filled / cancelled), and illegal ones are rejected.\nLangGraph graphs are state machines with LLM nodes.",
+  "tags": [
+   "system-design",
+   "design-patterns",
+   "trading-systems"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000039,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-016": {
+  "deck": "sd-08-patterns",
+  "front": "Template method vs strategy.",
+  "back": "Template method: a base class fixes the steps; subclasses override some (inheritance).\nStrategy: the varying step is a separate object passed in (composition). Strategy is usually easier to test.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000040,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-017": {
+  "deck": "sd-08-patterns",
+  "front": "Visitor pattern: what problem does it solve?",
+  "back": "Adding operations (price, risk, report) over a fixed set of types (products) without editing each type.\nDouble dispatch: each product calls the visitor's method for its own type.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000041,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-018": {
+  "deck": "sd-08-patterns",
+  "front": "Repository pattern.",
+  "back": "Data access behind a collection-like interface (`get`, `add`, `find`).\nDomain code never sees SQL or the ORM; tests use an in-memory version.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000042,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-019": {
+  "deck": "sd-08-patterns",
+  "front": "Hexagonal architecture (ports and adapters).",
+  "back": "Core domain logic in the center, with no IO. Ports are interfaces; adapters plug in DBs, APIs, UIs.\nYou can swap infrastructure without touching the core.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000043,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-020": {
+  "deck": "sd-08-patterns",
+  "front": "Why is the singleton often an anti-pattern?",
+  "back": "It is hidden global state: hard to test, hard to swap, and a source of coupling.\nPrefer creating one instance at startup and injecting it.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000044,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-021": {
+  "deck": "sd-08-patterns",
+  "front": "Value objects and immutability: why use them for trades and money?",
+  "back": "Equality by value, no accidental mutation, safe to share across threads and cache.\nPython: `@dataclass(frozen=True)`.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000045,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-022": {
+  "deck": "sd-08-patterns",
+  "front": "How do you declare an interface in modern Python?",
+  "back": "`typing.Protocol` (structural: any class with the right methods fits) or `abc.ABC` (nominal: must inherit).\nProtocols keep adapters decoupled from your base classes.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000046,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "sd-08-patterns-023": {
+  "deck": "sd-08-patterns",
+  "front": "DRY vs YAGNI vs KISS: how do they trade off?",
+  "back": "DRY: one source of truth for each piece of knowledge.\nYAGNI: do not build for imagined needs.\nKISS: prefer the simple design.\nPremature abstraction to stay DRY often breaks YAGNI and KISS: duplicate twice, abstract on the third.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
+  "created": 1794200000047,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "llm-05-inference-001": {
+  "deck": "llm-05-inference",
+  "front": "Why can the model cache K and V of past tokens at all?",
+  "back": "With the causal mask, a token's K and V depend only on itself and earlier tokens.\nNew tokens never change them, so compute them once and store them.",
+  "tags": [
+   "llm",
+   "inferencia",
+   "transformers"
+  ],
+  "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
+  "created": 1794200000048,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "llm-05-inference-002": {
+  "deck": "llm-05-inference",
+  "front": "What does the KV cache save, and what does it cost?",
+  "back": "Saves recomputing K and V for the whole prefix at every step: each new token does work for one token, not for all.\nCosts GPU memory that grows linearly with context length and with the number of concurrent sequences.",
+  "tags": [
+   "llm",
+   "inferencia"
+  ],
+  "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
+  "created": 1794200000049,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "llm-05-inference-003": {
+  "deck": "llm-05-inference",
+  "front": "Memory for model weights: rule of thumb.",
+  "back": "Parameters × bytes per parameter.\nbf16/fp16: 2 bytes; int8/fp8: 1; int4: 0.5.\n70B in bf16 = 140 GB; in int4 ≈ 35 GB (plus some overhead).",
+  "tags": [
+   "llm",
+   "inferencia"
+  ],
+  "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
+  "created": 1794200000050,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "llm-05-inference-004": {
+  "deck": "llm-05-inference",
+  "front": "KV cache bytes per token: formula.",
+  "back": "$2 \\times L \\times h_{kv} \\times d_{head} \\times b$.\n2 for K and V; $L$ layers; $h_{kv}$ KV heads; $d_{head}$ head dim; $b$ bytes per value.\nTotal = per-token × context length × concurrent sequences.",
+  "tags": [
+   "llm",
+   "inferencia"
+  ],
+  "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
+  "created": 1794200000051,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "llm-05-inference-005": {
+  "deck": "llm-05-inference",
+  "front": "KV cache for a Llama-3-70B-style model (80 layers, 8 KV heads, head dim 128, bf16). Per token? 8k context? 32 users at 8k?",
+  "back": "Per token: $2 \\times 80 \\times 8 \\times 128 \\times 2 \\approx 320$ KiB.\n8k tokens: ≈ 2.5 GiB per sequence.\n32 sequences: ≈ 80 GiB, as much as one H100 holds.",
+  "tags": [
+   "llm",
+   "inferencia"
+  ],
+  "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
+  "created": 1794200000052,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "llm-05-inference-006": {
+  "deck": "llm-05-inference",
+  "front": "Size GPUs for serving a 70B model in bf16 to 32 users at 8k context.",
+  "back": "Weights 140 GB + KV ≈ 86 GB + ~10–20% overhead ≈ 250 GB.\nH100 has 80 GB → at least 4 GPUs (320 GB) with tensor parallelism.\nLevers: quantize weights or KV, fewer concurrent users, shorter context.",
+  "tags": [
+   "llm",
+   "inferencia"
+  ],
+  "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
+  "created": 1794200000053,
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
+ },
+ "llm-05-inference-007": {
+  "deck": "llm-05-inference",
+  "front": "Why is single-sequence decode speed limited by memory bandwidth?",
+  "back": "Each new token reads all weights from GPU memory once.\nUpper bound: tokens/s ≈ bandwidth / weight bytes. H100 (~3.35 TB/s), 70B bf16 (140 GB): ≈ 24 tokens/s per sequence.",
+  "tags": [
+   "llm",
+   "inferencia"
+  ],
+  "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
+  "created": 1794200000054,
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
+ },
+ "llm-05-inference-008": {
+  "deck": "llm-05-inference",
+  "front": "Why does batching raise throughput, and what caps it?",
+  "back": "One weight read serves every sequence in the batch, so cost per token falls.\nThe cap: KV cache memory (each sequence needs its own cache), then compute.\nSo KV size sets how many users one GPU can serve.",
+  "tags": [
+   "llm",
+   "inferencia"
+  ],
+  "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
+  "created": 1794200000055,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "llm-05-inference-009": {
+  "deck": "llm-05-inference",
+  "front": "Why does quantizing weights make inference faster, not only smaller?",
+  "back": "Decode is bandwidth-bound: fewer bytes per weight means fewer bytes read per token.\nint4 reads a quarter of bf16's bytes, and frees memory for a bigger KV cache.",
+  "tags": [
+   "llm",
+   "inferencia",
+   "treino-llm"
+  ],
+  "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
+  "created": 1794200000056,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "llm-05-inference-010": {
+  "deck": "llm-05-inference",
+  "front": "Which levers shrink the KV cache?",
+  "back": "1. GQA/MQA (fewer KV heads; built into the model).\n2. KV quantization (e.g. fp8: half of bf16).\n3. Shorter context or sliding-window attention.\n4. Paged allocation to cut waste.",
+  "tags": [
+   "llm",
+   "inferencia"
+  ],
+  "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
+  "created": 1794200000057,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "llm-05-inference-011": {
+  "deck": "llm-05-inference",
+  "front": "What is PagedAttention (vLLM)?",
+  "back": "It stores the KV cache in fixed-size blocks, like OS memory pages, instead of one contiguous slab per sequence.\nLess fragmentation and wasted reserve; shared prefixes can share blocks.",
+  "tags": [
+   "llm",
+   "inferencia"
+  ],
+  "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
+  "created": 1794200000058,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "llm-05-inference-012": {
+  "deck": "llm-05-inference",
+  "front": "Tensor vs pipeline parallelism.",
+  "back": "Tensor: splits each layer's matrices across GPUs; needs fast links (NVLink); lowers latency.\nPipeline: puts different layers on different GPUs; fewer communications, but stages wait on each other.",
+  "tags": [
+   "llm",
+   "inferencia"
+  ],
+  "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
+  "created": 1794200000059,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "llm-05-inference-013": {
+  "deck": "llm-05-inference",
+  "front": "MoE model: total vs active parameters. Which sets memory, which sets compute?",
+  "back": "Memory: total parameters (all experts must be loaded).\nCompute per token: active parameters (only the chosen experts run).",
+  "tags": [
+   "llm",
+   "inferencia",
+   "transformers"
+  ],
+  "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
+  "created": 1794200000060,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "llm-05-inference-014": {
+  "deck": "llm-05-inference",
+  "front": "GPU memory needed to train with Adam in mixed precision: rule of thumb.",
+  "back": "About 16 bytes per parameter: bf16 weights (2) + gradients (2) + fp32 master weights (4) + Adam moments (8).\n70B → ≈ 1.1 TB before activations. Hence sharding (ZeRO/FSDP) across many GPUs.",
+  "tags": [
+   "llm",
+   "inferencia",
+   "treino-llm"
+  ],
+  "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
+  "created": 1794200000061,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "llm-05-inference-015": {
+  "deck": "llm-05-inference",
+  "front": "How does prompt caching relate to the KV cache?",
+  "back": "It keeps the KV cache of a repeated prompt prefix, so the next request skips its prefill.\nCheaper and faster time to first token, if the prefix is byte-identical.",
+  "tags": [
+   "llm",
+   "inferencia",
+   "agentes"
+  ],
+  "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
+  "created": 1794200000062,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "llm-05-inference-016": {
+  "deck": "llm-05-inference",
+  "front": "Common GPU memory sizes to remember.",
+  "back": "A100: 40 or 80 GB. H100: 80 GB. H200: 141 GB. L4 and RTX 4090: 24 GB.",
+  "tags": [
+   "llm",
+   "inferencia"
+  ],
+  "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
+  "created": 1794200000063,
+  "suspended": false,
+  "verified": "2026-11-05",
+  "checkBy": "2027-05-05"
  }
 }

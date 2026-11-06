@@ -15,15 +15,24 @@ The website (https://nashquant.github.io/kairos/) is the app. Claude adds cards 
 
 ## Data shape
 - Deck: `{id: {name, desc, created}}`. `name` is hierarchical with `::`. Id is an ASCII slug.
-- Card: `{id: {deck, front, back, tags[], source, created, suspended}}`. Id = `<deckId>-NNN`. New-card order = `created`, then id.
+- Card: `{id: {deck, front, back, tags[], source, created, suspended, verified?, checkBy?}}`. New-card order = `created`, then id.
+- `created` is an ordering key in ms, not a reliable date. Use `verified` for dates.
+- `verified` (`YYYY-MM-DD`): the day Claude last checked the card's facts against a source. Set it on every new card and on every content change.
+- `checkBy` (`YYYY-MM-DD`): only on time-sensitive facts (rules, regulation, product names, APIs, hardware specs). After that date the app shows "rever fatos". Recheck, then update `verified` and move `checkBy` forward, or tag `datado`.
+
+## Card ids
+- Id format for new cards: `<deckId>-NNN`, next free number in that deck. The prefix only records the deck the card was born in.
+- An id is **permanent**: progress (`reviews/{id}`) and the user's edits hang on it. Moving a card to another deck, renaming a deck, rewording or retagging a card keep the id.
+- Never reuse an id, and never delete a public card: set `suspended: true`. Deleting orphans progress.
+- To refer to a card in chat or commits, use its id.
 - `front`/`back`: simple Markdown (`**`, `*`, `` ` ``, fenced code, `- `/`1.` lists, `###`) and LaTeX `$…$` / `$$…$$` (MathJax).
 - Progress (FSRS state, daily log, settings) belongs to each user; Claude never writes it.
 
 ## Tags (fixed vocabulary, 1–3 per card; `datado` extra)
 `fundamentos`, `medidas-de-risco`, `cva`, `hedge`, `netting`, `colateral`, `close-out`, `wrong-way`, `credito`, `juros`, `equity-fx`, `amc`, `simulacao`, `regulatorio`, `datado` (practice that has since changed).
 - Delta One: `delta-one` + `financiamento`, `hedge`, `dividendos`, `eventos-indice`, `produtos-d1`, `mesas`.
-- LLM: `llm` + `transformers`, `treino-llm`, `agentes`, `rag`, `mcp`, `langgraph`.
-- System design: `system-design` + `escalabilidade`, `dados`, `confiabilidade`, `mensageria`, `seguranca-web`, `web-app`, `trading-systems`.
+- LLM: `llm` + `transformers`, `treino-llm`, `inferencia`, `agentes`, `rag`, `mcp`, `langgraph`.
+- System design: `system-design` + `escalabilidade`, `dados`, `confiabilidade`, `mensageria`, `seguranca-web`, `criptografia`, `design-patterns`, `web-app`, `trading-systems`.
 - The domain tag (`delta-one`, `llm`, `system-design`) goes on every card of that domain, so one filter hides the whole subject. New subjects may add tags; add a label in `TAG_LABELS` in `app.html`.
 
 ## Ingest rules
@@ -31,4 +40,4 @@ The website (https://nashquant.github.io/kairos/) is the app. Claude adds cards 
 2. Read existing decks/cards first; no duplicates.
 3. One fact per card. Specific question, short answer.
 4. For formulas, ask for the intuition or the use, not only the form.
-5. Validate: JSON loads, every formula compiles in MathJax, tests pass (`node tests/web.test.js`, `offline`, `sync`; `python3 tests/test_ingest.py`).
+5. Validate: `python3 tests/test_data.py` (schema, tags, ids, dates), JSON loads, every formula compiles in MathJax, tests pass (`node tests/web.test.js`, `offline`, `sync`; `python3 tests/test_ingest.py`).

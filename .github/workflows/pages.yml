@@ -22,9 +22,12 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - run: python3 tests/test_data.py $(git rev-parse -q --verify HEAD~1 >/dev/null && echo --base HEAD~1)
       - run: python3 scripts/build_web.py
       - uses: actions/setup-node@v4
         with:

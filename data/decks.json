@@ -113,5 +113,20 @@
   "name": "Tecnologia::System Design::06 Trading systems",
   "desc": "OMS/EMS, FIX, risk checks, market data, positions, P&L",
   "created": 1794100000012
+ },
+ "sd-07-crypto": {
+  "name": "Tecnologia::System Design::07 Applied cryptography",
+  "desc": "Hash, HMAC, signatures, JWT algorithms, passwords, AEAD, KMS, mTLS",
+  "created": 1794200000000
+ },
+ "sd-08-patterns": {
+  "name": "Tecnologia::System Design::08 Software design patterns",
+  "desc": "SOLID, dependency injection, GoF patterns, architecture, Python idioms",
+  "created": 1794200000001
+ },
+ "llm-05-inference": {
+  "name": "Tecnologia::LLM::05 Inference and GPU sizing",
+  "desc": "Weights memory, KV cache sizing, bandwidth limits, batching, parallelism",
+  "created": 1794200000002
  }
 }
