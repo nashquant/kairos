@@ -1,0 +1,20 @@
+name: Apply database schema
+
+on:
+  push:
+    branches: [main]
+    paths: ["supabase/schema.sql"]
+  workflow_dispatch:
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run supabase/schema.sql
+        env:
+          DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          if [ -z "$DB_URL" ]; then echo "Secret SUPABASE_DB_URL is missing"; exit 1; fi
+          psql "$DB_URL" -v ON_ERROR_STOP=1 -f supabase/schema.sql
+          psql "$DB_URL" -c "select count(*) as tables from information_schema.tables where table_schema='public' and table_name in ('user_docs','private_docs','ingest_state');"
