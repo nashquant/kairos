@@ -8002,5 +8002,58 @@
   "suspended": false,
   "verified": "2026-11-05",
   "checkBy": "2027-05-05"
+ },
+ "d1-05-products-017": {
+  "deck": "d1-05-products",
+  "front": "TRS at inception, one curve for discounting and projection, no dividends, zero spread. What is it worth, and why?",
+  "back": "About 0. Under the risk-neutral measure the stock's expected total return equals the risk-free rate.\nSo the equity leg and the floating leg have the same value; the spread is pure margin.",
+  "tags": [
+   "delta-one",
+   "produtos-d1"
+  ],
+  "source": "FinancePy 1.1.2 EquitySwap, computed 2026-11-05",
+  "created": 1794300000000,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "d1-05-products-018": {
+  "deck": "d1-05-products",
+  "front": "10m notional, 1y, quarterly, flat 4.3% curve, spread 50 bp. Value to the client receiving equity?",
+  "back": "About −49.4k USD (FinancePy). That is ≈ spread × notional × year fraction × discount factor.\nThe desk's day-one PV is the PV of the spread.",
+  "tags": [
+   "delta-one",
+   "produtos-d1"
+  ],
+  "source": "FinancePy 1.1.2 EquitySwap, computed 2026-11-05",
+  "created": 1794300000001,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "d1-05-products-019": {
+  "deck": "d1-05-products",
+  "front": "Why does FinancePy's `EquitySwap.value` take three curves?",
+  "back": "Discount curve: PV of cash flows (the collateral rate).\nIndex curve: projects the floating rate.\nDividend curve: expected dividends, which drive the equity forward.",
+  "tags": [
+   "delta-one",
+   "produtos-d1"
+  ],
+  "source": "FinancePy 1.1.2 EquitySwap, computed 2026-11-05",
+  "created": 1794300000002,
+  "suspended": false,
+  "verified": "2026-11-05"
+ },
+ "d1-05-products-020": {
+  "deck": "d1-05-products",
+  "front": "Which rate should drive the equity forward when a desk prices a TRS: OIS or the stock's repo/funding rate? Why?",
+  "back": "The repo/funding rate: it is what holding the hedge actually costs.\nOIS-only pricing assumes the hedge funds at OIS, which hides the funding and borrow spread from S1. The gap is why the client pays a spread.",
+  "tags": [
+   "delta-one",
+   "produtos-d1",
+   "financiamento"
+  ],
+  "source": "FinancePy 1.1.2 EquitySwap, computed 2026-11-05",
+  "created": 1794300000003,
+  "suspended": false,
+  "verified": "2026-11-05"
  }
 }
