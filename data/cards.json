@@ -3604,7 +3604,8 @@
   "front": "Client is long a TRS paying SOFR + spread; desk funds the hedge at SOFR + x. Why can you ignore SOFR when pricing?",
   "back": "Client pays SOFR and the desk pays SOFR to fund. SOFR cancels.\nOnly spreads over SOFR matter, in bp per year on notional.",
   "tags": [
-   "delta-one"
+   "delta-one",
+   "financiamento"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000000,
@@ -3616,7 +3617,8 @@
   "back": "1. Secured funding (repo).\n2. Unsecured funding of the haircut.\n3. Leverage (SLR) charge.\n4. Counterparty capital on the client swap.\n5. Sec lending income (negative cost).",
   "tags": [
    "delta-one",
-   "regulatorio"
+   "regulatorio",
+   "financiamento"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000001,
@@ -3627,7 +3629,8 @@
   "front": "Who funds the desk's inventory, and how is the desk charged?",
   "back": "Treasury / ALM funds it and charges an internal funds transfer price (FTP).\nThe FTP covers debt cost plus a charge for scarce balance sheet.",
   "tags": [
-   "delta-one"
+   "delta-one",
+   "financiamento"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000002,
@@ -3638,7 +3641,8 @@
   "front": "Shares worth 10m, repo haircut 15%. How is the position funded?",
   "back": "8.5m secured at the repo rate.\n1.5m (the haircut) unsecured at the firm's higher unsecured rate.\nThe haircut sets the weights of the blend.",
   "tags": [
-   "delta-one"
+   "delta-one",
+   "financiamento"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000003,
@@ -3649,7 +3653,8 @@
   "front": "Repo at SOFR + 30 bp, unsecured at SOFR + 100 bp, haircut 15%. Funding cost in bp?",
   "back": "$0.85 \\times 30 + 0.15 \\times 100 = 25.5 + 15 = 40.5$ bp.",
   "tags": [
-   "delta-one"
+   "delta-one",
+   "financiamento"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000004,
@@ -3661,7 +3666,8 @@
   "back": "$\\text{charge} = \\text{exposure ratio} \\times \\text{leverage \\%} \\times (K_e - \\text{debt cost})$.\nEquity replaces debt in funding the asset. Debt cost is already in the funding lines, so charge only the excess return equity demands.",
   "tags": [
    "delta-one",
-   "regulatorio"
+   "regulatorio",
+   "financiamento"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000005,
@@ -3673,7 +3679,8 @@
   "back": "$100\\% \\times 4.5\\% \\times 7\\% = 31.5$ bp.\nUsually the largest line of the physical hedge.",
   "tags": [
    "delta-one",
-   "regulatorio"
+   "regulatorio",
+   "financiamento"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000006,
@@ -3685,7 +3692,8 @@
   "back": "The SLR counts every asset at full size, with no risk weighting.\nSo 10m of a GC name uses the same leverage exposure as 10m of a risky one.",
   "tags": [
    "delta-one",
-   "regulatorio"
+   "regulatorio",
+   "financiamento"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000007,
@@ -3697,7 +3705,8 @@
   "back": "Before: 3% + fixed 2% buffer = 5%.\nAfter: 3% + half the Method 1 GSIB surcharge (usually below 5%).\nIt **lowered** the leverage charge on balance-sheet-heavy trades.",
   "tags": [
    "delta-one",
-   "regulatorio"
+   "regulatorio",
+   "financiamento"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000008,
@@ -3709,7 +3718,8 @@
   "back": "$5\\% \\times 7\\% = 35$ bp → $4.5\\% \\times 7\\% = 31.5$ bp.\n−3.5 bp per year on notional.",
   "tags": [
    "delta-one",
-   "regulatorio"
+   "regulatorio",
+   "financiamento"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000009,
@@ -3721,7 +3731,8 @@
   "back": "Leverage: total assets (SLR), no risk weighting.\nCounterparty capital: risk-weighted exposure to the client defaulting on the swap.\nTwo different constraints, often charged separately.",
   "tags": [
    "delta-one",
-   "regulatorio"
+   "regulatorio",
+   "financiamento"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000010,
@@ -3732,7 +3743,8 @@
   "front": "Who lends the desk's long inventory to shorts, and what does the desk get?",
   "back": "Prime Brokerage / Sec Lending lends it and earns the borrow fee.\nThe desk receives a share of that fee as income.",
   "tags": [
-   "delta-one"
+   "delta-one",
+   "financiamento"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000011,
@@ -3743,7 +3755,8 @@
   "front": "Illustrative stack: repo 25.5, haircut 15, leverage 31.5, capital 10, lending −10. Client pays SOFR + 50. Desk P&L?",
   "back": "Cost $= 72$ bp. P&L $= 50 - 72 = -22$ bp ≈ −22k USD/yr on 10m.\n50 bp does not cover a standalone physical hedge.",
   "tags": [
-   "delta-one"
+   "delta-one",
+   "financiamento"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000012,
@@ -3754,7 +3767,8 @@
   "front": "Same stack, but the name goes special: fee 300 bp, desk keeps half. Desk P&L?",
   "back": "Lending income $= -150$ bp. Cost $= 82 - 150 = -68$ bp (net income).\nP&L $= 50 + 68 = +118$ bp ≈ +118k USD/yr.\nOn a special, the long hedge pays for itself.",
   "tags": [
-   "delta-one"
+   "delta-one",
+   "financiamento"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000013,
@@ -3765,7 +3779,8 @@
   "front": "Decision rule: when does a physical hedge make money?",
   "back": "client spread ≥ funding spread + leverage charge + counterparty capital − lending income.\nIf not: internalize, or hedge synthetically.",
   "tags": [
-   "delta-one"
+   "delta-one",
+   "financiamento"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000014,
@@ -3777,7 +3792,8 @@
   "back": "Capital also replaces debt that the funding lines already charged.\nFull $K_e$ double-counts the debt cost. Use $K_e$ − debt cost.",
   "tags": [
    "delta-one",
-   "regulatorio"
+   "regulatorio",
+   "financiamento"
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000015,
@@ -3862,7 +3878,8 @@
   "front": "What is the real cost of a synthetic forward from listed options? Why not the premium?",
   "back": "The premium buys an asset worth it, so it is not a cost.\nThe cost is the **implied financing rate** inside the option prices, versus your own funding.",
   "tags": [
-   "delta-one"
+   "delta-one",
+   "hedge"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000022,
@@ -3873,7 +3890,8 @@
   "front": "Write put-call parity with dividends and say what you solve for.",
   "back": "$C - P = S - PV(\\text{div}) - K \\cdot DF(T)$.\nSolve for $DF(T)$ → implied financing rate. Intuition: the combo is the stock with deferred payment.",
   "tags": [
-   "delta-one"
+   "delta-one",
+   "hedge"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000023,
@@ -3884,7 +3902,8 @@
   "front": "How does the options market reveal borrow cost on a hard-to-borrow name?",
   "back": "Shorts can't borrow the stock, so they sell synthetic forwards instead.\nThe implied forward drops below theoretical; the gap prices the borrow fee.",
   "tags": [
-   "delta-one"
+   "delta-one",
+   "financiamento"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000024,
@@ -3943,7 +3962,9 @@
   "front": "Client short TRS, desk short the stock. Why is borrow a term-mismatch risk?",
   "back": "Client spread is fixed for the swap's term.\nThe borrow fee floats daily and the lender can recall the shares.\nTerm liability, overnight funding.",
   "tags": [
-   "delta-one"
+   "delta-one",
+   "financiamento",
+   "hedge"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000029,
@@ -3954,7 +3975,9 @@
   "front": "Four ways a desk manages borrow risk on short swaps.",
   "back": "1. Term borrow (lock the fee, pay a premium).\n2. Repricing rights in the confirm.\n3. ISDA disruption events: increased cost / loss of stock borrow.\n4. Pricing buffer on high-utilization names.",
   "tags": [
-   "delta-one"
+   "delta-one",
+   "financiamento",
+   "hedge"
   ],
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000030,
@@ -3977,7 +4000,8 @@
   "front": "What is the DPR on a single-stock TRS, and where does the desk's dividend risk come from?",
   "back": "Dividend pass-through ratio: the share of the dividend paid to the client (e.g. 100% gross, 70%).\nDesk P&L = dividend received net of tax − dividend paid under the DPR.",
   "tags": [
-   "delta-one"
+   "delta-one",
+   "dividendos"
   ],
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000032,
@@ -3988,7 +4012,8 @@
   "front": "GTR vs NTR index: how are dividends treated?",
   "back": "Both reinvest dividends in the index level.\nGTR: gross. NTR: net of the provider's standard withholding rate.",
   "tags": [
-   "delta-one"
+   "delta-one",
+   "dividendos"
   ],
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000033,
@@ -3999,7 +4024,8 @@
   "front": "Why can an NTR index swap generate a dividend edge for the desk?",
   "back": "If the firm's real withholding is lower than the index provider's rate (treaty, structure), the difference is profit.\nPart is passed to clients through a tighter spread. It is a tax-yield enhancement, not a funding benefit.",
   "tags": [
-   "delta-one"
+   "delta-one",
+   "dividendos"
   ],
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000034,
@@ -4010,7 +4036,8 @@
   "front": "Why must index rebalance trades be executed at the close?",
   "back": "Client swaps and the index use the official closing price.\nCap weights depend on spot, so the desk executes the pro-forma basket at the close, usually via the closing auction.",
   "tags": [
-   "delta-one"
+   "delta-one",
+   "eventos-indice"
   ],
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000035,
@@ -4021,10 +4048,2808 @@
   "front": "What is restrike risk on an index rebalance?",
   "back": "Slippage between the desk's execution prices and the official close.\nTrading early reduces market impact but adds this slippage: a trade-off.",
   "tags": [
-   "delta-one"
+   "delta-one",
+   "eventos-indice"
   ],
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000036,
+  "suspended": false
+ },
+ "d1-01-physical-017": {
+  "deck": "d1-01-physical",
+  "front": "Sec lending: GC vs special.",
+  "back": "**GC** (general collateral): easy to borrow, fee of a few bp to ~30 bp per year.\n**Special**: scarce supply or heavy short demand, fee can reach hundreds or thousands of bp.",
+  "tags": [
+   "delta-one",
+   "financiamento"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000000,
+  "suspended": false
+ },
+ "d1-01-physical-018": {
+  "deck": "d1-01-physical",
+  "front": "What is utilization in sec lending, and why do traders watch it?",
+  "back": "Utilization = shares on loan / lendable supply.\nHigh utilization means little spare supply: fees can jump and recalls hurt more. It leads fee moves.",
+  "tags": [
+   "delta-one",
+   "financiamento"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000001,
+  "suspended": false
+ },
+ "d1-01-physical-019": {
+  "deck": "d1-01-physical",
+  "front": "Cash collateral of 4.30%, borrow fee 25 bp. What rebate does the borrower receive? And with a fee of 6%?",
+  "back": "Rebate = cash reinvestment rate − fee.\nGC: $4.30\\% - 0.25\\% = 4.05\\%$.\nSpecial: $4.30\\% - 6\\% = -1.70\\%$. A negative rebate: the borrower pays on top of giving up interest.",
+  "tags": [
+   "delta-one",
+   "financiamento"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000002,
+  "suspended": false
+ },
+ "d1-01-physical-020": {
+  "deck": "d1-01-physical",
+  "front": "What is a recall, and what happens if the borrower cannot return the shares?",
+  "back": "The lender asks for its shares back (e.g. to sell or to vote).\nThe borrower must return them, borrow elsewhere, or face a **buy-in**: shares bought in the market at the borrower's cost.",
+  "tags": [
+   "delta-one",
+   "financiamento"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000003,
+  "suspended": false
+ },
+ "d1-01-physical-021": {
+  "deck": "d1-01-physical",
+  "front": "What is days to cover, and what does a high value signal?",
+  "back": "Short interest / average daily volume.\nHigh days to cover: shorts need many days to exit. Squeeze risk, and a candidate for going special.",
+  "tags": [
+   "delta-one",
+   "financiamento"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000004,
+  "suspended": false
+ },
+ "d1-01-physical-022": {
+  "deck": "d1-01-physical",
+  "front": "Why does Treasury charge more for term funding than for overnight funding?",
+  "back": "Locking cash for longer has a liquidity premium and the bank's credit spread grows with tenor.\nA desk that funds a 1y swap overnight carries rollover risk. Term funding removes it at a cost.",
+  "tags": [
+   "delta-one",
+   "financiamento"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000005,
+  "suspended": false
+ },
+ "d1-01-physical-023": {
+  "deck": "d1-01-physical",
+  "front": "Funding consumer vs funding provider: which desks are which?",
+  "back": "**Consumers** need cash: long inventory (Delta One hedges, PB margin loans).\n**Providers** bring cash in: structured note issuance, client short proceeds, deposits.\nTreasury nets them and charges or credits each desk through FTP.",
+  "tags": [
+   "delta-one",
+   "financiamento",
+   "mesas"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000006,
+  "suspended": false
+ },
+ "d1-01-physical-024": {
+  "deck": "d1-01-physical",
+  "front": "What drives the bank's unsecured funding spread, and where does it show up in pricing?",
+  "back": "The bank's own credit spread (default risk plus liquidity premium).\nIt prices the unsecured part of every funded position (e.g. the repo haircut) and drives FVA on uncollateralized derivatives.",
+  "tags": [
+   "delta-one",
+   "financiamento"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000007,
+  "suspended": false
+ },
+ "d1-01-physical-025": {
+  "deck": "d1-01-physical",
+  "front": "How does the SLR define the leverage ratio?",
+  "back": "$\\text{SLR} = \\dfrac{\\text{Tier 1 capital}}{\\text{total leverage exposure}}$.\nExposure = on-balance-sheet assets + derivative exposure (SA-CCR) + off-balance-sheet items. No risk weights.",
+  "tags": [
+   "delta-one",
+   "regulatorio"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000008,
+  "suspended": false
+ },
+ "d1-02-synthetic-017": {
+  "deck": "d1-02-synthetic",
+  "front": "Which signals would warn you that a name may go special?",
+  "back": "1. Rising utilization.\n2. Rising fee or falling rebate.\n3. Recalls.\n4. Event catalysts: M&A, convertible issuance, index deletion, short-seller reports.\n5. Options-implied forward trading below theoretical.",
+  "tags": [
+   "delta-one",
+   "financiamento"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000009,
+  "suspended": false
+ },
+ "d1-02-synthetic-018": {
+  "deck": "d1-02-synthetic",
+  "front": "Client long swap on a name that goes special. Who benefits and why?",
+  "back": "The desk, if hedged physically: it can lend the shares at a high fee.\nThe client spread is fixed, so the desk keeps the extra lending income.",
+  "tags": [
+   "delta-one",
+   "financiamento",
+   "hedge"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000010,
+  "suspended": false
+ },
+ "d1-02-synthetic-019": {
+  "deck": "d1-02-synthetic",
+  "front": "Client short swap: what does the client receive on the financing leg?",
+  "back": "SOFR − spread (a short rebate).\nThe spread covers the desk's borrow fee. On a special name the spread can exceed SOFR, so the client pays.",
+  "tags": [
+   "delta-one",
+   "hedge"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000011,
+  "suspended": false
+ },
+ "d1-03-divs-index-006": {
+  "deck": "d1-03-divs-index",
+  "front": "Ex-date, record date, pay date: which one decides who gets the dividend, and what happens to the price?",
+  "back": "The **ex-date**: whoever holds the stock before it gets the dividend.\nOn the ex-date the price drops by about the dividend.\nSwap confirms usually fix the dividend amount on the ex-date and pay it on the pay date (check the confirm).",
+  "tags": [
+   "delta-one",
+   "dividendos"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000012,
+  "suspended": false
+ },
+ "d1-03-divs-index-007": {
+  "deck": "d1-03-divs-index",
+  "front": "Foreign stock, treaty withholding 15%. Client TRS with DPR 100% gross, desk hedged physically. Dividend 2.00. Desk P&L on the dividend?",
+  "back": "Desk receives $2.00 \\times 85\\% = 1.70$ and pays $2.00$.\nLoss of 0.30 per share. Fix: set DPR at the net rate (85%) or price the gap into the spread.",
+  "tags": [
+   "delta-one",
+   "dividendos"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000013,
+  "suspended": false
+ },
+ "d1-03-divs-index-008": {
+  "deck": "d1-03-divs-index",
+  "front": "What is IRC §871(m)?",
+  "back": "A US tax rule: a **dividend equivalent** paid to a non-US person on a derivative referencing US stocks is a US-source dividend.\nWithholding: 30%, unless a treaty reduces it.",
+  "tags": [
+   "delta-one",
+   "dividendos",
+   "regulatorio"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000014,
+  "suspended": false
+ },
+ "d1-03-divs-index-009": {
+  "deck": "d1-03-divs-index",
+  "front": "Which instruments does §871(m) cover today?",
+  "back": "Specified equity-linked instruments with delta ≥ 0.8 at issuance (delta-one), e.g. TRS on US stocks.\nExceptions exist (e.g. qualified indices). The phase-in for lower-delta instruments has been deferred several times.",
+  "tags": [
+   "delta-one",
+   "dividendos",
+   "regulatorio"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000015,
+  "suspended": false
+ },
+ "d1-03-divs-index-010": {
+  "deck": "d1-03-divs-index",
+  "front": "Does a price-return swap on a US stock escape §871(m)?",
+  "back": "No, if its pricing reflects expected dividends.\nThat implicit dividend counts as a dividend equivalent.",
+  "tags": [
+   "delta-one",
+   "dividendos",
+   "regulatorio"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000016,
+  "suspended": false
+ },
+ "d1-03-divs-index-011": {
+  "deck": "d1-03-divs-index",
+  "front": "Why did §871(m) change swap demand from non-US clients?",
+  "back": "Before it, swaps let non-US investors receive US dividend economics with no withholding.\nAfter it, a delta-one swap on US stocks withholds like the physical stock. The tax edge disappeared.",
+  "tags": [
+   "delta-one",
+   "dividendos",
+   "regulatorio"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000017,
+  "suspended": false
+ },
+ "d1-03-divs-index-012": {
+  "deck": "d1-03-divs-index",
+  "front": "What is a QDD (qualified derivatives dealer)?",
+  "back": "A dealer that takes primary withholding responsibility on the dividend equivalents it pays.\nIn exchange it is not withheld on dividends it receives as a hedger. This avoids cascading withholding.",
+  "tags": [
+   "delta-one",
+   "dividendos",
+   "regulatorio"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000018,
+  "suspended": false
+ },
+ "d1-03-divs-index-013": {
+  "deck": "d1-03-divs-index",
+  "front": "How are special (extraordinary) dividends usually treated in swaps and indices?",
+  "back": "Often as an adjustment event (to notional, strike or index divisor), not as an ordinary dividend flow.\nThe confirm or index rules define \"extraordinary\". Read them: this is a common source of breaks.",
+  "tags": [
+   "delta-one",
+   "dividendos"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000019,
+  "suspended": false
+ },
+ "d1-03-divs-index-014": {
+  "deck": "d1-03-divs-index",
+  "front": "Why do structured product desks end up long dividends, and how do they hedge?",
+  "back": "Their delta hedges on price-return-linked notes (e.g. autocallables) gain when realized dividends exceed what was priced, and lose when dividends fall.\nThey hedge by selling dividend futures or dividend swaps. Delta One / dividend trading is a natural counterparty.",
+  "tags": [
+   "delta-one",
+   "dividendos",
+   "mesas"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000020,
+  "suspended": false
+ },
+ "d1-03-divs-index-015": {
+  "deck": "d1-03-divs-index",
+  "front": "What does an index dividend future pay?",
+  "back": "The sum of ordinary gross dividends, in index points, with ex-dates inside the contract year (e.g. Euro Stoxx 50 dividend futures).\nIt isolates dividend risk from price risk.",
+  "tags": [
+   "delta-one",
+   "dividendos"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000021,
+  "suspended": false
+ },
+ "d1-03-divs-index-016": {
+  "deck": "d1-03-divs-index",
+  "front": "Index 5000, financing 5%, 3-month future at 5040 (simple interest). Implied dividends?",
+  "back": "$F = S(1+rT) - D \\Rightarrow D = S(1+rT) - F$.\n$D = 5000 \\times 1.0125 - 5040 = 22.5$ index points (future value).\nWith known financing, futures reveal dividends; with known dividends, they reveal financing.",
+  "tags": [
+   "delta-one",
+   "dividendos"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000022,
+  "suspended": false
+ },
+ "d1-04-index-events-001": {
+  "deck": "d1-04-index-events",
+  "front": "Name the three key dates of an index change.",
+  "back": "1. **Announcement**: the provider publishes the change.\n2. **Effective date**: the change takes effect after the close of the prior trading day.\n3. Between them, the **pro-forma** composition is known and trackers plan their trades.",
+  "tags": [
+   "delta-one",
+   "eventos-indice"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000023,
+  "suspended": false
+ },
+ "d1-04-index-events-002": {
+  "deck": "d1-04-index-events",
+  "front": "When do S&P 500 and MSCI quarterly rebalances take effect?",
+  "back": "S&P: after the close on the third Friday of March, June, September and December.\nMSCI: as of the close of the last business day of February, May, August and November.",
+  "tags": [
+   "delta-one",
+   "eventos-indice"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000024,
+  "suspended": false
+ },
+ "d1-04-index-events-003": {
+  "deck": "d1-04-index-events",
+  "front": "Besides scheduled reviews, which events change an index?",
+  "back": "M&A (deletion at deal close), spin-offs, IPO fast entries, share count changes (buybacks, issuance) and free-float changes.\nThese are ad hoc and can be announced with little notice.",
+  "tags": [
+   "delta-one",
+   "eventos-indice"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000025,
+  "suspended": false
+ },
+ "d1-04-index-events-004": {
+  "deck": "d1-04-index-events",
+  "front": "You hold a cap-weighted index in index share proportions. The prices move. Do you need to trade?",
+  "back": "No. Cap weights move with prices, and so do your holdings. A cap-weighted index is self-rebalancing.\nYou trade only for composition, share-count or float changes.",
+  "tags": [
+   "delta-one",
+   "eventos-indice"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000026,
+  "suspended": false
+ },
+ "d1-04-index-events-005": {
+  "deck": "d1-04-index-events",
+  "front": "Equal-weight index: what must happen at each rebalance?",
+  "back": "Weights drift with prices, so the tracker sells recent winners and buys recent losers to restore equal weights.\nMore turnover than cap-weighted, and predictable flow.",
+  "tags": [
+   "delta-one",
+   "eventos-indice"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000027,
+  "suspended": false
+ },
+ "d1-04-index-events-006": {
+  "deck": "d1-04-index-events",
+  "front": "Who trades an index event at the close?",
+  "back": "1. Passive funds and ETFs (tracking error vs the close).\n2. Desks hedging index swaps and futures.\n3. Active managers and arbitrageurs who pre-position.\n4. Liquidity providers who offset auction imbalances.",
+  "tags": [
+   "delta-one",
+   "eventos-indice"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000028,
+  "suspended": false
+ },
+ "d1-04-index-events-007": {
+  "deck": "d1-04-index-events",
+  "front": "How does a closing auction work?",
+  "back": "Orders accumulate before the close. The exchange computes one price that maximizes matched volume.\nAll matched orders trade at that price, which becomes the official close.",
+  "tags": [
+   "delta-one",
+   "eventos-indice"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000029,
+  "suspended": false
+ },
+ "d1-04-index-events-008": {
+  "deck": "d1-04-index-events",
+  "front": "MOC vs LOC orders.",
+  "back": "**MOC** (market-on-close): executes at the closing price, whatever it is.\n**LOC** (limit-on-close): executes at the close only if the price is within the limit.",
+  "tags": [
+   "delta-one",
+   "eventos-indice"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000030,
+  "suspended": false
+ },
+ "d1-04-index-events-009": {
+  "deck": "d1-04-index-events",
+  "front": "What is imbalance information in the US closing auction, and when does order entry stop?",
+  "back": "The exchange publishes the paired volume and the net buy or sell imbalance in the final minutes.\nMOC/LOC entry closes about 3:50 pm ET on NYSE and Nasdaq. After that, mostly orders that offset the imbalance are accepted.",
+  "tags": [
+   "delta-one",
+   "eventos-indice"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000031,
+  "suspended": false
+ },
+ "d1-04-index-events-010": {
+  "deck": "d1-04-index-events",
+  "front": "What is the \"index effect\" around additions?",
+  "back": "Added stocks tend to rise between announcement and effective date as pre-positioners buy, and often give back part of it afterwards.\nDeletions show the mirror pattern. It is a cost for trackers and a risk for pre-positioners.",
+  "tags": [
+   "delta-one",
+   "eventos-indice"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000032,
+  "suspended": false
+ },
+ "d1-04-index-events-011": {
+  "deck": "d1-04-index-events",
+  "front": "What is a guaranteed-close (facilitation) trade?",
+  "back": "The desk guarantees the client the official closing price on a basket.\nThe client gets zero tracking error. The desk takes the execution risk and charges for it.",
+  "tags": [
+   "delta-one",
+   "eventos-indice"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000033,
+  "suspended": false
+ },
+ "d1-04-index-events-012": {
+  "deck": "d1-04-index-events",
+  "front": "Index add: desk must buy 1,000,000 shares at the close. It buys 300,000 early at an average of 50.40. Close is 50.00. Restrike P&L?",
+  "back": "Remaining 700,000 trade in the auction at the close: no slippage.\nEarly fills: $300{,}000 \\times (50.00 - 50.40) = -120{,}000$ USD.",
+  "tags": [
+   "delta-one",
+   "eventos-indice"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000034,
+  "suspended": false
+ },
+ "d1-04-index-events-013": {
+  "deck": "d1-04-index-events",
+  "front": "How does a desk decide how much to trade before the close vs in the auction?",
+  "back": "Trade-off: more in the auction means more price impact on the close; more early means more restrike slippage.\nSize the early share against expected auction depth and the stock's volatility to the close.",
+  "tags": [
+   "delta-one",
+   "eventos-indice"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000035,
+  "suspended": false
+ },
+ "d1-04-index-events-014": {
+  "deck": "d1-04-index-events",
+  "front": "What is index arbitrage?",
+  "back": "Trading the futures against the underlying basket when the future deviates from fair value.\nRich future: buy basket, sell future (cash-and-carry). Cheap future: the reverse.",
+  "tags": [
+   "delta-one",
+   "eventos-indice"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000036,
+  "suspended": false
+ },
+ "d1-04-index-events-015": {
+  "deck": "d1-04-index-events",
+  "front": "How do ETF creation and redemption keep the price near NAV?",
+  "back": "Authorized participants deliver the basket to the ETF and receive new shares (creation), or the reverse (redemption).\nIf the ETF trades above NAV they create and sell; below NAV they buy and redeem.",
+  "tags": [
+   "delta-one",
+   "eventos-indice"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000037,
+  "suspended": false
+ },
+ "d1-04-index-events-016": {
+  "deck": "d1-04-index-events",
+  "front": "Free-float factor: what is it and why does it matter for rebalances?",
+  "back": "The fraction of shares available to public investors (excludes strategic holders).\nIndex weights use float-adjusted shares. A float change moves the weight with no add or delete.",
+  "tags": [
+   "delta-one",
+   "eventos-indice"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000038,
+  "suspended": false
+ },
+ "d1-05-products-001": {
+  "deck": "d1-05-products",
+  "front": "What does \"delta one\" mean?",
+  "back": "The payoff is linear in the underlying: delta ≈ 1, no optionality.\nExamples: TRS, forwards, futures, ETFs, cash equities.",
+  "tags": [
+   "delta-one",
+   "produtos-d1"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000039,
+  "suspended": false
+ },
+ "d1-05-products-002": {
+  "deck": "d1-05-products",
+  "front": "Describe the two legs of an equity TRS.",
+  "back": "**Equity leg**: price return of the underlying + dividends × DPR.\n**Financing leg**: notional × (benchmark + spread) × day count.\nThe client long receives the equity leg and pays the financing leg.",
+  "tags": [
+   "delta-one",
+   "produtos-d1"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000040,
+  "suspended": false
+ },
+ "d1-05-products-003": {
+  "deck": "d1-05-products",
+  "front": "Notional 10m, SOFR 4.30%, spread 50 bp, period 91 days, Act/360. Financing leg payment?",
+  "back": "$10{,}000{,}000 \\times 4.80\\% \\times \\dfrac{91}{360} \\approx 121{,}333$ USD.",
+  "tags": [
+   "delta-one",
+   "produtos-d1"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000041,
+  "suspended": false
+ },
+ "d1-05-products-004": {
+  "deck": "d1-05-products",
+  "front": "What is a reset on a TRS, and why do desks use them?",
+  "back": "At each reset the swap settles its MTM and the notional resets to the current value.\nIt cuts counterparty exposure and keeps the financing on the current notional.",
+  "tags": [
+   "delta-one",
+   "produtos-d1"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000042,
+  "suspended": false
+ },
+ "d1-05-products-005": {
+  "deck": "d1-05-products",
+  "front": "Fixed-quantity vs fixed-notional swap: what changes at a reset?",
+  "back": "Fixed quantity: the share count stays; notional moves with price.\nFixed notional: the share count changes to keep notional constant, so the hedge must trade at each reset.",
+  "tags": [
+   "delta-one",
+   "produtos-d1",
+   "hedge"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000043,
+  "suspended": false
+ },
+ "d1-05-products-006": {
+  "deck": "d1-05-products",
+  "front": "What is the independent amount (initial margin) on a client TRS?",
+  "back": "Collateral the client posts upfront, e.g. 10–20% of notional.\nIt covers price moves before the desk can close out, and sets the client's leverage.",
+  "tags": [
+   "delta-one",
+   "produtos-d1"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000044,
+  "suspended": false
+ },
+ "d1-05-products-007": {
+  "deck": "d1-05-products",
+  "front": "Price-return vs total-return swap.",
+  "back": "Price return pays only price moves; the client gives up dividends, so pricing usually includes them (lower financing or a forward-like level).\nTotal return passes dividends through the DPR.",
+  "tags": [
+   "delta-one",
+   "produtos-d1",
+   "dividendos"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000045,
+  "suspended": false
+ },
+ "d1-05-products-008": {
+  "deck": "d1-05-products",
+  "front": "Why do clients use swaps instead of buying the stock?",
+  "back": "1. Leverage without a margin loan.\n2. Access to markets without local custody or settlement.\n3. Easy shorts.\n4. One master agreement for many lines.\nTrade-offs: no voting rights, counterparty risk, and tax rules such as §871(m).",
+  "tags": [
+   "delta-one",
+   "produtos-d1"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000046,
+  "suspended": false
+ },
+ "d1-05-products-009": {
+  "deck": "d1-05-products",
+  "front": "Cash prime brokerage vs synthetic prime.",
+  "back": "Cash PB: the client owns the shares, financed by a margin loan; shorts via stock borrow.\nSynthetic prime: the client holds portfolio swaps; the bank owns the hedges. Same economics, different balance sheet, legal and tax treatment.",
+  "tags": [
+   "delta-one",
+   "produtos-d1",
+   "mesas"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000047,
+  "suspended": false
+ },
+ "d1-05-products-010": {
+  "deck": "d1-05-products",
+  "front": "Equity forward price with a discrete dividend (simple interest). Stock 50, r 5%, T 1y, dividend 2 paid at 6 months?",
+  "back": "$F = S(1+rT) - D(1 + r\\,(T - t_D))$.\n$F = 50 \\times 1.05 - 2 \\times 1.025 = 52.50 - 2.05 = 50.45$.\nIntuition: you pay financing on the stock and do not get the dividend.",
+  "tags": [
+   "delta-one",
+   "produtos-d1"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000048,
+  "suspended": false
+ },
+ "d1-05-products-011": {
+  "deck": "d1-05-products",
+  "front": "Futures fair value with continuous yield, and the intuition.",
+  "back": "$F = S\\,e^{(r-q)T}$.\nOwning the basket costs financing $r$ and pays dividends $q$. The future must match that carry, or arbitrage closes the gap.",
+  "tags": [
+   "delta-one",
+   "produtos-d1"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000049,
+  "suspended": false
+ },
+ "d1-05-products-012": {
+  "deck": "d1-05-products",
+  "front": "Index 5000, dividends 20 points (future value), 3-month future 5050. Implied financing (simple)? Your funding is 5.3%. Trade?",
+  "back": "$r = \\dfrac{(F + D)/S - 1}{T} = \\dfrac{5070/5000 - 1}{0.25} = 5.6\\%$.\nFuture is rich by 30 bp a year: buy basket, sell future (cash-and-carry), if 30 bp beats costs.",
+  "tags": [
+   "delta-one",
+   "produtos-d1"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000050,
+  "suspended": false
+ },
+ "d1-05-products-013": {
+  "deck": "d1-05-products",
+  "front": "What does a futures roll price?",
+  "back": "The calendar spread between the front and next contract.\nIt prices financing minus dividends for the next period. Rich rolls mean the market pays up for synthetic long exposure.",
+  "tags": [
+   "delta-one",
+   "produtos-d1"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000051,
+  "suspended": false
+ },
+ "d1-05-products-014": {
+  "deck": "d1-05-products",
+  "front": "What is a total return future (TRF)?",
+  "back": "A listed future whose traded price is the financing spread over a benchmark rate (e.g. Eurex TRFs, CME AIR TRFs).\nA cleared alternative to an index TRS: less counterparty capital, and a visible market price for financing.",
+  "tags": [
+   "delta-one",
+   "produtos-d1"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000052,
+  "suspended": false
+ },
+ "d1-05-products-015": {
+  "deck": "d1-05-products",
+  "front": "What is an EFP (exchange for physical)?",
+  "back": "An agreed swap of a futures position for the underlying basket (or the reverse), at a negotiated basis.\nUsed to switch between futures and physical without market risk.",
+  "tags": [
+   "delta-one",
+   "produtos-d1",
+   "hedge"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000053,
+  "suspended": false
+ },
+ "d1-05-products-016": {
+  "deck": "d1-05-products",
+  "front": "Client unwinds a 1y swap after 3 months. Why can the desk charge breakage?",
+  "back": "The desk may have locked term funding or a term borrow for the full tenor.\nEarly unwind leaves that cost unhedged. Confirms often set unwind fees or minimum terms.",
+  "tags": [
+   "delta-one",
+   "produtos-d1",
+   "financiamento"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794100000054,
+  "suspended": false
+ },
+ "d1-06-desk-map-001": {
+  "deck": "d1-06-desk-map",
+  "front": "What do cash equities (high touch / low touch) desks do?",
+  "back": "Execute client orders in stocks: high touch with sales traders, low touch via algos and DMA.\nMostly agency; risk on the book is small.",
+  "tags": [
+   "delta-one",
+   "mesas"
+  ],
+  "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
+  "created": 1794100000055,
+  "suspended": false
+ },
+ "d1-06-desk-map-002": {
+  "deck": "d1-06-desk-map",
+  "front": "What is a risk bid from a program trading desk?",
+  "back": "The desk buys or sells a whole client basket at a guaranteed price (e.g. the close minus a discount).\nThe desk takes the basket onto its book and unwinds the risk afterwards.",
+  "tags": [
+   "delta-one",
+   "mesas"
+  ],
+  "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
+  "created": 1794100000056,
+  "suspended": false
+ },
+ "d1-06-desk-map-003": {
+  "deck": "d1-06-desk-map",
+  "front": "What does a Delta One desk run?",
+  "back": "Client swaps (single stock, index, custom baskets), futures and index arbitrage, ETFs, financing and dividends.\nIt hedges with internalization, physical stock, dealer swaps, futures and options.",
+  "tags": [
+   "delta-one",
+   "mesas"
+  ],
+  "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
+  "created": 1794100000057,
+  "suspended": false
+ },
+ "d1-06-desk-map-004": {
+  "deck": "d1-06-desk-map",
+  "front": "What does prime brokerage provide to hedge funds?",
+  "back": "Financing of longs (margin loans), stock borrow for shorts, custody, clearing and reporting.\nSynthetic prime (portfolio swaps) overlaps with Delta One.",
+  "tags": [
+   "delta-one",
+   "mesas",
+   "financiamento"
+  ],
+  "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
+  "created": 1794100000058,
+  "suspended": false
+ },
+ "d1-06-desk-map-005": {
+  "deck": "d1-06-desk-map",
+  "front": "What does a stock loan / sec lending desk do?",
+  "back": "Sources borrow from agent lenders (custodians lending for pension funds and asset managers) and from internal inventory.\nLends to clients and internal desks that are short. Manages fees, recalls and collateral.",
+  "tags": [
+   "delta-one",
+   "mesas",
+   "financiamento"
+  ],
+  "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
+  "created": 1794100000059,
+  "suspended": false
+ },
+ "d1-06-desk-map-006": {
+  "deck": "d1-06-desk-map",
+  "front": "Why does a bank run firm-wide inventory management?",
+  "back": "To match internal longs (desk hedges, PB margin collateral) with internal shorts before borrowing outside.\nInternal sourcing is cheaper and frees balance sheet.",
+  "tags": [
+   "delta-one",
+   "mesas",
+   "financiamento"
+  ],
+  "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
+  "created": 1794100000060,
+  "suspended": false
+ },
+ "d1-06-desk-map-007": {
+  "deck": "d1-06-desk-map",
+  "front": "What is rehypothecation in prime brokerage?",
+  "back": "The PB reuses the client's margin securities, e.g. lends them or repos them.\nUS rules (SEC 15c3-3) limit reuse to 140% of the client's debit balance.",
+  "tags": [
+   "delta-one",
+   "mesas",
+   "financiamento"
+  ],
+  "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
+  "created": 1794100000061,
+  "suspended": false
+ },
+ "d1-06-desk-map-008": {
+  "deck": "d1-06-desk-map",
+  "front": "What does a flow vol desk do, and how does it touch Delta One?",
+  "back": "Makes markets in vanilla options (listed and OTC) and runs vol, skew and term-structure risk.\nIt needs delta hedges, borrow costs and dividend forecasts: inputs Delta One prices.",
+  "tags": [
+   "delta-one",
+   "mesas"
+  ],
+  "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
+  "created": 1794100000062,
+  "suspended": false
+ },
+ "d1-06-desk-map-009": {
+  "deck": "d1-06-desk-map",
+  "front": "What does an exotics / structured products desk do?",
+  "back": "Designs and hedges notes and exotic options (e.g. autocallables).\nIt carries long-dated vol, dividend and correlation risk.",
+  "tags": [
+   "delta-one",
+   "mesas"
+  ],
+  "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
+  "created": 1794100000063,
+  "suspended": false
+ },
+ "d1-06-desk-map-010": {
+  "deck": "d1-06-desk-map",
+  "front": "Why is a structured note a funding source for the bank?",
+  "back": "The investor pays cash upfront and the bank repays at maturity. Economically it is bank borrowing.\nThe investor takes the bank's credit risk. Issuance spreads are often cheaper than plain unsecured debt.",
+  "tags": [
+   "delta-one",
+   "mesas",
+   "financiamento"
+  ],
+  "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
+  "created": 1794100000064,
+  "suspended": false
+ },
+ "d1-06-desk-map-011": {
+  "deck": "d1-06-desk-map",
+  "front": "How do structured notes and Delta One complement each other inside a bank?",
+  "back": "Notes bring cash in (funding provider). Delta One inventory needs cash (funding consumer).\nTreasury nets them internally and credits or charges each desk through FTP.",
+  "tags": [
+   "delta-one",
+   "mesas",
+   "financiamento"
+  ],
+  "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
+  "created": 1794100000065,
+  "suspended": false
+ },
+ "d1-06-desk-map-012": {
+  "deck": "d1-06-desk-map",
+  "front": "What does Treasury / ALM own?",
+  "back": "Funding and liquidity: issuance, repo strategy, liquidity ratios (LCR, NSFR) and the internal FTP curve.",
+  "tags": [
+   "delta-one",
+   "mesas",
+   "financiamento"
+  ],
+  "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
+  "created": 1794100000066,
+  "suspended": false
+ },
+ "d1-06-desk-map-013": {
+  "deck": "d1-06-desk-map",
+  "front": "What does an XVA desk do?",
+  "back": "Prices and hedges valuation adjustments on derivatives (CVA, FVA, KVA, MVA) and charges them to trading desks.",
+  "tags": [
+   "delta-one",
+   "mesas",
+   "cva"
+  ],
+  "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
+  "created": 1794100000067,
+  "suspended": false
+ },
+ "d1-06-desk-map-014": {
+  "deck": "d1-06-desk-map",
+  "front": "What do strats do on a trading desk?",
+  "back": "Build the desk's models, pricing and risk tools, and software; analyse flows and P&L.\nThey sit with traders, not in a separate research unit.",
+  "tags": [
+   "delta-one",
+   "mesas"
+  ],
+  "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
+  "created": 1794100000068,
+  "suspended": false
+ },
+ "d1-06-desk-map-015": {
+  "deck": "d1-06-desk-map",
+  "front": "Who controls a trading desk's P&L and risk independently?",
+  "back": "Product control (P&L, valuation, price verification) and market risk management (limits, VaR, stress).",
+  "tags": [
+   "delta-one",
+   "mesas"
+  ],
+  "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
+  "created": 1794100000069,
+  "suspended": false
+ },
+ "llm-01-transformers-001": {
+  "deck": "llm-01-transformers",
+  "front": "What does self-attention fix compared with an RNN?",
+  "back": "Every token reads every other token directly, in one step.\nNo sequential bottleneck: training runs in parallel over the sequence, and long-range links do not fade through many steps.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000070,
+  "suspended": false
+ },
+ "llm-01-transformers-002": {
+  "deck": "llm-01-transformers",
+  "front": "Write scaled dot-product attention and give the intuition.",
+  "back": "$\\text{Attention}(Q,K,V) = \\text{softmax}\\!\\left(\\dfrac{QK^\\top}{\\sqrt{d_k}}\\right)V$.\nEach token scores every other token by query–key similarity, turns scores into weights, and takes the weighted average of values.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000071,
+  "suspended": false
+ },
+ "llm-01-transformers-003": {
+  "deck": "llm-01-transformers",
+  "front": "Roles of query, key and value.",
+  "back": "**Query**: what this token looks for.\n**Key**: what a token offers for matching.\n**Value**: the content passed on when matched.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000072,
+  "suspended": false
+ },
+ "llm-01-transformers-004": {
+  "deck": "llm-01-transformers",
+  "front": "Why divide by $\\sqrt{d_k}$ in attention?",
+  "back": "With unit-variance entries, $q \\cdot k$ has variance $d_k$.\nLarge scores saturate the softmax: one weight near 1, tiny gradients. Scaling restores unit variance.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000073,
+  "suspended": false
+ },
+ "llm-01-transformers-005": {
+  "deck": "llm-01-transformers",
+  "front": "What is the causal mask?",
+  "back": "In a decoder, token $t$ must not see tokens after $t$.\nScores for future positions are set to $-\\infty$ before the softmax, so their weights are 0.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000074,
+  "suspended": false
+ },
+ "llm-01-transformers-006": {
+  "deck": "llm-01-transformers",
+  "front": "Why use multiple attention heads?",
+  "back": "Each head projects to a smaller subspace ($d/h$) and can learn a different relation (syntax, coreference, position).\nOutputs are concatenated and projected back to $d$.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000075,
+  "suspended": false
+ },
+ "llm-01-transformers-007": {
+  "deck": "llm-01-transformers",
+  "front": "Time and memory cost of full attention over $n$ tokens.",
+  "back": "Time $O(n^2 d)$; the score matrix is $n \\times n$ per head.\nDoubling the context roughly quadruples attention cost.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000076,
+  "suspended": false
+ },
+ "llm-01-transformers-008": {
+  "deck": "llm-01-transformers",
+  "front": "What does FlashAttention change?",
+  "back": "It computes **exact** attention in tiles held in fast on-chip memory, never storing the full $n \\times n$ matrix.\nFewer memory reads and writes: faster, and memory linear in $n$. Same result.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000077,
+  "suspended": false
+ },
+ "llm-01-transformers-009": {
+  "deck": "llm-01-transformers",
+  "front": "Why does a transformer need positional information, and what does RoPE do?",
+  "back": "Attention alone ignores order (it is permutation-invariant).\nRoPE rotates queries and keys by position-dependent angles, so $q \\cdot k$ depends on the relative offset between tokens.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000078,
+  "suspended": false
+ },
+ "llm-01-transformers-010": {
+  "deck": "llm-01-transformers",
+  "front": "What is inside one transformer block?",
+  "back": "1. Self-attention (tokens exchange information).\n2. MLP / feed-forward (per-token processing, hidden size ≈ 4d).\nEach has a residual connection and a normalization (pre-norm, often RMSNorm, in modern models).",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000079,
+  "suspended": false
+ },
+ "llm-01-transformers-011": {
+  "deck": "llm-01-transformers",
+  "front": "What is the residual stream?",
+  "back": "The vector per token that every layer reads from and adds to.\nLayers write increments, not replacements. This keeps gradients flowing in deep stacks.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000080,
+  "suspended": false
+ },
+ "llm-01-transformers-012": {
+  "deck": "llm-01-transformers",
+  "front": "How does BPE tokenization work?",
+  "back": "Start from bytes or characters and repeatedly merge the most frequent adjacent pair into a new token.\nResult: common words are one token, rare words split into subwords. English averages about 4 characters per token.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000081,
+  "suspended": false
+ },
+ "llm-01-transformers-013": {
+  "deck": "llm-01-transformers",
+  "front": "How does a decoder turn the last hidden state into a next token?",
+  "back": "Unembedding: hidden state × output matrix → one logit per vocabulary token.\nSoftmax gives probabilities; a sampler picks the token.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000082,
+  "suspended": false
+ },
+ "llm-01-transformers-014": {
+  "deck": "llm-01-transformers",
+  "front": "Training objective of a decoder LLM, and what perplexity means.",
+  "back": "Minimize cross-entropy of the next token: $L = -\\frac{1}{N}\\sum \\log p(x_t \\mid x_{<t})$.\nPerplexity $= e^{L}$: the effective number of equally likely choices per token.",
+  "tags": [
+   "llm",
+   "transformers",
+   "treino-llm"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000083,
+  "suspended": false
+ },
+ "llm-01-transformers-015": {
+  "deck": "llm-01-transformers",
+  "front": "What is the KV cache?",
+  "back": "During generation, the keys and values of past tokens are stored, not recomputed.\nEach new token computes only its own Q, K, V and attends to the cache.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000084,
+  "suspended": false
+ },
+ "llm-01-transformers-016": {
+  "deck": "llm-01-transformers",
+  "front": "KV cache size: 32 layers, 8 KV heads, head dim 128, 8,192 tokens, fp16.",
+  "back": "$2 \\times 32 \\times 8 \\times 128 \\times 8192 \\times 2$ bytes $\\approx 1$ GiB per sequence.\n(2 for K and V; last 2 is bytes per value.)",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000085,
+  "suspended": false
+ },
+ "llm-01-transformers-017": {
+  "deck": "llm-01-transformers",
+  "front": "Prefill vs decode: what limits each?",
+  "back": "**Prefill** processes the whole prompt in parallel: compute-bound.\n**Decode** produces one token at a time and rereads weights and cache: memory-bandwidth-bound.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000086,
+  "suspended": false
+ },
+ "llm-01-transformers-018": {
+  "deck": "llm-01-transformers",
+  "front": "What do multi-query and grouped-query attention (MQA, GQA) save?",
+  "back": "Several query heads share one set of K and V heads.\nThe KV cache shrinks by that factor, with a small quality cost.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000087,
+  "suspended": false
+ },
+ "llm-01-transformers-019": {
+  "deck": "llm-01-transformers",
+  "front": "What does temperature do in sampling?",
+  "back": "Divides logits by $T$ before the softmax.\n$T < 1$ sharpens (more deterministic); $T > 1$ flattens (more diverse).",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000088,
+  "suspended": false
+ },
+ "llm-01-transformers-020": {
+  "deck": "llm-01-transformers",
+  "front": "What is top-p (nucleus) sampling?",
+  "back": "Sample only from the smallest set of tokens whose cumulative probability is at least $p$.\nIt cuts the long tail of unlikely tokens.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000089,
+  "suspended": false
+ },
+ "llm-01-transformers-021": {
+  "deck": "llm-01-transformers",
+  "front": "Is generation at temperature 0 fully deterministic?",
+  "back": "Not guaranteed. Batching and non-deterministic GPU kernels can change floating-point sums and flip near-tied tokens.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000090,
+  "suspended": false
+ },
+ "llm-01-transformers-022": {
+  "deck": "llm-01-transformers",
+  "front": "What is a mixture-of-experts (MoE) layer?",
+  "back": "Many MLP \"experts\"; a router sends each token to the top-k of them.\nTotal parameters are large, but compute per token uses only the active experts.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000091,
+  "suspended": false
+ },
+ "llm-01-transformers-023": {
+  "deck": "llm-01-transformers",
+  "front": "Encoder-only vs decoder-only vs encoder-decoder.",
+  "back": "Encoder-only (BERT): bidirectional, for classification and embeddings.\nDecoder-only (GPT-style): causal, for generation.\nEncoder-decoder (T5): encode input, decode output, e.g. translation.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; standard LLM practice",
+  "created": 1794100000092,
+  "suspended": false
+ },
+ "llm-01-transformers-024": {
+  "deck": "llm-01-transformers",
+  "front": "What is the \"lost in the middle\" effect?",
+  "back": "Models use information at the start and end of a long context better than information in the middle.\nPut key instructions and facts at the edges.",
+  "tags": [
+   "llm",
+   "transformers",
+   "agentes"
+  ],
+  "source": "Liu et al. 2023",
+  "created": 1794100000093,
+  "suspended": false
+ },
+ "llm-02-training-001": {
+  "deck": "llm-02-training",
+  "front": "What does pretraining teach a model?",
+  "back": "Next-token prediction over a very large corpus.\nThe model learns language, facts and patterns, but not yet how to follow instructions.",
+  "tags": [
+   "llm",
+   "treino-llm"
+  ],
+  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "created": 1794100000094,
+  "suspended": false
+ },
+ "llm-02-training-002": {
+  "deck": "llm-02-training",
+  "front": "What do neural scaling laws say?",
+  "back": "Loss falls as a power law in parameters, data and compute.\nGains are predictable but diminish: each fixed loss drop needs a multiple of compute.",
+  "tags": [
+   "llm",
+   "treino-llm"
+  ],
+  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "created": 1794100000095,
+  "suspended": false
+ },
+ "llm-02-training-003": {
+  "deck": "llm-02-training",
+  "front": "Chinchilla rule of thumb for compute-optimal training.",
+  "back": "About 20 training tokens per parameter; scale data and parameters together.\nExample: 70B parameters → 1.4T tokens. Many models now train far beyond this to make inference cheaper.",
+  "tags": [
+   "llm",
+   "treino-llm"
+  ],
+  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "created": 1794100000096,
+  "suspended": false
+ },
+ "llm-02-training-004": {
+  "deck": "llm-02-training",
+  "front": "Approximate training compute for $N$ parameters and $D$ tokens.",
+  "back": "$C \\approx 6ND$ FLOPs (2 forward + 4 backward per parameter per token).\n70B × 1.4T → about $5.9 \\times 10^{23}$ FLOPs.",
+  "tags": [
+   "llm",
+   "treino-llm"
+  ],
+  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "created": 1794100000097,
+  "suspended": false
+ },
+ "llm-02-training-005": {
+  "deck": "llm-02-training",
+  "front": "What is supervised fine-tuning (SFT)?",
+  "back": "Train on demonstrations: prompt → ideal response.\nIt teaches format and instruction following.",
+  "tags": [
+   "llm",
+   "treino-llm"
+  ],
+  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "created": 1794100000098,
+  "suspended": false
+ },
+ "llm-02-training-006": {
+  "deck": "llm-02-training",
+  "front": "How does RLHF work?",
+  "back": "1. Humans compare pairs of responses.\n2. A reward model learns those preferences.\n3. The policy is optimized with RL (e.g. PPO) to maximize reward, with a KL penalty to a reference model.",
+  "tags": [
+   "llm",
+   "treino-llm"
+  ],
+  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "created": 1794100000099,
+  "suspended": false
+ },
+ "llm-02-training-007": {
+  "deck": "llm-02-training",
+  "front": "Why the KL penalty in RLHF?",
+  "back": "It keeps the policy close to the reference model.\nWithout it, the policy drifts and exploits reward-model flaws (reward hacking).",
+  "tags": [
+   "llm",
+   "treino-llm"
+  ],
+  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "created": 1794100000100,
+  "suspended": false
+ },
+ "llm-02-training-008": {
+  "deck": "llm-02-training",
+  "front": "What does DPO change versus RLHF?",
+  "back": "It optimizes on preference pairs directly with a classification-style loss.\nNo separate reward model and no RL loop; simpler and more stable.",
+  "tags": [
+   "llm",
+   "treino-llm"
+  ],
+  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "created": 1794100000101,
+  "suspended": false
+ },
+ "llm-02-training-009": {
+  "deck": "llm-02-training",
+  "front": "What is RL with verifiable rewards?",
+  "back": "RL on tasks whose answers can be checked automatically (math answers, code tests).\nThe checker is the reward. It is central to training reasoning models.",
+  "tags": [
+   "llm",
+   "treino-llm"
+  ],
+  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "created": 1794100000102,
+  "suspended": false
+ },
+ "llm-02-training-010": {
+  "deck": "llm-02-training",
+  "front": "What is LoRA, and how many parameters does it train for a 4096×4096 matrix at rank 8?",
+  "back": "Freeze $W$ and learn a low-rank update $\\Delta W = BA$, with $B \\in \\mathbb{R}^{d\\times r}$, $A \\in \\mathbb{R}^{r\\times d}$.\n$2 \\times 4096 \\times 8 = 65{,}536$ parameters, vs 16.8M for the full matrix.",
+  "tags": [
+   "llm",
+   "treino-llm"
+  ],
+  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "created": 1794100000103,
+  "suspended": false
+ },
+ "llm-02-training-011": {
+  "deck": "llm-02-training",
+  "front": "What does quantization trade off?",
+  "back": "Weights (and sometimes activations) in fewer bits, e.g. 8 or 4.\nLess memory and faster inference, for a small quality loss.",
+  "tags": [
+   "llm",
+   "treino-llm"
+  ],
+  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "created": 1794100000104,
+  "suspended": false
+ },
+ "llm-02-training-012": {
+  "deck": "llm-02-training",
+  "front": "What is distillation?",
+  "back": "Train a small student model to match a large teacher's outputs or probabilities.\nThe student keeps much of the quality at lower cost.",
+  "tags": [
+   "llm",
+   "treino-llm"
+  ],
+  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "created": 1794100000105,
+  "suspended": false
+ },
+ "llm-02-training-013": {
+  "deck": "llm-02-training",
+  "front": "Why do LLMs hallucinate?",
+  "back": "Training rewards plausible continuations, not calibrated \"I don't know\".\nMitigations: grounding with retrieval, citations, tools, and training to abstain.",
+  "tags": [
+   "llm",
+   "treino-llm",
+   "agentes"
+  ],
+  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "created": 1794100000106,
+  "suspended": false
+ },
+ "llm-02-training-014": {
+  "deck": "llm-02-training",
+  "front": "Prompting vs RAG vs fine-tuning: when to use each?",
+  "back": "Prompting first: cheap, fast to change.\nRAG: knowledge that changes or is private.\nFine-tuning: stable behavior, style or format at scale; not for fresh facts.",
+  "tags": [
+   "llm",
+   "treino-llm",
+   "rag"
+  ],
+  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "created": 1794100000107,
+  "suspended": false
+ },
+ "llm-03-agents-001": {
+  "deck": "llm-03-agents",
+  "front": "What is an LLM agent?",
+  "back": "An LLM in a loop: it chooses an action (often a tool call), reads the result, and repeats until the goal is met.",
+  "tags": [
+   "llm",
+   "agentes"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000108,
+  "suspended": false
+ },
+ "llm-03-agents-002": {
+  "deck": "llm-03-agents",
+  "front": "Workflow vs agent.",
+  "back": "**Workflow**: code fixes the path; the LLM fills steps.\n**Agent**: the LLM decides the path at run time.\nStart with the simplest that works; agents cost more and fail in more ways.",
+  "tags": [
+   "llm",
+   "agentes"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000109,
+  "suspended": false
+ },
+ "llm-03-agents-003": {
+  "deck": "llm-03-agents",
+  "front": "How does tool calling work mechanically?",
+  "back": "The app describes each tool by name, description and JSON schema.\nThe model outputs a structured call; the app runs it and returns the result; the model continues.\nThe model never executes anything itself.",
+  "tags": [
+   "llm",
+   "agentes"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000110,
+  "suspended": false
+ },
+ "llm-03-agents-004": {
+  "deck": "llm-03-agents",
+  "front": "What is ReAct?",
+  "back": "A loop that interleaves reasoning (\"thought\") and actions (tool calls), with observations fed back.",
+  "tags": [
+   "llm",
+   "agentes"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000111,
+  "suspended": false
+ },
+ "llm-03-agents-005": {
+  "deck": "llm-03-agents",
+  "front": "Per-step success 95%, 10 dependent steps. Chance the whole run succeeds?",
+  "back": "$0.95^{10} \\approx 60\\%$.\nErrors compound: add checks, retries and human review on long chains.",
+  "tags": [
+   "llm",
+   "agentes"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000112,
+  "suspended": false
+ },
+ "llm-03-agents-006": {
+  "deck": "llm-03-agents",
+  "front": "What is context engineering?",
+  "back": "Choosing what enters the context window at each step: instructions, tools, retrieved data, history.\nContext is finite and attention dilutes; curate, summarize and isolate.",
+  "tags": [
+   "llm",
+   "agentes"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000113,
+  "suspended": false
+ },
+ "llm-03-agents-007": {
+  "deck": "llm-03-agents",
+  "front": "What is prompt injection?",
+  "back": "Instructions hidden in untrusted data (a web page, email, file or tool output) that hijack the agent.\nThe model cannot reliably tell data from instructions.",
+  "tags": [
+   "llm",
+   "agentes",
+   "seguranca-web"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000114,
+  "suspended": false
+ },
+ "llm-03-agents-008": {
+  "deck": "llm-03-agents",
+  "front": "What is the \"lethal trifecta\" for agent security?",
+  "back": "1. Access to private data.\n2. Exposure to untrusted content.\n3. A way to send data out.\nAll three together let an injection exfiltrate data. Remove at least one.",
+  "tags": [
+   "llm",
+   "agentes",
+   "seguranca-web"
+  ],
+  "source": "Simon Willison (2025)",
+  "created": 1794100000115,
+  "suspended": false
+ },
+ "llm-03-agents-009": {
+  "deck": "llm-03-agents",
+  "front": "Main defences against prompt injection.",
+  "back": "Treat tool outputs as data; least-privilege tools; human approval for side effects; separate untrusted content from privileged actions; allow-lists for destinations.",
+  "tags": [
+   "llm",
+   "agentes",
+   "seguranca-web"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000116,
+  "suspended": false
+ },
+ "llm-03-agents-010": {
+  "deck": "llm-03-agents",
+  "front": "What is RAG?",
+  "back": "Retrieval-augmented generation: retrieve relevant chunks, put them in the context, and answer from them with citations.",
+  "tags": [
+   "llm",
+   "rag"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000117,
+  "suspended": false
+ },
+ "llm-03-agents-011": {
+  "deck": "llm-03-agents",
+  "front": "What are embeddings in retrieval?",
+  "back": "Vectors where semantic similarity ≈ cosine similarity.\nQuery and documents use the same model; search finds nearest neighbours.",
+  "tags": [
+   "llm",
+   "rag"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000118,
+  "suspended": false
+ },
+ "llm-03-agents-012": {
+  "deck": "llm-03-agents",
+  "front": "Chunk size trade-off in RAG.",
+  "back": "Small chunks: precise matches, but lose context.\nLarge chunks: more context, but noisier matches and more tokens. Overlap and structure-aware splits help.",
+  "tags": [
+   "llm",
+   "rag"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000119,
+  "suspended": false
+ },
+ "llm-03-agents-013": {
+  "deck": "llm-03-agents",
+  "front": "Hybrid search and reranking.",
+  "back": "Hybrid: combine keyword search (BM25) and vector search, for exact terms and meaning.\nReranking: a cross-encoder rescores the top results with the query; higher precision, more cost.",
+  "tags": [
+   "llm",
+   "rag"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000120,
+  "suspended": false
+ },
+ "llm-03-agents-014": {
+  "deck": "llm-03-agents",
+  "front": "How do you evaluate an LLM feature?",
+  "back": "A fixed test set with graders: exact or code checks where possible, LLM-as-judge for open text, human labels to calibrate.\nRun it on every prompt or model change, like regression tests.",
+  "tags": [
+   "llm",
+   "agentes"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000121,
+  "suspended": false
+ },
+ "llm-03-agents-015": {
+  "deck": "llm-03-agents",
+  "front": "Known biases of LLM-as-judge.",
+  "back": "Position bias, verbosity bias, self-preference.\nMitigate: swap order, use rubrics, calibrate against human labels.",
+  "tags": [
+   "llm",
+   "agentes"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000122,
+  "suspended": false
+ },
+ "llm-03-agents-016": {
+  "deck": "llm-03-agents",
+  "front": "Why use structured outputs?",
+  "back": "Force the response into a JSON schema so code can parse it.\nStill validate: schema-valid is not the same as correct.",
+  "tags": [
+   "llm",
+   "agentes"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000123,
+  "suspended": false
+ },
+ "llm-03-agents-017": {
+  "deck": "llm-03-agents",
+  "front": "Short-term vs long-term memory for agents.",
+  "back": "Short-term: state of one conversation or thread.\nLong-term: facts kept across sessions in a store, retrieved when relevant.",
+  "tags": [
+   "llm",
+   "agentes",
+   "langgraph"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000124,
+  "suspended": false
+ },
+ "llm-03-agents-018": {
+  "deck": "llm-03-agents",
+  "front": "When is a multi-agent (orchestrator–workers) design worth it?",
+  "back": "When subtasks are independent and context-heavy: workers get clean contexts and run in parallel.\nCost: many more tokens and harder debugging.",
+  "tags": [
+   "llm",
+   "agentes"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000125,
+  "suspended": false
+ },
+ "llm-03-agents-019": {
+  "deck": "llm-03-agents",
+  "front": "Why should agent tools be idempotent?",
+  "back": "Agents and frameworks retry and resume. A retried non-idempotent tool can act twice (two orders, two emails).\nUse idempotency keys or check-then-act.",
+  "tags": [
+   "llm",
+   "agentes",
+   "confiabilidade"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000126,
+  "suspended": false
+ },
+ "llm-03-agents-020": {
+  "deck": "llm-03-agents",
+  "front": "What is prompt caching, and how do you design for it?",
+  "back": "The provider reuses computation for an identical prompt prefix.\nPut stable content (system prompt, tools, documents) first and changing content last.",
+  "tags": [
+   "llm",
+   "agentes"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000127,
+  "suspended": false
+ },
+ "llm-03-agents-021": {
+  "deck": "llm-03-agents",
+  "front": "What problem does MCP solve?",
+  "back": "An open protocol to connect LLM apps to tools and data.\nEach tool is built once as an MCP server and works with any MCP client: N + M integrations instead of N × M.",
+  "tags": [
+   "llm",
+   "mcp"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000128,
+  "suspended": false
+ },
+ "llm-03-agents-022": {
+  "deck": "llm-03-agents",
+  "front": "MCP roles: host, client, server.",
+  "back": "**Host**: the LLM app (e.g. a chat app or IDE).\n**Client**: the connector inside the host, one per server.\n**Server**: exposes tools, resources and prompts.",
+  "tags": [
+   "llm",
+   "mcp"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000129,
+  "suspended": false
+ },
+ "llm-03-agents-023": {
+  "deck": "llm-03-agents",
+  "front": "The three MCP server primitives and who controls each.",
+  "back": "**Tools**: actions; model-controlled.\n**Resources**: data for context; application-controlled.\n**Prompts**: templates; user-controlled.",
+  "tags": [
+   "llm",
+   "mcp"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000130,
+  "suspended": false
+ },
+ "llm-03-agents-024": {
+  "deck": "llm-03-agents",
+  "front": "MCP transports and message format.",
+  "back": "stdio for local servers; Streamable HTTP for remote servers.\nMessages are JSON-RPC 2.0.",
+  "tags": [
+   "llm",
+   "mcp"
+  ],
+  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "created": 1794100000131,
+  "suspended": false
+ },
+ "llm-04-langgraph-001": {
+  "deck": "llm-04-langgraph",
+  "front": "What does LangGraph model?",
+  "back": "An agent or workflow as a graph: nodes are functions over a shared state; edges decide what runs next, including cycles.\nLow-level orchestration with persistence built in.",
+  "tags": [
+   "llm",
+   "langgraph"
+  ],
+  "source": "LangGraph documentation",
+  "created": 1794100000132,
+  "suspended": false
+ },
+ "llm-04-langgraph-002": {
+  "deck": "llm-04-langgraph",
+  "front": "What is a StateGraph's state, and what does a node return?",
+  "back": "A typed schema (TypedDict or Pydantic).\nA node receives the state and returns a **partial update**, not the whole state.",
+  "tags": [
+   "llm",
+   "langgraph"
+  ],
+  "source": "LangGraph documentation",
+  "created": 1794100000133,
+  "suspended": false
+ },
+ "llm-04-langgraph-003": {
+  "deck": "llm-04-langgraph",
+  "front": "What is a reducer, and what is the default?",
+  "back": "The function that merges a node's update into a state key.\nDefault: overwrite. `Annotated[list, operator.add]` appends; `add_messages` appends messages and updates by id.",
+  "tags": [
+   "llm",
+   "langgraph"
+  ],
+  "source": "LangGraph documentation",
+  "created": 1794100000134,
+  "suspended": false
+ },
+ "llm-04-langgraph-004": {
+  "deck": "llm-04-langgraph",
+  "front": "Normal vs conditional edges.",
+  "back": "`add_edge(a, b)`: b always runs after a.\n`add_conditional_edges(a, router)`: a routing function reads the state and returns the next node(s). `START` and `END` mark entry and exit.",
+  "tags": [
+   "llm",
+   "langgraph"
+  ],
+  "source": "LangGraph documentation",
+  "created": 1794100000135,
+  "suspended": false
+ },
+ "llm-04-langgraph-005": {
+  "deck": "llm-04-langgraph",
+  "front": "What does `compile()` do?",
+  "back": "Validates the graph and returns a runnable. The checkpointer (and store) attach here.",
+  "tags": [
+   "llm",
+   "langgraph"
+  ],
+  "source": "LangGraph documentation",
+  "created": 1794100000136,
+  "suspended": false
+ },
+ "llm-04-langgraph-006": {
+  "deck": "llm-04-langgraph",
+  "front": "What does a checkpointer do?",
+  "back": "Saves a state snapshot after each super-step, keyed by `thread_id` in the config.\nIt enables conversation memory, resume after failure, human-in-the-loop and time travel. In-memory for dev; Postgres or similar for production.",
+  "tags": [
+   "llm",
+   "langgraph"
+  ],
+  "source": "LangGraph documentation",
+  "created": 1794100000137,
+  "suspended": false
+ },
+ "llm-04-langgraph-007": {
+  "deck": "llm-04-langgraph",
+  "front": "Checkpointer vs store.",
+  "back": "Checkpointer: state of one thread (short-term memory).\nStore: key–value memory shared across threads (long-term memory, e.g. user preferences).",
+  "tags": [
+   "llm",
+   "langgraph",
+   "agentes"
+  ],
+  "source": "LangGraph documentation",
+  "created": 1794100000138,
+  "suspended": false
+ },
+ "llm-04-langgraph-008": {
+  "deck": "llm-04-langgraph",
+  "front": "What is a super-step?",
+  "back": "LangGraph runs in Pregel-style steps. Nodes scheduled together run in parallel in one step.\nTheir updates apply at the end of the step through the reducers.",
+  "tags": [
+   "llm",
+   "langgraph"
+  ],
+  "source": "LangGraph documentation",
+  "created": 1794100000139,
+  "suspended": false
+ },
+ "llm-04-langgraph-009": {
+  "deck": "llm-04-langgraph",
+  "front": "Two parallel nodes write the same key in one super-step, with no reducer. What happens?",
+  "back": "An `InvalidUpdateError`: LangGraph cannot choose between two overwrites.\nFix: add a reducer for that key, or write to different keys.",
+  "tags": [
+   "llm",
+   "langgraph"
+  ],
+  "source": "LangGraph documentation",
+  "created": 1794100000140,
+  "suspended": false
+ },
+ "llm-04-langgraph-010": {
+  "deck": "llm-04-langgraph",
+  "front": "How does `interrupt()` work, and what is the main pitfall?",
+  "back": "It pauses the graph inside a node and surfaces a value (e.g. for human approval). Resume with `Command(resume=...)` on the same thread.\nPitfall: the node **re-runs from its start**, so side effects before the interrupt run again.",
+  "tags": [
+   "llm",
+   "langgraph",
+   "agentes"
+  ],
+  "source": "LangGraph documentation",
+  "created": 1794100000141,
+  "suspended": false
+ },
+ "llm-04-langgraph-011": {
+  "deck": "llm-04-langgraph",
+  "front": "What does returning a `Command` from a node do?",
+  "back": "It combines a state update and routing: `Command(update={...}, goto=\"node\")`.\nRouting lives in the node instead of a separate conditional edge.",
+  "tags": [
+   "llm",
+   "langgraph"
+  ],
+  "source": "LangGraph documentation",
+  "created": 1794100000142,
+  "suspended": false
+ },
+ "llm-04-langgraph-012": {
+  "deck": "llm-04-langgraph",
+  "front": "What is `Send` used for?",
+  "back": "Dynamic fan-out (map-reduce): a router returns `Send(\"node\", substate)` for each item.\nEach branch gets its own input; a reducer gathers results.",
+  "tags": [
+   "llm",
+   "langgraph"
+  ],
+  "source": "LangGraph documentation",
+  "created": 1794100000143,
+  "suspended": false
+ },
+ "llm-04-langgraph-013": {
+  "deck": "llm-04-langgraph",
+  "front": "Two ways to use a subgraph.",
+  "back": "1. Add the compiled subgraph directly as a node: parent and child share state keys.\n2. Call it from a wrapper node that maps parent state in and out: different schemas.",
+  "tags": [
+   "llm",
+   "langgraph"
+  ],
+  "source": "LangGraph documentation",
+  "created": 1794100000144,
+  "suspended": false
+ },
+ "llm-04-langgraph-014": {
+  "deck": "llm-04-langgraph",
+  "front": "LangGraph stream modes.",
+  "back": "`values`: full state after each step.\n`updates`: only each node's update.\n`messages`: LLM tokens as they generate.\n`custom`: data a node emits itself.",
+  "tags": [
+   "llm",
+   "langgraph",
+   "web-app"
+  ],
+  "source": "LangGraph documentation",
+  "created": 1794100000145,
+  "suspended": false
+ },
+ "llm-04-langgraph-015": {
+  "deck": "llm-04-langgraph",
+  "front": "What is time travel in LangGraph?",
+  "back": "List a thread's checkpoints, then replay from one or fork from it with an edited state.\nUseful for debugging and for \"what if\" reruns.",
+  "tags": [
+   "llm",
+   "langgraph"
+  ],
+  "source": "LangGraph documentation",
+  "created": 1794100000146,
+  "suspended": false
+ },
+ "llm-04-langgraph-016": {
+  "deck": "llm-04-langgraph",
+  "front": "What is durable execution, and how do you avoid repeating side effects on resume?",
+  "back": "A run resumes from its last checkpoint after a crash or pause.\nWrap side effects in tasks or make them idempotent, so a resumed run does not repeat them.",
+  "tags": [
+   "llm",
+   "langgraph",
+   "confiabilidade"
+  ],
+  "source": "LangGraph documentation",
+  "created": 1794100000147,
+  "suspended": false
+ },
+ "llm-04-langgraph-017": {
+  "deck": "llm-04-langgraph",
+  "front": "What protects a cyclic graph from looping forever?",
+  "back": "The recursion limit: a cap on super-steps per run, set in the config.\nExceeding it raises `GraphRecursionError`. Also design explicit exit conditions.",
+  "tags": [
+   "llm",
+   "langgraph"
+  ],
+  "source": "LangGraph documentation",
+  "created": 1794100000148,
+  "suspended": false
+ },
+ "sd-01-scale-001": {
+  "deck": "sd-01-scale",
+  "front": "Latency vs throughput.",
+  "back": "Latency: time for one request.\nThroughput: requests completed per unit time. Batching often raises throughput and latency together.",
+  "tags": [
+   "system-design",
+   "escalabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000149,
+  "suspended": false
+ },
+ "sd-01-scale-002": {
+  "deck": "sd-01-scale",
+  "front": "Why watch p99 instead of the average latency?",
+  "back": "Averages hide the slow tail that real users hit.\nA page that calls many services waits for the slowest one, so tail latency dominates.",
+  "tags": [
+   "system-design",
+   "escalabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000150,
+  "suspended": false
+ },
+ "sd-01-scale-003": {
+  "deck": "sd-01-scale",
+  "front": "A request fans out to 100 servers. Each is slow 1% of the time. Chance the request is slow?",
+  "back": "$1 - 0.99^{100} \\approx 63\\%$.\nFan-out turns rare tail events into the common case.",
+  "tags": [
+   "system-design",
+   "escalabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000151,
+  "suspended": false
+ },
+ "sd-01-scale-004": {
+  "deck": "sd-01-scale",
+  "front": "State Little's law and use it: 2,000 req/s, 50 ms each.",
+  "back": "$L = \\lambda W$: items in the system = arrival rate × time in system.\n$2000 \\times 0.05 = 100$ concurrent requests. Size pools and threads from this.",
+  "tags": [
+   "system-design",
+   "escalabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000152,
+  "suspended": false
+ },
+ "sd-01-scale-005": {
+  "deck": "sd-01-scale",
+  "front": "State Amdahl's law. 90% of a job parallelizes, 10 cores: speedup?",
+  "back": "$\\text{speedup} = \\dfrac{1}{(1-p) + p/n}$.\n$1/(0.1 + 0.09) \\approx 5.3$. Limit with infinite cores: $1/0.1 = 10$.",
+  "tags": [
+   "system-design",
+   "escalabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000153,
+  "suspended": false
+ },
+ "sd-01-scale-006": {
+  "deck": "sd-01-scale",
+  "front": "Vertical vs horizontal scaling.",
+  "back": "Vertical: a bigger machine; simple, but capped and a single point of failure.\nHorizontal: more machines; needs stateless services or partitioned data.",
+  "tags": [
+   "system-design",
+   "escalabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000154,
+  "suspended": false
+ },
+ "sd-01-scale-007": {
+  "deck": "sd-01-scale",
+  "front": "Why make services stateless?",
+  "back": "Any instance can serve any request, so you add instances behind a load balancer.\nState moves to a database, cache or token.",
+  "tags": [
+   "system-design",
+   "escalabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000155,
+  "suspended": false
+ },
+ "sd-01-scale-008": {
+  "deck": "sd-01-scale",
+  "front": "L4 vs L7 load balancer.",
+  "back": "L4 routes by IP and port (fast, protocol-agnostic).\nL7 reads HTTP: routes by path or header, terminates TLS, retries.",
+  "tags": [
+   "system-design",
+   "escalabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000156,
+  "suspended": false
+ },
+ "sd-01-scale-009": {
+  "deck": "sd-01-scale",
+  "front": "Cache-aside, write-through, write-back.",
+  "back": "**Cache-aside**: app reads cache, on miss loads DB and fills cache.\n**Write-through**: write cache and DB together; consistent, slower writes.\n**Write-back**: write cache, flush to DB later; fast, risk of loss.",
+  "tags": [
+   "system-design",
+   "escalabilidade",
+   "dados"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000157,
+  "suspended": false
+ },
+ "sd-01-scale-010": {
+  "deck": "sd-01-scale",
+  "front": "What is a cache stampede, and how do you prevent it?",
+  "back": "A hot key expires and many requests hit the database at once.\nFixes: request coalescing (one loader), jittered TTLs, refresh before expiry.",
+  "tags": [
+   "system-design",
+   "escalabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000158,
+  "suspended": false
+ },
+ "sd-01-scale-011": {
+  "deck": "sd-01-scale",
+  "front": "What does LRU eviction do?",
+  "back": "When the cache is full, it removes the least recently used item.\nUsual build: hash map + doubly linked list, O(1) get and put.",
+  "tags": [
+   "system-design",
+   "escalabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000159,
+  "suspended": false
+ },
+ "sd-01-scale-012": {
+  "deck": "sd-01-scale",
+  "front": "Rough latency numbers to remember.",
+  "back": "L1 cache ~1 ns; main memory ~100 ns; SSD random read ~100 µs; same-datacenter round trip ~0.5 ms; cross-continent round trip ~100–150 ms.",
+  "tags": [
+   "system-design",
+   "escalabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000160,
+  "suspended": false
+ },
+ "sd-01-scale-013": {
+  "deck": "sd-01-scale",
+  "front": "How does a token bucket rate limiter work?",
+  "back": "A bucket holds up to $b$ tokens and refills at rate $r$. Each request takes a token or is rejected.\nAllows bursts up to $b$ and an average rate $r$.",
+  "tags": [
+   "system-design",
+   "escalabilidade",
+   "confiabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000161,
+  "suspended": false
+ },
+ "sd-01-scale-014": {
+  "deck": "sd-01-scale",
+  "front": "What is back-pressure?",
+  "back": "A slow consumer signals producers to slow down (bounded queues, blocking, credits) instead of buffering without limit.\nIt prevents memory blow-ups and cascading failure.",
+  "tags": [
+   "system-design",
+   "escalabilidade",
+   "confiabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000162,
+  "suspended": false
+ },
+ "sd-01-scale-015": {
+  "deck": "sd-01-scale",
+  "front": "Why consistent hashing? Compare with hash mod n when you add a node.",
+  "back": "Hash mod n: adding a node remaps almost all keys.\nConsistent hashing: keys and nodes sit on a ring; adding a node moves only about $1/n$ of keys. Virtual nodes even out the load.",
+  "tags": [
+   "system-design",
+   "escalabilidade",
+   "dados"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000163,
+  "suspended": false
+ },
+ "sd-02-data-001": {
+  "deck": "sd-02-data",
+  "front": "What does CAP say?",
+  "back": "During a network partition, a distributed store must choose consistency (refuse some requests) or availability (serve possibly stale data).",
+  "tags": [
+   "system-design",
+   "dados"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
+  "created": 1794100000164,
+  "suspended": false
+ },
+ "sd-02-data-002": {
+  "deck": "sd-02-data",
+  "front": "What does PACELC add to CAP?",
+  "back": "Else (no partition), there is still a trade-off between latency and consistency.",
+  "tags": [
+   "system-design",
+   "dados"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
+  "created": 1794100000165,
+  "suspended": false
+ },
+ "sd-02-data-003": {
+  "deck": "sd-02-data",
+  "front": "Strong vs eventual consistency; what is read-your-writes?",
+  "back": "Strong: every read sees the latest write.\nEventual: replicas converge if writes stop.\nRead-your-writes: a user always sees their own writes, even if others see them later.",
+  "tags": [
+   "system-design",
+   "dados"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
+  "created": 1794100000166,
+  "suspended": false
+ },
+ "sd-02-data-004": {
+  "deck": "sd-02-data",
+  "front": "Leader–follower replication: benefit and main issue.",
+  "back": "Writes go to the leader; followers copy them and serve reads, so reads scale.\nIssue: replication lag gives stale reads from followers.",
+  "tags": [
+   "system-design",
+   "dados"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
+  "created": 1794100000167,
+  "suspended": false
+ },
+ "sd-02-data-005": {
+  "deck": "sd-02-data",
+  "front": "Synchronous vs asynchronous replication.",
+  "back": "Sync: the write waits for the replica; no data loss on failover, higher latency.\nAsync: fast writes; a leader crash can lose recent writes.",
+  "tags": [
+   "system-design",
+   "dados",
+   "confiabilidade"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
+  "created": 1794100000168,
+  "suspended": false
+ },
+ "sd-02-data-006": {
+  "deck": "sd-02-data",
+  "front": "Quorum rule for reads to see the latest write. Example with N = 3.",
+  "back": "$R + W > N$: every read set overlaps every write set.\nN = 3, W = 2, R = 2: $4 > 3$.",
+  "tags": [
+   "system-design",
+   "dados"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
+  "created": 1794100000169,
+  "suspended": false
+ },
+ "sd-02-data-007": {
+  "deck": "sd-02-data",
+  "front": "Range vs hash partitioning.",
+  "back": "Range: efficient range scans, but hot spots (e.g. all writes on today's date).\nHash: even load, but range queries hit all partitions.",
+  "tags": [
+   "system-design",
+   "dados",
+   "escalabilidade"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
+  "created": 1794100000170,
+  "suspended": false
+ },
+ "sd-02-data-008": {
+  "deck": "sd-02-data",
+  "front": "B-tree vs LSM-tree indexes.",
+  "back": "B-tree: updates pages in place; fast reads; classic in relational DBs.\nLSM-tree: append to memory, flush sorted files, compact later; fast writes, reads may check several files.",
+  "tags": [
+   "system-design",
+   "dados"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
+  "created": 1794100000171,
+  "suspended": false
+ },
+ "sd-02-data-009": {
+  "deck": "sd-02-data",
+  "front": "What does ACID mean?",
+  "back": "Atomicity (all or nothing), Consistency (invariants hold), Isolation (concurrent transactions do not interfere), Durability (committed data survives crashes).",
+  "tags": [
+   "system-design",
+   "dados"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
+  "created": 1794100000172,
+  "suspended": false
+ },
+ "sd-02-data-010": {
+  "deck": "sd-02-data",
+  "front": "What is write skew, and which isolation level allows it?",
+  "back": "Two transactions read the same data, each writes a different row, and together they break an invariant (e.g. both on-call doctors go off duty).\nSnapshot isolation allows it; serializable prevents it.",
+  "tags": [
+   "system-design",
+   "dados"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
+  "created": 1794100000173,
+  "suspended": false
+ },
+ "sd-02-data-011": {
+  "deck": "sd-02-data",
+  "front": "Optimistic vs pessimistic concurrency control.",
+  "back": "Pessimistic: lock before writing; others wait.\nOptimistic: write with a version check; retry on conflict. Good when conflicts are rare.",
+  "tags": [
+   "system-design",
+   "dados"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
+  "created": 1794100000174,
+  "suspended": false
+ },
+ "sd-02-data-012": {
+  "deck": "sd-02-data",
+  "front": "Why columnar storage for analytics and market data?",
+  "back": "Queries read few columns over many rows. Columns store contiguously and compress well.\nExamples: Parquet, kdb+, ClickHouse.",
+  "tags": [
+   "system-design",
+   "dados"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
+  "created": 1794100000175,
+  "suspended": false
+ },
+ "sd-02-data-013": {
+  "deck": "sd-02-data",
+  "front": "What is event sourcing?",
+  "back": "Store every change as an immutable event; current state = fold of the events.\nGives a full audit trail and replay. Cost: snapshots and schema evolution of events.",
+  "tags": [
+   "system-design",
+   "dados"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
+  "created": 1794100000176,
+  "suspended": false
+ },
+ "sd-02-data-014": {
+  "deck": "sd-02-data",
+  "front": "What is CQRS?",
+  "back": "Separate the write model (commands) from read models (queries), each shaped for its job.\nRead models are often built from events and are eventually consistent.",
+  "tags": [
+   "system-design",
+   "dados"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
+  "created": 1794100000177,
+  "suspended": false
+ },
+ "sd-02-data-015": {
+  "deck": "sd-02-data",
+  "front": "Normalize vs denormalize.",
+  "back": "Normalize: each fact once; consistent writes, more joins.\nDenormalize: duplicate data for fast reads; writes must update every copy.",
+  "tags": [
+   "system-design",
+   "dados"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
+  "created": 1794100000178,
+  "suspended": false
+ },
+ "sd-03-reliability-001": {
+  "deck": "sd-03-reliability",
+  "front": "What is idempotency, and how do you get it for a POST?",
+  "back": "Repeating a request has the same effect as doing it once.\nFor POST: the client sends an idempotency key; the server stores the result per key and returns it on repeats.",
+  "tags": [
+   "system-design",
+   "confiabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000179,
+  "suspended": false
+ },
+ "sd-03-reliability-002": {
+  "deck": "sd-03-reliability",
+  "front": "Why exponential backoff with jitter on retries?",
+  "back": "Backoff gives the failing service time to recover.\nJitter spreads retries in time, so clients do not retry in synchronized waves.",
+  "tags": [
+   "system-design",
+   "confiabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000180,
+  "suspended": false
+ },
+ "sd-03-reliability-003": {
+  "deck": "sd-03-reliability",
+  "front": "What does a circuit breaker do?",
+  "back": "After repeated failures it stops calling the dependency and fails fast.\nAfter a pause it lets a few test calls through (half-open) and closes again on success.",
+  "tags": [
+   "system-design",
+   "confiabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000181,
+  "suspended": false
+ },
+ "sd-03-reliability-004": {
+  "deck": "sd-03-reliability",
+  "front": "Why must every network call have a timeout?",
+  "back": "Without one, a hung dependency holds threads and connections forever and the failure spreads.\nPropagate deadlines so downstream calls stop when the caller has given up.",
+  "tags": [
+   "system-design",
+   "confiabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000182,
+  "suspended": false
+ },
+ "sd-03-reliability-005": {
+  "deck": "sd-03-reliability",
+  "front": "At-most-once, at-least-once, exactly-once delivery.",
+  "back": "At-most-once: may lose messages.\nAt-least-once: may duplicate them.\n\"Exactly-once\" in practice = at-least-once delivery + idempotent processing.",
+  "tags": [
+   "system-design",
+   "mensageria",
+   "confiabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000183,
+  "suspended": false
+ },
+ "sd-03-reliability-006": {
+  "deck": "sd-03-reliability",
+  "front": "Message queue vs log (e.g. Kafka).",
+  "back": "Queue: a message is removed once acknowledged.\nLog: messages are retained; each consumer tracks its offset and can replay.",
+  "tags": [
+   "system-design",
+   "mensageria"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000184,
+  "suspended": false
+ },
+ "sd-03-reliability-007": {
+  "deck": "sd-03-reliability",
+  "front": "Where does Kafka guarantee ordering?",
+  "back": "Only within a partition. Pick the key so events that must stay ordered (e.g. one account) share a partition.",
+  "tags": [
+   "system-design",
+   "mensageria"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000185,
+  "suspended": false
+ },
+ "sd-03-reliability-008": {
+  "deck": "sd-03-reliability",
+  "front": "What is the transactional outbox pattern?",
+  "back": "Write the state change and an outbox row in the same DB transaction; a relay publishes outbox rows to the broker.\nNo lost or phantom events between DB and broker.",
+  "tags": [
+   "system-design",
+   "mensageria",
+   "confiabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000186,
+  "suspended": false
+ },
+ "sd-03-reliability-009": {
+  "deck": "sd-03-reliability",
+  "front": "What is a saga?",
+  "back": "A long business transaction split into local transactions, each with a compensating action.\nOn failure, run compensations in reverse instead of a distributed lock.",
+  "tags": [
+   "system-design",
+   "mensageria",
+   "confiabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000187,
+  "suspended": false
+ },
+ "sd-03-reliability-010": {
+  "deck": "sd-03-reliability",
+  "front": "What is a dead-letter queue?",
+  "back": "Where messages go after repeated processing failures.\nIt stops one poison message from blocking the stream; inspect and replay later.",
+  "tags": [
+   "system-design",
+   "mensageria"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000188,
+  "suspended": false
+ },
+ "sd-03-reliability-011": {
+  "deck": "sd-03-reliability",
+  "front": "Liveness vs readiness checks.",
+  "back": "Liveness: is the process alive? Fail → restart it.\nReadiness: can it serve traffic now? Fail → remove from the load balancer, do not restart.",
+  "tags": [
+   "system-design",
+   "confiabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000189,
+  "suspended": false
+ },
+ "sd-03-reliability-012": {
+  "deck": "sd-03-reliability",
+  "front": "What is the bulkhead pattern?",
+  "back": "Isolate resources (thread pools, connections) per dependency or feature, so one failure cannot exhaust everything.",
+  "tags": [
+   "system-design",
+   "confiabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000190,
+  "suspended": false
+ },
+ "sd-03-reliability-013": {
+  "deck": "sd-03-reliability",
+  "front": "Logs, metrics, traces: what does each answer?",
+  "back": "Metrics: is something wrong, and how much?\nTraces: where in the request path?\nLogs: what exactly happened in that component?",
+  "tags": [
+   "system-design",
+   "confiabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000191,
+  "suspended": false
+ },
+ "sd-03-reliability-014": {
+  "deck": "sd-03-reliability",
+  "front": "SLI, SLO, SLA, error budget.",
+  "back": "SLI: a measured indicator (e.g. % requests under 300 ms).\nSLO: the internal target (99.9%).\nSLA: the contractual promise, with penalties.\nError budget: 1 − SLO; spend it on releases, freeze when it runs out.",
+  "tags": [
+   "system-design",
+   "confiabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000192,
+  "suspended": false
+ },
+ "sd-03-reliability-015": {
+  "deck": "sd-03-reliability",
+  "front": "Blue-green vs canary deployment.",
+  "back": "Blue-green: run the new version alongside, switch all traffic at once, switch back to roll back.\nCanary: send a small share of traffic first, watch metrics, then widen.",
+  "tags": [
+   "system-design",
+   "confiabilidade"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794100000193,
+  "suspended": false
+ },
+ "sd-04-web-security-001": {
+  "deck": "sd-04-web-security",
+  "front": "Which HTTP methods are safe, and which are idempotent?",
+  "back": "Safe (no state change): GET, HEAD, OPTIONS.\nIdempotent: the safe ones + PUT and DELETE.\nPOST and PATCH are not idempotent by default.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "created": 1794100000194,
+  "suspended": false
+ },
+ "sd-04-web-security-002": {
+  "deck": "sd-04-web-security",
+  "front": "401 vs 403.",
+  "back": "401: not authenticated (no or invalid credentials).\n403: authenticated, but not allowed.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "created": 1794100000195,
+  "suspended": false
+ },
+ "sd-04-web-security-003": {
+  "deck": "sd-04-web-security",
+  "front": "Cookie flags HttpOnly, Secure, SameSite.",
+  "back": "HttpOnly: JavaScript cannot read the cookie (limits XSS theft).\nSecure: sent only over HTTPS.\nSameSite (Lax/Strict): not sent on most cross-site requests (limits CSRF).",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "created": 1794100000196,
+  "suspended": false
+ },
+ "sd-04-web-security-004": {
+  "deck": "sd-04-web-security",
+  "front": "What does CORS do, and what does it not do?",
+  "back": "The browser blocks cross-origin reads unless the server allows the origin (`Access-Control-Allow-Origin`); non-simple requests send an OPTIONS preflight first.\nIt is not server-side protection: curl or a server ignores it.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "created": 1794100000197,
+  "suspended": false
+ },
+ "sd-04-web-security-005": {
+  "deck": "sd-04-web-security",
+  "front": "What is CSRF, and its main defences?",
+  "back": "A malicious site makes the victim's browser send an authenticated request (cookies attach automatically).\nDefences: SameSite cookies, CSRF tokens, checking Origin.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "created": 1794100000198,
+  "suspended": false
+ },
+ "sd-04-web-security-006": {
+  "deck": "sd-04-web-security",
+  "front": "What is XSS, and its main defences?",
+  "back": "Attacker script runs inside your origin and acts as the user.\nDefences: output encoding, avoid raw HTML injection, Content Security Policy, HttpOnly cookies.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "created": 1794100000199,
+  "suspended": false
+ },
+ "sd-04-web-security-007": {
+  "deck": "sd-04-web-security",
+  "front": "Server session vs bearer token (e.g. JWT).",
+  "back": "Session: random id in a cookie, state on the server; easy to revoke.\nSelf-contained token: no lookup per request; hard to revoke before expiry, so keep lifetimes short.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "created": 1794100000200,
+  "suspended": false
+ },
+ "sd-04-web-security-008": {
+  "deck": "sd-04-web-security",
+  "front": "Structure of a JWT, and what to verify.",
+  "back": "`header.payload.signature`, base64url. Signed, **not encrypted**: anyone can read the payload.\nVerify signature, `exp`, `iss` and `aud`.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "created": 1794100000201,
+  "suspended": false
+ },
+ "sd-04-web-security-009": {
+  "deck": "sd-04-web-security",
+  "front": "OAuth 2.0 vs OpenID Connect.",
+  "back": "OAuth 2.0: delegated **authorization**: an access token to call an API.\nOIDC: an identity layer on top for **authentication**: an ID token that says who the user is.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "created": 1794100000202,
+  "suspended": false
+ },
+ "sd-04-web-security-010": {
+  "deck": "sd-04-web-security",
+  "front": "Key claims in an OIDC ID token.",
+  "back": "`iss` (issuer), `sub` (user id at the issuer), `aud` (your client id), `exp`, `iat`, and `nonce` (binds the token to your request).",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "created": 1794100000203,
+  "suspended": false
+ },
+ "sd-04-web-security-011": {
+  "deck": "sd-04-web-security",
+  "front": "Steps of the authorization code flow.",
+  "back": "1. App redirects the user to the IdP with client id, scopes, redirect URI, `state`.\n2. User signs in; IdP redirects back with a short-lived code.\n3. App's backend exchanges the code for tokens.\n4. App verifies the ID token and starts a session.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "created": 1794100000204,
+  "suspended": false
+ },
+ "sd-04-web-security-012": {
+  "deck": "sd-04-web-security",
+  "front": "What does PKCE add, and how?",
+  "back": "Stops a stolen authorization code from being redeemed.\nApp creates a random `code_verifier`, sends `code_challenge = BASE64URL(SHA256(verifier))` at login, and the verifier at token exchange.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "created": 1794100000205,
+  "suspended": false
+ },
+ "sd-04-web-security-013": {
+  "deck": "sd-04-web-security",
+  "front": "`state` vs `nonce` in OIDC.",
+  "back": "`state`: ties the redirect back to the request that started it (CSRF on the callback).\n`nonce`: ties the ID token to that request (replay).",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "created": 1794100000206,
+  "suspended": false
+ },
+ "sd-04-web-security-014": {
+  "deck": "sd-04-web-security",
+  "front": "Access token vs refresh token.",
+  "back": "Access token: short-lived, sent to APIs.\nRefresh token: longer-lived, kept by the client or backend, exchanged for new access tokens. Protect it more.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "created": 1794100000207,
+  "suspended": false
+ },
+ "sd-04-web-security-015": {
+  "deck": "sd-04-web-security",
+  "front": "How does an app verify ID tokens without sharing a secret with the IdP?",
+  "back": "It reads the IdP's discovery document (`/.well-known/openid-configuration`), fetches the public keys (JWKS), and checks the signature.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "created": 1794100000208,
+  "suspended": false
+ },
+ "sd-04-web-security-016": {
+  "deck": "sd-04-web-security",
+  "front": "What is SSO?",
+  "back": "One login at an identity provider gives access to many apps that trust it.\nProtocols: SAML (older, enterprise) and OIDC.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "created": 1794100000209,
+  "suspended": false
+ },
+ "sd-04-web-security-017": {
+  "deck": "sd-04-web-security",
+  "front": "What does TLS provide?",
+  "back": "Confidentiality, integrity, and server authentication by certificate.\nEphemeral key exchange (ECDHE) gives forward secrecy: a later key leak does not decrypt past traffic.",
+  "tags": [
+   "system-design",
+   "seguranca-web"
+  ],
+  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "created": 1794100000210,
+  "suspended": false
+ },
+ "sd-04-web-security-018": {
+  "deck": "sd-04-web-security",
+  "front": "Where should a browser app keep OAuth tokens?",
+  "back": "Not in localStorage: any XSS can read it.\nPrefer a backend-for-frontend: the server holds tokens; the browser gets an HttpOnly session cookie.",
+  "tags": [
+   "system-design",
+   "seguranca-web",
+   "web-app"
+  ],
+  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "created": 1794100000211,
+  "suspended": false
+ },
+ "sd-05-web-apps-001": {
+  "deck": "sd-05-web-apps",
+  "front": "CSR vs SSR vs SSG vs ISR.",
+  "back": "CSR: the browser renders from JS.\nSSR: the server renders HTML per request.\nSSG: HTML built at build time.\nISR: static pages regenerated in the background after a set time.",
+  "tags": [
+   "system-design",
+   "web-app"
+  ],
+  "source": "Next.js and React documentation; standard practice",
+  "created": 1794100000212,
+  "suspended": false
+ },
+ "sd-05-web-apps-002": {
+  "deck": "sd-05-web-apps",
+  "front": "What is hydration?",
+  "back": "The browser attaches React's event handlers to server-rendered HTML, making it interactive.\nA mismatch between server and client output causes hydration errors.",
+  "tags": [
+   "system-design",
+   "web-app"
+  ],
+  "source": "Next.js and React documentation; standard practice",
+  "created": 1794100000213,
+  "suspended": false
+ },
+ "sd-05-web-apps-003": {
+  "deck": "sd-05-web-apps",
+  "front": "React Server Components vs Client Components.",
+  "back": "Server Components render on the server, ship no JS, and can read databases and secrets directly; no state or effects.\nClient Components (`\"use client\"`) run in the browser for interactivity.",
+  "tags": [
+   "system-design",
+   "web-app"
+  ],
+  "source": "Next.js and React documentation; standard practice",
+  "created": 1794100000214,
+  "suspended": false
+ },
+ "sd-05-web-apps-004": {
+  "deck": "sd-05-web-apps",
+  "front": "What reaches the browser in a Next.js app, and what must not?",
+  "back": "Everything in client components and env vars prefixed `NEXT_PUBLIC_` is public.\nSecrets and tokens stay in server-only code.",
+  "tags": [
+   "system-design",
+   "web-app",
+   "seguranca-web"
+  ],
+  "source": "Next.js and React documentation; standard practice",
+  "created": 1794100000215,
+  "suspended": false
+ },
+ "sd-05-web-apps-005": {
+  "deck": "sd-05-web-apps",
+  "front": "What is a route handler in the Next.js App Router?",
+  "back": "A file `app/.../route.ts` that exports `GET`, `POST`, etc.\nIt is a backend endpoint inside the Next.js app.",
+  "tags": [
+   "system-design",
+   "web-app"
+  ],
+  "source": "Next.js and React documentation; standard practice",
+  "created": 1794100000216,
+  "suspended": false
+ },
+ "sd-05-web-apps-006": {
+  "deck": "sd-05-web-apps",
+  "front": "Why must a Server Action check authorization itself?",
+  "back": "A Server Action is a public HTTP endpoint, even if only your form calls it.\nAnyone can call it directly, so authenticate and authorize inside it.",
+  "tags": [
+   "system-design",
+   "web-app",
+   "seguranca-web"
+  ],
+  "source": "Next.js and React documentation; standard practice",
+  "created": 1794100000217,
+  "suspended": false
+ },
+ "sd-05-web-apps-007": {
+  "deck": "sd-05-web-apps",
+  "front": "Backend-for-frontend (BFF) for an agent UI: what goes where?",
+  "back": "Browser ↔ Next.js server (session cookie) ↔ agent backend (e.g. LangGraph) and APIs (tokens).\nTokens and tool credentials never reach the browser.",
+  "tags": [
+   "system-design",
+   "web-app",
+   "agentes"
+  ],
+  "source": "Next.js and React documentation; standard practice",
+  "created": 1794100000218,
+  "suspended": false
+ },
+ "sd-05-web-apps-008": {
+  "deck": "sd-05-web-apps",
+  "front": "SSE vs WebSocket for streaming LLM output.",
+  "back": "SSE: one-way server → client over plain HTTP, auto-reconnect; enough for token streaming.\nWebSocket: two-way, persistent; for real-time interaction both ways.",
+  "tags": [
+   "system-design",
+   "web-app"
+  ],
+  "source": "Next.js and React documentation; standard practice",
+  "created": 1794100000219,
+  "suspended": false
+ },
+ "sd-06-trading-systems-001": {
+  "deck": "sd-06-trading-systems",
+  "front": "OMS vs EMS.",
+  "back": "OMS: order lifecycle, allocations, compliance, positions (portfolio side).\nEMS: execution: routing, algos, market access.",
+  "tags": [
+   "system-design",
+   "trading-systems"
+  ],
+  "source": "Standard industry practice",
+  "created": 1794100000220,
+  "suspended": false
+ },
+ "sd-06-trading-systems-002": {
+  "deck": "sd-06-trading-systems",
+  "front": "What is FIX? Name the new-order and execution-report message types.",
+  "back": "A tag=value messaging standard for orders and executions.\nNewOrderSingle is `35=D`; ExecutionReport is `35=8`.",
+  "tags": [
+   "system-design",
+   "trading-systems"
+  ],
+  "source": "Standard industry practice",
+  "created": 1794100000221,
+  "suspended": false
+ },
+ "sd-06-trading-systems-003": {
+  "deck": "sd-06-trading-systems",
+  "front": "Which pre-trade risk checks must sit before market access?",
+  "back": "Fat-finger (price and size), credit and position limits, restricted lists, duplicate-order checks.\nIn the US, the SEC market access rule (15c3-5) requires them.",
+  "tags": [
+   "system-design",
+   "trading-systems"
+  ],
+  "source": "Standard industry practice",
+  "created": 1794100000222,
+  "suspended": false
+ },
+ "sd-06-trading-systems-004": {
+  "deck": "sd-06-trading-systems",
+  "front": "Snapshot vs incremental market data, and gap handling.",
+  "back": "Snapshot: the full book. Incremental: changes with sequence numbers.\nOn a sequence gap, stop applying updates, request a snapshot or replay, then resume.",
+  "tags": [
+   "system-design",
+   "trading-systems"
+  ],
+  "source": "Standard industry practice",
+  "created": 1794100000223,
+  "suspended": false
+ },
+ "sd-06-trading-systems-005": {
+  "deck": "sd-06-trading-systems",
+  "front": "What is conflation in market data distribution?",
+  "back": "For slow consumers, send only the latest state per instrument instead of every tick.\nKeeps them current instead of falling behind.",
+  "tags": [
+   "system-design",
+   "trading-systems"
+  ],
+  "source": "Standard industry practice",
+  "created": 1794100000224,
+  "suspended": false
+ },
+ "sd-06-trading-systems-006": {
+  "deck": "sd-06-trading-systems",
+  "front": "Why build position keeping on event sourcing?",
+  "back": "Positions = fold of fills and corrections. Full audit trail, replay to any time, and easy reconciliation.",
+  "tags": [
+   "system-design",
+   "trading-systems",
+   "dados"
+  ],
+  "source": "Standard industry practice",
+  "created": 1794100000225,
+  "suspended": false
+ },
+ "sd-06-trading-systems-007": {
+  "deck": "sd-06-trading-systems",
+  "front": "Decompose a day's P&L for a Delta One book.",
+  "back": "1. Position P&L: start-of-day position × price move.\n2. New-trade P&L: new trades vs end-of-day mark.\n3. Carry: financing and dividends accrued.\n4. Fees and other adjustments.\nUnexplained remainder = a break to investigate.",
+  "tags": [
+   "system-design",
+   "trading-systems",
+   "delta-one"
+  ],
+  "source": "Standard industry practice",
+  "created": 1794100000226,
+  "suspended": false
+ },
+ "sd-06-trading-systems-008": {
+  "deck": "sd-06-trading-systems",
+  "front": "What is front-to-back reconciliation?",
+  "back": "Matching positions and cash across front-office systems, books and records, and custodians or clearers.\nDifferences (\"breaks\") get investigated and fixed daily.",
+  "tags": [
+   "system-design",
+   "trading-systems"
+  ],
+  "source": "Standard industry practice",
+  "created": 1794100000227,
+  "suspended": false
+ },
+ "sd-06-trading-systems-009": {
+  "deck": "sd-06-trading-systems",
+  "front": "Why record and replay market data in trading systems?",
+  "back": "Deterministic replays reproduce bugs and test strategy or pricing changes against real sequences.",
+  "tags": [
+   "system-design",
+   "trading-systems"
+  ],
+  "source": "Standard industry practice",
+  "created": 1794100000228,
   "suspended": false
  }
 }

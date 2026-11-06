@@ -48,5 +48,70 @@
   "name": "Finanças::Delta One::03 Dividends and index events",
   "desc": "DPR, GTR/NTR, withholding edge, closing auction, restrike",
   "created": 1794000000002
+ },
+ "d1-04-index-events": {
+  "name": "Finanças::Delta One::04 Index events and rebalances",
+  "desc": "Calendar, closing auction, facilitation, restrike, index arbitrage, ETFs",
+  "created": 1794100000000
+ },
+ "d1-05-products": {
+  "name": "Finanças::Delta One::05 Products and pricing",
+  "desc": "TRS mechanics, forwards, futures, TRF, EFP, client use cases",
+  "created": 1794100000001
+ },
+ "d1-06-desk-map": {
+  "name": "Finanças::Delta One::06 Desk map",
+  "desc": "Generic equities division: who does what, and how desks feed each other",
+  "created": 1794100000002
+ },
+ "llm-01-transformers": {
+  "name": "Tecnologia::LLM::01 Transformers",
+  "desc": "Attention, positions, blocks, tokens, KV cache, sampling, MoE",
+  "created": 1794100000003
+ },
+ "llm-02-training": {
+  "name": "Tecnologia::LLM::02 Training and adaptation",
+  "desc": "Pretraining, scaling laws, SFT, RLHF, DPO, LoRA, quantization",
+  "created": 1794100000004
+ },
+ "llm-03-agents": {
+  "name": "Tecnologia::LLM::03 Agents, RAG and MCP",
+  "desc": "Tool use, context, injection, retrieval, evals, MCP",
+  "created": 1794100000005
+ },
+ "llm-04-langgraph": {
+  "name": "Tecnologia::LLM::04 LangGraph",
+  "desc": "State graphs, reducers, checkpoints, interrupts, Send, subgraphs, streaming",
+  "created": 1794100000006
+ },
+ "sd-01-scale": {
+  "name": "Tecnologia::System Design::01 Scalability and performance",
+  "desc": "Latency, percentiles, queueing laws, scaling, load balancing, caching",
+  "created": 1794100000007
+ },
+ "sd-02-data": {
+  "name": "Tecnologia::System Design::02 Data and consistency",
+  "desc": "CAP, replication, quorums, sharding, indexes, transactions, event sourcing",
+  "created": 1794100000008
+ },
+ "sd-03-reliability": {
+  "name": "Tecnologia::System Design::03 Reliability and messaging",
+  "desc": "Idempotency, retries, delivery semantics, queues and logs, outbox, SLOs",
+  "created": 1794100000009
+ },
+ "sd-04-web-security": {
+  "name": "Tecnologia::System Design::04 Web and auth security",
+  "desc": "HTTP, cookies, CORS, CSRF, XSS, JWT, OAuth 2.0, OIDC, PKCE, TLS",
+  "created": 1794100000010
+ },
+ "sd-05-web-apps": {
+  "name": "Tecnologia::System Design::05 Web apps and Next.js",
+  "desc": "Rendering modes, server vs client components, BFF, streaming",
+  "created": 1794100000011
+ },
+ "sd-06-trading-systems": {
+  "name": "Tecnologia::System Design::06 Trading systems",
+  "desc": "OMS/EMS, FIX, risk checks, market data, positions, P&L",
+  "created": 1794100000012
  }
 }
