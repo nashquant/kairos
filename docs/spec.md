@@ -13,6 +13,15 @@ The website (https://nashquant.github.io/kairos/) is the app. Claude adds cards 
 - With login, progress (`reviews/*`, `log/*`, `config/settings`, own card edits) syncs through `user_docs`: newest write per document wins; daily logs merge entry by entry. Schema: `supabase/schema.sql`.
 - Sign-out clears the device.
 
+## Flagged cards (fix requests)
+- In the app, the user flags a bad card (**Sinalizar**). It leaves study; the note says what is wrong. Public cards can no longer be deleted in the app, only flagged.
+- The user pastes a list like `- id: <cardId> | <deck> | frente: … | problema: …`.
+- To fix: edit that card **in place** in `data/cards.json` (same id). Any change to `front` or `back` resolves the flag on every device, and the card returns to study. To drop a useless card, set `"suspended": true` (keeps ids stable; never reuse an id).
+- A flag stores a fingerprint of front+back, so changing only tags or source does not resolve it.
+
+## Scheduling
+- FSRS-4.5, default weights. Default learning steps: same-day repeats only after "Errei" (1 min) or "Difícil" (10 min); "Bom"/"Fácil" on a new card go straight to days (4 / 14 days at 90% retention). The Anki-style mode (1 min, 10 min) is a setting.
+
 ## Data shape
 - Deck: `{id: {name, desc, created}}`. `name` is hierarchical with `::`. Id is an ASCII slug.
 - Card: `{id: {deck, front, back, tags[], source, created, suspended, verified?, checkBy?}}`. New-card order = `created`, then id.

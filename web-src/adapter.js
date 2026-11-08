@@ -33,7 +33,7 @@
 
   function lookup(coll, id){
     var p = coll + '/' + id;
-    if (p in local) return local[p] && local[p].__deleted ? undefined : local[p];
+    if (p in local && !(local[p] && local[p].__restored)) return local[p] && local[p].__deleted ? undefined : local[p];
     if (priv[coll] && id in priv[coll]) return priv[coll][id];
     return (base[coll] || {})[id];
   }
@@ -43,6 +43,7 @@
     for (k in pv) out[k] = pv[k];
     for (k in local){
       if (collOf(k) !== coll) continue;
+      if (local[k] && local[k].__restored) continue;
       if (local[k] && local[k].__deleted) delete out[idOf(k)]; else out[idOf(k)] = local[k];
     }
     return out;
@@ -221,6 +222,16 @@
 
   loadBase();
   initAuth();
-  window.KAIROS_WEB = { reload: loadBase, account: account, exportProgress: function(){ return clone(local); } };
+  // Public cards this device deleted (before flagging existed). The app offers to restore them.
+  function hiddenPublic(){
+    var out = [];
+    for (var k in local){
+      if (collOf(k) !== 'cards' || !(local[k] && local[k].__deleted)) continue;
+      var id = idOf(k), b = base.cards[id] || priv.cards[id];
+      if (b) out.push({ id: id, front: b.front || '' });
+    }
+    return out;
+  }
+  window.KAIROS_WEB = { reload: loadBase, account: account, hiddenPublic: hiddenPublic, exportProgress: function(){ return clone(local); } };
   window.claude = { use: function(name){ return Promise.resolve(name === 'db' ? db : null); } };
 })();

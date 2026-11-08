@@ -33,7 +33,7 @@ jobs:
         with:
           node-version: "22"
       - run: pip install cryptography
-      - run: npm i --no-save jsdom@24 && node tests/web.test.js && node tests/offline.test.js && node tests/sync.test.js && python3 tests/test_ingest.py
+      - run: npm i --no-save jsdom@24 && node tests/web.test.js && node tests/offline.test.js && node tests/sync.test.js && node tests/flags.test.js && python3 tests/test_ingest.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

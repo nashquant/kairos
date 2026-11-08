@@ -203,7 +203,7 @@ const recallS=(d,s,r,g)=>s*(1+Math.exp(W[8])*(11-d)*Math.pow(s,-W[9])*(Math.exp(
 const forgetS=(d,s,r)=>Math.min(s,W[11]*Math.pow(d,-W[12])*(Math.pow(s+1,W[13])-1)*Math.exp((1-r)*W[14]));
 
 function schedule(prev,g,now){
-  const r=+S.settings.retention||0.9;
+  const r=+S.settings.retention||0.9, shortSteps=S.settings.steps==='short';
   const base=prev||{state:'new',reps:0,lapses:0};
   let {state,s,d}=base; const step=base.step||0;
   const out={reps:(base.reps||0)+1,lapses:base.lapses||0,last:now};
@@ -212,15 +212,17 @@ function schedule(prev,g,now){
   if(state==='new'){
     s=initS(g); d=initD(g);
     if(g===1)return learn('learning',STEPS,0,s,d);
-    if(g===2)return learn('learning',STEPS,0,s,d,now+Math.round((STEPS[0]+STEPS[1])/2)*MIN);
-    if(g===3)return learn('learning',STEPS,1,s,d);
+    if(shortSteps){
+      if(g===2)return learn('learning',STEPS,0,s,d,now+Math.round((STEPS[0]+STEPS[1])/2)*MIN);
+      if(g===3)return learn('learning',STEPS,1,s,d);
+    }else if(g===2)return learn('learning',STEPS,1,s,d);
     return grad(s,d,ivl(s,r));
   }
   if(state==='learning'||state==='relearning'){
     const arr=state==='learning'?STEPS:RELEARN;
     if(g===1)return learn(state,arr,0,s,d);
     if(g===2)return learn(state,arr,step,s,d);
-    if(g===3&&step+1<arr.length)return learn(state,arr,step+1,s,d);
+    if(g===3&&shortSteps&&step+1<arr.length)return learn(state,arr,step+1,s,d);
     if(g===4){
       if(state==='learning'){const s4=Math.max(s,W[3]);return grad(s4,d,ivl(s4,r))}
       return grad(s,d,ivl(s,r)+1);
@@ -236,7 +238,7 @@ function schedule(prev,g,now){
 }
 
 /* ---------- state ---------- */
-const S={login:{email:'',sent:false,busy:false},filter:(()=>{const f=ls.get('kairos.filter',{});return {off:Array.isArray(f.off)?f.off:[]}})(),panels:new Set(ls.get('kairos.panels',[])),pk:{},db:null,decks:new Map(),cards:new Map(),revs:new Map(),settings:{newPerDay:20,retention:0.9},
+const S={login:{email:'',sent:false,busy:false},filter:(()=>{const f=ls.get('kairos.filter',{});return {off:Array.isArray(f.off)?f.off:[]}})(),panels:new Set(ls.get('kairos.panels',[])),pk:{},db:null,decks:new Map(),cards:new Map(),revs:new Map(),flags:new Map(),flagging:null,settings:{newPerDay:20,retention:0.9,steps:'errors'},
   log:[],logKey:null,logUnsub:null,ready:new Set(),stale:false,err:null,nodb:false,
   view:'home',study:null,open:new Set(ls.get('fich.open',[])),browse:{q:'',deck:''},edit:null,undo:null,confirmDel:false};
 /* ---------- outbox: every write goes to localStorage first, then syncs ----------
@@ -254,7 +256,7 @@ function queue(path,kind,body){
 }
 function pendingFor(path){return outbox.find(o=>o.p===path)}
 function overlay(coll,m){
-  for(const o of outbox){const i=o.p.indexOf('/');if(o.p.slice(0,i)!==coll)continue;const id=o.p.slice(i+1);if(o.k==='del')m.delete(id);else m.set(id,o.b)}
+  for(const o of outbox){const i=o.p.indexOf('/');if(o.p.slice(0,i)!==coll)continue;const id=o.p.slice(i+1);if(o.k==='del')m.delete(id);else if(!(o.b&&o.b.__restored))m.set(id,o.b)}
   return m;
 }
 const withTimeout=(pr,ms)=>Promise.race([pr,new Promise((_,rej)=>setTimeout(()=>rej({code:'timeout'}),ms))]);
@@ -307,6 +309,44 @@ function filterHTML(){
     '<div class="chips">'+tags.map(t=>'<button class="chip-t'+(off.includes(t)?' off':'')+'" data-tag="'+esc(t)+'" aria-pressed="'+!off.includes(t)+'"><span>'+esc(tagLabel(t))+'</span><span class="mono">'+counts.get(t)+'</span></button>').join('')+'</div>'+
     '<div class="row" style="margin:12px 0 16px;justify-content:space-between"><span class="hint">'+(hidden?hidden+' cards ocultos':'Todos os cards visíveis')+'</span>'+(off.length?'<button class="btn ghost" data-tag-reset>Mostrar tudo</button>':'')+'</div></details>';
 }
+/* ---------- flags: cards the user marked as wrong ----------
+   flags/{id} = {note, at, sig}. sig fingerprints front+back when flagged; once the card
+   text changes (Claude fixed it), the flag no longer matches and the card returns. */
+function cardSig(c){let h=2166136261;const t=(c.front||'')+'\u0001'+(c.back||'');for(let i=0;i<t.length;i++){h^=t.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(36)}
+function isFlagged(id,c){const f=S.flags.get(id);c=c||S.cards.get(id);return !!(f&&c&&f.sig===cardSig(c))}
+function flaggedList(){return cardsOrdered().filter(([id,c])=>isFlagged(id,c))}
+function flagReport(rows){
+  return 'Kairos — cards sinalizados ('+rows.length+')\n'+rows.map(([id,c])=>{const f=S.flags.get(id);return '- id: '+id+' | '+deckName(c.deck).split('::').pop()+' | frente: '+plain(c.front).slice(0,160)+' | problema: '+((f.note||'').trim()||'(sem nota)')}).join('\n');
+}
+function copyField(id){
+  const el=document.getElementById(id); if(!el)return;
+  const manual=()=>{el.focus();el.select();toast('Texto selecionado: copie manualmente')};
+  try{navigator.clipboard.writeText(el.value).then(()=>toast('Lista copiada'),manual)}catch(e){manual()}
+}
+function flagsHTML(){
+  const rows=flaggedList(), hidden=(window.KAIROS_WEB&&window.KAIROS_WEB.hiddenPublic)?window.KAIROS_WEB.hiddenPublic():[];
+  if(!rows.length&&!hidden.length)return '';
+  let b='';
+  if(rows.length){
+    b+='<p class="hint" style="margin:0 0 10px">Estes cards saíram do estudo. Copie a lista e mande para o Claude. Quando ele corrigir o texto, o card volta sozinho.</p><div class="list" style="margin-bottom:10px">';
+    for(const [id,c] of rows){const f=S.flags.get(id);b+='<div class="item"><span class="q">'+esc(plain(c.front))+'</span><span class="info"><span>'+esc((f.note||'').trim()||'sem nota')+'</span><button class="btn ghost" data-unflag="'+esc(id)+'">Remover sinal</button></span></div>'}
+    b+='</div><textarea id="flag-report" class="codebox" readonly>'+esc(flagReport(rows))+'</textarea><div class="row" style="margin:8px 0 16px"><button class="btn primary" data-copy-flags>Copiar lista para o Claude</button></div>';
+  }
+  if(hidden.length){
+    b+='<p class="hint" style="margin:0 0 8px">Excluídos neste aparelho. O Claude não vê exclusões; restaure e sinalize se o card tem problema.</p><div class="list" style="margin-bottom:16px">';
+    for(const h of hidden)b+='<div class="item"><span class="q">'+esc(plain(h.front))+'</span><span class="info"><button class="btn ghost" data-restore="'+esc(h.id)+'">Restaurar</button></span></div>';
+    b+='</div>';
+  }
+  return '<details class="settings" data-panel="sinalizados"'+(S.panels.has('sinalizados')||rows.length?' open':'')+'><summary>Cards sinalizados'+(rows.length?' <span class="pill">'+rows.length+'</span>':'')+'</summary>'+b+'</details>';
+}
+function flagSheetHTML(){
+  const id=S.flagging; if(!id)return ''; const c=S.cards.get(id); if(!c)return '';
+  return '<div class="scrim" data-close-scrim><div class="sheet" role="dialog" aria-modal="true" aria-label="Sinalizar card">'+
+    '<div class="bar"><h2>Sinalizar card</h2><button class="btn ghost" data-close>Fechar</button></div>'+
+    '<p class="item-q" style="margin:0 0 12px;font-family:var(--f-card)">'+esc(plain(c.front).slice(0,200))+'</p>'+
+    '<div class="field"><label for="f-note">O que está errado?</label><textarea id="f-note" style="min-height:80px" placeholder="Ex.: resposta incompleta; pergunta ambígua; fato errado; card inútil">'+esc((S.flags.get(id)||{}).note||'')+'</textarea><span class="hint">O card sai do estudo até o Claude corrigir. A nota é opcional, mas ajuda.</span></div>'+
+    '<div class="row" style="justify-content:flex-end"><button class="btn primary" data-flag-save>Sinalizar</button></div></div></div>';
+}
 function deckName(id){const d=S.decks.get(id);return d?(d.name||id):'(sem baralho)'}
 function deckIdsUnder(path){const out=[];for(const [id,d] of S.decks){const n=d.name||id;if(n===path||n.startsWith(path+'::'))out.push(id)}return out}
 function newToday(){const seen=new Set();for(const e of S.log)if(e.p==='new')seen.add(e.c);return seen.size}
@@ -316,7 +356,7 @@ function cardsOrdered(){return [...S.cards.entries()].sort((a,b)=>((a[1].created
 function deckCounts(){
   const now=Date.now(), roll=nextRollover(now), m=new Map();
   for(const [id,c] of S.cards){
-    if(c.suspended||!passesFilter(c))continue;
+    if(c.suspended||!passesFilter(c)||isFlagged(id,c))continue;
     const k=c.deck; if(!m.has(k))m.set(k,{n:0,l:0,r:0,total:0});
     const o=m.get(k); o.total++;
     const rv=S.revs.get(id);
@@ -332,7 +372,7 @@ function nextCard(deckSet){
   const now=Date.now(), roll=nextRollover(now);
   let learn=[],rev=[],fresh=[];
   for(const [id,c] of cardsOrdered()){
-    if(c.suspended||!passesFilter(c)||!deckSet.has(c.deck))continue;
+    if(c.suspended||!passesFilter(c)||!deckSet.has(c.deck)||isFlagged(id,c))continue;
     const rv=S.revs.get(id);
     if(!rv)fresh.push(id);
     else if(rv.state==='review'){if(rv.due<roll)rev.push([id,rv.due])}
@@ -432,11 +472,13 @@ function homeHTML(){
     h+='<div><div class="legend" style="margin-bottom:6px"><span class="c-new">novos</span><span class="c-learn">aprendendo</span><span class="c-due">a revisar</span></div><div class="tree">'+treeHTML(root,0,cap)+'</div></div>';
   }
   const r=+S.settings.retention||0.9;
+  h+=flagsHTML();
   h+=filterHTML();
   h+=accountHTML();
   h+='<details class="settings" data-panel="ajustes"'+(S.panels.has('ajustes')?' open':'')+'><summary>Ajustes</summary>'+
     '<div class="field"><label for="set-new">Cards novos por dia</label><input id="set-new" type="number" min="0" max="999" value="'+(+S.settings.newPerDay||0)+'"><span class="hint">Limite somado de todos os baralhos. Cada card novo gera cerca de 10 revisões no primeiro mês.</span></div>'+
-    '<div class="field"><label for="set-ret">Retenção desejada</label><select id="set-ret">'+[0.8,0.85,0.9,0.93,0.95].map(v=>'<option value="'+v+'"'+(Math.abs(v-r)<1e-6?' selected':'')+'>'+Math.round(v*100)+'%</option>').join('')+'</select><span class="hint">Probabilidade de lembrar no dia da revisão. Mais alta encurta os intervalos e aumenta a carga.</span></div>'+
+    '<div class="field"><label for="set-ret">Retenção desejada</label><select id="set-ret">'+[0.8,0.85,0.9,0.93,0.95].map(v=>'<option value="'+v+'"'+(Math.abs(v-r)<1e-6?' selected':'')+'>'+Math.round(v*100)+'%</option>').join('')+'</select><span class="hint">Probabilidade de lembrar no dia da revisão. Mais alta encurta os intervalos e aumenta a carga. Com 90%, “Bom” num card novo volta em 4 dias; com 85%, em 6.</span></div>'+
+    '<div class="field"><label for="set-steps">Card novo: quando volta no mesmo dia</label><select id="set-steps"><option value="errors"'+(S.settings.steps!=='short'?' selected':'')+'>Só se eu errar (“Bom” já vai para dias)</option><option value="short"'+(S.settings.steps==='short'?' selected':'')+'>Sempre (1 min e 10 min, como o Anki)</option></select></div>'+
     '<div class="row" style="margin-bottom:16px"><button class="btn primary" data-save-settings>Salvar ajustes</button></div></details>';
   return h+'</div>';
 }
@@ -454,7 +496,7 @@ function studyHTML(){
   const tag=!rv?'Novo':rv.state==='review'?'Revisão · '+(rv.lapses?rv.lapses+' lapsos':'sem lapsos'):'Aprendendo';
   return head+'<article class="index"><div class="head"><span>'+esc(deckName(c.deck))+'</span><span>'+tag+'</span></div>'+
     '<div class="face" id="face-front"></div>'+(st.revealed?'<div class="face back" id="face-back"></div>':'')+'</article>'+
-    '<div class="meta"><span>'+(c.source?esc(c.source):'')+(c.verified?' · verificado em '+esc(c.verified):'')+(c.checkBy&&c.checkBy<=new Date().toISOString().slice(0,10)?' · <b class="stale">rever fatos</b>':'')+'</span><span class="row">'+(S.undo?'<button class="btn ghost" data-undo>Desfazer</button>':'')+'<button class="btn ghost" data-edit="'+esc(st.cur)+'">Editar</button></span></div>';
+    '<div class="meta"><span>'+(c.source?esc(c.source):'')+(c.verified?' · verificado em '+esc(c.verified):'')+(c.checkBy&&c.checkBy<=new Date().toISOString().slice(0,10)?' · <b class="stale">rever fatos</b>':'')+'</span><span class="row">'+(S.undo?'<button class="btn ghost" data-undo>Desfazer</button>':'')+'<button class="btn ghost" data-flag="'+esc(st.cur)+'">Sinalizar</button><button class="btn ghost" data-edit="'+esc(st.cur)+'">Editar</button></span></div>';
 }
 function answerBarHTML(){
   const st=S.study; if(S.view!=='study'||!st||!st.cur||!S.cards.get(st.cur))return '';
@@ -463,6 +505,7 @@ function answerBarHTML(){
   return '<div class="answerbar"><div class="inner grades">'+[1,2,3,4].map(g=>{const n=schedule(prev,g,now);return '<button class="grade g'+g+'" data-grade="'+g+'"><b>'+names[g-1]+'</b><span>'+fmtIvl(n.due-now)+'</span></button>'}).join('')+'</div></div>';
 }
 function stateChip(id,c){
+  if(isFlagged(id,c))return '<span class="chip learn">Sinalizado</span>';
   if(c.suspended)return '<span class="chip sus">Suspenso</span>';
   const rv=S.revs.get(id); if(!rv)return '<span class="chip new">Novo</span>';
   if(rv.state!=='review')return '<span class="chip learn">Aprendendo</span>';
@@ -499,7 +542,8 @@ function editorHTML(){
     '<label class="check"><input id="e-sus" type="checkbox"'+(v.suspended?' checked':'')+'> Suspenso (não aparece no estudo)</label>'+
     (rv?'<p class="muted mono" style="font-size:12px">Estabilidade '+(rv.s||0).toFixed(1)+' d · dificuldade '+(rv.d||0).toFixed(1)+'/10 · '+(rv.reps||0)+' respostas · '+(rv.lapses||0)+' lapsos</p>':'')+
     '<div class="row" style="justify-content:space-between"><span class="row">'+
-      (e.id?'<button class="btn danger" data-del>'+(S.confirmDel?'Confirmar exclusão':'Excluir')+'</button>':'')+
+      (e.id&&!/^u-/.test(e.id)?(isFlagged(e.id)?'<button class="btn" data-unflag="'+esc(e.id)+'">Remover sinal</button>':'<button class="btn" data-flag="'+esc(e.id)+'">Sinalizar problema</button>'):'')+
+      (e.id&&/^u-/.test(e.id)?'<button class="btn danger" data-del>'+(S.confirmDel?'Confirmar exclusão':'Excluir')+'</button>':'')+
       (rv?'<button class="btn" data-reset>Zerar progresso</button>':'')+
     '</span><button class="btn primary" data-save>Salvar</button></div></div></div>';
 }
@@ -512,8 +556,8 @@ function doRender(){
   if(S.err){app.innerHTML='<div class="notice">A conexão com os dados caiu ('+esc(S.err)+'). Recarregue a página.</div>';return}
   if(S.view==='study'&&S.study&&(!S.study.cur||!S.cards.get(S.study.cur))){S.study.cur=null;advance()}
   const focus=document.activeElement&&document.activeElement.id, sel=focus==='b-q'?document.activeElement.selectionStart:null;
-  const keep={};for(const id of ['acct-email','acct-code','set-new']){const el=document.getElementById(id);if(el&&document.activeElement===el)keep[id]=el.value}
-  if(!S.edit){
+  const keep={};for(const id of ['acct-email','acct-code','set-new','f-note']){const el=document.getElementById(id);if(el&&document.activeElement===el)keep[id]=el.value}
+  if(!S.edit&&!S.flagging){
     app.innerHTML=(S.view==='study'&&S.study?studyHTML():S.view==='browse'?browseHTML():homeHTML())+answerBarHTML();
     if(S.view==='study'&&S.study&&S.study.cur){
       const c=S.cards.get(S.study.cur), f=document.getElementById('face-front'), b=document.getElementById('face-back');
@@ -522,7 +566,7 @@ function doRender(){
     for(const id in keep){const el=document.getElementById(id);if(el){el.value=keep[id];el.focus()}}
     if(focus==='b-q'){const i=document.getElementById('b-q');if(i){i.focus();if(sel!=null)i.setSelectionRange(sel,sel)}}
   }
-  ov.innerHTML=editorHTML();
+  ov.innerHTML=editorHTML()||flagSheetHTML();
 }
 
 /* ---------- account and sync (website only) ---------- */
@@ -569,7 +613,17 @@ document.addEventListener('click',ev=>{
   const t=ev.target.closest('button,[data-close-scrim]'); if(!t)return;
   const d=t.dataset;
   if(d.closeScrim!==undefined&&ev.target!==t)return;
-  if(d.closeScrim!==undefined||d.close!==undefined){S.edit=null;S.confirmDel=false;render();return}
+  if(d.closeScrim!==undefined||d.close!==undefined){S.edit=null;S.flagging=null;S.confirmDel=false;render();return}
+  if(d.flag){S.edit=null;S.flagging=d.flag;render();setTimeout(()=>{const n=document.getElementById('f-note');if(n)n.focus()},50);return}
+  if(d.flagSave!==undefined){
+    const id=S.flagging,c=S.cards.get(id); if(!c){S.flagging=null;render();return}
+    const body={note:(document.getElementById('f-note').value||'').trim().slice(0,500),at:Date.now(),sig:cardSig(c)};
+    S.flags.set(id,body); queue('flags/'+id,'set',body); S.flagging=null;
+    if(S.study&&S.study.cur===id){S.study.cur=null;advance()}
+    toast('Card sinalizado. Ele sai do estudo até ser corrigido.'); render(); return}
+  if(d.unflag){S.flags.delete(d.unflag);queue('flags/'+d.unflag,'del');S.edit=null;toast('Sinal removido');render();return}
+  if(d.copyFlags!==undefined){copyField('flag-report');return}
+  if(d.restore){queue('cards/'+d.restore,'set',{__restored:true});toast('Card restaurado');render();return}
   if(d.tag){const off=S.filter.off;const i=off.indexOf(d.tag);if(i>=0)off.splice(i,1);else off.push(d.tag);saveFilter();if(S.study)S.study.cur=null;render();return}
   if(d.tagReset!==undefined){S.filter.off=[];saveFilter();render();return}
   if(d.acct){acctAction(d.acct);return}
@@ -583,8 +637,8 @@ document.addEventListener('click',ev=>{
   if(d.edit){S.edit={id:d.edit};S.confirmDel=false;render();return}
   if(d.newCard!==undefined){const ids=S.browse.deck?deckIdsUnder(S.browse.deck):[];S.edit={id:null,deck:ids[0]};render();return}
   if(d.saveSettings!==undefined){
-    const n=Math.max(0,Math.min(999,parseInt(document.getElementById('set-new').value,10)||0)), r=parseFloat(document.getElementById('set-ret').value)||0.9;
-    S.settings={...S.settings,newPerDay:n,retention:r}; const copy={...S.settings};
+    const n=Math.max(0,Math.min(999,parseInt(document.getElementById('set-new').value,10)||0)), r=parseFloat(document.getElementById('set-ret').value)||0.9, stp=document.getElementById('set-steps').value==='short'?'short':'errors';
+    S.settings={...S.settings,newPerDay:n,retention:r,steps:stp}; const copy={...S.settings};
     queue('config/settings','set',copy); toast('Ajustes salvos'); render(); return}
   if(d.save!==undefined){
     const e=S.edit, old=e.id?S.cards.get(e.id):null, now=Date.now();
@@ -609,7 +663,7 @@ document.addEventListener('change',ev=>{
   if(ev.target.id==='b-deck'){S.browse.deck=ev.target.value;render()}
 });
 document.addEventListener('keydown',ev=>{
-  if(S.edit){if(ev.key==='Escape'){S.edit=null;render()}return}
+  if(S.edit||S.flagging){if(ev.key==='Escape'){S.edit=null;S.flagging=null;render()}return}
   if(/INPUT|TEXTAREA|SELECT/.test(document.activeElement&&document.activeElement.tagName))return;
   if(S.view!=='study'||!S.study||!S.study.cur)return;
   if(!S.study.revealed&&(ev.key===' '||ev.key==='Enter')){ev.preventDefault();S.study.revealed=true;render();return}
@@ -659,7 +713,7 @@ function subscribeAll(){
     if(!snap.metadata.fromCache){if(!outbox.length)S.offline=false;S.ready.add(key);if(S.ready.size>=3){clearTimeout(S.bootTimer);S.stale=false}}
     render();
   },fail));
-  coll('decks','decks','decks'); coll('cards','cards','cards'); coll('reviews','revs','revs');
+  coll('decks','decks','decks'); coll('cards','cards','cards'); coll('reviews','revs','revs'); coll('flags','flags','flags');
   unsubs.push(db.doc('config/settings').onSnapshot(d=>{
     const pend=pendingFor('config/settings');
     if(pend&&pend.b)S.settings={...S.settings,...pend.b}; else if(d.exists)S.settings={...S.settings,...d.data()};
