@@ -66,7 +66,7 @@ srv.listen(0,async()=>{
     console.log('5. questions: multiple choice graded by the app');
     const qs=note.questions||[]; const mcs=qs.filter(q=>q.type==='mc');
     P.w.eval("S.view='notebook';render()"); await sleep(60);
-    ok(P.$('[data-quiz-all]')&&P.text().includes(String(qs.length)),'notebook shows '+qs.length+' pending questions');
+    ok(P.$('[data-quiz-all]')&&P.text().includes(qs.length+' questões pendentes'),'notebook shows '+qs.length+' pending questions for the note');
     await P.click(`[data-open-note="${nid}"]`); await P.click('[data-note-tab="questoes"]');
     await P.click(`[data-quiz-note="${nid}"]`);
     let z=P.S().quiz;
@@ -103,7 +103,7 @@ srv.listen(0,async()=>{
     await P.click('[data-quiz-back]');
     ok(P.S().view==='note'&&P.S().note.tab==='questoes','back returns to the note questions tab');
     ok(P.text().includes('%'),'objective scores show');
-    ok(!P.$('[data-quiz-all]')||P.w.eval('pendingCount(allQuestions())')===0,'no questions pending after the session');
+    ok(P.w.eval(`pendingCount(noteQuestions(${JSON.stringify(nid)}))`)===0,'no questions of this note pending after the session');
 
     console.log('7. deck study ignores notes');
     P.w.eval("S.view='home';render()"); await sleep(60);

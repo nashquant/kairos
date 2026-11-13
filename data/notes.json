@@ -19,7 +19,7 @@
    {
     "id": "embedding",
     "title": "2. Do token ao vetor",
-    "body": "- Texto → tokens (BPE) → ids inteiros.\n- Embedding = tabela $E$ com shape $(\\text{vocab}, d)$. Token de id $i$ → linha $i$ de $E$.\n- Frase com $n$ tokens → matriz $X$ com shape $(n, d)$. **Uma linha por token.**\n- Atenção sozinha não sabe a ordem: trocar dois tokens de lugar só troca as linhas da saída.\n- A posição entra por RoPE (gira $q$ e $k$ conforme a posição) ou por um vetor de posição somado a $X$.\n- Exemplo: \"o gato dormiu\" → $n = 3$. Simplificação: uma palavra = um token.",
+    "body": "- Texto → tokens (BPE) → ids inteiros.\n- Embedding = tabela $E$ com shape $(\\text{vocab}, d)$. Token de id $i$ → linha $i$ de $E$.\n- Ordem de grandeza: vocab 50 mil × $d = 768$ → 38,4 M de parâmetros só na tabela.\n- Frase com $n$ tokens → matriz $X$ com shape $(n, d)$. **Uma linha por token.**\n- Atenção sozinha não sabe a ordem: trocar dois tokens de lugar só troca as linhas da saída.\n- A posição entra por RoPE (gira $q$ e $k$ conforme a posição) ou por um vetor de posição somado a $X$.\n- Exemplo: \"o gato dormiu\" → $n = 3$. Simplificação: uma palavra = um token.",
     "obj": [
      "o4"
     ]
@@ -45,7 +45,7 @@
    {
     "id": "saida",
     "title": "5. Saída: média ponderada dos values",
-    "body": "- Saída do token $i$ = $\\sum_j \\text{peso}(i, j)\\, v_j$.\n- Tudo junto:\n$$\\text{Attention}(Q,K,V) = \\text{softmax}\\!\\left(\\frac{QK^\\top}{\\sqrt{d_k}}\\right)V$$\n- Shape da saída: $(n, d_v)$. Uma linha por token, como $X$.\n- Exemplo \"dormiu\", com os pesos da seção 4:\n  1. 0,25 × (1; 0) = (0,25; 0)\n  2. 0,25 × (0; 2) = (0; 0,50)\n  3. 0,50 × (1; 1) = (0,50; 0,50)\n  4. Soma: **(0,75; 1,00)**.\n- No modelo real há mais uma projeção $W_O$. Depois, a saída é **somada** ao $X$ de entrada: residual stream.\n- Residual: a camada escreve um incremento, não substitui o vetor. Isso mantém o gradiente vivo em pilhas profundas.",
+    "body": "- Saída do token $i$ = $\\sum_j \\text{peso}(i, j)\\, v_j$.\n- Tudo junto:\n$$\\text{Attention}(Q,K,V) = \\text{softmax}\\!\\left(\\frac{QK^\\top}{\\sqrt{d_k}}\\right)V$$\n- Shape da saída: $(n, d_v)$. Uma linha por token, como $X$.\n- Exemplo \"dormiu\", com os pesos da seção 4:\n  1. 0,25 × (1; 0) = (0,25; 0)\n  2. 0,25 × (0; 2) = (0; 0,50)\n  3. 0,50 × (1; 1) = (0,50; 0,50)\n  4. Soma: **(0,75; 1,00)**.\n- No modelo real há mais uma projeção $W_O$. Depois, a saída é **somada** ao $X$ de entrada: residual stream.\n- Residual: a camada escreve um incremento, não substitui o vetor. O resto do bloco está na nota \"O bloco e a geração\".",
     "obj": [
      "o2"
     ]
@@ -53,7 +53,7 @@
    {
     "id": "mascara",
     "title": "6. Máscara causal",
-    "body": "- Num decoder (GPT), o token $t$ não pode ver tokens depois de $t$. Sem isso, no treino, ele vê a resposta (o próximo token).\n- Antes do softmax: scores acima da diagonal = $-\\infty$ → peso 0.\n- Exemplo com máscara:\n  1. \"o\" só vê a si mesmo → peso 1 → saída $= v_o = (1, 0)$.\n  2. \"gato\" vê \"o\" e \"gato\": scores 0 e 0,71 → pesos 0,33 e 0,67 → saída $(0{,}33;\\ 1{,}34)$.\n  3. \"dormiu\" não muda: ele já é o último.\n- Sem máscara, \"o\" daria pesos 0,40; 0,20; 0,40. Ele olharia para \"dormiu\", que na geração ainda não existe.",
+    "body": "- Num decoder (GPT), o token $t$ não pode ver tokens depois de $t$. Sem isso, no treino, ele vê a resposta (o próximo token).\n- Antes do softmax: scores acima da diagonal = $-\\infty$ → peso 0.\n- Exemplo com máscara:\n  1. \"o\" só vê a si mesmo → peso 1 → saída $= v_o = (1, 0)$.\n  2. \"gato\" vê \"o\" e \"gato\": scores 0 e 0,71 → pesos 0,33 e 0,67 → saída $(0{,}33;\\ 1{,}34)$.\n  3. \"dormiu\" não muda: ele já é o último.\n- Matriz de pesos completa (linha = quem pergunta):\n$$\\begin{pmatrix}1&0&0\\\\0{,}33&0{,}67&0\\\\0{,}25&0{,}25&0{,}50\\end{pmatrix}$$\n- Triângulo de zeros acima da diagonal = máscara aplicada. É o primeiro teste de uma implementação.\n- Sem máscara, \"o\" daria pesos 0,40; 0,20; 0,40. Ele olharia para \"dormiu\", que na geração ainda não existe.",
     "obj": [
      "o2",
      "o5"
@@ -62,7 +62,7 @@
    {
     "id": "multihead",
     "title": "7. Várias cabeças",
-    "body": "- $h$ cabeças. Cada uma tem seus $W_Q, W_K, W_V$, em dimensão $d/h$.\n- Cada cabeça pode aprender uma relação diferente: sintaxe, correferência, posição.\n- As $h$ saídas são concatenadas → $W_O$ → voltam para dimensão $d$.\n- Custo total ≈ o de uma cabeça grande. O ganho é ter várias relações em paralelo.",
+    "body": "- $h$ cabeças. Cada uma tem seus $W_Q, W_K, W_V$, em dimensão $d/h$. Exemplo: $d = 768$, $h = 12$ → 64 por cabeça.\n- Cada cabeça pode aprender uma relação diferente: sintaxe, correferência, posição.\n- As $h$ saídas são concatenadas → $W_O$ → voltam para dimensão $d$.\n- Custo total ≈ o de uma cabeça grande. O ganho é ter várias relações em paralelo.",
     "obj": [
      "o4"
     ]
@@ -381,6 +381,390 @@
     "sec": "qkv",
     "stem": "Explique Q, K e V com a analogia de busca. Por que importa que $W_Q \\neq W_K$?",
     "answer": "Query é o que o token procura; key é o que ele oferece para ser encontrado; value é o conteúdo que ele passa adiante. Com $W_Q = W_K$, os scores ficam simétricos: $i$ busca $j$ tanto quanto $j$ busca $i$. Relações reais são assimétricas (o verbo busca o sujeito, não o contrário), então Q e K precisam de projeções diferentes."
+   }
+  ]
+ },
+ "llm-01-bloco-geracao": {
+  "deck": "llm-01-transformers",
+  "title": "O bloco e a geração: do vetor ao próximo token",
+  "order": 2,
+  "created": 1794600000001,
+  "verified": "2026-11-12",
+  "source": "Vaswani et al. 2017; GPT-2 (Radford et al. 2019); notas de aula",
+  "intro": "Continua a nota de atenção. O exemplo segue: depois de **\"o gato dormiu\"**, o modelo escolhe o próximo token num vocabulário de 4: *no*, *sofá*, *cedo*, *ponto*.\nModelo de referência para os números: GPT-2 small ($L = 12$ blocos, $d = 768$, 12 cabeças de dimensão 64).",
+  "objectives": [
+   {
+    "id": "o1",
+    "verb": "explicar",
+    "text": "o papel de cada parte do bloco: atenção, MLP, residual e norm"
+   },
+   {
+    "id": "o2",
+    "verb": "calcular",
+    "text": "probabilidades a partir de logits, com temperatura e top-p"
+   },
+   {
+    "id": "o3",
+    "verb": "calcular",
+    "text": "a loss e a perplexidade de uma previsão"
+   },
+   {
+    "id": "o4",
+    "verb": "explicar",
+    "text": "por que o KV cache funciona, e calcular o tamanho dele"
+   },
+   {
+    "id": "o5",
+    "verb": "diagnosticar",
+    "text": "comportamentos da geração: determinismo, prefill e decode"
+   }
+  ],
+  "sections": [
+   {
+    "id": "bloco",
+    "title": "1. O bloco: atenção + MLP",
+    "obj": [
+     "o1"
+    ],
+    "body": "- Um bloco = 2 subcamadas, nesta ordem:\n  1. **Atenção**: os tokens trocam informação.\n  2. **MLP**: cada token processa sozinho o que recebeu.\n- Cada subcamada tem a mesma moldura (pre-norm):\n$$x \\leftarrow x + f(\\text{norm}(x))$$\n- Ler assim: normaliza → calcula $f$ → **soma** ao que já estava.\n- Norm = LayerNorm ou RMSNorm. Ela controla a escala do vetor antes de cada subcamada.\n- No paper de 2017 a norm vinha depois da soma (post-norm). Os modelos atuais usam pre-norm: o caminho do residual fica livre, e pilhas profundas treinam melhor."
+   },
+   {
+    "id": "mlp",
+    "title": "2. O MLP",
+    "obj": [
+     "o1"
+    ],
+    "body": "- Duas camadas lineares com uma não linearidade no meio (GELU): $d \\to 4d \\to d$.\n- O mesmo MLP roda em **cada token, separado**. Ele não olha os vizinhos.\n- Sem o MLP, o modelo só faz médias ponderadas de values. A não linearidade é o que deixa o modelo calcular coisas novas.\n- Parâmetros (sem bias), com $d = 768$:\n  1. MLP: $2 \\times d \\times 4d = 8d^2$ ≈ 4,7 M.\n  2. Atenção: $W_Q, W_K, W_V, W_O$ = $4d^2$ ≈ 2,4 M.\n- O MLP tem cerca de **2/3** dos parâmetros do bloco."
+   },
+   {
+    "id": "residual",
+    "title": "3. Residual stream e a pilha",
+    "obj": [
+     "o1"
+    ],
+    "body": "- Residual stream = o vetor de cada token, shape $(n, d)$. A shape **não muda** do embedding até a última camada.\n- Cada subcamada lê o stream e **soma** um incremento. Ninguém substitui o vetor.\n- Por que isso importa: a soma dá ao gradiente um caminho direto da saída até a entrada. Sem residual, pilha profunda não treina.\n- Pilha: $L$ blocos iguais na forma, com pesos diferentes. GPT-2 small: $L = 12$.\n- Imagem mental: uma esteira. Cada bloco acrescenta algo ao que passa; no fim, o vetor do último token carrega a previsão."
+   },
+   {
+    "id": "logits",
+    "title": "4. Do vetor aos logits",
+    "obj": [
+     "o2"
+    ],
+    "body": "- No fim da pilha: norm final → unembedding.\n- Unembedding: vetor $(d)$ × matriz $W_U$ $(d, \\text{vocab})$ → **logits**, um número por token do vocabulário.\n- Softmax nos logits → probabilidades que somam 1.\n- Exemplo. Logits para (*no*, *sofá*, *cedo*, *ponto*) = (2; 1; 0; −1):\n  1. $e^x$: 7,39; 2,72; 1,00; 0,37. Soma = 11,48.\n  2. Probabilidades: **0,64; 0,24; 0,09; 0,03**.\n- Na geração, só o vetor do **último** token é usado.\n- No treino, **toda** posição prevê o seu próximo token: $n$ previsões num único passe. A máscara causal é o que permite isso."
+   },
+   {
+    "id": "amostragem",
+    "title": "5. Escolher o token: temperatura e top-p",
+    "obj": [
+     "o2",
+     "o5"
+    ],
+    "body": "- Temperatura $T$: divide os logits por $T$ **antes** do softmax.\n- Exemplo com os mesmos logits:\n  1. $T = 1$: 0,64; 0,24; 0,09; 0,03.\n  2. $T = 0{,}5$: 0,87; 0,12; 0,02; 0,00 → mais concentrado.\n  3. $T = 2$: 0,46; 0,28; 0,17; 0,10 → mais espalhado.\n- A ordem dos tokens nunca muda. Muda a distância entre eles.\n- $T \\to 0$ = greedy: sempre o token do topo.\n- Top-p: fica com o menor conjunto de tokens cuja soma chega a $p$, e renormaliza.\n- Exemplo, $p = 0{,}9$ e $T = 1$: soma acumulada 0,64 → 0,88 → 0,97. Dois tokens dão 0,88 < 0,9, então ficam **3**. O *ponto* sai.\n- $T = 0$ não garante saída idêntica: batching e kernels de GPU mudam somas de ponto flutuante, e um quase-empate pode virar."
+   },
+   {
+    "id": "treino",
+    "title": "6. Loss e perplexidade",
+    "obj": [
+     "o3"
+    ],
+    "body": "- Loss de uma posição = $-\\ln p(\\text{token correto})$. Só importa a probabilidade dada ao token certo.\n- Exemplo: se o correto é *no* ($p = 0{,}64$): $-\\ln 0{,}64 = 0{,}44$. Se é *sofá* ($p = 0{,}24$): 1,44.\n- Loss do modelo = média sobre todas as posições:\n$$L = -\\frac{1}{N}\\sum_t \\ln p(x_t \\mid x_{<t})$$\n- Perplexidade $= e^{L}$. Leitura: entre quantas opções igualmente prováveis o modelo está em dúvida.\n- Exemplo: $L = 0{,}44$ → 1,55. Chute uniforme entre os 4 tokens: $L = \\ln 4 = 1{,}39$ → perplexidade 4.\n- Perplexidade 1 = certeza total e correta. É o piso."
+   },
+   {
+    "id": "kvcache",
+    "title": "7. Geração e KV cache",
+    "obj": [
+     "o4",
+     "o5"
+    ],
+    "body": "- Gerar = um token por vez. Sem cache, cada passo recalcularia a sequência inteira.\n- Observação-chave: com máscara causal, um token antigo **nunca vê** os tokens novos. Então o $k$ e o $v$ dele não mudam mais.\n- KV cache: guarda $K$ e $V$ de todos os tokens passados, em toda camada. O token novo calcula só o seu $q, k, v$ e lê o cache.\n- Tamanho = 2 × camadas × cabeças × dim. da cabeça × tokens × bytes por valor. O 2 é K e V.\n- Exemplo, GPT-2 small, 1024 tokens, fp16: $2 \\times 12 \\times 12 \\times 64 \\times 1024 \\times 2$ bytes = **36 MiB** por sequência.\n- O cache cresce **linear** em $n$. Quem é quadrático é o cálculo da atenção.\n- GQA: várias cabeças de query dividem as mesmas cabeças de K e V. 32 de query sobre 8 de KV → cache 4× menor.\n- Duas fases:\n  1. **Prefill**: processa o prompt inteiro em paralelo e enche o cache. Limite: cálculo.\n  2. **Decode**: um token por vez; relê pesos e cache a cada passo. Limite: banda de memória."
+   },
+   {
+    "id": "armadilhas",
+    "title": "8. Onde eu me confundo",
+    "obj": [
+     "o5"
+    ],
+    "body": "- Atenção **mistura** tokens; MLP **processa** cada token. Trocar os dois papéis é o erro mais comum.\n- Logit não é probabilidade. Só depois do softmax os números somam 1.\n- Temperatura age nos logits, antes do softmax. Ela não muda a ordem dos tokens.\n- Top-p conta até **chegar** a $p$: 0,88 ainda não é 0,9.\n- A loss olha só o token correto. As outras probabilidades entram apenas por somarem 1 com ele.\n- Perplexidade é $e^{L}$, não $1/L$ nem a própria loss.\n- Pesos congelados não bastam para o KV cache valer. Num encoder bidirecional, um token novo mudaria os vetores dos antigos.\n- KV cache evita **recalcular** o passado. O token novo ainda lê todos os anteriores."
+   }
+  ],
+  "summary": "### Bloco\n$$x \\leftarrow x + f(\\text{norm}(x))$$\n- $f$ = atenção (mistura tokens), depois $f$ = MLP (processa cada token).\n- MLP: $d \\to 4d \\to d$, ≈ 2/3 dos parâmetros do bloco.\n- Residual stream: $(n, d)$ do início ao fim. Cada subcamada soma.\n### Saída\n- Norm final → $W_U$ $(d, \\text{vocab})$ → logits → softmax.\n- Temperatura: logits$/T$. $T<1$ concentra; $T>1$ espalha; $T \\to 0$ = greedy.\n- Top-p: menor conjunto com soma ≥ $p$.\n### Treino\n- Loss $= -\\ln p(\\text{correto})$, média nas posições. $n$ previsões por sequência.\n- Perplexidade $= e^{L}$. Uniforme em $k$ opções → $k$.\n### Geração\n- KV cache = 2 × camadas × cabeças × dim × tokens × bytes. Linear em $n$.\n- Vale por causa da máscara causal.\n- Prefill: paralelo, limite de cálculo. Decode: token a token, limite de banda de memória.",
+  "questions": [
+   {
+    "id": "llm-01-bloco-geracao-q01",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "logits",
+    "stem": "Vocabulário de 2 tokens, logits $(1;\\ 0)$, $T = 1$. Qual é a probabilidade do primeiro token?",
+    "options": [
+     {
+      "t": "0,73",
+      "ok": true,
+      "why": "$e^1 = 2{,}72$ e $e^0 = 1$. $2{,}72 / 3{,}72 = 0{,}73$."
+     },
+     {
+      "t": "0,50",
+      "ok": false,
+      "why": "Isso vale para logits iguais. Aqui o primeiro logit é maior."
+     },
+     {
+      "t": "1,00",
+      "ok": false,
+      "why": "Isso é greedy ($T \\to 0$). Com $T = 1$, o segundo token ainda tem 0,27."
+     },
+     {
+      "t": "0,27",
+      "ok": false,
+      "why": "Essa é a probabilidade do segundo token."
+     }
+    ]
+   },
+   {
+    "id": "llm-01-bloco-geracao-q02",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "amostragem",
+    "stem": "A temperatura sobe de 1 para 2. O que acontece com a distribuição?",
+    "options": [
+     {
+      "t": "Fica mais espalhada: o token do topo perde probabilidade, mas continua no topo.",
+      "ok": true,
+      "why": "Dividir os logits por 2 encolhe as diferenças entre eles. No exemplo da nota: 0,64 → 0,46."
+     },
+     {
+      "t": "Fica mais concentrada no token do topo.",
+      "ok": false,
+      "why": "Isso acontece com $T < 1$."
+     },
+     {
+      "t": "Não muda, porque a ordem dos tokens é a mesma.",
+      "ok": false,
+      "why": "A ordem é a mesma, mas as probabilidades mudam."
+     },
+     {
+      "t": "Vira uniforme.",
+      "ok": false,
+      "why": "Só no limite $T \\to \\infty$. Com $T = 2$ as diferenças diminuem, mas existem."
+     }
+    ]
+   },
+   {
+    "id": "llm-01-bloco-geracao-q03",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "amostragem",
+    "stem": "Probabilidades: 0,64; 0,24; 0,09; 0,03. Com top-p de 0,9, quantos tokens ficam?",
+    "options": [
+     {
+      "t": "3",
+      "ok": true,
+      "why": "Soma acumulada: 0,64 → 0,88 → 0,97. Só no terceiro token a soma chega a 0,9."
+     },
+     {
+      "t": "2",
+      "ok": false,
+      "why": "Dois tokens somam 0,88, que ainda é menor que 0,9."
+     },
+     {
+      "t": "1",
+      "ok": false,
+      "why": "O primeiro token sozinho tem 0,64."
+     },
+     {
+      "t": "4",
+      "ok": false,
+      "why": "Três tokens já somam 0,97. O quarto é a cauda que o top-p corta."
+     }
+    ]
+   },
+   {
+    "id": "llm-01-bloco-geracao-q04",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "treino",
+    "stem": "Em média, um modelo dá probabilidade 0,25 ao token correto. Qual é a perplexidade?",
+    "options": [
+     {
+      "t": "4",
+      "ok": true,
+      "why": "$L = -\\ln 0{,}25 = 1{,}39$ e $e^{1{,}39} = 4$. É como estar em dúvida entre 4 opções iguais."
+     },
+     {
+      "t": "1,39",
+      "ok": false,
+      "why": "Esse valor é a loss. A perplexidade é $e^{L}$."
+     },
+     {
+      "t": "0,25",
+      "ok": false,
+      "why": "Essa é a probabilidade. A perplexidade é o inverso dela, neste caso."
+     },
+     {
+      "t": "0,75",
+      "ok": false,
+      "why": "Isso é $1 - p$. A loss usa $-\\ln p$."
+     }
+    ]
+   },
+   {
+    "id": "llm-01-bloco-geracao-q05",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "kvcache",
+    "stem": "Por que o $K$ e o $V$ dos tokens passados podem ser guardados e reutilizados na geração?",
+    "options": [
+     {
+      "t": "Por causa da máscara causal: um token antigo não vê os novos, então o vetor dele não muda.",
+      "ok": true,
+      "why": "O $k$ e o $v$ de um token dependem só dele e dos anteriores. Tokens novos não alteram isso."
+     },
+     {
+      "t": "Porque os pesos do modelo estão congelados na inferência.",
+      "ok": false,
+      "why": "Isso é necessário, mas não basta. Num encoder bidirecional os pesos também estão congelados, e o cache não vale."
+     },
+     {
+      "t": "Porque a atenção é uma operação linear.",
+      "ok": false,
+      "why": "O softmax não é linear. E linearidade não é a razão."
+     },
+     {
+      "t": "Por causa das conexões residuais.",
+      "ok": false,
+      "why": "O residual ajuda o treino. Ele não torna os vetores antigos imutáveis."
+     }
+    ]
+   },
+   {
+    "id": "llm-01-bloco-geracao-q06",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "kvcache",
+    "stem": "O contexto dobra de 4k para 8k tokens. O que acontece com o tamanho do KV cache?",
+    "options": [
+     {
+      "t": "Dobra.",
+      "ok": true,
+      "why": "O cache guarda um $k$ e um $v$ por token, por cabeça e por camada. Ele é linear em $n$."
+     },
+     {
+      "t": "Quadruplica.",
+      "ok": false,
+      "why": "Quadrático é o cálculo da atenção completa, não o cache."
+     },
+     {
+      "t": "Não muda.",
+      "ok": false,
+      "why": "Cada token novo acrescenta os seus $k$ e $v$ em toda camada."
+     },
+     {
+      "t": "Depende do tamanho do vocabulário.",
+      "ok": false,
+      "why": "O vocabulário só afeta o embedding e o unembedding."
+     }
+    ]
+   },
+   {
+    "id": "llm-01-bloco-geracao-q07",
+    "type": "mc",
+    "obj": "o1",
+    "sec": "mlp",
+    "stem": "Você remove o MLP de todos os blocos. O que o modelo perde?",
+    "options": [
+     {
+      "t": "O processamento não linear de cada token. Sobram quase só médias ponderadas de values.",
+      "ok": true,
+      "why": "A atenção mistura informação entre tokens. Quem transforma essa informação, token a token, é o MLP."
+     },
+     {
+      "t": "A troca de informação entre tokens.",
+      "ok": false,
+      "why": "Isso é o papel da atenção, que continua lá."
+     },
+     {
+      "t": "A informação de ordem dos tokens.",
+      "ok": false,
+      "why": "A ordem entra pelo RoPE ou pelo vetor de posição, não pelo MLP."
+     },
+     {
+      "t": "O caminho do gradiente em pilhas profundas.",
+      "ok": false,
+      "why": "Isso é o papel do residual, que continua lá."
+     }
+    ]
+   },
+   {
+    "id": "llm-01-bloco-geracao-q08",
+    "type": "mc",
+    "obj": "o5",
+    "sec": "amostragem",
+    "stem": "Mesmo prompt, $T = 0$, e duas execuções dão textos diferentes. Qual é a causa mais provável?",
+    "options": [
+     {
+      "t": "Diferenças de ponto flutuante (batching, kernels de GPU) viraram um quase-empate entre dois tokens.",
+      "ok": true,
+      "why": "Greedy escolhe o maior logit. Se dois logits estão quase iguais, um erro de arredondamento troca o vencedor, e o texto diverge dali em diante."
+     },
+     {
+      "t": "O top-p sorteou tokens diferentes.",
+      "ok": false,
+      "why": "Com $T = 0$ a escolha é o token do topo. Não há sorteio."
+     },
+     {
+      "t": "O KV cache guardou valores antigos.",
+      "ok": false,
+      "why": "O cache é por requisição e guarda valores exatos daquela sequência."
+     },
+     {
+      "t": "A máscara causal mudou entre as execuções.",
+      "ok": false,
+      "why": "A máscara é fixa: depende só das posições."
+     }
+    ]
+   },
+   {
+    "id": "llm-01-bloco-geracao-q09",
+    "type": "mc",
+    "obj": "o5",
+    "sec": "kvcache",
+    "stem": "Uma requisição tem 8 mil tokens de prompt e gera 20 tokens. Onde está a maior parte do cálculo, e o que limita essa fase?",
+    "options": [
+     {
+      "t": "No prefill; o limite é cálculo.",
+      "ok": true,
+      "why": "O prefill passa 8 mil tokens pelo modelo, em paralelo. O decode passa só 20."
+     },
+     {
+      "t": "No decode; o limite é banda de memória.",
+      "ok": false,
+      "why": "O limite do decode é esse, mas aqui ele processa só 20 tokens."
+     },
+     {
+      "t": "No decode; o limite é cálculo.",
+      "ok": false,
+      "why": "O decode gera um token por vez e fica limitado por reler pesos e cache."
+     },
+     {
+      "t": "No prefill; o limite é banda de memória.",
+      "ok": false,
+      "why": "O prefill é paralelo e usa bem a GPU. O limite dele é cálculo."
+     }
+    ]
+   },
+   {
+    "id": "llm-01-bloco-geracao-q10",
+    "type": "open",
+    "obj": "o1",
+    "sec": "bloco",
+    "stem": "Escreva a atualização de uma subcamada pre-norm. Explique o que o residual resolve.",
+    "answer": "$x \\leftarrow x + f(\\text{norm}(x))$. A subcamada soma um incremento ao vetor, em vez de substituí-lo. A soma dá ao gradiente um caminho direto da saída até a entrada, e por isso pilhas profundas treinam. Com a norm dentro do ramo, esse caminho fica livre."
+   },
+   {
+    "id": "llm-01-bloco-geracao-q11",
+    "type": "open",
+    "obj": "o4",
+    "sec": "kvcache",
+    "stem": "Explique o KV cache: o que ele guarda, por que é válido num decoder, e quanto custa.",
+    "answer": "Ele guarda o $K$ e o $V$ de cada token passado, em toda camada e cabeça. É válido porque a máscara causal impede um token antigo de ver os novos, então esses vetores não mudam. O token novo calcula só o seu $q, k, v$. O custo é memória linear em $n$: 2 × camadas × cabeças × dim × tokens × bytes."
    }
   ]
  }

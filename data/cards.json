@@ -5033,44 +5033,44 @@
  },
  "llm-01-transformers-001": {
   "deck": "llm-01-transformers",
-  "front": "What does self-attention fix compared with an RNN?",
-  "back": "Every token reads every other token directly, in one step.\nNo sequential bottleneck: training runs in parallel over the sequence, and long-range links do not fade through many steps.",
+  "front": "Which two RNN problems does self-attention remove?",
+  "back": "1. Long-range links fade: information crosses many steps. With attention, every token reads every other token in one step.\n2. No parallel training: step $t$ waits for step $t-1$. With attention, all positions are computed at once.",
   "tags": [
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Vaswani et al. 2017",
   "created": 1794100000070,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-12",
   "note": "llm-01-atencao#problema"
  },
  "llm-01-transformers-002": {
   "deck": "llm-01-transformers",
-  "front": "Write scaled dot-product attention and give the intuition.",
-  "back": "$\\text{Attention}(Q,K,V) = \\text{softmax}\\!\\left(\\dfrac{QK^\\top}{\\sqrt{d_k}}\\right)V$.\nEach token scores every other token by query–key similarity, turns scores into weights, and takes the weighted average of values.",
+  "front": "Write scaled dot-product attention, and read it in one sentence.",
+  "back": "$\\text{Attention}(Q,K,V) = \\text{softmax}\\!\\left(\\dfrac{QK^\\top}{\\sqrt{d_k}}\\right)V$\nScore every token by query·key, turn each row of scores into weights, and average the values with those weights.",
   "tags": [
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Vaswani et al. 2017",
   "created": 1794100000071,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-12",
   "note": "llm-01-atencao#saida"
  },
  "llm-01-transformers-003": {
   "deck": "llm-01-transformers",
-  "front": "Roles of query, key and value.",
+  "front": "Attention: what are the query, the key and the value of a token?",
   "back": "**Query**: what this token looks for.\n**Key**: what a token offers for matching.\n**Value**: the content passed on when matched.",
   "tags": [
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Vaswani et al. 2017",
   "created": 1794100000072,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-12",
   "note": "llm-01-atencao#qkv"
  },
  "llm-01-transformers-004": {
@@ -5081,7 +5081,7 @@
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Vaswani et al. 2017",
   "created": 1794100000073,
   "suspended": false,
   "verified": "2026-11-05",
@@ -5089,30 +5089,30 @@
  },
  "llm-01-transformers-005": {
   "deck": "llm-01-transformers",
-  "front": "What is the causal mask?",
+  "front": "What is the causal mask, and how is it applied?",
   "back": "In a decoder, token $t$ must not see tokens after $t$.\nScores for future positions are set to $-\\infty$ before the softmax, so their weights are 0.",
   "tags": [
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Vaswani et al. 2017",
   "created": 1794100000074,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-12",
   "note": "llm-01-atencao#mascara"
  },
  "llm-01-transformers-006": {
   "deck": "llm-01-transformers",
   "front": "Why use multiple attention heads?",
-  "back": "Each head projects to a smaller subspace ($d/h$) and can learn a different relation (syntax, coreference, position).\nOutputs are concatenated and projected back to $d$.",
+  "back": "Each head works in a smaller subspace ($d/h$; e.g. $768/12 = 64$) and can learn a different relation (syntax, coreference, position).\nOutputs are concatenated and projected back to $d$. Total cost is about that of one big head.",
   "tags": [
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Vaswani et al. 2017",
   "created": 1794100000075,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-12",
   "note": "llm-01-atencao#multihead"
  },
  "llm-01-transformers-007": {
@@ -5123,7 +5123,7 @@
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Vaswani et al. 2017",
   "created": 1794100000076,
   "suspended": false,
   "verified": "2026-11-05",
@@ -5137,37 +5137,38 @@
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Dao et al. 2022 (FlashAttention)",
   "created": 1794100000077,
   "suspended": false,
   "verified": "2026-11-05"
  },
  "llm-01-transformers-009": {
   "deck": "llm-01-transformers",
-  "front": "Why does a transformer need positional information, and what does RoPE do?",
-  "back": "Attention alone ignores order (it is permutation-invariant).\nRoPE rotates queries and keys by position-dependent angles, so $q \\cdot k$ depends on the relative offset between tokens.",
+  "front": "Why does a transformer need positional information?",
+  "back": "Attention alone ignores order: shuffle the input tokens and you get the same outputs, shuffled.\nSo position must be injected, e.g. RoPE on $q$ and $k$, or a position vector added to the embeddings.",
   "tags": [
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Vaswani et al. 2017",
   "created": 1794100000078,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-12",
   "note": "llm-01-atencao#embedding"
  },
  "llm-01-transformers-010": {
   "deck": "llm-01-transformers",
-  "front": "What is inside one transformer block?",
-  "back": "1. Self-attention (tokens exchange information).\n2. MLP / feed-forward (per-token processing, hidden size ≈ 4d).\nEach has a residual connection and a normalization (pre-norm, often RMSNorm, in modern models).",
+  "front": "The two sublayers of a transformer block, and what each one does.",
+  "back": "1. **Self-attention**: tokens exchange information.\n2. **MLP**: each token is processed alone.\nEach one is wrapped as $x \\leftarrow x + f(\\text{norm}(x))$.",
   "tags": [
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Vaswani et al. 2017; pre-norm as in GPT-2",
   "created": 1794100000079,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-12",
+  "note": "llm-01-bloco-geracao#bloco"
  },
  "llm-01-transformers-011": {
   "deck": "llm-01-transformers",
@@ -5177,11 +5178,11 @@
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Elhage et al. 2021 (transformer circuits)",
   "created": 1794100000080,
   "suspended": false,
   "verified": "2026-11-05",
-  "note": "llm-01-atencao#saida"
+  "note": "llm-01-bloco-geracao#residual"
  },
  "llm-01-transformers-012": {
   "deck": "llm-01-transformers",
@@ -5191,7 +5192,7 @@
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Sennrich et al. 2016 (BPE); OpenAI tokenizer rule of thumb",
   "created": 1794100000081,
   "suspended": false,
   "verified": "2026-11-05",
@@ -5200,42 +5201,45 @@
  "llm-01-transformers-013": {
   "deck": "llm-01-transformers",
   "front": "How does a decoder turn the last hidden state into a next token?",
-  "back": "Unembedding: hidden state × output matrix → one logit per vocabulary token.\nSoftmax gives probabilities; a sampler picks the token.",
+  "back": "Final norm, then unembedding: hidden state $(d)$ × output matrix $(d, \\text{vocab})$ → one logit per vocabulary token.\nSoftmax gives probabilities; a sampler picks the token.",
   "tags": [
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Standard decoder-only LM practice",
   "created": 1794100000082,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-12",
+  "note": "llm-01-bloco-geracao#logits"
  },
  "llm-01-transformers-014": {
   "deck": "llm-01-transformers",
-  "front": "Training objective of a decoder LLM, and what perplexity means.",
-  "back": "Minimize cross-entropy of the next token: $L = -\\frac{1}{N}\\sum \\log p(x_t \\mid x_{<t})$.\nPerplexity $= e^{L}$: the effective number of equally likely choices per token.",
+  "front": "Training objective of a decoder LLM.",
+  "back": "Minimize the cross-entropy of the next token:\n$L = -\\frac{1}{N}\\sum_t \\ln p(x_t \\mid x_{<t})$\nPer position: minus the log of the probability given to the correct token.",
   "tags": [
    "llm",
    "transformers",
    "treino-llm"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Standard decoder-only LM practice",
   "created": 1794100000083,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-12",
+  "note": "llm-01-bloco-geracao#treino"
  },
  "llm-01-transformers-015": {
   "deck": "llm-01-transformers",
-  "front": "What is the KV cache?",
-  "back": "During generation, the keys and values of past tokens are stored, not recomputed.\nEach new token computes only its own Q, K, V and attends to the cache.",
+  "front": "What is the KV cache, and why is it valid in a decoder?",
+  "back": "During generation, the keys and values of past tokens are stored, not recomputed. Each new token computes only its own $q, k, v$ and attends to the cache.\nValid because of the causal mask: a past token never sees later tokens, so its $k$ and $v$ never change.",
   "tags": [
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Standard LLM inference practice",
   "created": 1794100000084,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-12",
+  "note": "llm-01-bloco-geracao#kvcache"
  },
  "llm-01-transformers-016": {
   "deck": "llm-01-transformers",
@@ -5245,10 +5249,11 @@
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Standard LLM inference practice",
   "created": 1794100000085,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-01-bloco-geracao#kvcache"
  },
  "llm-01-transformers-017": {
   "deck": "llm-01-transformers",
@@ -5258,36 +5263,39 @@
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Standard LLM inference practice",
   "created": 1794100000086,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-01-bloco-geracao#kvcache"
  },
  "llm-01-transformers-018": {
   "deck": "llm-01-transformers",
   "front": "What do multi-query and grouped-query attention (MQA, GQA) save?",
-  "back": "Several query heads share one set of K and V heads.\nThe KV cache shrinks by that factor, with a small quality cost.",
+  "back": "Several query heads share one set of K and V heads.\nThe KV cache shrinks by that factor (32 query heads on 8 KV heads → 4× smaller), with a small quality cost.",
   "tags": [
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Shazeer 2019 (MQA); Ainslie et al. 2023 (GQA)",
   "created": 1794100000087,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-12",
+  "note": "llm-01-bloco-geracao#kvcache"
  },
  "llm-01-transformers-019": {
   "deck": "llm-01-transformers",
   "front": "What does temperature do in sampling?",
-  "back": "Divides logits by $T$ before the softmax.\n$T < 1$ sharpens (more deterministic); $T > 1$ flattens (more diverse).",
+  "back": "Divides the logits by $T$ before the softmax.\n$T < 1$ sharpens (more deterministic); $T > 1$ flattens (more diverse). $T \\to 0$ is greedy: always the top token.",
   "tags": [
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Standard LLM inference practice",
   "created": 1794100000088,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-12",
+  "note": "llm-01-bloco-geracao#amostragem"
  },
  "llm-01-transformers-020": {
   "deck": "llm-01-transformers",
@@ -5297,10 +5305,11 @@
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Holtzman et al. 2020 (nucleus sampling)",
   "created": 1794100000089,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-01-bloco-geracao#amostragem"
  },
  "llm-01-transformers-021": {
   "deck": "llm-01-transformers",
@@ -5310,10 +5319,11 @@
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Standard LLM inference practice",
   "created": 1794100000090,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-01-bloco-geracao#amostragem"
  },
  "llm-01-transformers-022": {
   "deck": "llm-01-transformers",
@@ -5323,7 +5333,7 @@
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Shazeer et al. 2017 (sparsely-gated MoE)",
   "created": 1794100000091,
   "suspended": false,
   "verified": "2026-11-05"
@@ -5336,7 +5346,7 @@
    "llm",
    "transformers"
   ],
-  "source": "Vaswani et al. 2017; standard LLM practice",
+  "source": "Vaswani et al. 2017; Devlin et al. 2019 (BERT); Raffel et al. 2020 (T5)",
   "created": 1794100000092,
   "suspended": false,
   "verified": "2026-11-05"
@@ -8065,5 +8075,133 @@
   "created": 1794300000003,
   "suspended": false,
   "verified": "2026-11-05"
+ },
+ "llm-01-transformers-025": {
+  "deck": "llm-01-transformers",
+  "front": "What does RoPE do?",
+  "back": "It rotates queries and keys by angles that depend on position.\nThen $q \\cdot k$ depends on the **relative** offset between two tokens, not on their absolute positions.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Su et al. 2021 (RoFormer)",
+  "created": 1794300001003,
+  "suspended": false,
+  "verified": "2026-11-12",
+  "note": "llm-01-atencao#embedding"
+ },
+ "llm-01-transformers-026": {
+  "deck": "llm-01-transformers",
+  "front": "Pre-norm block: where does the normalization sit, and why?",
+  "back": "Inside the branch: $x \\leftarrow x + f(\\text{norm}(x))$.\nThe residual path stays a clean identity from input to output, which keeps deep stacks trainable. (The 2017 paper normalized after the sum.)",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017; pre-norm as in GPT-2",
+  "created": 1794300001004,
+  "suspended": false,
+  "verified": "2026-11-12",
+  "note": "llm-01-bloco-geracao#bloco"
+ },
+ "llm-01-transformers-027": {
+  "deck": "llm-01-transformers",
+  "front": "Transformer MLP: shape, and its share of a block's parameters.",
+  "back": "$d \\to 4d \\to d$ with a nonlinearity in the middle.\nAbout $8d^2$ parameters, against $4d^2$ for attention: roughly **2/3** of the block.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017",
+  "created": 1794300001005,
+  "suspended": false,
+  "verified": "2026-11-12",
+  "note": "llm-01-bloco-geracao#mlp"
+ },
+ "llm-01-transformers-028": {
+  "deck": "llm-01-transformers",
+  "front": "What is perplexity? Give it for a model that puts $p = 0{.}25$ on each correct token.",
+  "back": "Perplexity $= e^{L}$: the effective number of equally likely choices per token.\n$L = -\\ln 0{.}25 = 1{.}39$, so perplexity $= 4$.",
+  "tags": [
+   "llm",
+   "transformers",
+   "treino-llm"
+  ],
+  "source": "Standard decoder-only LM practice",
+  "created": 1794300001006,
+  "suspended": false,
+  "verified": "2026-11-12",
+  "note": "llm-01-bloco-geracao#treino"
+ },
+ "llm-01-transformers-029": {
+  "deck": "llm-01-transformers",
+  "front": "Embedding table: its shape, and what a sentence of $n$ tokens becomes.",
+  "back": "$E$: $(\\text{vocab}, d)$. Token id $i$ picks row $i$.\nThe sentence becomes $X$: $(n, d)$, one row per token.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017",
+  "created": 1794300001007,
+  "suspended": false,
+  "verified": "2026-11-12",
+  "note": "llm-01-atencao#embedding"
+ },
+ "llm-01-transformers-030": {
+  "deck": "llm-01-transformers",
+  "front": "For $n$ tokens: shape of $QK^\\top$ and of the attention output.",
+  "back": "$QK^\\top$: $(n, n)$ per head. Row = the token that asks; column = the token that is read.\nOutput: $(n, d_v)$, one row per token.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017",
+  "created": 1794300001008,
+  "suspended": false,
+  "verified": "2026-11-12",
+  "note": "llm-01-atencao#scores"
+ },
+ "llm-01-transformers-031": {
+  "deck": "llm-01-transformers",
+  "front": "Attention softmax: over which axis, and what sums to 1?",
+  "back": "Over each **row** of the score matrix.\nFor each token that asks, its weights over the tokens it reads sum to 1.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017",
+  "created": 1794300001009,
+  "suspended": false,
+  "verified": "2026-11-12",
+  "note": "llm-01-atencao#armadilhas"
+ },
+ "llm-01-transformers-032": {
+  "deck": "llm-01-transformers",
+  "front": "With a causal mask, what is the attention output of the first token?",
+  "back": "Its own value, $v_1$.\nIt sees only itself, and the softmax of a single score gives weight 1.",
+  "tags": [
+   "llm",
+   "transformers"
+  ],
+  "source": "Vaswani et al. 2017",
+  "created": 1794300001010,
+  "suspended": false,
+  "verified": "2026-11-12",
+  "note": "llm-01-atencao#mascara"
+ },
+ "llm-01-transformers-033": {
+  "deck": "llm-01-transformers",
+  "front": "In training, how many next-token predictions does one sequence of $n$ tokens give, and why?",
+  "back": "$n$: one per position, in a single forward pass.\nThe causal mask stops each position from seeing its own answer, so all positions train at once.",
+  "tags": [
+   "llm",
+   "transformers",
+   "treino-llm"
+  ],
+  "source": "Standard decoder-only LM practice",
+  "created": 1794300001011,
+  "suspended": false,
+  "verified": "2026-11-12",
+  "note": "llm-01-bloco-geracao#logits"
  }
 }
