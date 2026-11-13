@@ -5042,7 +5042,8 @@
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000070,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-01-atencao#problema"
  },
  "llm-01-transformers-002": {
   "deck": "llm-01-transformers",
@@ -5055,7 +5056,8 @@
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000071,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-01-atencao#saida"
  },
  "llm-01-transformers-003": {
   "deck": "llm-01-transformers",
@@ -5068,7 +5070,8 @@
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000072,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-01-atencao#qkv"
  },
  "llm-01-transformers-004": {
   "deck": "llm-01-transformers",
@@ -5081,7 +5084,8 @@
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000073,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-01-atencao#scores"
  },
  "llm-01-transformers-005": {
   "deck": "llm-01-transformers",
@@ -5094,7 +5098,8 @@
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000074,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-01-atencao#mascara"
  },
  "llm-01-transformers-006": {
   "deck": "llm-01-transformers",
@@ -5107,7 +5112,8 @@
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000075,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-01-atencao#multihead"
  },
  "llm-01-transformers-007": {
   "deck": "llm-01-transformers",
@@ -5120,7 +5126,8 @@
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000076,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-01-atencao#scores"
  },
  "llm-01-transformers-008": {
   "deck": "llm-01-transformers",
@@ -5146,7 +5153,8 @@
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000078,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-01-atencao#embedding"
  },
  "llm-01-transformers-010": {
   "deck": "llm-01-transformers",
@@ -5172,7 +5180,8 @@
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000080,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-01-atencao#saida"
  },
  "llm-01-transformers-012": {
   "deck": "llm-01-transformers",
@@ -5185,7 +5194,8 @@
   "source": "Vaswani et al. 2017; standard LLM practice",
   "created": 1794100000081,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-01-atencao#embedding"
  },
  "llm-01-transformers-013": {
   "deck": "llm-01-transformers",

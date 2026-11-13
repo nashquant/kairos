@@ -1,0 +1,387 @@
+{
+ "llm-01-atencao": {
+  "deck": "llm-01-transformers",
+  "title": "Atenção: do token ao vetor de saída",
+  "order": 1,
+  "created": 1794600000000,
+  "verified": "2026-11-12",
+  "source": "Vaswani et al. 2017, Attention Is All You Need; notas de aula",
+  "intro": "Notas de aluno, não livro. Um exemplo segue até o fim: a frase **\"o gato dormiu\"**, com 3 tokens e $d_k = d_v = 2$.\nOrdem: leia a nota → faça as questões → as que você errar viram cartas.",
+  "sections": [
+   {
+    "id": "problema",
+    "title": "1. Por que atenção existe",
+    "body": "- RNN lê um token por vez. A informação do token 1 chega ao token 50 depois de 49 passos → ela enfraquece no caminho.\n- RNN também não paraleliza: o passo $t$ espera o passo $t-1$.\n- Atenção: cada token lê **todos** os outros direto, em um passo.\n- Ganho: treino em paralelo na sequência inteira, e ligação longa sem perda.\n- Custo: todo token compara com todo token → $n^2$ comparações (seção 4).",
+    "obj": [
+     "o1"
+    ]
+   },
+   {
+    "id": "embedding",
+    "title": "2. Do token ao vetor",
+    "body": "- Texto → tokens (BPE) → ids inteiros.\n- Embedding = tabela $E$ com shape $(\\text{vocab}, d)$. Token de id $i$ → linha $i$ de $E$.\n- Frase com $n$ tokens → matriz $X$ com shape $(n, d)$. **Uma linha por token.**\n- Atenção sozinha não sabe a ordem: trocar dois tokens de lugar só troca as linhas da saída.\n- A posição entra por RoPE (gira $q$ e $k$ conforme a posição) ou por um vetor de posição somado a $X$.\n- Exemplo: \"o gato dormiu\" → $n = 3$. Simplificação: uma palavra = um token.",
+    "obj": [
+     "o4"
+    ]
+   },
+   {
+    "id": "qkv",
+    "title": "3. Q, K e V",
+    "body": "- Cada token gera 3 vetores por projeção linear:\n$$Q = XW_Q,\\quad K = XW_K,\\quad V = XW_V$$\n- $W_Q, W_K$: shape $(d, d_k)$. $W_V$: shape $(d, d_v)$. Os pesos são aprendidos.\n- **Query**: o que este token procura.\n- **Key**: o que este token oferece para ser encontrado.\n- **Value**: o conteúdo que este token passa adiante.\n- Analogia de busca: query = o que você digita; key = título do documento; value = texto do documento.\n- Exemplo. Suponha que as projeções deram (linhas = o, gato, dormiu):\n$$Q = K = \\begin{pmatrix}1&0\\\\0&1\\\\1&1\\end{pmatrix},\\qquad V = \\begin{pmatrix}1&0\\\\0&2\\\\1&1\\end{pmatrix}$$\n- $Q = K$ só simplifica a conta. Num modelo real, $W_Q \\neq W_K$.",
+    "obj": [
+     "o3"
+    ]
+   },
+   {
+    "id": "scores",
+    "title": "4. Scores, escala e softmax",
+    "body": "- Score $(i, j) = q_i \\cdot k_j$: quanto o token $i$ procura o token $j$.\n- Todos de uma vez: $QK^\\top$, shape $(n, n)$. Daí o custo $O(n^2 d)$: dobrar o contexto ≈ 4× o custo da atenção.\n- Dividir por $\\sqrt{d_k}$. Motivo: com entradas de variância 1, $q \\cdot k$ tem variância $d_k$. Score grande → softmax satura (um peso ≈ 1, gradiente ≈ 0).\n- Softmax **por linha** → cada linha vira pesos que somam 1.\n- Exemplo, linha de \"dormiu\": $q = (1, 1)$.\n  1. $q \\cdot k$ = 1; 1; 2.\n  2. Dividir por $\\sqrt{2}$: 0,71; 0,71; 1,41.\n  3. $e^x$: 2,03; 2,03; 4,11. Soma = 8,17.\n  4. Pesos: **0,25; 0,25; 0,50**.\n- Leitura: \"dormiu\" dá metade da atenção a si mesmo e um quarto a cada palavra anterior.",
+    "obj": [
+     "o2",
+     "o3",
+     "o4"
+    ]
+   },
+   {
+    "id": "saida",
+    "title": "5. Saída: média ponderada dos values",
+    "body": "- Saída do token $i$ = $\\sum_j \\text{peso}(i, j)\\, v_j$.\n- Tudo junto:\n$$\\text{Attention}(Q,K,V) = \\text{softmax}\\!\\left(\\frac{QK^\\top}{\\sqrt{d_k}}\\right)V$$\n- Shape da saída: $(n, d_v)$. Uma linha por token, como $X$.\n- Exemplo \"dormiu\", com os pesos da seção 4:\n  1. 0,25 × (1; 0) = (0,25; 0)\n  2. 0,25 × (0; 2) = (0; 0,50)\n  3. 0,50 × (1; 1) = (0,50; 0,50)\n  4. Soma: **(0,75; 1,00)**.\n- No modelo real há mais uma projeção $W_O$. Depois, a saída é **somada** ao $X$ de entrada: residual stream.\n- Residual: a camada escreve um incremento, não substitui o vetor. Isso mantém o gradiente vivo em pilhas profundas.",
+    "obj": [
+     "o2"
+    ]
+   },
+   {
+    "id": "mascara",
+    "title": "6. Máscara causal",
+    "body": "- Num decoder (GPT), o token $t$ não pode ver tokens depois de $t$. Sem isso, no treino, ele vê a resposta (o próximo token).\n- Antes do softmax: scores acima da diagonal = $-\\infty$ → peso 0.\n- Exemplo com máscara:\n  1. \"o\" só vê a si mesmo → peso 1 → saída $= v_o = (1, 0)$.\n  2. \"gato\" vê \"o\" e \"gato\": scores 0 e 0,71 → pesos 0,33 e 0,67 → saída $(0{,}33;\\ 1{,}34)$.\n  3. \"dormiu\" não muda: ele já é o último.\n- Sem máscara, \"o\" daria pesos 0,40; 0,20; 0,40. Ele olharia para \"dormiu\", que na geração ainda não existe.",
+    "obj": [
+     "o2",
+     "o5"
+    ]
+   },
+   {
+    "id": "multihead",
+    "title": "7. Várias cabeças",
+    "body": "- $h$ cabeças. Cada uma tem seus $W_Q, W_K, W_V$, em dimensão $d/h$.\n- Cada cabeça pode aprender uma relação diferente: sintaxe, correferência, posição.\n- As $h$ saídas são concatenadas → $W_O$ → voltam para dimensão $d$.\n- Custo total ≈ o de uma cabeça grande. O ganho é ter várias relações em paralelo.",
+    "obj": [
+     "o4"
+    ]
+   },
+   {
+    "id": "armadilhas",
+    "title": "8. Onde eu me confundo",
+    "body": "- Linha = token que **pergunta**. O score de $i$ para $j$ é $q_i \\cdot k_j$, não $q_j \\cdot k_i$.\n- O peso é **relativo**, por linha. Ele diz \"quanto, comparado aos outros tokens\", não \"quanto importa em absoluto\".\n- Softmax é por linha (por token que pergunta), não sobre a matriz inteira.\n- $\\sqrt{d_k}$ não normaliza o resultado. Ele mantém o softmax fora da saturação.\n- A saída é linear nos values: atenção **mistura** informação entre tokens. O processamento de cada token fica no MLP do bloco.\n- O custo $n^2$ vem da matriz de scores $(n \\times n)$, em cada cabeça e em cada camada.\n- $QK^\\top$ só é simétrica quando $W_Q = W_K$, como no exemplo. No modelo real ela não é.\n- Memória da matriz de scores: $n^2 \\times$ bytes por valor, por cabeça. FlashAttention não guarda essa matriz.",
+    "obj": [
+     "o5"
+    ]
+   }
+  ],
+  "objectives": [
+   {
+    "id": "o1",
+    "verb": "explicar",
+    "text": "por que a atenção substituiu a recorrência, e o custo que ela trouxe"
+   },
+   {
+    "id": "o2",
+    "verb": "calcular",
+    "text": "os pesos e a saída da atenção de um token, com e sem máscara causal"
+   },
+   {
+    "id": "o3",
+    "verb": "explicar",
+    "text": "o papel de Q, K, V e da escala $\\sqrt{d_k}$"
+   },
+   {
+    "id": "o4",
+    "verb": "calcular",
+    "text": "shapes, custo e memória da atenção para $n$ tokens"
+   },
+   {
+    "id": "o5",
+    "verb": "diagnosticar",
+    "text": "erros comuns numa implementação de atenção"
+   }
+  ],
+  "summary": "### Fórmula\n$$\\text{softmax}\\!\\left(\\frac{QK^\\top}{\\sqrt{d_k}}\\right)V$$\n### Shapes ($n$ tokens)\n- $X$: $(n, d)$ · $Q, K$: $(n, d_k)$ · $V$: $(n, d_v)$\n- $QK^\\top$: $(n, n)$ por cabeça · saída: $(n, d_v)$\n### Regras\n- Linha = token que pergunta. Softmax por linha: cada linha soma 1.\n- Score de $i$ para $j$: $q_i \\cdot k_j$.\n- $\\sqrt{d_k}$: mantém a variância do score ≈ 1 e evita saturar o softmax.\n- Máscara causal: $-\\infty$ acima da diagonal → peso 0. O 1º token só vê a si mesmo.\n- Saída = média dos values, ponderada pelos pesos.\n- Custo $O(n^2 d)$: contexto 2× → atenção ≈ 4×.\n- Memória dos scores: $n^2 \\times$ bytes, por cabeça.\n- Atenção mistura tokens. O MLP processa cada token.",
+  "questions": [
+   {
+    "id": "llm-01-atencao-q01",
+    "type": "mc",
+    "obj": "o5",
+    "sec": "mascara",
+    "stem": "Num decoder, o token 2 de uma frase de 3 tokens recebe os pesos $(0{,}25;\\ 0{,}35;\\ 0{,}40)$. O que está errado?",
+    "options": [
+     {
+      "t": "A máscara causal não foi aplicada.",
+      "ok": true,
+      "why": "O token 3 é futuro para o token 2. Com a máscara, o score dele vira $-\\infty$ e o peso vira 0."
+     },
+     {
+      "t": "Faltou dividir os scores por $\\sqrt{d_k}$.",
+      "ok": false,
+      "why": "A escala muda o quão concentrados ficam os pesos. Ela não dá peso a um token proibido."
+     },
+     {
+      "t": "O softmax foi aplicado no eixo errado.",
+      "ok": false,
+      "why": "A linha soma 1. Então o softmax foi aplicado na linha, que é o eixo certo."
+     },
+     {
+      "t": "Nada: os pesos somam 1.",
+      "ok": false,
+      "why": "Somar 1 é necessário, mas não basta. O token 3 deveria ter peso 0."
+     }
+    ]
+   },
+   {
+    "id": "llm-01-atencao-q02",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "saida",
+    "stem": "Um token vê só dois tokens, e os dois scores são iguais. Os values são $v_1 = (2, 0)$ e $v_2 = (0, 4)$. Qual é a saída da atenção?",
+    "options": [
+     {
+      "t": "$(1, 2)$",
+      "ok": true,
+      "why": "Scores iguais → softmax dá 0,5 e 0,5. Saída: $0{,}5 \\cdot (2,0) + 0{,}5 \\cdot (0,4) = (1, 2)$."
+     },
+     {
+      "t": "$(2, 4)$",
+      "ok": false,
+      "why": "Isso é a soma dos values sem os pesos. A saída é uma média ponderada."
+     },
+     {
+      "t": "$(0{,}5;\\ 0{,}5)$",
+      "ok": false,
+      "why": "Esses são os pesos. A saída é a média dos values, ponderada por esses pesos."
+     },
+     {
+      "t": "$(0, 4)$",
+      "ok": false,
+      "why": "Isso seria pegar só o value de maior norma. Com scores iguais, os dois values contam igual."
+     }
+    ]
+   },
+   {
+    "id": "llm-01-atencao-q03",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "scores",
+    "stem": "Por que a atenção divide os scores por $\\sqrt{d_k}$?",
+    "options": [
+     {
+      "t": "Para manter a variância do score perto de 1, e o softmax fora da saturação.",
+      "ok": true,
+      "why": "Com entradas de variância 1, $q \\cdot k$ tem variância $d_k$. Score grande → um peso ≈ 1 e gradiente ≈ 0."
+     },
+     {
+      "t": "Para os pesos de cada linha somarem 1.",
+      "ok": false,
+      "why": "Quem faz cada linha somar 1 é o softmax, com ou sem escala."
+     },
+     {
+      "t": "Para normalizar o tamanho do vetor de saída.",
+      "ok": false,
+      "why": "A escala age nos scores, antes do softmax. Ela não normaliza a saída."
+     },
+     {
+      "t": "Para reduzir o custo $n^2$.",
+      "ok": false,
+      "why": "Dividir por uma constante não muda o número de operações."
+     }
+    ]
+   },
+   {
+    "id": "llm-01-atencao-q04",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "scores",
+    "stem": "Uma cabeça de atenção, $n = 4096$ tokens, valores em fp16. Quanta memória ocupa a matriz de scores, se ela for guardada inteira?",
+    "options": [
+     {
+      "t": "32 MiB",
+      "ok": true,
+      "why": "$4096^2 \\approx 16{,}8$ milhões de valores × 2 bytes ≈ 32 MiB. E isso é por cabeça e por camada."
+     },
+     {
+      "t": "16 MiB",
+      "ok": false,
+      "why": "Isso conta 1 byte por valor. fp16 usa 2 bytes."
+     },
+     {
+      "t": "64 MiB",
+      "ok": false,
+      "why": "Isso conta 4 bytes por valor, como em fp32."
+     },
+     {
+      "t": "8 KiB",
+      "ok": false,
+      "why": "Isso é $n \\times 2$ bytes: memória linear. A matriz de scores tem $n^2$ valores."
+     }
+    ]
+   },
+   {
+    "id": "llm-01-atencao-q05",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "scores",
+    "stem": "O contexto passa de 4k para 8k tokens. Quanto cresce o custo da atenção completa?",
+    "options": [
+     {
+      "t": "Cerca de 4×",
+      "ok": true,
+      "why": "O custo é $O(n^2 d)$. Com $n$ em 2×, o custo vai a $2^2 = 4$×."
+     },
+     {
+      "t": "Cerca de 2×",
+      "ok": false,
+      "why": "Isso vale para as partes lineares em $n$, como o MLP. A atenção é quadrática."
+     },
+     {
+      "t": "Cerca de 8×",
+      "ok": false,
+      "why": "Isso seria um custo cúbico. A atenção é quadrática em $n$."
+     },
+     {
+      "t": "Não cresce, por causa do KV cache.",
+      "ok": false,
+      "why": "O KV cache evita recalcular K e V na geração. Ele não remove a comparação de todos com todos."
+     }
+    ]
+   },
+   {
+    "id": "llm-01-atencao-q06",
+    "type": "mc",
+    "obj": "o5",
+    "sec": "armadilhas",
+    "stem": "Um código aplica o softmax nas **colunas** de $QK^\\top$, e não nas linhas. Qual é o sintoma?",
+    "options": [
+     {
+      "t": "As linhas deixam de somar 1. As colunas passam a somar 1.",
+      "ok": true,
+      "why": "Cada token que pergunta deveria ter pesos somando 1. Com o eixo trocado, quem soma 1 é cada token perguntado."
+     },
+     {
+      "t": "Nada muda, porque $QK^\\top$ é sempre simétrica.",
+      "ok": false,
+      "why": "$QK^\\top$ só é simétrica quando $W_Q = W_K$, como no exemplo da nota. No modelo real ela não é."
+     },
+     {
+      "t": "Todos os pesos viram $1/n$.",
+      "ok": false,
+      "why": "Os pesos continuam dependendo dos scores. Só o eixo da normalização muda."
+     },
+     {
+      "t": "As posições mascaradas ganham peso.",
+      "ok": false,
+      "why": "$e^{-\\infty} = 0$ em qualquer eixo. A máscara continua valendo."
+     }
+    ]
+   },
+   {
+    "id": "llm-01-atencao-q07",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "qkv",
+    "stem": "Você quer saber quanto o token \"dormiu\" vai buscar informação no token \"gato\". Qual produto decide isso?",
+    "options": [
+     {
+      "t": "$q_{\\text{dormiu}} \\cdot k_{\\text{gato}}$",
+      "ok": true,
+      "why": "Quem pergunta usa a query; quem é encontrado usa a key. Linha \"dormiu\", coluna \"gato\"."
+     },
+     {
+      "t": "$q_{\\text{gato}} \\cdot k_{\\text{dormiu}}$",
+      "ok": false,
+      "why": "Esse é o sentido inverso: quanto \"gato\" busca em \"dormiu\". Num decoder, esse peso é até mascarado."
+     },
+     {
+      "t": "$v_{\\text{dormiu}} \\cdot v_{\\text{gato}}$",
+      "ok": false,
+      "why": "Os values não entram no score. Eles só entram na média, depois do softmax."
+     },
+     {
+      "t": "$k_{\\text{dormiu}} \\cdot k_{\\text{gato}}$",
+      "ok": false,
+      "why": "Duas keys não formam um score. O score é sempre query · key."
+     }
+    ]
+   },
+   {
+    "id": "llm-01-atencao-q08",
+    "type": "mc",
+    "obj": "o1",
+    "sec": "problema",
+    "stem": "Por que um transformer treina em paralelo ao longo da sequência, e uma RNN não?",
+    "options": [
+     {
+      "t": "Cada posição é calculada a partir da camada anterior, para todos os tokens de uma vez. Não há estado que passa de $t-1$ para $t$.",
+      "ok": true,
+      "why": "Na RNN, o passo $t$ espera o estado oculto do passo $t-1$. Na atenção, todas as linhas de $QK^\\top$ saem de uma multiplicação de matrizes."
+     },
+     {
+      "t": "Porque a atenção custa menos do que a RNN.",
+      "ok": false,
+      "why": "Ela custa mais: $O(n^2 d)$. O ganho é paralelismo, não custo."
+     },
+     {
+      "t": "Porque a máscara causal remove as dependências entre tokens.",
+      "ok": false,
+      "why": "A máscara só impede olhar o futuro. Ela não cria paralelismo."
+     },
+     {
+      "t": "Porque o transformer tem menos parâmetros.",
+      "ok": false,
+      "why": "O número de parâmetros não define se o cálculo é sequencial."
+     }
+    ]
+   },
+   {
+    "id": "llm-01-atencao-q09",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "mascara",
+    "stem": "Com máscara causal, qual é sempre a saída da atenção para o **primeiro** token?",
+    "options": [
+     {
+      "t": "O value dele mesmo, $v_1$.",
+      "ok": true,
+      "why": "Ele só vê a si mesmo. O softmax de um único score dá peso 1, então a saída é $v_1$."
+     },
+     {
+      "t": "O vetor zero.",
+      "ok": false,
+      "why": "O peso dele sobre si mesmo é 1, não 0."
+     },
+     {
+      "t": "A média de todos os values.",
+      "ok": false,
+      "why": "Isso seria a atenção sem máscara e com scores iguais."
+     },
+     {
+      "t": "A query dele, $q_1$.",
+      "ok": false,
+      "why": "A saída é uma combinação de values. A query só entra no score."
+     }
+    ]
+   },
+   {
+    "id": "llm-01-atencao-q10",
+    "type": "open",
+    "obj": "o1",
+    "sec": "problema",
+    "stem": "Em até 3 frases: que problema da RNN a atenção resolveu, e que custo novo ela trouxe?",
+    "answer": "A RNN passa a informação token a token: ligações longas enfraquecem e o treino não paraleliza. A atenção liga cada token a todos os outros em um passo e treina em paralelo. O custo novo é quadrático em $n$: tempo $O(n^2 d)$ e uma matriz de scores $n \\times n$ por cabeça."
+   },
+   {
+    "id": "llm-01-atencao-q11",
+    "type": "open",
+    "obj": "o3",
+    "sec": "qkv",
+    "stem": "Explique Q, K e V com a analogia de busca. Por que importa que $W_Q \\neq W_K$?",
+    "answer": "Query é o que o token procura; key é o que ele oferece para ser encontrado; value é o conteúdo que ele passa adiante. Com $W_Q = W_K$, os scores ficam simétricos: $i$ busca $j$ tanto quanto $j$ busca $i$. Relações reais são assimétricas (o verbo busca o sujeito, não o contrário), então Q e K precisam de projeções diferentes."
+   }
+  ]
+ }
+}

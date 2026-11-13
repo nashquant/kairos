@@ -137,6 +137,52 @@ textarea{min-height:110px;resize:vertical;font-family:var(--f-mono);font-size:13
 .sync{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-bottom:12px}
 .sync .dot{width:8px;height:8px;border-radius:50%;background:var(--bronze);flex-shrink:0}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(96px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;z-index:30;max-width:90%}
+/* notebook (caderno) */
+.topbtns{display:flex;gap:8px}
+.note{background:var(--surface);border-radius:6px;box-shadow:var(--shadow);padding:18px 18px 8px;border-top:2px solid var(--margin)}
+.note .ntitle{font-family:var(--f-card);font-size:24px;line-height:1.25;margin:0 0 6px;font-weight:500;text-transform:none;letter-spacing:0;color:var(--ink)}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}
+.toc button{border:1px solid var(--line);background:var(--bg);border-radius:99px;padding:4px 10px;font-size:12px}
+.nsec{border-top:1px solid var(--line);margin-top:14px;padding-top:12px;scroll-margin-top:12px;border-radius:4px;transition:background .6s}
+.nsec.hit{background:color-mix(in srgb,var(--bronze) 14%,transparent)}
+.nsec h3{font-size:15px;font-weight:600;margin:0 0 6px}
+.nbody{font-family:var(--f-card);font-size:17px;line-height:1.55;overflow-wrap:anywhere}
+.nbody p{margin:0 0 .6em}
+.nbody ul,.nbody ol{margin:.2em 0 .6em;padding-left:1.3em}
+.nbody li{margin:.15em 0}
+.nbody code{font-family:var(--f-mono);font-size:.8em;background:var(--bg);padding:1px 5px;border-radius:4px}
+.nbody pre{font-family:var(--f-mono);font-size:13px;line-height:1.5;background:var(--bg);padding:12px;border-radius:6px;overflow-x:auto}
+.nbody h3{font-size:14px;margin:.4em 0}
+.nbody mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden}
+.nbody mjx-container[display="true"]{display:block;margin:.5em 0!important}
+.nlinks{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin:4px 0 6px}
+.weak{color:var(--again);font-weight:600}
+.checkq{border-top:1px dashed var(--line);padding:10px 0}
+.checkq details summary{font-size:13px;color:var(--muted);cursor:pointer;margin-top:4px}
+.tabs{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:4px;margin-bottom:12px}
+.tabs button{border:none;background:none;border-radius:7px;padding:8px 6px;font-weight:600;font-size:14px;color:var(--muted)}
+.tabs button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+.objs{margin:14px 0 4px;padding:12px 14px;background:var(--bg);border-radius:8px}
+.objs h3{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 6px}
+.objs ol{margin:0;padding-left:1.2em}
+.objs li{margin:.35em 0}
+.objs .nbody{font-size:16px}
+.objs .oscore{display:block;font-size:12px;font-family:var(--f-ui)}
+.summary h3{font-family:var(--f-ui);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:.9em 0 .3em}
+.opts{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:12px}
+.opt .letter{font-family:var(--f-mono);font-weight:600;color:var(--muted);flex-shrink:0;width:18px}
+.opt .nbody{font-size:16px;min-width:0}
+.opt .nbody p{margin:0}
+.opt.ok{border-color:var(--good);box-shadow:inset 3px 0 0 var(--good)}
+.opt.bad{border-color:var(--again);box-shadow:inset 3px 0 0 var(--again)}
+.opt.dim{opacity:.7}
+.opt .why{display:block;margin-top:6px;font-family:var(--f-ui);font-size:13px;color:var(--muted)}
+.opt .why p{margin:0}
+.verdict{margin-top:12px;font-weight:600}
+.verdict.good{color:var(--good)} .verdict.bad{color:var(--again)}
+.reread{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--again);border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:14px}
+.reread span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
@@ -238,7 +284,7 @@ function schedule(prev,g,now){
 }
 
 /* ---------- state ---------- */
-const S={login:{email:'',sent:false,busy:false},filter:(()=>{const f=ls.get('kairos.filter',{});return {off:Array.isArray(f.off)?f.off:[]}})(),panels:new Set(ls.get('kairos.panels',[])),pk:{},db:null,decks:new Map(),cards:new Map(),revs:new Map(),flags:new Map(),flagging:null,settings:{newPerDay:20,retention:0.9,steps:'errors'},
+const S={login:{email:'',sent:false,busy:false},filter:(()=>{const f=ls.get('kairos.filter',{});return {off:Array.isArray(f.off)?f.off:[]}})(),panels:new Set(ls.get('kairos.panels',[])),pk:{},db:null,decks:new Map(),cards:new Map(),notes:new Map(),note:null,qrev:new Map(),quiz:null,revs:new Map(),flags:new Map(),flagging:null,settings:{newPerDay:20,retention:0.9,steps:'errors'},
   log:[],logKey:null,logUnsub:null,ready:new Set(),stale:false,err:null,nodb:false,
   view:'home',study:null,open:new Set(ls.get('fich.open',[])),browse:{q:'',deck:''},edit:null,undo:null,confirmDel:false};
 /* ---------- outbox: every write goes to localStorage first, then syncs ----------
@@ -368,11 +414,12 @@ function deckCounts(){
 }
 
 /* ---------- study queue ---------- */
-function nextCard(deckSet){
+function nextCard(deckSet,idSet){
   const now=Date.now(), roll=nextRollover(now);
   let learn=[],rev=[],fresh=[];
   for(const [id,c] of cardsOrdered()){
     if(c.suspended||!passesFilter(c)||!deckSet.has(c.deck)||isFlagged(id,c))continue;
+    if(idSet&&!idSet.has(id))continue;
     const rv=S.revs.get(id);
     if(!rv)fresh.push(id);
     else if(rv.state==='review'){if(rv.due<roll)rev.push([id,rv.due])}
@@ -391,14 +438,14 @@ function nextCard(deckSet){
   const wait=(!pick&&learn.length&&learn[0][1]<roll)?learn[0][1]:null;
   return {pick,counts,wait};
 }
-function startStudy(path,label){
+function startStudy(path,label,cardIds){
   const ids=path==null?[...S.decks.keys()]:deckIdsUnder(path);
-  S.study={deckSet:new Set(ids),label,cur:null,revealed:false,flip:0,shown:null};
+  S.study={deckSet:new Set(ids),idSet:cardIds?new Set(cardIds):null,label,cur:null,revealed:false,flip:0,shown:null,missed:null};
   S.undo=null; S.view='study'; advance(); render(); scrollTo(0,0);
 }
 function advance(){
   if(!S.study)return;
-  const r=nextCard(S.study.deckSet);
+  const r=nextCard(S.study.deckSet,S.study.idSet);
   S.study.cur=r.pick; S.study.revealed=false; S.study.flip++;
 }
 let waitTimer;
@@ -410,6 +457,7 @@ function answer(g){
   S.revs.set(id,next); S.log=[...S.log,entry];
   const logCopy=S.log.slice();
   S.undo={id,prev,t:now,key};
+  const card=S.cards.get(id); st.missed=g===1&&card&&noteOf(card)?id:null;
   queue('reviews/'+id,'set',next);
   queue('log/'+key,'set',{entries:logCopy});
   advance(); render();
@@ -420,7 +468,7 @@ function undo(){
   S.log=S.log.filter(e=>e.t!==u.t); const logCopy=S.log.slice();
   if(u.prev)queue('reviews/'+u.id,'set',u.prev); else queue('reviews/'+u.id,'del');
   if(u.key===S.logKey)queue('log/'+u.key,'set',{entries:logCopy});
-  S.study.cur=u.id; S.study.revealed=false; render(); toast('Resposta desfeita');
+  S.study.cur=u.id; S.study.revealed=false; S.study.missed=null; render(); toast('Resposta desfeita');
 }
 
 /* ---------- views ---------- */
@@ -463,7 +511,7 @@ function treeHTML(node,depth,cap){
 function homeHTML(){
   const cm=deckCounts(), root=buildTree(), all=sumNode(root,cm), cap=newLeft();
   let h='<div class="top"><div class="brand">'+LOGO+'<div><h1>Kairos</h1><div class="tagline">no momento certo</div><div class="today mono">Hoje: '+S.log.length+' respostas · '+newToday()+'/'+(+S.settings.newPerDay||0)+' novos'+syncLine()+'</div></div></div>'+
-    '<button class="btn" data-go="browse">Ver cards</button></div><div class="stack">'+syncHTML();
+    '<div class="topbtns">'+(S.notes.size?'<button class="btn" data-go="notebook">Caderno'+((n=>n?' <span class="pill">'+n+'</span>':'')(pendingCount(allQuestions())))+'</button>':'')+'<button class="btn" data-go="browse">Ver cards</button></div></div><div class="stack">'+syncHTML();
   if(S.stale&&!S.ready.size)h+='<div class="notice">Os dados ainda não chegaram. Verifique a conexão; a página atualiza sozinha.</div>';
   if(!S.decks.size){
     h+='<div class="notice"><b>Nenhum baralho ainda.</b><br>Mande um material no chat do projeto Flashcards (PDF, capítulo, anotações). O Claude cria o baralho e os cards; eles aparecem aqui sozinhos.</div>';
@@ -483,7 +531,7 @@ function homeHTML(){
   return h+'</div>';
 }
 function studyHTML(){
-  const st=S.study, r=nextCard(st.deckSet), c=st.cur&&S.cards.get(st.cur);
+  const st=S.study, r=nextCard(st.deckSet,st.idSet), c=st.cur&&S.cards.get(st.cur);
   const head=syncHTML()+'<div class="studybar"><button class="btn ghost" data-go="home" aria-label="Voltar">← Baralhos</button><span class="title">'+esc(st.label)+'</span>'+countsHTML(r.counts)+'</div>';
   if(!c){
     clearTimeout(waitTimer);
@@ -493,10 +541,12 @@ function studyHTML(){
     return head+'<div class="done">'+LOGO+'<h1>Feito por agora</h1><p class="muted">'+msg+'</p><div class="row" style="justify-content:center;margin-top:16px">'+(S.undo?'<button class="btn" data-undo>Desfazer última</button>':'')+'<button class="btn primary" data-go="home">Voltar aos baralhos</button></div></div>';
   }
   const rv=S.revs.get(st.cur);
+  const miss=st.missed&&S.cards.get(st.missed), missRef=miss&&noteOf(miss);
+  const reread=missRef?'<div class="reread" role="status"><span>Errou: '+esc(plain(miss.front).slice(0,80))+'</span><span class="row" style="flex-shrink:0"><button class="btn" data-open-note="'+esc(miss.note)+'">Reler no caderno</button><button class="btn ghost" data-missed-close aria-label="Fechar">×</button></span></div>':'';
   const tag=!rv?'Novo':rv.state==='review'?'Revisão · '+(rv.lapses?rv.lapses+' lapsos':'sem lapsos'):'Aprendendo';
-  return head+'<article class="index"><div class="head"><span>'+esc(deckName(c.deck))+'</span><span>'+tag+'</span></div>'+
+  return head+reread+'<article class="index"><div class="head"><span>'+esc(deckName(c.deck))+'</span><span>'+tag+'</span></div>'+
     '<div class="face" id="face-front"></div>'+(st.revealed?'<div class="face back" id="face-back"></div>':'')+'</article>'+
-    '<div class="meta"><span>'+(c.source?esc(c.source):'')+(c.verified?' · verificado em '+esc(c.verified):'')+(c.checkBy&&c.checkBy<=new Date().toISOString().slice(0,10)?' · <b class="stale">rever fatos</b>':'')+'</span><span class="row">'+(S.undo?'<button class="btn ghost" data-undo>Desfazer</button>':'')+'<button class="btn ghost" data-flag="'+esc(st.cur)+'">Sinalizar</button><button class="btn ghost" data-edit="'+esc(st.cur)+'">Editar</button></span></div>';
+    '<div class="meta"><span>'+(c.source?esc(c.source):'')+(c.verified?' · verificado em '+esc(c.verified):'')+(c.checkBy&&c.checkBy<=new Date().toISOString().slice(0,10)?' · <b class="stale">rever fatos</b>':'')+'</span><span class="row">'+(S.undo?'<button class="btn ghost" data-undo>Desfazer</button>':'')+(st.revealed&&noteOf(c)?'<button class="btn ghost" data-open-note="'+esc(c.note)+'">Caderno</button>':'')+'<button class="btn ghost" data-flag="'+esc(st.cur)+'">Sinalizar</button><button class="btn ghost" data-edit="'+esc(st.cur)+'">Editar</button></span></div>';
 }
 function answerBarHTML(){
   const st=S.study; if(S.view!=='study'||!st||!st.cur||!S.cards.get(st.cur))return '';
@@ -548,6 +598,184 @@ function editorHTML(){
     '</span><button class="btn primary" data-save>Salvar</button></div></div></div>';
 }
 
+/* ---------- notebook (caderno): study notes; a card links back with note: "noteId#sectionId" ---------- */
+function parseRef(ref){const r=String(ref||''),i=r.indexOf('#');return i<0?{id:r,sec:''}:{id:r.slice(0,i),sec:r.slice(i+1)}}
+function noteOf(c){if(!c||!c.note)return null;const r=parseRef(c.note),n=S.notes.get(r.id);return n?{...r,n}:null}
+function noteCards(nid,sec){return cardsOrdered().filter(([id,c])=>{if(c.suspended||!c.note)return false;const r=parseRef(c.note);return r.id===nid&&(!sec||r.sec===sec)})}
+/* weak = the card was missed at least once (lapse) or is back in learning after an answer */
+function isWeak(id){const rv=S.revs.get(id);return !!(rv&&(rv.lapses>0||(rv.state!=='review'&&rv.reps>0)))}
+function linksHTML(rows){
+  if(!rows.length)return '<span>Sem cartas ligadas</span>';
+  const weak=rows.filter(([id])=>isWeak(id)).length;
+  return '<span>'+rows.length+(rows.length===1?' carta':' cartas')+(weak?' · <span class="weak">'+weak+(weak===1?' fraca':' fracas')+'</span>':'')+'</span>';
+}
+function notesOrdered(){return [...S.notes.entries()].sort((a,b)=>deckName(a[1].deck).localeCompare(deckName(b[1].deck),'pt')||((a[1].order||0)-(b[1].order||0))||String(a[1].title).localeCompare(String(b[1].title),'pt'))}
+/* ---------- questions: multiple choice (graded by the app) and open (self-graded) ----------
+   qrev/{questionId} = FSRS state + lastOk (1, 0.5 or 0) + tries/okTries.
+   In a session: a miss comes back after 3 other questions; a hit or "Moderado" leaves the session.
+   Between sessions: FSRS decides the day. The user never sees grade buttons for multiple choice. */
+const OBJ_VERBS={definir:'Definir',explicar:'Explicar',calcular:'Calcular',comparar:'Comparar',diagnosticar:'Diagnosticar'};
+function noteQuestions(nid){const n=S.notes.get(nid);return n&&Array.isArray(n.questions)?n.questions.map(q=>({...q,nid})):[]}
+function allQuestions(){const out=[];for(const [nid] of notesOrdered())out.push(...noteQuestions(nid));return out}
+function questionById(id){for(const q of allQuestions())if(q.id===id)return q;return null}
+function qPending(q){const r=S.qrev.get(q.id);return !r||r.due<nextRollover(Date.now())}
+function pendingCount(qs){return qs.filter(qPending).length}
+function objScore(nid,oid){
+  const qs=noteQuestions(nid).filter(q=>q.obj===oid); let seen=0,ok=0;
+  for(const q of qs){const r=S.qrev.get(q.id);if(r){seen++;ok+=+r.lastOk||0}}
+  return {total:qs.length,seen,ok};
+}
+function scoreHTML(sc){
+  if(!sc.total)return '';
+  if(!sc.seen)return '<span class="muted">'+sc.total+(sc.total===1?' questão':' questões')+'</span>';
+  const pct=Math.round(100*sc.ok/sc.seen);
+  return '<span class="'+(pct<70?'weak':'c-due')+'">'+pct+'%</span> <span class="muted">· '+sc.seen+'/'+sc.total+' feitas</span>';
+}
+function objectivesHTML(nid,n){
+  const objs=Array.isArray(n.objectives)?n.objectives:[]; if(!objs.length)return '';
+  return '<div class="objs"><h3>Ao final, você consegue</h3><ol>'+objs.map(o=>'<li><span class="nbody"><b>'+esc(OBJ_VERBS[o.verb]||o.verb)+'</b> '+md(o.text).replace(/^<p>|<\/p>$/g,'')+'</span><span class="oscore">'+scoreHTML(objScore(nid,o.id))+'</span></li>').join('')+'</ol></div>';
+}
+/* FSRS for questions. "Moderado" on a new question goes straight to days (≈1 d), not to a 10-min step. */
+function qschedule(prev,g,now){
+  const st=prev?prev.state:'new';
+  if(g===2&&st!=='review'){
+    const s=Math.max(prev&&prev.s||0,initS(2)), d=prev&&prev.d||initD(2), days=ivl(s,+S.settings.retention||0.9);
+    return {reps:(prev&&prev.reps||0)+1,lapses:prev&&prev.lapses||0,last:now,state:'review',s,d,step:0,ivl:days,due:now+days*DAY};
+  }
+  const saved=S.settings.steps; S.settings.steps='errors';
+  try{return schedule(prev,g,now)}finally{S.settings.steps=saved}
+}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function startQuiz(nid,everything){
+  const qs=nid?noteQuestions(nid):allQuestions(), pick=everything?qs:qs.filter(qPending);
+  if(!pick.length){toast('Nenhuma questão pendente');return}
+  const n=nid&&S.notes.get(nid);
+  S.quiz={nid,label:n?(n.title||nid):'Questões pendentes',back:S.view,noteBack:S.note?S.note.back:'notebook',
+    queue:shuffle(pick.map(q=>q.id)),total:pick.length,missed:new Set(),done:new Set(),cur:null,order:[],picked:null,shown:false,typed:''};
+  nextQuestion(); S.view='quiz'; render(); scrollTo(0,0);
+}
+function nextQuestion(){
+  const z=S.quiz; z.cur=z.queue.shift()||null; z.picked=null; z.shown=false; z.typed=''; z.repeat=!!(z.cur&&z.missed.has(z.cur));
+  const q=z.cur&&questionById(z.cur); z.order=q&&q.type==='mc'?shuffle(q.options.map((_,i)=>i)):[];
+}
+function gradeQuestion(g){
+  const z=S.quiz, q=questionById(z.cur); if(!q)return;
+  const now=Date.now(), prev=S.qrev.get(q.id)||null;
+  const next={...qschedule(prev,g,now),lastOk:g===3?1:g===2?0.5:0,tries:(prev&&prev.tries||0)+1,okTries:(prev&&prev.okTries||0)+(g===3?1:0)};
+  S.qrev.set(q.id,next); queue('qrev/'+q.id,'set',next);
+  if(g===1){z.missed.add(q.id);z.queue.splice(Math.min(3,z.queue.length),0,q.id)}
+  else z.done.add(q.id);
+}
+function pickOption(i){
+  const z=S.quiz, q=questionById(z.cur); if(!q||q.type!=='mc'||z.picked!=null)return;
+  z.picked=i; gradeQuestion(q.options[i]&&q.options[i].ok?3:1); render();
+}
+function quizHTML(){
+  const z=S.quiz;
+  const head='<div class="studybar"><button class="btn ghost" data-quiz-back>← '+(z.back==='note'?'Nota':'Caderno')+'</button><span class="title">'+esc(z.label)+'</span><span class="mono muted" style="font-size:13px">'+(z.done.size)+'/'+z.total+'</span></div>';
+  const q=z.cur&&questionById(z.cur);
+  if(!q){
+    const first=z.total-z.missed.size;
+    let h=head+'<div class="done">'+LOGO+'<h1>Fim da sessão</h1><p class="muted">Acertou de primeira: '+first+' de '+z.total+'.</p></div>';
+    if(z.missed.size){
+      h+='<div class="list">';
+      for(const id of z.missed){const m=questionById(id);if(m)h+='<button class="item" data-open-note="'+esc(m.nid+(m.sec?'#'+m.sec:''))+'"><span class="q">'+esc(plain(m.stem))+'</span><span class="info"><span class="weak">errou nesta sessão</span><span>Reler no caderno →</span></span></button>'}
+      h+='</div><p class="hint">As questões erradas voltam amanhã. Peça ao Claude cartas sobre elas.</p>';
+    }
+    return h+'<div class="row" style="justify-content:center;margin-top:16px"><button class="btn primary" data-quiz-back>Voltar</button></div>';
+  }
+  const n=S.notes.get(q.nid), o=n&&(n.objectives||[]).find(x=>x.id===q.obj);
+  let h=head+'<article class="index qcard"><div class="head"><span>'+(o?esc(OBJ_VERBS[o.verb]||o.verb):'Questão')+'</span><span>'+(q.type==='mc'?'Múltipla escolha':'Dissertativa')+(z.repeat?' · repetição':'')+'</span></div><div class="face nbody">'+md(q.stem)+'</div></article>';
+  const reread=q.sec?'<button class="btn" data-open-note="'+esc(q.nid+'#'+q.sec)+'">Reler no caderno</button>':'';
+  if(q.type==='mc'){
+    const done=z.picked!=null;
+    h+='<div class="opts">'+z.order.map((i,k)=>{
+      const op=q.options[i]; let cls='opt';
+      if(done)cls+=op.ok?' ok':i===z.picked?' bad':' dim';
+      return '<button class="'+cls+'" data-opt="'+i+'"'+(done?' aria-disabled="true"':'')+'><span class="letter">'+'ABCDE'[k]+'</span><span class="nbody">'+md(op.t)+(done&&op.why?'<span class="why">'+md(op.why)+'</span>':'')+'</span></button>';
+    }).join('')+'</div>';
+    if(done){
+      const ok=q.options[z.picked].ok;
+      h+='<div class="verdict '+(ok?'good':'bad')+'">'+(ok?'Certo. Ela volta daqui a alguns dias.':'Errado. Ela volta depois de 3 questões.')+'</div><div class="row" style="justify-content:space-between;margin-top:10px">'+reread+'<button class="btn primary" data-q-next>Próxima →</button></div>';
+    }
+  }else{
+    if(!z.shown){
+      h+='<div class="field" style="margin-top:12px"><label for="q-ans">Sua resposta (opcional)</label><textarea id="q-ans" placeholder="Escreva ou dite. Ninguém corrige o texto: você compara com a resposta.">'+esc(z.typed)+'</textarea></div><div class="row"><button class="btn primary" data-q-show>Ver resposta</button></div>';
+    }else{
+      h+=(z.typed.trim()?'<div class="field" style="margin-top:12px"><label>Sua resposta</label><div class="notice" style="white-space:pre-wrap;color:var(--ink)">'+esc(z.typed)+'</div></div>':'')+
+        '<div class="field" style="margin-top:12px"><label>Resposta modelo</label><div class="notice nbody" style="color:var(--ink)">'+md(q.answer||'')+'</div></div>'+
+        '<p class="hint" style="margin:0 0 8px">Compare as ideias, não as palavras. Moderado = acertou a ideia central, mas faltou uma parte.</p>'+
+        '<div class="grades" style="grid-template-columns:repeat(3,1fr)"><button class="grade g1" data-q-grade="1"><b>Errei</b><span>repete hoje</span></button><button class="grade g2" data-q-grade="2"><b>Moderado</b><span>volta antes</span></button><button class="grade g3" data-q-grade="3"><b>Acertei</b><span>vai pro fundo</span></button></div>'+
+        '<div class="row" style="justify-content:space-between;margin-top:10px">'+reread+'<button class="btn ghost" data-q-copy>Copiar para o Claude corrigir</button></div>';
+    }
+  }
+  return h;
+}
+
+function notebookHTML(){
+  let h='<div class="studybar"><button class="btn ghost" data-go="home">← Baralhos</button><span class="title">Caderno</span></div>';
+  if(!S.notes.size)return h+'<div class="notice">Nenhuma nota ainda. Peça uma nota de estudo ao Claude; ela aparece aqui sozinha.</div>';
+  const pend=pendingCount(allQuestions());
+  if(pend)h+='<button class="all" data-quiz-all style="margin-bottom:12px"><span><b>Questões pendentes</b><br><span class="muted" style="font-size:13px">Novas e as que voltam hoje, de todas as notas</span></span><span class="counts"><span class="c-due">'+pend+'</span></span></button>';
+  h+='<p class="hint" style="margin:0 0 10px">Ordem: leia a nota → faça as questões → as que você errar viram cartas.</p><div class="list">';
+  for(const [id,n] of notesOrdered()){
+    const p=pendingCount(noteQuestions(id));
+    h+='<button class="item" data-open-note="'+esc(id)+'"><span class="q">'+esc(n.title||id)+'</span><span class="info"><span>'+esc(deckName(n.deck).split('::').join(' › '))+'</span>'+(p?'<span class="c-due">'+p+(p===1?' questão pendente':' questões pendentes')+'</span>':'')+linksHTML(noteCards(id))+'</span></button>';
+  }
+  return h+'</div>';
+}
+function noteHTML(){
+  const nid=S.note&&S.note.id, n=nid&&S.notes.get(nid);
+  const backTo=S.note&&S.note.back, back='<button class="btn ghost" data-note-back>← '+(backTo==='study'?'Estudo':backTo==='quiz'?'Questões':backTo==='notebook'?'Caderno':'Voltar')+'</button>';
+  if(!n)return '<div class="studybar">'+back+'</div><div class="notice">Nota não encontrada.</div>';
+  const tab=S.note.tab||'nota', secs=Array.isArray(n.sections)?n.sections:[], all=noteCards(nid), qs=noteQuestions(nid), pend=pendingCount(qs);
+  const tabs=[['nota','Nota'],['resumo','Resumo'],['questoes','Questões'+(pend?' ('+pend+')':'')]].filter(t=>t[0]==='nota'||(t[0]==='resumo'?n.summary:qs.length));
+  let h='<div class="studybar">'+back+'<span class="title">'+esc(deckName(n.deck).split('::').pop())+'</span></div>'+
+    (tabs.length>1?'<div class="tabs" role="tablist">'+tabs.map(t=>'<button role="tab" aria-selected="'+(t[0]===tab)+'" data-note-tab="'+t[0]+'">'+esc(t[1])+'</button>').join('')+'</div>':'')+
+    '<article class="note"><h2 class="ntitle">'+esc(n.title||nid)+'</h2>';
+  const quizBtns=qs.length?'<div class="row" style="margin-top:14px">'+(pend?'<button class="btn primary" data-quiz-note="'+esc(nid)+'">Fazer as '+pend+(pend===1?' questão':' questões')+'</button>':'<button class="btn primary" data-quiz-note="'+esc(nid)+'" data-quiz-every>Refazer todas as '+qs.length+'</button>')+'</div>':'';
+  if(tab==='resumo'){
+    h+='<div class="nbody summary">'+md(n.summary||'')+'</div></article>'+quizBtns;
+    return h;
+  }
+  if(tab==='questoes'){
+    h+=objectivesHTML(nid,n)+'<p class="hint">'+qs.filter(q=>q.type==='mc').length+' de múltipla escolha, corrigidas pelo app. '+qs.filter(q=>q.type!=='mc').length+' dissertativas: você compara com a resposta modelo e se avalia.</p></article>'+quizBtns;
+    if(pend&&pend<qs.length)h+='<div class="row" style="margin-top:8px"><button class="btn ghost" data-quiz-note="'+esc(nid)+'" data-quiz-every>Refazer todas as '+qs.length+'</button></div>';
+    return h;
+  }
+  h+='<div class="hint">'+(n.source?esc(n.source):'')+(n.verified?' · verificado em '+esc(n.verified):'')+'</div>'+
+    (n.intro?'<div class="nbody" style="margin-top:10px">'+md(n.intro)+'</div>':'')+objectivesHTML(nid,n)+
+    (secs.length>1?'<nav class="toc" aria-label="Seções">'+secs.map(s=>'<button data-jump="'+esc(s.id)+'">'+esc(s.title)+'</button>').join('')+'</nav>':'');
+  for(const s of secs){
+    const rows=noteCards(nid,s.id);
+    h+='<section class="nsec" id="sec-'+esc(s.id)+'"><h3>'+esc(s.title)+'</h3><div class="nbody">'+md(s.body)+'</div>'+
+      '<div class="nlinks">'+linksHTML(rows)+(rows.length?'<button class="btn ghost" data-study-note="'+esc(nid+'#'+s.id)+'">Estudar estas</button>':'')+'</div></section>';
+  }
+  h+='</article>'+quizBtns;
+  if(all.length)h+='<div class="row" style="margin-top:8px"><button class="btn" data-study-note="'+esc(nid)+'">Estudar as '+all.length+' cartas desta nota</button></div>';
+  return h;
+}
+function openNote(ref,back){
+  const r=parseRef(ref); if(!S.notes.has(r.id)){toast('Nota não encontrada');return}
+  const from=S.view==='note'&&S.note?S.note.back:S.view;
+  S.note={id:r.id,back:back||from,tab:r.sec?'nota':(S.note&&S.note.id===r.id&&S.view==='note'?S.note.tab:'nota')}; S.view='note'; render();
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{if(r.sec)jumpTo(r.sec);else scrollTo(0,0)}));
+}
+function jumpTo(sec){
+  const el=document.getElementById('sec-'+sec); if(!el)return;
+  el.scrollIntoView({block:'start'}); el.classList.add('hit'); setTimeout(()=>el.classList.remove('hit'),1600);
+}
+function studyNote(ref){
+  const r=parseRef(ref), n=S.notes.get(r.id); if(!n)return;
+  const ids=noteCards(r.id,r.sec).map(x=>x[0]); if(!ids.length){toast('Nenhuma carta ligada');return}
+  const sec=r.sec&&(n.sections||[]).find(s=>s.id===r.sec);
+  startStudy(null,(n.title||r.id)+(sec?' › '+sec.title:''),ids);
+}
+function copyText(text,done){
+  const manual=()=>{const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();try{document.execCommand('copy');toast(done)}catch(e){toast('Não foi possível copiar')}t.remove()};
+  try{navigator.clipboard.writeText(text).then(()=>toast(done),manual)}catch(e){manual()}
+}
+
 let raf=0; function render(){if(!raf)raf=requestAnimationFrame(doRender)}
 function doRender(){
   raf=0;
@@ -557,8 +785,13 @@ function doRender(){
   if(S.view==='study'&&S.study&&(!S.study.cur||!S.cards.get(S.study.cur))){S.study.cur=null;advance()}
   const focus=document.activeElement&&document.activeElement.id, sel=focus==='b-q'?document.activeElement.selectionStart:null;
   const keep={};for(const id of ['acct-email','acct-code','set-new','f-note']){const el=document.getElementById(id);if(el&&document.activeElement===el)keep[id]=el.value}
-  if(!S.edit&&!S.flagging){
-    app.innerHTML=(S.view==='study'&&S.study?studyHTML():S.view==='browse'?browseHTML():homeHTML())+answerBarHTML();
+  if(!S.edit&&!S.flagging&&(S.view==='note'||(S.view==='quiz'&&S.quiz))){
+    /* Notes and questions are typeset by MathJax: rebuild only when the HTML changes, so sync ticks do not reset the page. */
+    const html=syncHTML()+(S.view==='note'?noteHTML():quizHTML());
+    if(app.dataset.cache!==html){app.innerHTML=html;app.dataset.cache=html;typeset(app)}
+  }else if(!S.edit&&!S.flagging){
+    delete app.dataset.cache;
+    app.innerHTML=(S.view==='study'&&S.study?studyHTML():S.view==='browse'?browseHTML():S.view==='notebook'?notebookHTML():homeHTML())+answerBarHTML();
     if(S.view==='study'&&S.study&&S.study.cur){
       const c=S.cards.get(S.study.cur), f=document.getElementById('face-front'), b=document.getElementById('face-back');
       if(f){f.innerHTML=md(c.front);typeset(f)} if(b){b.innerHTML=md(c.back);typeset(b)}
@@ -627,6 +860,21 @@ document.addEventListener('click',ev=>{
   if(d.tag){const off=S.filter.off;const i=off.indexOf(d.tag);if(i>=0)off.splice(i,1);else off.push(d.tag);saveFilter();if(S.study)S.study.cur=null;render();return}
   if(d.tagReset!==undefined){S.filter.off=[];saveFilter();render();return}
   if(d.acct){acctAction(d.acct);return}
+  if(d.openNote){openNote(d.openNote);return}
+  if(d.noteBack!==undefined){const b=S.note&&S.note.back;S.note=null;S.view=b==='study'?(S.study?'study':'home'):b==='quiz'?(S.quiz?'quiz':'notebook'):(b==='notebook'||b==='browse')?b:'home';render();scrollTo(0,0);return}
+  if(d.noteTab){if(S.note){S.note.tab=d.noteTab;render();scrollTo(0,0)}return}
+  if(d.quizNote){startQuiz(d.quizNote,d.quizEvery!==undefined);return}
+  if(d.quizAll!==undefined){startQuiz(null,false);return}
+  if(d.opt!==undefined){pickOption(+d.opt);return}
+  if(d.qNext!==undefined){nextQuestion();render();scrollTo(0,0);return}
+  if(d.qShow!==undefined){const t=document.getElementById('q-ans');if(t)S.quiz.typed=t.value;S.quiz.shown=true;render();return}
+  if(d.qGrade){gradeQuestion(+d.qGrade);nextQuestion();render();scrollTo(0,0);return}
+  if(d.qCopy!==undefined){const q=questionById(S.quiz.cur);if(q)copyText('Kairos — corrija minha resposta.\nPergunta: '+plain(q.stem)+'\nMinha resposta: '+(S.quiz.typed.trim()||'(vou ditar)'),'Copiado. Cole no chat com o Claude.');return}
+  if(d.quizBack!==undefined){const z=S.quiz;S.quiz=null;if(z&&z.back==='note'&&z.nid&&S.notes.has(z.nid)){S.note={id:z.nid,back:z.noteBack||'notebook',tab:'questoes'};S.view='note'}else S.view='notebook';render();scrollTo(0,0);return}
+  if(d.jump){jumpTo(d.jump);return}
+  if(d.studyNote){studyNote(d.studyNote);return}
+  if(d.missedClose!==undefined){if(S.study)S.study.missed=null;render();return}
+
   if(d.tog){S.open.has(d.tog)?S.open.delete(d.tog):S.open.add(d.tog);ls.set('fich.open',[...S.open]);render();return}
   if(d.study){startStudy(d.study,d.study.split('::').join(' › '));return}
   if(d.studyAll!==undefined){startStudy(null,'Todos os baralhos');return}
@@ -658,6 +906,7 @@ document.addEventListener('click',ev=>{
 document.addEventListener('toggle',ev=>{const p=ev.target&&ev.target.dataset&&ev.target.dataset.panel;if(!p)return;if(ev.target.open)S.panels.add(p);else S.panels.delete(p);ls.set('kairos.panels',[...S.panels])},true);
 document.addEventListener('input',ev=>{
   if(ev.target.id==='b-q'){S.browse.q=ev.target.value;render()}
+  if(ev.target.id==='q-ans'&&S.quiz)S.quiz.typed=ev.target.value;
 });
 document.addEventListener('change',ev=>{
   if(ev.target.id==='b-deck'){S.browse.deck=ev.target.value;render()}
@@ -665,6 +914,12 @@ document.addEventListener('change',ev=>{
 document.addEventListener('keydown',ev=>{
   if(S.edit||S.flagging){if(ev.key==='Escape'){S.edit=null;S.flagging=null;render()}return}
   if(/INPUT|TEXTAREA|SELECT/.test(document.activeElement&&document.activeElement.tagName))return;
+  if(S.view==='quiz'&&S.quiz&&S.quiz.cur){
+    const z=S.quiz;
+    if(z.picked==null&&/^[1-5]$/.test(ev.key)&&z.order[+ev.key-1]!=null){pickOption(z.order[+ev.key-1]);return}
+    if(z.picked!=null&&(ev.key==='Enter'||ev.key===' ')){ev.preventDefault();nextQuestion();render();return}
+    return;
+  }
   if(S.view!=='study'||!S.study||!S.study.cur)return;
   if(!S.study.revealed&&(ev.key===' '||ev.key==='Enter')){ev.preventDefault();S.study.revealed=true;render();return}
   if(S.study.revealed&&/^[1-4]$/.test(ev.key)){answer(+ev.key);return}
@@ -713,7 +968,7 @@ function subscribeAll(){
     if(!snap.metadata.fromCache){if(!outbox.length)S.offline=false;S.ready.add(key);if(S.ready.size>=3){clearTimeout(S.bootTimer);S.stale=false}}
     render();
   },fail));
-  coll('decks','decks','decks'); coll('cards','cards','cards'); coll('reviews','revs','revs'); coll('flags','flags','flags');
+  coll('decks','decks','decks'); coll('cards','cards','cards'); coll('reviews','revs','revs'); coll('flags','flags','flags'); coll('notes','notes','notes'); coll('qrev','qrev','qrev');
   unsubs.push(db.doc('config/settings').onSnapshot(d=>{
     const pend=pendingFor('config/settings');
     if(pend&&pend.b)S.settings={...S.settings,...pend.b}; else if(d.exists)S.settings={...S.settings,...d.data()};

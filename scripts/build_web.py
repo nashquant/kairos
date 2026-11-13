@@ -4,7 +4,7 @@
 app.html is the single source of the app. It runs as a claude.ai artifact
 there; here it gets a standalone page skeleton, a local data adapter
 (web-src/adapter.js), a service worker for offline use, and a manifest.
-Card data comes from data/decks.json and data/cards.json.
+Card data comes from data/decks.json and data/cards.json; study notes from data/notes.json.
 """
 import hashlib, json, pathlib, shutil
 
@@ -15,9 +15,11 @@ app = (ROOT / "app.html").read_text(encoding="utf-8")
 adapter = (SRC / "adapter.js").read_text(encoding="utf-8")
 decks = json.loads((ROOT / "data" / "decks.json").read_text(encoding="utf-8"))
 cards = json.loads((ROOT / "data" / "cards.json").read_text(encoding="utf-8"))
+notes_path = ROOT / "data" / "notes.json"
+notes = json.loads(notes_path.read_text(encoding="utf-8")) if notes_path.exists() else {}
 
 config = json.loads((ROOT / "data" / "config.json").read_text(encoding="utf-8"))
-version = hashlib.sha256((app + adapter + json.dumps(decks) + json.dumps(cards) + json.dumps(config)).encode()).hexdigest()[:12]
+version = hashlib.sha256((app + adapter + json.dumps(decks) + json.dumps(cards) + json.dumps(notes) + json.dumps(config)).encode()).hexdigest()[:12]
 
 head = """<!doctype html>
 <html lang="pt-BR">
@@ -65,6 +67,7 @@ for f in (SRC / "icons").glob("*.png"):
     shutil.copy(f, OUT / f.name)
 (OUT / "data" / "decks.json").write_text(json.dumps(decks, ensure_ascii=False), encoding="utf-8")
 (OUT / "data" / "cards.json").write_text(json.dumps(cards, ensure_ascii=False), encoding="utf-8")
+(OUT / "data" / "notes.json").write_text(json.dumps(notes, ensure_ascii=False), encoding="utf-8")
 manifest = {
     "name": "Kairos", "short_name": "Kairos",
     "description": "Flashcards com repetição espaçada FSRS.",
@@ -78,4 +81,4 @@ manifest = {
 }
 (OUT / "manifest.webmanifest").write_text(json.dumps(manifest, ensure_ascii=False, indent=1), encoding="utf-8")
 (OUT / ".nojekyll").write_text("")
-print(f"web/ built: version {version}, {len(decks)} decks, {len(cards)} cards")
+print(f"web/ built: version {version}, {len(decks)} decks, {len(cards)} cards, {len(notes)} notes")

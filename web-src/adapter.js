@@ -3,7 +3,7 @@
      db.collection(path).onSnapshot(next, error)
      db.doc(path).set(body) / .delete() / .onSnapshot(next, error)
    This file provides that store for the website:
-   - Public decks and cards come from data/*.json in the repo.
+   - Public decks, cards and notes (the study notebook) come from data/*.json in the repo.
    - Every write (progress, daily log, settings, own card edits) lands in localStorage
      first, so the app works offline.
    - When the user is signed in (Supabase Auth, email code), writes sync to the
@@ -13,7 +13,7 @@
 (function(){
   'use strict';
   var STORE_KEY = 'kairos.local.v1', SYNC_KEY = 'kairos.sync.v1';
-  var DATA_FILES = { decks: 'data/decks.json', cards: 'data/cards.json' };
+  var DATA_FILES = { decks: 'data/decks.json', cards: 'data/cards.json', notes: 'data/notes.json' };
   var CFG = window.KAIROS_CONFIG || {};
 
   function readJSON(k, d){ try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } }
@@ -22,7 +22,7 @@
   var local = readJSON(STORE_KEY, {});               // path -> body | {__deleted:true}
   var sync = readJSON(SYNC_KEY, {});                  // {meta:{path:ms}, dirty:{path:1}, since, uid}
   sync.meta = sync.meta || {}; sync.dirty = sync.dirty || {};
-  var base = { decks: {}, cards: {} };                // public data from the repo
+  var base = { decks: {}, cards: {}, notes: {} };      // public data from the repo
   var priv = { decks: {}, cards: {} };                // private data from Supabase
   var baseLoaded = false, listeners = [];
 
@@ -81,12 +81,14 @@
 
   function loadBase(){
     var names = Object.keys(DATA_FILES);
+    // Each file loads on its own: a missing file keeps what this device already has.
     return Promise.all(names.map(function(n){
-      return fetch(DATA_FILES[n], { cache: 'no-cache' }).then(function(r){ if (!r.ok) throw new Error(n + ' ' + r.status); return r.json(); });
+      return fetch(DATA_FILES[n], { cache: 'no-cache' })
+        .then(function(r){ if (!r.ok) throw new Error(n + ' ' + r.status); return r.json(); })
+        .catch(function(err){ console.warn('Kairos: could not load ' + n, err); return undefined; });
     })).then(function(res){
-      var fresh = {}; names.forEach(function(n, i){ fresh[n] = res[i] || {}; }); base = fresh;
-    }).catch(function(err){ console.warn('Kairos: could not load card data', err); })
-      .then(function(){ baseLoaded = true; emitSoon(); });
+      var fresh = {}; names.forEach(function(n, i){ fresh[n] = res[i] === undefined ? (base[n] || {}) : (res[i] || {}); }); base = fresh;
+    }).then(function(){ baseLoaded = true; emitSoon(); });
   }
 
   /* ---------- account and sync ---------- */
