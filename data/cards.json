@@ -5558,23 +5558,25 @@
    "llm",
    "agentes"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "Anthropic, \"Building effective agents\" (2024)",
   "created": 1794100000108,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-03-agentes#loop"
  },
  "llm-03-agents-002": {
   "deck": "llm-03-agents",
-  "front": "Workflow vs agent.",
+  "front": "Workflow vs agent: who decides the path?",
   "back": "**Workflow**: code fixes the path; the LLM fills steps.\n**Agent**: the LLM decides the path at run time.\nStart with the simplest that works; agents cost more and fail in more ways.",
   "tags": [
    "llm",
    "agentes"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "Anthropic, \"Building effective agents\" (2024)",
   "created": 1794100000109,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-13",
+  "note": "llm-03-agentes#loop"
  },
  "llm-03-agents-003": {
   "deck": "llm-03-agents",
@@ -5584,36 +5586,39 @@
    "llm",
    "agentes"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "Standard tool-calling practice (provider API docs)",
   "created": 1794100000110,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-03-agentes#tools"
  },
  "llm-03-agents-004": {
   "deck": "llm-03-agents",
   "front": "What is ReAct?",
-  "back": "A loop that interleaves reasoning (\"thought\") and actions (tool calls), with observations fed back.",
+  "back": "A loop that interleaves reasoning (\"thought\") and actions (tool calls), with each observation fed back before the next thought.\nIt is the pattern behind most tool-using agents.",
   "tags": [
    "llm",
    "agentes"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "Yao et al. 2022 (ReAct)",
   "created": 1794100000111,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-13",
+  "note": "llm-03-agentes#loop"
  },
  "llm-03-agents-005": {
   "deck": "llm-03-agents",
   "front": "Per-step success 95%, 10 dependent steps. Chance the whole run succeeds?",
-  "back": "$0.95^{10} \\approx 60\\%$.\nErrors compound: add checks, retries and human review on long chains.",
+  "back": "$0.95^{10} \\approx 60\\%$.\nErrors compound: shorten the chain, and add checks, retries and human review.",
   "tags": [
    "llm",
    "agentes"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "Arithmetic; standard reliability practice",
   "created": 1794100000112,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-13",
+  "note": "llm-03-agentes#erros"
  },
  "llm-03-agents-006": {
   "deck": "llm-03-agents",
@@ -5623,10 +5628,11 @@
    "llm",
    "agentes"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "Anthropic, \"Effective context engineering for AI agents\" (2025)",
   "created": 1794100000113,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-03-agentes#contexto"
  },
  "llm-03-agents-007": {
   "deck": "llm-03-agents",
@@ -5637,10 +5643,11 @@
    "agentes",
    "seguranca-web"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "OWASP Top 10 for LLM Applications; Simon Willison",
   "created": 1794100000114,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-03-agentes#seguranca"
  },
  "llm-03-agents-008": {
   "deck": "llm-03-agents",
@@ -5654,7 +5661,8 @@
   "source": "Simon Willison (2025)",
   "created": 1794100000115,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-03-agentes#seguranca"
  },
  "llm-03-agents-009": {
   "deck": "llm-03-agents",
@@ -5665,10 +5673,11 @@
    "agentes",
    "seguranca-web"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "OWASP Top 10 for LLM Applications; Simon Willison",
   "created": 1794100000116,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-03-agentes#seguranca"
  },
  "llm-03-agents-010": {
   "deck": "llm-03-agents",
@@ -5678,10 +5687,11 @@
    "llm",
    "rag"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "Lewis et al. 2020 (RAG)",
   "created": 1794100000117,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-03-agentes#rag"
  },
  "llm-03-agents-011": {
   "deck": "llm-03-agents",
@@ -5691,10 +5701,11 @@
    "llm",
    "rag"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "Standard retrieval practice",
   "created": 1794100000118,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-03-agentes#rag"
  },
  "llm-03-agents-012": {
   "deck": "llm-03-agents",
@@ -5704,23 +5715,25 @@
    "llm",
    "rag"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "Standard retrieval practice",
   "created": 1794100000119,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-03-agentes#rag"
  },
  "llm-03-agents-013": {
   "deck": "llm-03-agents",
-  "front": "Hybrid search and reranking.",
-  "back": "Hybrid: combine keyword search (BM25) and vector search, for exact terms and meaning.\nReranking: a cross-encoder rescores the top results with the query; higher precision, more cost.",
+  "front": "What is hybrid search in RAG?",
+  "back": "Run keyword search (BM25) and vector search together, then merge the two rankings.\nKeywords catch exact terms (tickers, codes, names); vectors catch meaning.",
   "tags": [
    "llm",
    "rag"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "Standard retrieval practice",
   "created": 1794100000120,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-13",
+  "note": "llm-03-agentes#rag"
  },
  "llm-03-agents-014": {
   "deck": "llm-03-agents",
@@ -5730,10 +5743,11 @@
    "llm",
    "agentes"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "Standard LLM evaluation practice",
   "created": 1794100000121,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-03-agentes#avaliacao"
  },
  "llm-03-agents-015": {
   "deck": "llm-03-agents",
@@ -5743,10 +5757,11 @@
    "llm",
    "agentes"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "Zheng et al. 2023 (LLM-as-judge)",
   "created": 1794100000122,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-03-agentes#avaliacao"
  },
  "llm-03-agents-016": {
   "deck": "llm-03-agents",
@@ -5756,10 +5771,11 @@
    "llm",
    "agentes"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "Provider API docs (structured outputs)",
   "created": 1794100000123,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-03-agentes#tools"
  },
  "llm-03-agents-017": {
   "deck": "llm-03-agents",
@@ -5770,10 +5786,11 @@
    "agentes",
    "langgraph"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "LangGraph documentation (memory)",
   "created": 1794100000124,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-03-agentes#contexto"
  },
  "llm-03-agents-018": {
   "deck": "llm-03-agents",
@@ -5783,10 +5800,11 @@
    "llm",
    "agentes"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "Anthropic, \"Building effective agents\" (2024)",
   "created": 1794100000125,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-03-agentes#avaliacao"
  },
  "llm-03-agents-019": {
   "deck": "llm-03-agents",
@@ -5797,10 +5815,11 @@
    "agentes",
    "confiabilidade"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "Standard distributed-systems practice",
   "created": 1794100000126,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-03-agentes#erros"
  },
  "llm-03-agents-020": {
   "deck": "llm-03-agents",
@@ -5810,10 +5829,11 @@
    "llm",
    "agentes"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "Provider API docs (prompt caching)",
   "created": 1794100000127,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-03-agentes#contexto"
  },
  "llm-03-agents-021": {
   "deck": "llm-03-agents",
@@ -5823,10 +5843,11 @@
    "llm",
    "mcp"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "MCP specification",
   "created": 1794100000128,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-03-agentes#mcp"
  },
  "llm-03-agents-022": {
   "deck": "llm-03-agents",
@@ -5836,10 +5857,11 @@
    "llm",
    "mcp"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "MCP specification",
   "created": 1794100000129,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-03-agentes#mcp"
  },
  "llm-03-agents-023": {
   "deck": "llm-03-agents",
@@ -5849,10 +5871,11 @@
    "llm",
    "mcp"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "MCP specification",
   "created": 1794100000130,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-03-agentes#mcp"
  },
  "llm-03-agents-024": {
   "deck": "llm-03-agents",
@@ -5862,11 +5885,12 @@
    "llm",
    "mcp"
   ],
-  "source": "Standard practice; Anthropic, \"Building effective agents\" (2024); MCP specification",
+  "source": "MCP specification",
   "created": 1794100000131,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "llm-03-agentes#mcp"
  },
  "llm-04-langgraph-001": {
   "deck": "llm-04-langgraph",
@@ -5876,25 +5900,27 @@
    "llm",
    "langgraph"
   ],
-  "source": "LangGraph documentation",
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
   "created": 1794100000132,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "llm-04-langgraph#modelo"
  },
  "llm-04-langgraph-002": {
   "deck": "llm-04-langgraph",
   "front": "What is a StateGraph's state, and what does a node return?",
-  "back": "A typed schema (TypedDict or Pydantic).\nA node receives the state and returns a **partial update**, not the whole state.",
+  "back": "A typed schema (TypedDict, Pydantic model or dataclass).\nA node receives the state and returns a **partial update**, not the whole state.",
   "tags": [
    "llm",
    "langgraph"
   ],
-  "source": "LangGraph documentation",
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
   "created": 1794100000133,
   "suspended": false,
-  "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "verified": "2026-11-13",
+  "checkBy": "2027-05-05",
+  "note": "llm-04-langgraph#estado"
  },
  "llm-04-langgraph-003": {
   "deck": "llm-04-langgraph",
@@ -5904,11 +5930,12 @@
    "llm",
    "langgraph"
   ],
-  "source": "LangGraph documentation",
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
   "created": 1794100000134,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "llm-04-langgraph#estado"
  },
  "llm-04-langgraph-004": {
   "deck": "llm-04-langgraph",
@@ -5918,11 +5945,12 @@
    "llm",
    "langgraph"
   ],
-  "source": "LangGraph documentation",
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
   "created": 1794100000135,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "llm-04-langgraph#arestas"
  },
  "llm-04-langgraph-005": {
   "deck": "llm-04-langgraph",
@@ -5932,25 +5960,27 @@
    "llm",
    "langgraph"
   ],
-  "source": "LangGraph documentation",
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
   "created": 1794100000136,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "llm-04-langgraph#modelo"
  },
  "llm-04-langgraph-006": {
   "deck": "llm-04-langgraph",
   "front": "What does a checkpointer do?",
-  "back": "Saves a state snapshot after each super-step, keyed by `thread_id` in the config.\nIt enables conversation memory, resume after failure, human-in-the-loop and time travel. In-memory for dev; Postgres or similar for production.",
+  "back": "Saves a state snapshot at each super-step, keyed by `thread_id` in the config.\nIt enables conversation memory, resume after failure, human-in-the-loop and time travel. `InMemorySaver` for tests; Postgres or similar for production.",
   "tags": [
    "llm",
    "langgraph"
   ],
-  "source": "LangGraph documentation",
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
   "created": 1794100000137,
   "suspended": false,
-  "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "verified": "2026-11-13",
+  "checkBy": "2027-05-05",
+  "note": "llm-04-langgraph#persistencia"
  },
  "llm-04-langgraph-007": {
   "deck": "llm-04-langgraph",
@@ -5961,11 +5991,12 @@
    "langgraph",
    "agentes"
   ],
-  "source": "LangGraph documentation",
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
   "created": 1794100000138,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "llm-04-langgraph#persistencia"
  },
  "llm-04-langgraph-008": {
   "deck": "llm-04-langgraph",
@@ -5975,11 +6006,12 @@
    "llm",
    "langgraph"
   ],
-  "source": "LangGraph documentation",
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
   "created": 1794100000139,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "llm-04-langgraph#superstep"
  },
  "llm-04-langgraph-009": {
   "deck": "llm-04-langgraph",
@@ -5989,26 +6021,28 @@
    "llm",
    "langgraph"
   ],
-  "source": "LangGraph documentation",
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
   "created": 1794100000140,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "llm-04-langgraph#superstep"
  },
  "llm-04-langgraph-010": {
   "deck": "llm-04-langgraph",
   "front": "How does `interrupt()` work, and what is the main pitfall?",
-  "back": "It pauses the graph inside a node and surfaces a value (e.g. for human approval). Resume with `Command(resume=...)` on the same thread.\nPitfall: the node **re-runs from its start**, so side effects before the interrupt run again.",
+  "back": "It pauses the graph inside a node and surfaces a value (e.g. for human approval). It needs a checkpointer and a `thread_id`. Resume with `Command(resume=...)`; that value becomes the return of `interrupt()`.\nPitfall: the node **re-runs from its start**, so side effects before the interrupt run again.",
   "tags": [
    "llm",
    "langgraph",
    "agentes"
   ],
-  "source": "LangGraph documentation",
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
   "created": 1794100000141,
   "suspended": false,
-  "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "verified": "2026-11-13",
+  "checkBy": "2027-05-05",
+  "note": "llm-04-langgraph#interrupt"
  },
  "llm-04-langgraph-011": {
   "deck": "llm-04-langgraph",
@@ -6018,11 +6052,12 @@
    "llm",
    "langgraph"
   ],
-  "source": "LangGraph documentation",
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
   "created": 1794100000142,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "llm-04-langgraph#arestas"
  },
  "llm-04-langgraph-012": {
   "deck": "llm-04-langgraph",
@@ -6032,11 +6067,12 @@
    "llm",
    "langgraph"
   ],
-  "source": "LangGraph documentation",
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
   "created": 1794100000143,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "llm-04-langgraph#arestas"
  },
  "llm-04-langgraph-013": {
   "deck": "llm-04-langgraph",
@@ -6046,11 +6082,12 @@
    "llm",
    "langgraph"
   ],
-  "source": "LangGraph documentation",
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
   "created": 1794100000144,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "llm-04-langgraph#extras"
  },
  "llm-04-langgraph-014": {
   "deck": "llm-04-langgraph",
@@ -6061,25 +6098,27 @@
    "langgraph",
    "web-app"
   ],
-  "source": "LangGraph documentation",
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
   "created": 1794100000145,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "llm-04-langgraph#extras"
  },
  "llm-04-langgraph-015": {
   "deck": "llm-04-langgraph",
   "front": "What is time travel in LangGraph?",
-  "back": "List a thread's checkpoints, then replay from one or fork from it with an edited state.\nUseful for debugging and for \"what if\" reruns.",
+  "back": "List a thread's checkpoints (`get_state_history`, newest first), then replay from one, or fork from it with `update_state`.\nYou can only resume from a super-step boundary. Useful for debugging and \"what if\" reruns.",
   "tags": [
    "llm",
    "langgraph"
   ],
-  "source": "LangGraph documentation",
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
   "created": 1794100000146,
   "suspended": false,
-  "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "verified": "2026-11-13",
+  "checkBy": "2027-05-05",
+  "note": "llm-04-langgraph#timetravel"
  },
  "llm-04-langgraph-016": {
   "deck": "llm-04-langgraph",
@@ -6090,25 +6129,27 @@
    "langgraph",
    "confiabilidade"
   ],
-  "source": "LangGraph documentation",
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
   "created": 1794100000147,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "llm-04-langgraph#timetravel"
  },
  "llm-04-langgraph-017": {
   "deck": "llm-04-langgraph",
   "front": "What protects a cyclic graph from looping forever?",
-  "back": "The recursion limit: a cap on super-steps per run, set in the config.\nExceeding it raises `GraphRecursionError`. Also design explicit exit conditions.",
+  "back": "The recursion limit: a cap on **super-steps** per run, set as `recursion_limit` at the top level of the config (not inside `configurable`).\nExceeding it raises `GraphRecursionError`. Also design explicit exit conditions.",
   "tags": [
    "llm",
    "langgraph"
   ],
-  "source": "LangGraph documentation",
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
   "created": 1794100000148,
   "suspended": false,
-  "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "verified": "2026-11-13",
+  "checkBy": "2027-05-05",
+  "note": "llm-04-langgraph#superstep"
  },
  "sd-01-scale-001": {
   "deck": "sd-01-scale",
@@ -8203,5 +8244,109 @@
   "suspended": false,
   "verified": "2026-11-12",
   "note": "llm-01-bloco-geracao#logits"
+ },
+ "llm-03-agents-025": {
+  "deck": "llm-03-agents",
+  "front": "What does a reranker do in RAG, and what does it cost?",
+  "back": "A cross-encoder reads the query and each candidate chunk **together** and rescores the top results.\nHigher precision than embedding similarity, but one model call per candidate: use it only on the top few dozen.",
+  "tags": [
+   "llm",
+   "agentes"
+  ],
+  "source": "Standard retrieval practice",
+  "created": 1794300002011,
+  "suspended": false,
+  "verified": "2026-11-13",
+  "note": "llm-03-agentes#rag"
+ },
+ "llm-03-agents-026": {
+  "deck": "llm-03-agents",
+  "front": "After a tool runs, how does its result reach the model?",
+  "back": "The app appends it to the conversation as a tool-result message, linked to the call by an id.\nThe model then sees the whole history again and decides the next step.",
+  "tags": [
+   "llm",
+   "agentes"
+  ],
+  "source": "Standard tool-calling practice (provider API docs)",
+  "created": 1794300002012,
+  "suspended": false,
+  "verified": "2026-11-13",
+  "note": "llm-03-agentes#tools"
+ },
+ "llm-03-agents-027": {
+  "deck": "llm-03-agents",
+  "front": "Per-step success 99%, 10 dependent steps: chance the run succeeds? And at 95% with 20 steps?",
+  "back": "$0.99^{10} \\approx 90\\%$.\n$0.95^{20} \\approx 36\\%$.\nBoth the per-step rate and the chain length matter.",
+  "tags": [
+   "llm",
+   "agentes"
+  ],
+  "source": "Arithmetic; standard reliability practice",
+  "created": 1794300002013,
+  "suspended": false,
+  "verified": "2026-11-13",
+  "note": "llm-03-agentes#erros"
+ },
+ "llm-04-langgraph-018": {
+  "deck": "llm-04-langgraph",
+  "front": "Two nodes run in one super-step; one fails. What happens on resume?",
+  "back": "The successful node's writes were saved as **pending writes**.\nOn resume only the failed node runs again; the successful one is not recomputed.",
+  "tags": [
+   "llm",
+   "langgraph",
+   "confiabilidade"
+  ],
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
+  "created": 1794300002014,
+  "suspended": false,
+  "verified": "2026-11-13",
+  "note": "llm-04-langgraph#superstep",
+  "checkBy": "2027-05-13"
+ },
+ "llm-04-langgraph-019": {
+  "deck": "llm-04-langgraph",
+  "front": "LangGraph durability modes: name the three and the trade-off.",
+  "back": "`\"exit\"`: persist only when the run exits. Fastest; no recovery mid-run.\n`\"async\"`: persist while the next step runs. Small risk of losing a checkpoint on a crash.\n`\"sync\"`: persist before the next step starts. Safest, slowest.",
+  "tags": [
+   "llm",
+   "langgraph",
+   "confiabilidade"
+  ],
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
+  "created": 1794300002015,
+  "suspended": false,
+  "verified": "2026-11-13",
+  "note": "llm-04-langgraph#persistencia",
+  "checkBy": "2027-05-13"
+ },
+ "llm-04-langgraph-020": {
+  "deck": "llm-04-langgraph",
+  "front": "How does `update_state` apply your values?",
+  "back": "Like an update from a node: values go through the key's reducer.\nSo a key with `operator.add` **appends**; it does not overwrite. It creates a new checkpoint (a fork); the old one stays.",
+  "tags": [
+   "llm",
+   "langgraph"
+  ],
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
+  "created": 1794300002016,
+  "suspended": false,
+  "verified": "2026-11-13",
+  "note": "llm-04-langgraph#timetravel",
+  "checkBy": "2027-05-13"
+ },
+ "llm-04-langgraph-021": {
+  "deck": "llm-04-langgraph",
+  "front": "State `{\"items\": [\"a\"], \"n\": 1}`; `items` uses `operator.add`, `n` has no reducer. A node returns `{\"items\": [\"b\"], \"n\": 5}`. New state?",
+  "back": "`{\"items\": [\"a\", \"b\"], \"n\": 5}`.\n`items` is appended by its reducer; `n` is overwritten (the default).",
+  "tags": [
+   "llm",
+   "langgraph"
+  ],
+  "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
+  "created": 1794300002017,
+  "suspended": false,
+  "verified": "2026-11-13",
+  "note": "llm-04-langgraph#estado",
+  "checkBy": "2027-05-13"
  }
 }
