@@ -1551,5 +1551,1167 @@
     "answer": "`interrupt(valor)` pausa o grafo dentro do nó e devolve o valor para quem chamou. Exige checkpointer e `thread_id`. A retomada é `Command(resume=x)` no mesmo thread, e `x` vira o retorno de `interrupt()`. O nó recomeça da primeira linha, então tudo antes do interrupt roda de novo. Por isso o interrupt vai no começo do nó, ou num nó próprio, e o efeito colateral vem depois dele ou em outro nó."
    }
   ]
+ },
+ "d1-01-hedge-fisico": {
+  "deck": "d1-01-physical",
+  "title": "Custo do hedge físico",
+  "order": 1,
+  "created": 1794600000004,
+  "verified": "2026-11-13",
+  "source": "Notas de aula (Learn Anything, Delta One); números ilustrativos, não são de nenhuma mesa real",
+  "intro": "Notas de aluno. Um exemplo segue até o fim: o cliente entra **long num TRS de 10 milhões de USD** sobre uma ação e paga SOFR + 50 bp. A mesa compra a ação para se proteger.\nPergunta da nota: esses 50 bp pagam o hedge? Todos os números são ilustrativos.",
+  "objectives": [
+   {
+    "id": "o1",
+    "verb": "explicar",
+    "text": "por que só os spreads sobre SOFR importam, e quem cobra cada linha de custo"
+   },
+   {
+    "id": "o2",
+    "verb": "calcular",
+    "text": "o custo de funding de uma posição com repo e haircut"
+   },
+   {
+    "id": "o3",
+    "verb": "calcular",
+    "text": "a cobrança de alavancagem (SLR), e explicar o $K_e$ menos dívida"
+   },
+   {
+    "id": "o4",
+    "verb": "calcular",
+    "text": "o P&L da pilha de custos e o break-even"
+   },
+   {
+    "id": "o5",
+    "verb": "diagnosticar",
+    "text": "o efeito de um papel ficar special e os riscos do empréstimo de ações"
+   }
+  ],
+  "sections": [
+   {
+    "id": "cenario",
+    "title": "1. O cenário e a unidade",
+    "obj": [
+     "o1"
+    ],
+    "body": "- Cliente long TRS: recebe o retorno da ação, paga SOFR + spread.\n- Mesa: fica short o retorno → compra a ação (hedge físico) → precisa de caixa para carregar a posição.\n- O cliente paga SOFR. A mesa paga SOFR para se financiar. **SOFR cancela.**\n- Sobram só os spreads sobre SOFR. Unidade de tudo: **bp por ano sobre o nocional**.\n- Conversão: 1 bp sobre 10 milhões = 1.000 USD por ano.\n- Consequência: se o SOFR sobe ou cai, o P&L desse carrego não muda."
+   },
+   {
+    "id": "funding",
+    "title": "2. Funding: repo + haircut",
+    "obj": [
+     "o2"
+    ],
+    "body": "- A Tesouraria (ALM) financia o estoque da mesa e cobra um preço interno: o **FTP**.\n- O FTP cobre o custo da dívida do banco e o uso de balanço escasso.\n- A ação entra num **repo**: funding com garantia, barato. Mas o repo não financia 100%.\n- **Haircut** = a parte que o repo não cobre. Ela é financiada sem garantia, mais caro.\n- Exemplo: 10 milhões, haircut de 15%.\n  1. 8,5 milhões no repo, a SOFR + 30 bp.\n  2. 1,5 milhão sem garantia, a SOFR + 100 bp.\n  3. Custo = $0{,}85 \\times 30 + 0{,}15 \\times 100$ = 25,5 + 15 = **40,5 bp**.\n- O haircut é o peso da mistura. Haircut maior → mais funding caro.\n- O spread sem garantia é o spread de crédito do próprio banco. Ele cresce com o prazo.\n- Funding a prazo custa mais que overnight. Financiar um swap de 1 ano no overnight é barato, mas carrega risco de rolagem."
+   },
+   {
+    "id": "leverage",
+    "title": "3. Alavancagem (SLR)",
+    "obj": [
+     "o3"
+    ],
+    "body": "- SLR = capital Tier 1 / exposição total de alavancagem.\n- A exposição conta **todo ativo pelo tamanho cheio**, sem peso de risco. 10 milhões de um papel líquido e seguro pesam igual a 10 milhões de um arriscado.\n- Ideia: uma fração do ativo precisa ser financiada com capital próprio em vez de dívida. Capital próprio exige retorno maior.\n$$\\text{cobrança} = E \\times L \\times (K_e - K_d)$$\n- $E$ = exposição (% do nocional); $L$ = exigência de alavancagem; $K_e$ = custo do capital; $K_d$ = custo da dívida.\n- Por que $K_e$ **menos** a dívida: as linhas de funding já cobraram o custo de dívida sobre 100% do ativo. O capital só substitui uma parte dessa dívida. Cobrar $K_e$ cheio contaria a dívida duas vezes.\n- Exemplo: ação física (exposição 100%), exigência 4,5%, $K_e$ 12%, dívida 5%.\n  1. Excesso: 12% − 5% = 7%.\n  2. Cobrança: $100\\% \\times 4{,}5\\% \\times 7\\%$ = **31,5 bp**.\n- Costuma ser a maior linha do hedge físico.\n- Regra do eSLR dos EUA (em vigor desde 1/abr/2026, para holdings G-SIB): saiu de 3% + 2% fixo e foi para 3% + metade da sobretaxa G-SIB. A exigência caiu.\n- Efeito de 5% → 4,5%: 35 bp → 31,5 bp. Menos 3,5 bp por ano."
+   },
+   {
+    "id": "capital",
+    "title": "4. Capital de contraparte",
+    "obj": [
+     "o1"
+    ],
+    "body": "- É outra restrição, sobre outra coisa: o risco de o **cliente** dar default no swap.\n- Base: exposição ponderada por risco (RWA). Depende do cliente, da margem e do prazo.\n- Alavancagem × capital de contraparte:\n  1. Alavancagem: tamanho do ativo, sem peso de risco.\n  2. Capital de contraparte: risco de crédito do cliente, com peso de risco.\n- As duas costumam ser cobradas em linhas separadas. No exemplo: **10 bp**."
+   },
+   {
+    "id": "lending",
+    "title": "5. Empréstimo de ações: a linha negativa",
+    "obj": [
+     "o5"
+    ],
+    "body": "- A mesa está long a ação. O Prime Brokerage / Sec Lending empresta essa ação a quem está short e cobra uma taxa. A mesa recebe uma parte. É **receita**: custo negativo.\n- **GC** (general collateral): fácil de tomar. Taxa de poucos bp até uns 30 bp ao ano.\n- **Special**: oferta escassa ou muita demanda de short. A taxa vai a centenas ou milhares de bp.\n- Utilização = ações emprestadas / oferta emprestável. Alta → pouca folga → a taxa pode saltar. Ela antecipa a taxa.\n- Days to cover = short interest / volume médio diário. Alto → risco de squeeze e candidato a special.\n- Rebate (colateral em dinheiro) = taxa de reinvestimento − taxa de aluguel.\n  1. GC: 4,30% − 0,25% = 4,05%.\n  2. Special: 4,30% − 6% = **−1,70%**. Rebate negativo: o tomador ainda paga por cima.\n- Recall: o doador pede as ações de volta. O tomador devolve, toma de outro, ou sofre um **buy-in** (compra a mercado, por conta dele).\n- No exemplo, papel GC: a mesa recebe **10 bp**."
+   },
+   {
+    "id": "pilha",
+    "title": "6. A pilha e o P&L",
+    "obj": [
+     "o4"
+    ],
+    "body": "- As cinco linhas do hedge físico:\n  1. Repo: 25,5\n  2. Haircut sem garantia: 15\n  3. Alavancagem: 31,5\n  4. Capital de contraparte: 10\n  5. Empréstimo de ações: −10\n- Custo total = **72 bp**.\n- P&L = 50 − 72 = **−22 bp** ≈ −22 mil USD por ano em 10 milhões.\n- Conclusão: 50 bp não pagam um hedge físico isolado num papel GC.\n- Mesmo caso, mas o papel fica special: taxa de 300 bp, a mesa fica com metade.\n  1. Empréstimo: −150 em vez de −10.\n  2. Custo = 82 − 150 = **−68 bp** (receita líquida).\n  3. P&L = 50 + 68 = **+118 bp** ≈ +118 mil USD por ano.\n- No special, o hedge long se paga sozinho. O spread do cliente é fixo, e a mesa fica com o extra."
+   },
+   {
+    "id": "regra",
+    "title": "7. Regra de decisão",
+    "obj": [
+     "o4"
+    ],
+    "body": "- O hedge físico dá lucro quando: **spread do cliente ≥ funding + alavancagem + capital − empréstimo**.\n- Break-even no exemplo: custo sem empréstimo = 82 bp. Com cliente a 50, a mesa precisa de 32 bp de receita de empréstimo. Com metade da taxa, isso é um aluguel de **64 bp**.\n- Se a conta não fecha: internalizar contra um short de outro cliente, ou fazer o hedge sintético (próxima nota)."
+   },
+   {
+    "id": "armadilhas",
+    "title": "8. Onde eu me confundo",
+    "obj": [
+     "o3",
+     "o5"
+    ],
+    "body": "- SOFR não entra na conta. Só spreads.\n- O haircut é o **peso** do funding caro, não um custo em bp.\n- Alavancagem usa $K_e$ − dívida. $K_e$ cheio conta a dívida duas vezes.\n- Alavancagem não tem peso de risco. Capital de contraparte tem. São linhas diferentes.\n- Empréstimo de ações é receita para quem está **long** o papel. Para quem está short, special é custo.\n- A mesa recebe uma **parte** da taxa de aluguel, não a taxa inteira.\n- Rebate negativo existe: taxa de aluguel acima da taxa de reinvestimento.\n- bp sobre nocional → dólares: 1 bp em 10 milhões = 1.000 USD por ano."
+   }
+  ],
+  "summary": "### Unidade\n- SOFR cancela. Tudo em bp/ano sobre o nocional. 1 bp em 10 mi = 1.000 USD/ano.\n### As cinco linhas\n- Funding = $(1-h) \\times \\text{repo} + h \\times \\text{sem garantia}$. Ex.: $0{,}85 \\times 30 + 0{,}15 \\times 100$ = 40,5.\n- Alavancagem = exposição × exigência × ($K_e$ − dívida). Ex.: $100\\% \\times 4{,}5\\% \\times 7\\%$ = 31,5.\n- Capital de contraparte: risco do cliente, por RWA. Ex.: 10.\n- Empréstimo de ações: receita. GC ≈ −10; special = centenas de bp.\n### P&L\n- Custo = 40,5 + 31,5 + 10 − 10 = 72. Cliente 50 → −22 bp.\n- Special (300 bp, metade para a mesa): custo −68 → +118 bp.\n### Regra\n- Lucro se spread ≥ funding + alavancagem + capital − empréstimo.\n- Senão: internalizar ou hedge sintético.\n### Sec lending\n- Rebate = reinvestimento − aluguel (pode ser negativo).\n- Sinais: utilização e days to cover subindo; recalls.",
+  "questions": [
+   {
+    "id": "d1-01-hedge-fisico-q01",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "funding",
+    "stem": "Repo a SOFR + 20 bp, funding sem garantia a SOFR + 120 bp, haircut de 10%. Qual é o custo de funding?",
+    "options": [
+     {
+      "t": "30 bp",
+      "ok": true,
+      "why": "$0{,}90 \\times 20 + 0{,}10 \\times 120 = 18 + 12 = 30$ bp."
+     },
+     {
+      "t": "70 bp",
+      "ok": false,
+      "why": "Isso é a média simples das duas taxas. O peso do funding caro é o haircut: 10%."
+     },
+     {
+      "t": "20 bp",
+      "ok": false,
+      "why": "Isso ignora o haircut. O repo não financia 100% da posição."
+     },
+     {
+      "t": "140 bp",
+      "ok": false,
+      "why": "Isso soma as duas taxas. A posição é financiada por uma mistura, não pelas duas inteiras."
+     }
+    ]
+   },
+   {
+    "id": "d1-01-hedge-fisico-q02",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "leverage",
+    "stem": "Ação física, exigência de alavancagem de 5%, $K_e$ de 13%, custo da dívida de 5%. Qual é a cobrança de alavancagem?",
+    "options": [
+     {
+      "t": "40 bp",
+      "ok": true,
+      "why": "$100\\% \\times 5\\% \\times (13\\% - 5\\%) = 0{,}40\\%$ = 40 bp."
+     },
+     {
+      "t": "65 bp",
+      "ok": false,
+      "why": "Isso usa $K_e$ cheio ($5\\% \\times 13\\%$). A dívida já foi cobrada nas linhas de funding."
+     },
+     {
+      "t": "25 bp",
+      "ok": false,
+      "why": "Isso usa só o custo da dívida ($5\\% \\times 5\\%$). A cobrança é sobre o excesso do capital."
+     },
+     {
+      "t": "8 bp",
+      "ok": false,
+      "why": "Isso é o excesso $K_e$ − dívida, em %, lido como bp. Falta multiplicar pela exigência de 5%."
+     }
+    ]
+   },
+   {
+    "id": "d1-01-hedge-fisico-q03",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "leverage",
+    "stem": "Por que a cobrança de alavancagem usa $K_e$ menos o custo da dívida, e não $K_e$ cheio?",
+    "options": [
+     {
+      "t": "Porque o capital substitui dívida que as linhas de funding já cobraram.",
+      "ok": true,
+      "why": "O funding foi cobrado sobre 100% do ativo. Trocar uma fatia por capital custa só a diferença entre capital e dívida."
+     },
+     {
+      "t": "Porque o regulador exige descontar a dívida.",
+      "ok": false,
+      "why": "É uma convenção interna de precificação, para não contar o mesmo custo duas vezes."
+     },
+     {
+      "t": "Porque a ação é um ativo líquido.",
+      "ok": false,
+      "why": "A liquidez não entra: o SLR não tem peso de risco."
+     },
+     {
+      "t": "Porque o cliente paga SOFR, que cancela a dívida.",
+      "ok": false,
+      "why": "O SOFR cancela a taxa base. O custo de dívida aqui é o spread, que não cancela."
+     }
+    ]
+   },
+   {
+    "id": "d1-01-hedge-fisico-q04",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "pilha",
+    "stem": "Pilha: funding 30, alavancagem 40, capital 8, empréstimo −12. O cliente paga SOFR + 60. Qual é o P&L anual da mesa num nocional de 20 milhões?",
+    "options": [
+     {
+      "t": "−12 mil USD",
+      "ok": true,
+      "why": "Custo = 30 + 40 + 8 − 12 = 66 bp. P&L = 60 − 66 = −6 bp. Em 20 milhões: −12 mil USD."
+     },
+     {
+      "t": "+12 mil USD",
+      "ok": false,
+      "why": "O sinal está trocado: o custo (66) é maior que o spread (60)."
+     },
+     {
+      "t": "−36 mil USD",
+      "ok": false,
+      "why": "Isso esquece a receita de empréstimo (custo de 78 em vez de 66)."
+     },
+     {
+      "t": "−6 mil USD",
+      "ok": false,
+      "why": "Isso vale para 10 milhões. O nocional é de 20 milhões."
+     }
+    ]
+   },
+   {
+    "id": "d1-01-hedge-fisico-q05",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "regra",
+    "stem": "Na mesma pilha (custo de 78 bp antes do empréstimo, cliente a 60 bp), a mesa fica com metade da taxa de aluguel. Qual taxa de aluguel zera o P&L?",
+    "options": [
+     {
+      "t": "36 bp",
+      "ok": true,
+      "why": "Faltam 78 − 60 = 18 bp de receita. Com metade da taxa: aluguel de 36 bp."
+     },
+     {
+      "t": "18 bp",
+      "ok": false,
+      "why": "18 bp é a receita necessária. A mesa só recebe metade do aluguel."
+     },
+     {
+      "t": "9 bp",
+      "ok": false,
+      "why": "Isso divide por 2 em vez de multiplicar."
+     },
+     {
+      "t": "78 bp",
+      "ok": false,
+      "why": "Isso cobriria todo o custo sozinho, sem contar os 60 bp do cliente."
+     }
+    ]
+   },
+   {
+    "id": "d1-01-hedge-fisico-q06",
+    "type": "mc",
+    "obj": "o5",
+    "sec": "lending",
+    "stem": "Colateral em dinheiro rende 4,00%. A taxa de aluguel do papel é 5,50%. Qual é o rebate do tomador?",
+    "options": [
+     {
+      "t": "−1,50%: ele paga por cima.",
+      "ok": true,
+      "why": "Rebate = 4,00% − 5,50% = −1,50%. O tomador abre mão do juro e ainda paga 1,50%."
+     },
+     {
+      "t": "+1,50%",
+      "ok": false,
+      "why": "O sinal está trocado: o aluguel é maior que o reinvestimento."
+     },
+     {
+      "t": "0%: o rebate não fica negativo.",
+      "ok": false,
+      "why": "Fica. É a marca de um papel special."
+     },
+     {
+      "t": "4,00%",
+      "ok": false,
+      "why": "Isso ignora a taxa de aluguel."
+     }
+    ]
+   },
+   {
+    "id": "d1-01-hedge-fisico-q07",
+    "type": "mc",
+    "obj": "o1",
+    "sec": "cenario",
+    "stem": "O SOFR cai de 4,30% para 3,80%. O que acontece com o carrego da mesa num TRS de cliente long com hedge físico?",
+    "options": [
+     {
+      "t": "Nada: o SOFR cancela nas duas pontas.",
+      "ok": true,
+      "why": "A mesa recebe SOFR do cliente e paga SOFR no funding. Só os spreads ficam."
+     },
+     {
+      "t": "Melhora, porque o funding fica mais barato.",
+      "ok": false,
+      "why": "O funding cai, mas o que a mesa recebe do cliente cai igual."
+     },
+     {
+      "t": "Piora, porque o cliente paga menos.",
+      "ok": false,
+      "why": "O cliente paga menos, mas o funding da mesa cai igual."
+     },
+     {
+      "t": "Depende do haircut.",
+      "ok": false,
+      "why": "O haircut muda o spread de funding, não a exposição ao nível do SOFR."
+     }
+    ]
+   },
+   {
+    "id": "d1-01-hedge-fisico-q08",
+    "type": "mc",
+    "obj": "o5",
+    "sec": "pilha",
+    "stem": "A mesa está long a ação como hedge de um TRS de cliente long, com spread fixo. O papel fica special. Qual é o efeito para a mesa?",
+    "options": [
+     {
+      "t": "Melhora: a receita de empréstimo sobe e o spread do cliente continua igual.",
+      "ok": true,
+      "why": "Quem tem o papel pode emprestá-lo caro. O cliente continua pagando o spread contratado."
+     },
+     {
+      "t": "Piora: a mesa passa a pagar a taxa de aluguel.",
+      "ok": false,
+      "why": "Paga aluguel quem está short e precisa tomar o papel."
+     },
+     {
+      "t": "Nada muda: o ganho é repassado ao cliente.",
+      "ok": false,
+      "why": "O spread é fixo no contrato. O repasse não é automático."
+     },
+     {
+      "t": "Piora: o haircut do repo sobe.",
+      "ok": false,
+      "why": "Special é sobre escassez no empréstimo de ações. Não define o haircut."
+     }
+    ]
+   },
+   {
+    "id": "d1-01-hedge-fisico-q09",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "leverage",
+    "stem": "Por que 10 milhões de um papel líquido e seguro custam tanto balanço num banco G-SIB?",
+    "options": [
+     {
+      "t": "Porque o SLR conta o ativo pelo tamanho cheio, sem peso de risco.",
+      "ok": true,
+      "why": "Na alavancagem, só o tamanho importa. O risco do papel não reduz a exposição."
+     },
+     {
+      "t": "Porque papéis líquidos têm haircut maior.",
+      "ok": false,
+      "why": "É o contrário: papéis líquidos têm haircut menor."
+     },
+     {
+      "t": "Porque o capital de contraparte é maior em papéis líquidos.",
+      "ok": false,
+      "why": "O capital de contraparte depende do cliente do swap, não da liquidez do papel."
+     },
+     {
+      "t": "Porque papéis GC não geram receita de empréstimo.",
+      "ok": false,
+      "why": "Geram pouca, mas isso é outra linha. A pergunta é sobre balanço."
+     }
+    ]
+   },
+   {
+    "id": "d1-01-hedge-fisico-q10",
+    "type": "open",
+    "obj": "o1",
+    "sec": "pilha",
+    "stem": "Liste as cinco linhas de custo de um hedge físico e diga, em uma frase cada, o que cada uma cobra.",
+    "answer": "1) Repo: funding com garantia da maior parte da posição. 2) Haircut: a parte que o repo não cobre, financiada sem garantia, mais caro. 3) Alavancagem (SLR): o excesso de retorno do capital sobre a dívida, na fração do ativo que exige capital. 4) Capital de contraparte: o risco de crédito do cliente no swap. 5) Empréstimo de ações: receita, entra com sinal negativo."
+   },
+   {
+    "id": "d1-01-hedge-fisico-q11",
+    "type": "open",
+    "obj": "o5",
+    "sec": "lending",
+    "stem": "Explique GC e special, e dois sinais de que um papel pode ficar special.",
+    "answer": "GC é o papel fácil de tomar emprestado, com taxa de poucos bp. Special é o papel escasso ou muito demandado por shorts, com taxa de centenas de bp. Sinais: utilização subindo (pouca oferta livre), taxa subindo ou rebate caindo, recalls, days to cover alto, e eventos como M&A ou exclusão de índice."
+   }
+  ]
+ },
+ "d1-02-hedge-sintetico": {
+  "deck": "d1-02-synthetic",
+  "title": "Hedge sintético e switches",
+  "order": 1,
+  "created": 1794600000005,
+  "verified": "2026-11-13",
+  "source": "Notas de aula (Learn Anything, Delta One); números ilustrativos, não são de nenhuma mesa real",
+  "intro": "Continua a nota do hedge físico. Mesmo cliente: long TRS de 10 milhões, paga SOFR + 50 bp. O hedge físico custava **72 bp** e dava −22 bp.\nPergunta da nota: existe uma rota mais barata, e quando vale trocar? Todos os números são ilustrativos.",
+  "objectives": [
+   {
+    "id": "o1",
+    "verb": "comparar",
+    "text": "as rotas de hedge de um TRS e a ordem em que se olha cada uma"
+   },
+   {
+    "id": "o2",
+    "verb": "calcular",
+    "text": "o custo all-in de um hedge sintético, com a alavancagem reduzida"
+   },
+   {
+    "id": "o3",
+    "verb": "calcular",
+    "text": "a taxa de financiamento e o borrow implícitos nos preços de opções"
+   },
+   {
+    "id": "o4",
+    "verb": "calcular",
+    "text": "se um switch entre físico e sintético compensa"
+   },
+   {
+    "id": "o5",
+    "verb": "diagnosticar",
+    "text": "o risco de borrow num swap de cliente short"
+   }
+  ],
+  "sections": [
+   {
+    "id": "rotas",
+    "title": "1. As rotas de hedge",
+    "obj": [
+     "o1"
+    ],
+    "body": "- Para um TRS de cliente long em ação, nesta ordem:\n  1. **Internalizar** contra um short de outro cliente.\n  2. Comprar a ação (físico).\n  3. Swap com um dealer da rua (swap facility).\n  4. Opções listadas: long call + short put.\n- Para índice, existe também o futuro.\n- Por que internalizar vem primeiro: um long de cliente contra um short de cliente não precisa de hedge, nem de ação, nem de balanço. Custo perto de zero, e a mesa ganha o spread dos dois lados."
+   },
+   {
+    "id": "balanco",
+    "title": "2. Por que o sintético usa menos balanço",
+    "obj": [
+     "o2"
+    ],
+    "body": "- Ação física: entra com **100%** do nocional na exposição de alavancagem.\n- Derivativo: entra pelo custo de reposição + um add-on de exposição futura (SA-CCR). Para um swap de 1 ano com margem, algo como **15%**.\n- Mesma fórmula da nota anterior:\n  1. Físico: $100\\% \\times 4{,}5\\% \\times 7\\%$ = 31,5 bp.\n  2. Sintético: $15\\% \\times 4{,}5\\% \\times 7\\%$ ≈ **4,7 bp**.\n- A maior linha do físico cai para quase nada. É a principal razão para ir de sintético."
+   },
+   {
+    "id": "dealer",
+    "title": "3. Swap com um dealer",
+    "obj": [
+     "o2"
+    ],
+    "body": "- A mesa entra long num swap com outro banco. O dealer carrega a ação.\n- Por que o dealer consegue cotar abaixo do seu custo físico:\n  1. Funding ou balanço mais baratos que os seus.\n  2. Ele casa o seu trade com fluxo de clientes dele.\n- O spread do dealer é o **seu custo de funding**. Some as suas próprias linhas de alavancagem e capital.\n- Exemplo: dealer cobra SOFR + 35.\n  1. Spread do dealer: 35\n  2. Sua alavancagem (15%): 4,7\n  3. Seu capital de contraparte (cliente + dealer): 6\n- All-in = **45,7 bp**. P&L = 50 − 45,7 = **+4,3 bp**.\n- O físico dava −22. A rota mudou o sinal do trade.\n- O que se perde: a receita de empréstimo de ações. Quem tem a ação agora é o dealer."
+   },
+   {
+    "id": "opcoes",
+    "title": "4. Forward sintético com opções",
+    "obj": [
+     "o3"
+    ],
+    "body": "- Long call + short put, mesmo strike e vencimento = **forward sintético long**.\n- (Long put + short call = sintético **short**.)\n- O prêmio **não** é o custo: ele compra um ativo que vale o que custou.\n- O custo é a **taxa de financiamento implícita** nos preços, comparada ao seu funding.\n- Paridade put-call com dividendos:\n$$C - P = S - PV(\\text{div}) - K \\cdot DF(T)$$\n- Intuição: a combinação é a ação com pagamento adiado. Você resolve para $DF(T)$.\n- Exemplo: $S = 100$, $K = 100$, 1 ano, sem dividendos, $C - P = 4{,}60$.\n  1. $K \\cdot DF = 100 - 4{,}60 = 95{,}40$ → $DF = 0{,}954$.\n  2. Taxa implícita = $1/0{,}954 - 1$ = **4,82%**.\n  3. Com SOFR a 4,30%: spread implícito de 52 bp.\n- Compare esses 52 bp com as outras rotas, somando a sua alavancagem e a execução."
+   },
+   {
+    "id": "borrow",
+    "title": "5. O que as opções dizem sobre o borrow",
+    "obj": [
+     "o3",
+     "o5"
+    ],
+    "body": "- Papel difícil de tomar (hard-to-borrow): os shorts não acham a ação, então vendem forward sintético.\n- O forward implícito cai **abaixo** do teórico. A diferença é a taxa de aluguel.\n- Exemplo: $S = 100$, taxa 4,30%, 1 ano, sem dividendos.\n  1. Forward teórico: 104,30.\n  2. Forward implícito nas opções: 101,30.\n  3. Diferença: 3,00 → borrow de ≈ **300 bp**.\n- Uso: é um sinal de mercado de que o papel está special, antes de a taxa aparecer na sua tela de stock loan.\n- Para a mesa long via hedge físico, special é bom: ela empresta o papel caro e o spread do cliente é fixo."
+   },
+   {
+    "id": "switch",
+    "title": "6. Switch: trocar a rota sem mudar o delta",
+    "obj": [
+     "o4"
+    ],
+    "body": "- Switch = mover o hedge entre físico e sintético, com delta igual antes e depois.\n- Três motivos:\n  1. O papel fica special → ir para o físico e ganhar o empréstimo.\n  2. Pressão de balanço (datas de reporte) → ir para o sintético.\n  3. O custo relativo das rotas muda.\n- Execução sem risco de mercado: as duas pernas num **pacote**, a um preço só.\n  1. Dealer: vender a ação e entrar no swap ao mesmo preço.\n  2. Opções: reversal (vende a ação, compra call, vende put).\n  3. Índice: EFP.\n- Conversion = long ação + long put + short call. Reversal = short ação + long call + short put.\n- Vale quando: economia no prazo que falta > bid-ask das duas pernas.\n- Exemplo: economia de 72 − 45,7 = 26,3 bp ao ano. Custo do switch: 8 bp.\n  1. Faltam 6 meses: 26,3 × 0,5 = 13,2 bp > 8 → **faz**.\n  2. Faltam 3 meses: 26,3 × 0,25 = 6,6 bp < 8 → **não faz**."
+   },
+   {
+    "id": "short",
+    "title": "7. Cliente short: o risco de borrow",
+    "obj": [
+     "o5"
+    ],
+    "body": "- Cliente short TRS: recebe SOFR − spread na perna de financiamento. O spread cobre o aluguel que a mesa paga.\n- Em papel special, o spread pode passar do SOFR: o cliente paga.\n- A mesa fica short a ação → precisa tomar emprestado.\n- **Descasamento de prazo**: o spread do cliente é fixo pelo prazo do swap. A taxa de aluguel flutua todo dia, e o doador pode pedir recall.\n- Passivo a prazo, funding overnight. Se a taxa salta, a mesa perde.\n- Quatro defesas:\n  1. Borrow a prazo (trava a taxa, paga um prêmio).\n  2. Direito de reprecificar, no confirm.\n  3. Eventos ISDA: aumento do custo ou perda do stock borrow.\n  4. Colchão de preço em papéis de utilização alta.\n- Sinais de que o papel vai ficar special: utilização subindo, taxa subindo, recalls, eventos (M&A, conversível, exclusão de índice), forward implícito abaixo do teórico."
+   },
+   {
+    "id": "regra",
+    "title": "8. Regra de decisão",
+    "obj": [
+     "o1",
+     "o2"
+    ],
+    "body": "- Custo all-in de cada rota: **spread + $E \\times L \\times (K_e - K_d)$ + capital − empréstimo + execução**.\n- Escolha a menor. Recalcule quando uma entrada mudar: taxa de aluguel, cotação do dealer, pressão de balanço.\n- No exemplo: internalizar ≈ 0 › dealer 45,7 › físico 72."
+   },
+   {
+    "id": "armadilhas",
+    "title": "9. Onde eu me confundo",
+    "obj": [
+     "o3",
+     "o4"
+    ],
+    "body": "- O spread do dealer não é o custo inteiro. Faltam a sua alavancagem e o seu capital.\n- No sintético a mesa **perde** a receita de empréstimo de ações.\n- Prêmio de opção não é custo. O custo é a taxa implícita.\n- Hedge de cliente long = long call + short put. É fácil inverter.\n- Forward implícito **abaixo** do teórico = papel caro de tomar, não papel barato.\n- Economia de switch é ao ano. Multiplique pelo prazo que falta antes de comparar com o custo.\n- Special ajuda a mesa long no físico e machuca a mesa short. O sinal depende do lado."
+   }
+  ],
+  "summary": "### Rotas (cliente long)\n- Internalizar › físico › swap com dealer › call − put. Índice: futuro.\n### Balanço\n- Físico: exposição 100% → 31,5 bp. Swap com margem: ≈ 15% → 4,7 bp.\n### All-in\n- spread + exposição × alav. × ($K_e$ − dívida) + capital − empréstimo + execução.\n- Dealer: 35 + 4,7 + 6 = 45,7 → +4,3 bp. Físico: 72 → −22 bp.\n### Opções\n$$C - P = S - PV(\\text{div}) - K \\cdot DF(T)$$\n- Resolva $DF$ → taxa implícita. Prêmio não é custo.\n- Forward implícito abaixo do teórico → a diferença é o borrow.\n### Switch\n- Faz se economia × prazo restante > bid-ask das duas pernas. Em pacote (dealer, reversal, EFP).\n### Cliente short\n- Spread fixo × aluguel que flutua + recall = descasamento de prazo.\n- Defesas: borrow a prazo, reprecificação, eventos ISDA, colchão.",
+  "questions": [
+   {
+    "id": "d1-02-hedge-sintetico-q01",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "balanco",
+    "stem": "Swap com margem: exposição de 20%, exigência de alavancagem de 5%, $K_e$ − dívida de 8%. Qual é a cobrança de alavancagem?",
+    "options": [
+     {
+      "t": "8 bp",
+      "ok": true,
+      "why": "$20\\% \\times 5\\% \\times 8\\% = 0{,}08\\%$ = 8 bp."
+     },
+     {
+      "t": "40 bp",
+      "ok": false,
+      "why": "Isso é o físico, com exposição de 100%."
+     },
+     {
+      "t": "160 bp",
+      "ok": false,
+      "why": "Isso é $20\\% \\times 8\\%$. Falta multiplicar pela exigência de 5%."
+     },
+     {
+      "t": "1,6 bp",
+      "ok": false,
+      "why": "Isso aplica a exposição de 20% duas vezes."
+     }
+    ]
+   },
+   {
+    "id": "d1-02-hedge-sintetico-q02",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "dealer",
+    "stem": "Dealer cota SOFR + 30. Suas linhas: alavancagem 8, capital 5. O cliente paga SOFR + 60. Qual é o P&L da rota sintética?",
+    "options": [
+     {
+      "t": "+17 bp",
+      "ok": true,
+      "why": "All-in = 30 + 8 + 5 = 43 bp. P&L = 60 − 43 = +17 bp."
+     },
+     {
+      "t": "+30 bp",
+      "ok": false,
+      "why": "Isso considera só o spread do dealer. Faltam a sua alavancagem e o seu capital."
+     },
+     {
+      "t": "−6 bp",
+      "ok": false,
+      "why": "Esse é o P&L do hedge físico do exemplo (custo de 66)."
+     },
+     {
+      "t": "+47 bp",
+      "ok": false,
+      "why": "Isso subtrai só as suas linhas e esquece o spread do dealer."
+     }
+    ]
+   },
+   {
+    "id": "d1-02-hedge-sintetico-q03",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "opcoes",
+    "stem": "$S = 50$, $K = 50$, 1 ano, sem dividendos, $C - P = 2{,}50$. Qual é a taxa de financiamento implícita (juros simples)?",
+    "options": [
+     {
+      "t": "5,26%",
+      "ok": true,
+      "why": "$K \\cdot DF = 50 - 2{,}50 = 47{,}50$ → $DF = 0{,}95$ → $1/0{,}95 - 1 = 5{,}26\\%$."
+     },
+     {
+      "t": "5,00%",
+      "ok": false,
+      "why": "Isso é $2{,}50/50$: o desconto sobre o valor futuro. A taxa é sobre o valor presente, 47,50."
+     },
+     {
+      "t": "2,50%",
+      "ok": false,
+      "why": "Isso lê $C - P$ direto como taxa."
+     },
+     {
+      "t": "4,76%",
+      "ok": false,
+      "why": "Isso é $0{,}05/1{,}05$: a conta na direção errada."
+     }
+    ]
+   },
+   {
+    "id": "d1-02-hedge-sintetico-q04",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "opcoes",
+    "stem": "Por que o prêmio pago no forward sintético (call − put) não é o custo do hedge?",
+    "options": [
+     {
+      "t": "Porque o prêmio compra um ativo que vale esse preço. O custo é a taxa implícita, contra o seu funding.",
+      "ok": true,
+      "why": "A combinação equivale à ação com pagamento adiado. O que você paga pelo adiamento é a taxa embutida."
+     },
+     {
+      "t": "Porque o prêmio da call e o da put sempre se cancelam.",
+      "ok": false,
+      "why": "Só se cancelam quando o strike é igual ao forward."
+     },
+     {
+      "t": "Porque opções listadas não têm custo de financiamento.",
+      "ok": false,
+      "why": "Têm: ele está embutido na diferença $C - P$."
+     },
+     {
+      "t": "Porque o prêmio é devolvido no vencimento.",
+      "ok": false,
+      "why": "Não é devolvido. Ele vira o valor da posição."
+     }
+    ]
+   },
+   {
+    "id": "d1-02-hedge-sintetico-q05",
+    "type": "mc",
+    "obj": "o1",
+    "sec": "rotas",
+    "stem": "A mesa tem um cliente long 10 milhões num papel. Outro cliente quer ficar short 10 milhões no mesmo papel, via swap. Qual é a melhor rota?",
+    "options": [
+     {
+      "t": "Internalizar: um swap protege o outro.",
+      "ok": true,
+      "why": "Não precisa de ação, de borrow nem de balanço. A mesa ganha o spread dos dois lados."
+     },
+     {
+      "t": "Comprar a ação para um e tomar emprestado para o outro.",
+      "ok": false,
+      "why": "Isso usa balanço e paga aluguel sem necessidade."
+     },
+     {
+      "t": "Fazer os dois hedges com um dealer.",
+      "ok": false,
+      "why": "Paga dois spreads à rua por posições que se anulam."
+     },
+     {
+      "t": "Usar opções nos dois lados.",
+      "ok": false,
+      "why": "Paga execução e taxa implícita por um risco que já está zerado."
+     }
+    ]
+   },
+   {
+    "id": "d1-02-hedge-sintetico-q06",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "switch",
+    "stem": "Um switch economiza 30 bp ao ano. Faltam 4 meses de swap. O custo das duas pernas é 12 bp. Vale fazer?",
+    "options": [
+     {
+      "t": "Não: a economia no prazo é 10 bp, menor que 12.",
+      "ok": true,
+      "why": "$30 \\times 4/12 = 10$ bp. O custo de 12 bp não se paga."
+     },
+     {
+      "t": "Sim: 30 bp é maior que 12 bp.",
+      "ok": false,
+      "why": "30 bp é ao ano. Só faltam 4 meses."
+     },
+     {
+      "t": "Sim: a economia no prazo é 120 bp.",
+      "ok": false,
+      "why": "Isso multiplica por 4 em vez de multiplicar por 4/12."
+     },
+     {
+      "t": "Indiferente: os dois dão 12 bp.",
+      "ok": false,
+      "why": "A economia no prazo é 10 bp, não 12."
+     }
+    ]
+   },
+   {
+    "id": "d1-02-hedge-sintetico-q07",
+    "type": "mc",
+    "obj": "o5",
+    "sec": "short",
+    "stem": "Swap de cliente short, 1 ano, spread fixo. A mesa toma o papel no overnight. A taxa de aluguel salta de 50 para 400 bp. Quem perde, se o confirm não tem reprecificação?",
+    "options": [
+     {
+      "t": "A mesa: o custo flutuou, e a receita do cliente é fixa.",
+      "ok": true,
+      "why": "É o descasamento de prazo: passivo de 1 ano financiado com borrow overnight."
+     },
+     {
+      "t": "O cliente: ele paga a taxa de aluguel do dia.",
+      "ok": false,
+      "why": "O spread dele está fixado pelo prazo do swap."
+     },
+     {
+      "t": "O doador das ações.",
+      "ok": false,
+      "why": "O doador ganha: ele recebe a taxa maior."
+     },
+     {
+      "t": "Ninguém: o SOFR cancela.",
+      "ok": false,
+      "why": "O SOFR cancela a taxa base. O aluguel é um spread e não cancela."
+     }
+    ]
+   },
+   {
+    "id": "d1-02-hedge-sintetico-q08",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "borrow",
+    "stem": "$S = 100$, 1 ano, sem dividendos. Forward teórico: 104. Forward implícito nas opções: 102. O que isso indica?",
+    "options": [
+     {
+      "t": "Borrow de cerca de 200 bp: o papel está caro de tomar.",
+      "ok": true,
+      "why": "Shorts que não acham o papel vendem forward sintético e derrubam o preço. A diferença de 2 em 100 é a taxa de aluguel."
+     },
+     {
+      "t": "O papel está barato de financiar para quem está short.",
+      "ok": false,
+      "why": "É o contrário: quem está short paga caro."
+     },
+     {
+      "t": "Um dividendo esperado de 4.",
+      "ok": false,
+      "why": "Um dividendo de 2 explicaria a diferença, mas o enunciado diz que não há dividendos."
+     },
+     {
+      "t": "Erro de preço: os dois têm de ser iguais.",
+      "ok": false,
+      "why": "Só seriam iguais se o papel pudesse ser tomado sem custo."
+     }
+    ]
+   },
+   {
+    "id": "d1-02-hedge-sintetico-q09",
+    "type": "mc",
+    "obj": "o1",
+    "sec": "opcoes",
+    "stem": "Para proteger um TRS de cliente long com opções, qual combinação a mesa monta?",
+    "options": [
+     {
+      "t": "Long call + short put, mesmo strike e vencimento.",
+      "ok": true,
+      "why": "É o forward sintético long: ganha quando a ação sobe, como a mesa precisa."
+     },
+     {
+      "t": "Long put + short call.",
+      "ok": false,
+      "why": "Esse é o sintético short. Ele dobraria o risco em vez de proteger."
+     },
+     {
+      "t": "Long call + long put.",
+      "ok": false,
+      "why": "Isso é um straddle: posição de volatilidade, não delta one."
+     },
+     {
+      "t": "Short call + short put.",
+      "ok": false,
+      "why": "Straddle vendido: risco de volatilidade, sem o delta necessário."
+     }
+    ]
+   },
+   {
+    "id": "d1-02-hedge-sintetico-q10",
+    "type": "open",
+    "obj": "o2",
+    "sec": "balanco",
+    "stem": "Explique por que um hedge sintético usa menos balanço que o físico, e o que a mesa perde ao ir para o sintético.",
+    "answer": "A ação física entra com 100% do nocional na exposição de alavancagem do SLR. Um derivativo entra pelo custo de reposição mais um add-on de exposição futura (SA-CCR), algo como 15% para um swap de 1 ano com margem. A cobrança de alavancagem cai de 31,5 para cerca de 4,7 bp. O que se perde: a receita de empréstimo de ações, porque quem tem o papel passa a ser o dealer."
+   },
+   {
+    "id": "d1-02-hedge-sintetico-q11",
+    "type": "open",
+    "obj": "o4",
+    "sec": "switch",
+    "stem": "O que é um switch, três motivos para fazer um, e como executar sem risco de mercado?",
+    "answer": "Switch é mover o hedge entre físico e sintético sem mudar o delta. Motivos: o papel ficou special (ir para o físico e ganhar o empréstimo), pressão de balanço em datas de reporte (ir para o sintético), e mudança no custo relativo. Execução: as duas pernas num pacote a um preço só, via dealer, reversal ou conversion com opções, ou EFP em índice. Vale quando a economia no prazo restante supera o bid-ask das duas pernas."
+   }
+  ]
+ },
+ "d1-05-produtos-precos": {
+  "deck": "d1-05-products",
+  "title": "Produtos e precificação",
+  "order": 1,
+  "created": 1794600000006,
+  "verified": "2026-11-13",
+  "source": "Hull, Options, Futures and Other Derivatives (forwards e futuros); FinancePy (EquitySwap); notas de aula. Números ilustrativos",
+  "intro": "Notas de aluno. O exemplo segue: o **TRS de 10 milhões de USD**, SOFR a 4,30%, spread de 50 bp.\nAqui entram as contas de produto: a perna de financiamento, o forward com dividendo e o que um futuro revela.",
+  "objectives": [
+   {
+    "id": "o1",
+    "verb": "explicar",
+    "text": "as duas pernas de um TRS, os resets e a margem inicial"
+   },
+   {
+    "id": "o2",
+    "verb": "calcular",
+    "text": "o pagamento da perna de financiamento"
+   },
+   {
+    "id": "o3",
+    "verb": "calcular",
+    "text": "o preço de um forward de ação com dividendo"
+   },
+   {
+    "id": "o4",
+    "verb": "calcular",
+    "text": "o financiamento e os dividendos implícitos num futuro, e decidir o trade"
+   },
+   {
+    "id": "o5",
+    "verb": "comparar",
+    "text": "TRS, futuro, TRF e EFP; price return e total return"
+   }
+  ],
+  "sections": [
+   {
+    "id": "deltaone",
+    "title": "1. O que é delta one",
+    "obj": [
+     "o5"
+    ],
+    "body": "- Delta one = payoff **linear** no ativo. Delta ≈ 1, sem opcionalidade.\n- Produtos: TRS, forward, futuro, ETF, a própria ação.\n- Todos entregam a mesma exposição. O que muda: quem financia, quem fica com o dividendo, onde fica o risco de contraparte e quanto balanço usa.\n- Por isso o preço de um delta one é um preço de **financiamento e dividendos**, não de volatilidade."
+   },
+   {
+    "id": "trs",
+    "title": "2. As duas pernas do TRS",
+    "obj": [
+     "o1",
+     "o2"
+    ],
+    "body": "- **Perna de ação**: retorno de preço + dividendos × DPR.\n- **Perna de financiamento**: nocional × (benchmark + spread) × fração de ano.\n- Cliente long: **recebe** a perna de ação e **paga** a de financiamento.\n- Conta da perna de financiamento:\n$$\\text{pagamento} = N \\times (r + s) \\times \\frac{\\text{dias}}{360}$$\n- Exemplo: 10 milhões, SOFR 4,30%, spread 50 bp, 91 dias, Act/360.\n  1. Taxa: 4,30% + 0,50% = 4,80%.\n  2. Fração: 91/360 = 0,2528.\n  3. Pagamento ≈ **121.333 USD**.\n- Só o spread é margem da mesa: $10\\,\\text{mi} \\times 0{,}50\\% \\times 91/360$ ≈ 12,6 mil USD no trimestre. O resto paga o SOFR do funding."
+   },
+   {
+    "id": "resets",
+    "title": "3. Resets e margem inicial",
+    "obj": [
+     "o1"
+    ],
+    "body": "- **Reset**: em cada data, o swap liquida o MTM e o nocional volta para o valor de mercado.\n- Para que serve: corta a exposição de contraparte e mantém o financiamento sobre o nocional atual.\n- Dois tipos:\n  1. **Quantidade fixa**: o número de ações não muda; o nocional acompanha o preço.\n  2. **Nocional fixo**: o número de ações muda para manter o nocional. O hedge precisa **operar** a cada reset.\n- Exemplo de nocional fixo: a ação sobe 10%. No reset, a mesa vende cerca de 9% das ações para voltar aos 10 milhões.\n- **Independent amount** (margem inicial): colateral que o cliente deposita na entrada, por exemplo 10% a 20% do nocional.\n- Ela cobre a variação de preço até a mesa conseguir encerrar, e define a alavancagem do cliente: 20% → 5×."
+   },
+   {
+    "id": "forward",
+    "title": "4. Forward de ação com dividendo",
+    "obj": [
+     "o3"
+    ],
+    "body": "- Ideia: comprar a ação hoje e carregar até $T$ custa financiamento e rende o dividendo. O forward tem de empatar com isso.\n$$F = S(1 + rT) - D\\,(1 + r\\,(T - t_D))$$\n- Leitura: você paga juros sobre a ação e **não** recebe o dividendo. O dividendo é levado a valor futuro, de $t_D$ até $T$.\n- Exemplo: $S = 50$, $r = 5\\%$, $T$ = 1 ano, dividendo de 2 em 6 meses.\n  1. Ação financiada: $50 \\times 1{,}05 = 52{,}50$.\n  2. Dividendo em valor futuro: $2 \\times 1{,}025 = 2{,}05$.\n  3. $F = 52{,}50 - 2{,}05$ = **50,45**.\n- Com yield contínuo: $F = S\\,e^{(r-q)T}$.\n- Sinais: taxa maior → forward maior. Dividendo maior → forward **menor**."
+   },
+   {
+    "id": "futuros",
+    "title": "5. O que um futuro revela",
+    "obj": [
+     "o4",
+     "o5"
+    ],
+    "body": "- A mesma equação tem três incógnitas: preço, financiamento e dividendos. O futuro dá o preço. Conhecendo uma das outras duas, você extrai a que falta.\n- **Financiamento implícito** (dividendos conhecidos):\n$$r = \\frac{(F + D)/S - 1}{T}$$\n- Exemplo: índice 5000, dividendos de 20 pontos, futuro de 3 meses a 5050.\n  1. $(5050 + 20)/5000 - 1 = 1{,}40\\%$ no trimestre.\n  2. Ao ano: $1{,}40\\% / 0{,}25$ = **5,6%**.\n  3. Seu funding é 5,3% → o futuro está **caro** em 30 bp.\n  4. Trade: comprar a cesta e vender o futuro (cash-and-carry), se os 30 bp pagarem os custos.\n- **Dividendos implícitos** (financiamento conhecido): $D = S(1 + rT) - F$.\n- Exemplo: índice 5000, 5%, futuro de 3 meses a 5040 → $5062{,}5 - 5040$ = **22,5 pontos**.\n- **Roll**: o spread entre o contrato da frente e o seguinte. Ele precifica financiamento menos dividendos do próximo período. Roll caro = o mercado paga mais por exposição long sintética.\n- **TRF** (total return future): futuro listado cujo preço negociado é o **spread de financiamento**. Alternativa com clearing a um TRS de índice.\n- **EFP**: troca negociada de futuro por cesta, a uma base combinada. Serve para mudar de rota sem risco de mercado."
+   },
+   {
+    "id": "valor",
+    "title": "6. Quanto vale um TRS",
+    "obj": [
+     "o1"
+    ],
+    "body": "- Na partida, com spread zero, sem dividendos e uma curva só: o TRS vale ≈ **0**.\n- Motivo: na medida neutra ao risco, o retorno total esperado da ação é a taxa livre de risco. A perna de ação e a perna flutuante valem o mesmo.\n- Então o valor do dia um é o **PV do spread**.\n- Exemplo: 10 milhões, 1 ano, trimestral, curva flat a 4,3%, spread de 50 bp.\n  1. Spread por ano: 50 mil USD.\n  2. Descontado: ≈ **49,4 mil USD** para a mesa (−49,4 mil para o cliente).\n- O `EquitySwap.value` do FinancePy pede três curvas:\n  1. Desconto: PV dos fluxos (taxa do colateral).\n  2. Índice: projeta a taxa flutuante.\n  3. Dividendos: definem o forward da ação.\n- Qual taxa move o forward da ação na mesa: a taxa de **repo/funding** do papel, não a OIS. É o que carregar o hedge custa de verdade. A diferença entre as duas é o motivo de o cliente pagar spread."
+   },
+   {
+    "id": "clientes",
+    "title": "7. Por que o cliente usa swap",
+    "obj": [
+     "o5"
+    ],
+    "body": "- Quatro motivos:\n  1. Alavancagem sem empréstimo de margem.\n  2. Acesso a mercados sem custódia nem liquidação local.\n  3. Short fácil.\n  4. Um contrato mestre para muitas linhas.\n- O que ele abre mão: voto, e passa a ter risco de contraparte e regras fiscais (§871(m) em ação americana).\n- **Price return × total return**: o price return paga só a variação de preço. O cliente abre mão do dividendo, então o preço compensa (financiamento menor ou nível tipo forward). O total return repassa o dividendo pelo DPR.\n- **Cash PB × synthetic prime**: no cash PB o cliente é dono da ação, com empréstimo de margem. No sintético ele tem swaps, e o banco é dono dos hedges. Mesma economia; balanço, jurídico e fiscal diferentes.\n- **Breakage**: o cliente encerra um swap de 1 ano no mês 3. A mesa pode ter travado funding ou borrow a prazo. O confirm costuma prever taxa de saída ou prazo mínimo."
+   },
+   {
+    "id": "armadilhas",
+    "title": "8. Onde eu me confundo",
+    "obj": [
+     "o2",
+     "o3",
+     "o4"
+    ],
+    "body": "- Cliente long **paga** financiamento e **recebe** a ação. Não inverter.\n- Act/360: 91 dias são 91/360, não 0,25 exato nem 91/365.\n- No forward, o dividendo vai a valor **futuro** (de $t_D$ até $T$) antes de subtrair.\n- Dividendo maior → forward menor.\n- Financiamento implícito: some $D$ ao futuro **antes** de dividir por $S$. E anualize dividindo por $T$.\n- Futuro caro (implícito > seu funding) → vender o futuro e comprar a cesta. Futuro barato → o contrário.\n- Nocional fixo exige operar no reset. Quantidade fixa não.\n- No TRF, o que se negocia é o spread, não o nível do índice."
+   }
+  ],
+  "summary": "### TRS\n- Cliente long: recebe preço + dividendos × DPR; paga $N \\times (r + s) \\times \\text{dias}/360$.\n- Ex.: $10\\,\\text{mi} \\times 4{,}80\\% \\times 91/360$ ≈ 121.333.\n- Reset: liquida MTM. Quantidade fixa × nocional fixo (este opera no reset).\n- Margem inicial de 20% → alavancagem 5×.\n### Forward\n$$F = S(1 + rT) - D\\,(1 + r\\,(T - t_D))$$\n- Ex.: $52{,}50 - 2{,}05 = 50{,}45$. Contínuo: $S\\,e^{(r-q)T}$.\n### Futuro\n- Financiamento implícito: $r = ((F + D)/S - 1)/T$.\n- Dividendos implícitos: $D = S(1 + rT) - F$.\n- Implícito > seu funding → futuro caro → compra cesta, vende futuro.\n- Roll = financiamento − dividendos do próximo período. TRF negocia o spread. EFP troca futuro por cesta.\n### Valor\n- TRS na partida ≈ 0; valor do dia um = PV do spread.\n- O forward usa a taxa de repo/funding, não a OIS.",
+  "questions": [
+   {
+    "id": "d1-05-produtos-precos-q01",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "trs",
+    "stem": "TRS de 25 milhões, SOFR a 4,00%, spread de 40 bp, período de 90 dias, Act/360. Quanto o cliente long paga na perna de financiamento?",
+    "options": [
+     {
+      "t": "275.000 USD",
+      "ok": true,
+      "why": "$25\\,\\text{mi} \\times 4{,}40\\% \\times 90/360 = 275.000$."
+     },
+     {
+      "t": "250.000 USD",
+      "ok": false,
+      "why": "Isso esquece o spread de 40 bp."
+     },
+     {
+      "t": "271.233 USD",
+      "ok": false,
+      "why": "Isso usa 365 dias no denominador. A convenção é Act/360."
+     },
+     {
+      "t": "1.100.000 USD",
+      "ok": false,
+      "why": "Isso é o valor do ano inteiro. O período tem 90 dias."
+     }
+    ]
+   },
+   {
+    "id": "d1-05-produtos-precos-q02",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "forward",
+    "stem": "$S = 80$, $r = 4\\%$, $T$ = 1 ano, dividendo de 3 pago em 3 meses (juros simples). Qual é o forward?",
+    "options": [
+     {
+      "t": "80,11",
+      "ok": true,
+      "why": "$80 \\times 1{,}04 = 83{,}20$. Dividendo em valor futuro: $3 \\times (1 + 0{,}04 \\times 0{,}75) = 3{,}09$. $F = 80{,}11$."
+     },
+     {
+      "t": "80,20",
+      "ok": false,
+      "why": "Isso subtrai o dividendo sem levá-lo a valor futuro."
+     },
+     {
+      "t": "83,20",
+      "ok": false,
+      "why": "Isso ignora o dividendo."
+     },
+     {
+      "t": "86,29",
+      "ok": false,
+      "why": "Isso soma o dividendo. Quem compra a termo não recebe o dividendo, então ele é subtraído."
+     }
+    ]
+   },
+   {
+    "id": "d1-05-produtos-precos-q03",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "futuros",
+    "stem": "Índice a 4000, dividendos de 15 pontos no período, futuro de 3 meses a 4035. Seu funding é 5,4%. O que o futuro indica?",
+    "options": [
+     {
+      "t": "Financiamento implícito de 5,0%: o futuro está barato em 40 bp.",
+      "ok": true,
+      "why": "$(4035 + 15)/4000 - 1 = 1{,}25\\%$ no trimestre → 5,0% ao ano. Abaixo do seu funding: exposição long sai mais barata pelo futuro."
+     },
+     {
+      "t": "Financiamento implícito de 3,5%: o futuro está barato em 190 bp.",
+      "ok": false,
+      "why": "Isso esquece de somar os dividendos ao futuro."
+     },
+     {
+      "t": "Financiamento implícito de 1,25%: o futuro está muito barato.",
+      "ok": false,
+      "why": "1,25% é a taxa do trimestre. Falta anualizar."
+     },
+     {
+      "t": "Financiamento implícito de 5,0%: o futuro está caro em 40 bp.",
+      "ok": false,
+      "why": "A conta está certa, mas 5,0% é menor que o seu funding de 5,4%. O futuro está barato."
+     }
+    ]
+   },
+   {
+    "id": "d1-05-produtos-precos-q04",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "futuros",
+    "stem": "Índice a 6000, financiamento de 4%, futuro de 6 meses a 6090 (juros simples). Quais são os dividendos implícitos?",
+    "options": [
+     {
+      "t": "30 pontos",
+      "ok": true,
+      "why": "$D = 6000 \\times 1{,}02 - 6090 = 30$ pontos, em valor futuro."
+     },
+     {
+      "t": "90 pontos",
+      "ok": false,
+      "why": "Isso é o futuro menos o spot. Falta o financiamento."
+     },
+     {
+      "t": "120 pontos",
+      "ok": false,
+      "why": "Isso é o financiamento do período, sem subtrair o futuro."
+     },
+     {
+      "t": "150 pontos",
+      "ok": false,
+      "why": "Isso usa o financiamento do ano inteiro (240) em vez de 6 meses (120)."
+     }
+    ]
+   },
+   {
+    "id": "d1-05-produtos-precos-q05",
+    "type": "mc",
+    "obj": "o1",
+    "sec": "resets",
+    "stem": "Swap de **nocional fixo**. A ação sobe 10% até o reset. O que o hedge físico da mesa precisa fazer?",
+    "options": [
+     {
+      "t": "Vender ações, para o nocional voltar ao valor original.",
+      "ok": true,
+      "why": "Com o preço 10% maior, a mesma quantidade vale mais que o nocional. A mesa vende cerca de 9% das ações."
+     },
+     {
+      "t": "Nada: o hedge não muda no reset.",
+      "ok": false,
+      "why": "Isso vale para quantidade fixa."
+     },
+     {
+      "t": "Comprar mais ações, para acompanhar a alta.",
+      "ok": false,
+      "why": "Comprar aumentaria ainda mais o nocional."
+     },
+     {
+      "t": "Zerar e remontar o hedge inteiro.",
+      "ok": false,
+      "why": "Só a diferença é operada."
+     }
+    ]
+   },
+   {
+    "id": "d1-05-produtos-precos-q06",
+    "type": "mc",
+    "obj": "o1",
+    "sec": "resets",
+    "stem": "O cliente deposita margem inicial de 20% do nocional. Qual é a alavancagem dele?",
+    "options": [
+     {
+      "t": "5×",
+      "ok": true,
+      "why": "Com 20 de colateral ele controla 100 de exposição: $1/0{,}20 = 5$."
+     },
+     {
+      "t": "20×",
+      "ok": false,
+      "why": "Isso lê os 20% como múltiplo."
+     },
+     {
+      "t": "1,25×",
+      "ok": false,
+      "why": "Isso é $1/0{,}80$. A alavancagem é exposição sobre colateral."
+     },
+     {
+      "t": "4×",
+      "ok": false,
+      "why": "Isso é 80/20. A exposição é o nocional inteiro, 100."
+     }
+    ]
+   },
+   {
+    "id": "d1-05-produtos-precos-q07",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "forward",
+    "stem": "A empresa anuncia um dividendo maior que o esperado, com pagamento antes do vencimento. O que acontece com o forward teórico?",
+    "options": [
+     {
+      "t": "Cai: quem compra a termo não recebe o dividendo.",
+      "ok": true,
+      "why": "O dividendo entra subtraindo no forward. Dividendo maior, forward menor."
+     },
+     {
+      "t": "Sobe: a ação vale mais.",
+      "ok": false,
+      "why": "O efeito no spot é outro assunto. Para um spot dado, mais dividendo reduz o forward."
+     },
+     {
+      "t": "Não muda: o dividendo só afeta o total return.",
+      "ok": false,
+      "why": "O forward é um preço de price return carregado. Ele depende do dividendo."
+     },
+     {
+      "t": "Depende só da taxa de juros.",
+      "ok": false,
+      "why": "A taxa define o financiamento. O dividendo é o outro termo da equação."
+     }
+    ]
+   },
+   {
+    "id": "d1-05-produtos-precos-q08",
+    "type": "mc",
+    "obj": "o5",
+    "sec": "clientes",
+    "stem": "Num swap de **price return**, o cliente não recebe dividendos. Como isso aparece no preço?",
+    "options": [
+     {
+      "t": "O preço compensa: financiamento menor ou nível tipo forward.",
+      "ok": true,
+      "why": "O dividendo esperado fica com a mesa, então ele é devolvido ao cliente pelo preço."
+     },
+     {
+      "t": "Não aparece: o cliente simplesmente perde os dividendos.",
+      "ok": false,
+      "why": "Nenhum cliente aceitaria isso; o mercado ajusta o preço."
+     },
+     {
+      "t": "O DPR sobe para 100%.",
+      "ok": false,
+      "why": "DPR é parâmetro do total return."
+     },
+     {
+      "t": "O spread sobe pelo valor do dividendo.",
+      "ok": false,
+      "why": "O sinal está trocado: o cliente abre mão de valor, então paga menos."
+     }
+    ]
+   },
+   {
+    "id": "d1-05-produtos-precos-q09",
+    "type": "mc",
+    "obj": "o1",
+    "sec": "valor",
+    "stem": "Um TRS com spread zero, sem dividendos e uma curva só. Quanto ele vale na partida, e por quê?",
+    "options": [
+     {
+      "t": "Cerca de zero: na medida neutra ao risco, a ação rende a taxa livre de risco.",
+      "ok": true,
+      "why": "A perna de ação e a perna flutuante têm o mesmo valor. O valor do dia um vem só do spread."
+     },
+     {
+      "t": "O valor esperado da alta da ação.",
+      "ok": false,
+      "why": "O prêmio de risco da ação não entra no preço de um derivativo."
+     },
+     {
+      "t": "Menos o custo de funding da mesa.",
+      "ok": false,
+      "why": "O enunciado fixou uma curva só e spread zero."
+     },
+     {
+      "t": "Depende da volatilidade.",
+      "ok": false,
+      "why": "Delta one não tem opcionalidade. A volatilidade não entra."
+     }
+    ]
+   },
+   {
+    "id": "d1-05-produtos-precos-q10",
+    "type": "open",
+    "obj": "o1",
+    "sec": "trs",
+    "stem": "Descreva as duas pernas de um TRS de ação e diga quem paga o quê quando o cliente está long.",
+    "answer": "A perna de ação paga o retorno de preço mais os dividendos vezes o DPR. A perna de financiamento paga nocional × (benchmark + spread) × fração de ano. O cliente long recebe a perna de ação e paga a de financiamento. A mesa faz o contrário e protege a perna de ação com um hedge. O spread é a margem da mesa sobre o custo desse hedge."
+   },
+   {
+    "id": "d1-05-produtos-precos-q11",
+    "type": "open",
+    "obj": "o5",
+    "sec": "valor",
+    "stem": "Por que a taxa de repo/funding do papel, e não a OIS, deve mover o forward da ação quando a mesa precifica um TRS?",
+    "answer": "Porque o forward tem de refletir o custo real de carregar o hedge, e a mesa financia a ação na taxa de repo/funding, não na OIS. Precificar com OIS supõe um funding que a mesa não tem e esconde o spread de funding e de borrow. A diferença entre as duas taxas é o que o cliente paga como spread."
+   }
+  ]
  }
 }

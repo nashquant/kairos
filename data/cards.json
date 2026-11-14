@@ -3610,7 +3610,8 @@
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000000,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#cenario"
  },
  "d1-01-physical-002": {
   "deck": "d1-01-physical",
@@ -3624,7 +3625,8 @@
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000001,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#pilha"
  },
  "d1-01-physical-003": {
   "deck": "d1-01-physical",
@@ -3637,7 +3639,8 @@
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000002,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#funding"
  },
  "d1-01-physical-004": {
   "deck": "d1-01-physical",
@@ -3650,7 +3653,8 @@
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000003,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#funding"
  },
  "d1-01-physical-005": {
   "deck": "d1-01-physical",
@@ -3663,7 +3667,8 @@
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000004,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#funding"
  },
  "d1-01-physical-006": {
   "deck": "d1-01-physical",
@@ -3677,7 +3682,8 @@
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000005,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#leverage"
  },
  "d1-01-physical-007": {
   "deck": "d1-01-physical",
@@ -3691,7 +3697,8 @@
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000006,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#leverage"
  },
  "d1-01-physical-008": {
   "deck": "d1-01-physical",
@@ -3705,7 +3712,8 @@
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000007,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#leverage"
  },
  "d1-01-physical-009": {
   "deck": "d1-01-physical",
@@ -3720,7 +3728,8 @@
   "created": 1794000000008,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "d1-01-hedge-fisico#leverage"
  },
  "d1-01-physical-010": {
   "deck": "d1-01-physical",
@@ -3735,7 +3744,8 @@
   "created": 1794000000009,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "d1-01-hedge-fisico#leverage"
  },
  "d1-01-physical-011": {
   "deck": "d1-01-physical",
@@ -3749,7 +3759,8 @@
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000010,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#capital"
  },
  "d1-01-physical-012": {
   "deck": "d1-01-physical",
@@ -3762,7 +3773,8 @@
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000011,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#lending"
  },
  "d1-01-physical-013": {
   "deck": "d1-01-physical",
@@ -3775,7 +3787,8 @@
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000012,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#pilha"
  },
  "d1-01-physical-014": {
   "deck": "d1-01-physical",
@@ -3788,7 +3801,8 @@
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000013,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#pilha"
  },
  "d1-01-physical-015": {
   "deck": "d1-01-physical",
@@ -3801,7 +3815,8 @@
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000014,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#regra"
  },
  "d1-01-physical-016": {
   "deck": "d1-01-physical",
@@ -3815,7 +3830,8 @@
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000015,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#leverage"
  },
  "d1-02-synthetic-001": {
   "deck": "d1-02-synthetic",
@@ -3828,7 +3844,8 @@
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000016,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-02-hedge-sintetico#rotas"
  },
  "d1-02-synthetic-002": {
   "deck": "d1-02-synthetic",
@@ -3841,7 +3858,8 @@
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000017,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-02-hedge-sintetico#rotas"
  },
  "d1-02-synthetic-003": {
   "deck": "d1-02-synthetic",
@@ -3855,7 +3873,8 @@
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000018,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-02-hedge-sintetico#balanco"
  },
  "d1-02-synthetic-004": {
   "deck": "d1-02-synthetic",
@@ -3869,7 +3888,8 @@
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000019,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-02-hedge-sintetico#balanco"
  },
  "d1-02-synthetic-005": {
   "deck": "d1-02-synthetic",
@@ -3882,7 +3902,8 @@
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000020,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-02-hedge-sintetico#dealer"
  },
  "d1-02-synthetic-006": {
   "deck": "d1-02-synthetic",
@@ -3895,7 +3916,8 @@
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000021,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-02-hedge-sintetico#opcoes"
  },
  "d1-02-synthetic-007": {
   "deck": "d1-02-synthetic",
@@ -3908,7 +3930,8 @@
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000022,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-02-hedge-sintetico#opcoes"
  },
  "d1-02-synthetic-008": {
   "deck": "d1-02-synthetic",
@@ -3921,7 +3944,8 @@
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000023,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-02-hedge-sintetico#opcoes"
  },
  "d1-02-synthetic-009": {
   "deck": "d1-02-synthetic",
@@ -3934,7 +3958,8 @@
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000024,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-02-hedge-sintetico#borrow"
  },
  "d1-02-synthetic-010": {
   "deck": "d1-02-synthetic",
@@ -3947,7 +3972,8 @@
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000025,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-02-hedge-sintetico#switch"
  },
  "d1-02-synthetic-011": {
   "deck": "d1-02-synthetic",
@@ -3960,7 +3986,8 @@
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000026,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-02-hedge-sintetico#switch"
  },
  "d1-02-synthetic-012": {
   "deck": "d1-02-synthetic",
@@ -3973,7 +4000,8 @@
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000027,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-02-hedge-sintetico#switch"
  },
  "d1-02-synthetic-013": {
   "deck": "d1-02-synthetic",
@@ -3986,7 +4014,8 @@
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000028,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-02-hedge-sintetico#switch"
  },
  "d1-02-synthetic-014": {
   "deck": "d1-02-synthetic",
@@ -4000,7 +4029,8 @@
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000029,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-02-hedge-sintetico#short"
  },
  "d1-02-synthetic-015": {
   "deck": "d1-02-synthetic",
@@ -4014,7 +4044,8 @@
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000030,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-02-hedge-sintetico#short"
  },
  "d1-02-synthetic-016": {
   "deck": "d1-02-synthetic",
@@ -4027,7 +4058,8 @@
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000031,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-02-hedge-sintetico#regra"
  },
  "d1-03-divs-index-001": {
   "deck": "d1-03-divs-index",
@@ -4105,7 +4137,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000000,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#lending"
  },
  "d1-01-physical-018": {
   "deck": "d1-01-physical",
@@ -4118,7 +4151,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000001,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#lending"
  },
  "d1-01-physical-019": {
   "deck": "d1-01-physical",
@@ -4131,7 +4165,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000002,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#lending"
  },
  "d1-01-physical-020": {
   "deck": "d1-01-physical",
@@ -4144,7 +4179,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000003,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#lending"
  },
  "d1-01-physical-021": {
   "deck": "d1-01-physical",
@@ -4157,7 +4193,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000004,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#lending"
  },
  "d1-01-physical-022": {
   "deck": "d1-01-physical",
@@ -4170,7 +4207,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000005,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#funding"
  },
  "d1-01-physical-023": {
   "deck": "d1-01-physical",
@@ -4184,7 +4222,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000006,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#funding"
  },
  "d1-01-physical-024": {
   "deck": "d1-01-physical",
@@ -4197,7 +4236,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000007,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#funding"
  },
  "d1-01-physical-025": {
   "deck": "d1-01-physical",
@@ -4210,7 +4250,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000008,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-01-hedge-fisico#leverage"
  },
  "d1-02-synthetic-017": {
   "deck": "d1-02-synthetic",
@@ -4223,7 +4264,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000009,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-02-hedge-sintetico#short"
  },
  "d1-02-synthetic-018": {
   "deck": "d1-02-synthetic",
@@ -4237,7 +4279,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000010,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-02-hedge-sintetico#borrow"
  },
  "d1-02-synthetic-019": {
   "deck": "d1-02-synthetic",
@@ -4250,7 +4293,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000011,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-02-hedge-sintetico#short"
  },
  "d1-03-divs-index-006": {
   "deck": "d1-03-divs-index",
@@ -4624,7 +4668,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000039,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-05-produtos-precos#deltaone"
  },
  "d1-05-products-002": {
   "deck": "d1-05-products",
@@ -4637,7 +4682,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000040,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-05-produtos-precos#trs"
  },
  "d1-05-products-003": {
   "deck": "d1-05-products",
@@ -4650,7 +4696,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000041,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-05-produtos-precos#trs"
  },
  "d1-05-products-004": {
   "deck": "d1-05-products",
@@ -4663,7 +4710,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000042,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-05-produtos-precos#resets"
  },
  "d1-05-products-005": {
   "deck": "d1-05-products",
@@ -4677,7 +4725,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000043,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-05-produtos-precos#resets"
  },
  "d1-05-products-006": {
   "deck": "d1-05-products",
@@ -4690,7 +4739,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000044,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-05-produtos-precos#resets"
  },
  "d1-05-products-007": {
   "deck": "d1-05-products",
@@ -4704,7 +4754,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000045,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-05-produtos-precos#clientes"
  },
  "d1-05-products-008": {
   "deck": "d1-05-products",
@@ -4717,7 +4768,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000046,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-05-produtos-precos#clientes"
  },
  "d1-05-products-009": {
   "deck": "d1-05-products",
@@ -4731,7 +4783,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000047,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-05-produtos-precos#clientes"
  },
  "d1-05-products-010": {
   "deck": "d1-05-products",
@@ -4744,7 +4797,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000048,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-05-produtos-precos#forward"
  },
  "d1-05-products-011": {
   "deck": "d1-05-products",
@@ -4757,7 +4811,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000049,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-05-produtos-precos#forward"
  },
  "d1-05-products-012": {
   "deck": "d1-05-products",
@@ -4770,7 +4825,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000050,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-05-produtos-precos#futuros"
  },
  "d1-05-products-013": {
   "deck": "d1-05-products",
@@ -4783,7 +4839,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000051,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-05-produtos-precos#futuros"
  },
  "d1-05-products-014": {
   "deck": "d1-05-products",
@@ -4797,7 +4854,8 @@
   "created": 1794100000052,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "d1-05-produtos-precos#futuros"
  },
  "d1-05-products-015": {
   "deck": "d1-05-products",
@@ -4811,7 +4869,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000053,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-05-produtos-precos#futuros"
  },
  "d1-05-products-016": {
   "deck": "d1-05-products",
@@ -4825,7 +4884,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000054,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-05-produtos-precos#clientes"
  },
  "d1-06-desk-map-001": {
   "deck": "d1-06-desk-map",
@@ -8075,7 +8135,8 @@
   "source": "FinancePy 1.1.2 EquitySwap, computed 2026-11-05",
   "created": 1794300000000,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-05-produtos-precos#valor"
  },
  "d1-05-products-018": {
   "deck": "d1-05-products",
@@ -8088,7 +8149,8 @@
   "source": "FinancePy 1.1.2 EquitySwap, computed 2026-11-05",
   "created": 1794300000001,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-05-produtos-precos#valor"
  },
  "d1-05-products-019": {
   "deck": "d1-05-products",
@@ -8101,7 +8163,8 @@
   "source": "FinancePy 1.1.2 EquitySwap, computed 2026-11-05",
   "created": 1794300000002,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-05-produtos-precos#valor"
  },
  "d1-05-products-020": {
   "deck": "d1-05-products",
@@ -8115,7 +8178,8 @@
   "source": "FinancePy 1.1.2 EquitySwap, computed 2026-11-05",
   "created": 1794300000003,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-05-produtos-precos#valor"
  },
  "llm-01-transformers-025": {
   "deck": "llm-01-transformers",
