@@ -3183,8 +3183,17 @@
     "body": "- **Arbitragem de índice**: futuro contra a cesta, quando o futuro sai do valor justo.\n  1. Futuro caro: compra a cesta, vende o futuro (cash-and-carry).\n  2. Futuro barato: o contrário.\n- **ETF, criação e resgate**: os participantes autorizados (APs) trocam cesta por cotas com o fundo.\n  1. ETF acima do NAV: o AP compra a cesta, entrega ao fundo, recebe cotas novas e vende. O preço cai.\n  2. ETF abaixo do NAV: o AP compra cotas, resgata, recebe a cesta e vende. O preço sobe.\n- Os dois mecanismos prendem um derivado ao seu valor justo. O que muda é o instrumento: futuro com vencimento, ou cota sem vencimento."
    },
    {
+    "id": "etf-alavancado",
+    "title": "8. ETF alavancado: o fluxo do fechamento",
+    "obj": [
+     "o1",
+     "o4"
+    ],
+    "body": "- O fundo promete $L$ vezes o retorno **diário**. Ele precisa fechar cada dia com exposição = $L$ × patrimônio.\n- Ordem de rebalance no fechamento:\n$$\\text{ordem} = A \\cdot L \\cdot (L-1) \\cdot r$$\n- $A$ = patrimônio, $r$ = retorno do índice no dia. O sinal segue o mercado.\n- Exemplo: 3x, 1 bilhão, +2% → exposição 3,06; patrimônio 1,06; alvo 3,18 → **compra 120 milhões**.\n- Multiplicador $L(L-1)$: 2x → 2; 3x → 6; −1x → 2; −2x → 6; −3x → 12. Long e inverso operam para o mesmo lado: os fluxos se somam.\n- Criação e resgate: somar $L$ × fluxo líquido. Esse termo segue o investidor, não o mercado.\n- Quem manda a ordem: o dealer que protege o swap do fundo.\n- Vai e volta, índice 100 → 110 → 100, fundo 2x:\n  1. Dia 1: +20% → 120. O fundo compra 20 no fechamento, a 110.\n  2. Dia 2: o índice cai 9,09% (10/110). O fundo cai 18,18% → **98,18**.\n  3. A perda de 1,82 é o que os 20 comprados no topo perderam.\n- Regra de bolso da perda num vai e volta: $L(L-1) \\cdot r^2$."
+   },
+   {
     "id": "armadilhas",
-    "title": "8. Onde eu me confundo",
+    "title": "9. Onde eu me confundo",
     "obj": [
      "o2",
      "o3",

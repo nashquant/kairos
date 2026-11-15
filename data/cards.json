@@ -8459,5 +8459,155 @@
   "verified": "2026-11-13",
   "note": "llm-04-langgraph#estado",
   "checkBy": "2027-05-13"
+ },
+ "d1-04-index-events-017": {
+  "deck": "d1-04-index-events",
+  "front": "Why must a leveraged ETF trade at the close every day?",
+  "back": "It promises $L$ times the index's **daily** return, so it must end each day with exposure $= L \\times$ NAV.\nWhen the index moves, exposure and NAV change by different proportions. The fund trades to restore the ratio.",
+  "tags": [
+   "delta-one",
+   "eventos-indice",
+   "hedge"
+  ],
+  "source": "Cheng & Madhavan 2009 (leveraged ETF dynamics); computed 2026-11-15",
+  "created": 1794300003017,
+  "suspended": false,
+  "verified": "2026-11-15",
+  "note": "d1-04-eventos-indice#etf-alavancado"
+ },
+ "d1-04-index-events-018": {
+  "deck": "d1-04-index-events",
+  "front": "Leveraged ETF: formula for the closing rebalance order.",
+  "back": "$\\text{order} = A \\cdot L \\cdot (L-1) \\cdot r$\n$A$ = NAV before the move, $L$ = leverage, $r$ = index return that day.\nPositive = buy. It is always in the direction of the day's move.",
+  "tags": [
+   "delta-one",
+   "eventos-indice",
+   "hedge"
+  ],
+  "source": "Cheng & Madhavan 2009 (leveraged ETF dynamics); computed 2026-11-15",
+  "created": 1794300003018,
+  "suspended": false,
+  "verified": "2026-11-15",
+  "note": "d1-04-eventos-indice#etf-alavancado"
+ },
+ "d1-04-index-events-019": {
+  "deck": "d1-04-index-events",
+  "front": "3x ETF, NAV 1bn, index +2% on the day. What does it trade at the close?",
+  "back": "Buys **120m**.\nExposure: 3.00 → 3.06bn. NAV: 1.00 → 1.06bn. Needed: $3 \\times 1.06 = 3.18$bn.\nCheck: $1\\text{bn} \\times 3 \\times 2 \\times 2\\%$.",
+  "tags": [
+   "delta-one",
+   "eventos-indice",
+   "hedge"
+  ],
+  "source": "Cheng & Madhavan 2009 (leveraged ETF dynamics); computed 2026-11-15",
+  "created": 1794300003019,
+  "suspended": false,
+  "verified": "2026-11-15",
+  "note": "d1-04-eventos-indice#etf-alavancado"
+ },
+ "d1-04-index-events-020": {
+  "deck": "d1-04-index-events",
+  "front": "Rebalance multiplier $L(L-1)$ for 2x, 3x, −1x, −2x and −3x funds. What does the sign imply?",
+  "back": "2x: 2 · 3x: 6 · −1x: 2 · −2x: 6 · −3x: 12.\nAlways positive: long **and** inverse funds buy on up days and sell on down days. Their flows add up; they do not offset.",
+  "tags": [
+   "delta-one",
+   "eventos-indice",
+   "hedge"
+  ],
+  "source": "Cheng & Madhavan 2009 (leveraged ETF dynamics); computed 2026-11-15",
+  "created": 1794300003020,
+  "suspended": false,
+  "verified": "2026-11-15",
+  "note": "d1-04-eventos-indice#etf-alavancado"
+ },
+ "d1-04-index-events-021": {
+  "deck": "d1-04-index-events",
+  "front": "Leveraged ETF: how do creations and redemptions change the closing order?",
+  "back": "A net creation adds NAV, so the fund needs $L$ times that amount in new exposure.\n$\\text{total} \\approx A \\cdot L(L-1) \\cdot r + L \\cdot \\text{net creations}$\nThe first term follows the market; the second follows investors and can have the opposite sign.",
+  "tags": [
+   "delta-one",
+   "eventos-indice",
+   "hedge"
+  ],
+  "source": "Cheng & Madhavan 2009 (leveraged ETF dynamics); computed 2026-11-15",
+  "created": 1794300003021,
+  "suspended": false,
+  "verified": "2026-11-15",
+  "note": "d1-04-eventos-indice#etf-alavancado"
+ },
+ "d1-04-index-events-022": {
+  "deck": "d1-04-index-events",
+  "front": "An index goes 100 → 110 → 100. What is the day-2 return, and why is it not −10%?",
+  "back": "$-10/110 = -9.09\\%$.\nThe base is now 110, so a smaller percentage undoes the gain.",
+  "tags": [
+   "delta-one",
+   "eventos-indice",
+   "hedge"
+  ],
+  "source": "Cheng & Madhavan 2009 (leveraged ETF dynamics); computed 2026-11-15",
+  "created": 1794300003022,
+  "suspended": false,
+  "verified": "2026-11-15",
+  "note": "d1-04-eventos-indice#etf-alavancado"
+ },
+ "d1-04-index-events-023": {
+  "deck": "d1-04-index-events",
+  "front": "Index 100 → 110 → 100. Where does a 2x daily-leveraged fund end?",
+  "back": "At **98.18** (−1.82%).\nDay 1: +20% → 120. Day 2: $2 \\times (-9.09\\%) = -18.18\\%$ → $120 \\times 0.8182$.",
+  "tags": [
+   "delta-one",
+   "eventos-indice",
+   "hedge"
+  ],
+  "source": "Cheng & Madhavan 2009 (leveraged ETF dynamics); computed 2026-11-15",
+  "created": 1794300003023,
+  "suspended": false,
+  "verified": "2026-11-15",
+  "note": "d1-04-eventos-indice#etf-alavancado"
+ },
+ "d1-04-index-events-024": {
+  "deck": "d1-04-index-events",
+  "front": "Index 100 → 110 → 100, 2x fund ends at 98.18. Where exactly does the 1.82 loss come from?",
+  "back": "From the rebalance. After day 1 the fund held 220 of exposure and needed $2 \\times 120 = 240$: it **bought 20 at the high**.\nOn day 2 those 20 lost 9.09%: $20 \\times 9.09\\% = 1.82$.",
+  "tags": [
+   "delta-one",
+   "eventos-indice",
+   "hedge"
+  ],
+  "source": "Cheng & Madhavan 2009 (leveraged ETF dynamics); computed 2026-11-15",
+  "created": 1794300003024,
+  "suspended": false,
+  "verified": "2026-11-15",
+  "note": "d1-04-eventos-indice#etf-alavancado"
+ },
+ "d1-04-index-events-025": {
+  "deck": "d1-04-index-events",
+  "front": "Rule of thumb: loss of an $L$x daily-leveraged fund on a round trip of size $r$.",
+  "back": "About $L(L-1) \\cdot r^2$.\n2x, 10%: 2% (exact 1.82%). 3x, 10%: 6% (exact 5.45%).\nSame multiplier as the closing order: the order is the cause of the loss.",
+  "tags": [
+   "delta-one",
+   "eventos-indice",
+   "hedge"
+  ],
+  "source": "Cheng & Madhavan 2009 (leveraged ETF dynamics); computed 2026-11-15",
+  "created": 1794300003025,
+  "suspended": false,
+  "verified": "2026-11-15",
+  "note": "d1-04-eventos-indice#etf-alavancado"
+ },
+ "d1-04-index-events-026": {
+  "deck": "d1-04-index-events",
+  "front": "A leveraged ETF holds its exposure through swaps. Who actually sends the closing order to the market?",
+  "back": "The dealer that hedges the swap.\nThe fund resets the swap notional; the dealer adjusts its hedge at the close (MOC orders, futures).",
+  "tags": [
+   "delta-one",
+   "eventos-indice",
+   "hedge"
+  ],
+  "source": "Cheng & Madhavan 2009 (leveraged ETF dynamics); computed 2026-11-15",
+  "created": 1794300003026,
+  "suspended": false,
+  "verified": "2026-11-15",
+  "note": "d1-04-eventos-indice#etf-alavancado"
  }
 }
