@@ -4072,7 +4072,8 @@
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000032,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-03-dividendos#dpr"
  },
  "d1-03-divs-index-002": {
   "deck": "d1-03-divs-index",
@@ -4085,7 +4086,8 @@
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000033,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-03-dividendos#indices"
  },
  "d1-03-divs-index-003": {
   "deck": "d1-03-divs-index",
@@ -4098,7 +4100,8 @@
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000034,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-03-dividendos#indices"
  },
  "d1-03-divs-index-004": {
   "deck": "d1-03-divs-index",
@@ -4111,7 +4114,8 @@
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000035,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-04-eventos-indice#quem"
  },
  "d1-03-divs-index-005": {
   "deck": "d1-03-divs-index",
@@ -4124,7 +4128,8 @@
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000036,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-04-eventos-indice#restrike"
  },
  "d1-01-physical-017": {
   "deck": "d1-01-physical",
@@ -4307,7 +4312,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000012,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-03-dividendos#datas"
  },
  "d1-03-divs-index-007": {
   "deck": "d1-03-divs-index",
@@ -4320,7 +4326,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000013,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-03-dividendos#dpr"
  },
  "d1-03-divs-index-008": {
   "deck": "d1-03-divs-index",
@@ -4334,22 +4341,24 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000014,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-03-dividendos#regra871"
  },
  "d1-03-divs-index-009": {
   "deck": "d1-03-divs-index",
-  "front": "Which instruments does §871(m) cover today?",
-  "back": "Specified equity-linked instruments with delta ≥ 0.8 at issuance (delta-one), e.g. TRS on US stocks.\nExceptions exist (e.g. qualified indices). The phase-in for lower-delta instruments has been deferred several times.",
+  "front": "Which instruments does §871(m) cover today, and what is still deferred?",
+  "back": "Today: only **delta-one** transactions on US stocks (e.g. a TRS), issued since 2017.\nDeferred: the final rule's wider test (delta ≥ 0.8 at issuance). IRS Notice 2026-61 keeps non-delta-one transactions out through 2028.\nExceptions exist, e.g. qualified indices.",
   "tags": [
    "delta-one",
    "dividendos",
    "regulatorio"
   ],
-  "source": "Learn Anything — Delta One prep (2026)",
+  "source": "IRS Notice 2026-61 (Sept 2026); Treas. Reg. §1.871-15",
   "created": 1794100000015,
   "suspended": false,
-  "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "verified": "2026-11-15",
+  "checkBy": "2028-06-30",
+  "note": "d1-03-dividendos#regra871"
  },
  "d1-03-divs-index-010": {
   "deck": "d1-03-divs-index",
@@ -4364,7 +4373,8 @@
   "created": 1794100000016,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "d1-03-dividendos#regra871"
  },
  "d1-03-divs-index-011": {
   "deck": "d1-03-divs-index",
@@ -4378,7 +4388,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000017,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-03-dividendos#regra871"
  },
  "d1-03-divs-index-012": {
   "deck": "d1-03-divs-index",
@@ -4392,7 +4403,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000018,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-03-dividendos#regra871"
  },
  "d1-03-divs-index-013": {
   "deck": "d1-03-divs-index",
@@ -4405,7 +4417,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000019,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-03-dividendos#especiais"
  },
  "d1-03-divs-index-014": {
   "deck": "d1-03-divs-index",
@@ -4419,7 +4432,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000020,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-03-dividendos#mercado"
  },
  "d1-03-divs-index-015": {
   "deck": "d1-03-divs-index",
@@ -4432,7 +4446,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000021,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-03-dividendos#mercado"
  },
  "d1-03-divs-index-016": {
   "deck": "d1-03-divs-index",
@@ -4445,7 +4460,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000022,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-03-dividendos#mercado"
  },
  "d1-04-index-events-001": {
   "deck": "d1-04-index-events",
@@ -4458,21 +4474,23 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000023,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-04-eventos-indice#calendario"
  },
  "d1-04-index-events-002": {
   "deck": "d1-04-index-events",
   "front": "When do S&P 500 and MSCI quarterly rebalances take effect?",
-  "back": "S&P: after the close on the third Friday of March, June, September and December.\nMSCI: as of the close of the last business day of February, May, August and November.",
+  "back": "S&P: after the close on the third Friday of March, June, September and December.\nMSCI: reviews in February, May, August and November. Changes are announced about three weeks ahead and take effect around month-end (e.g. announced 11 Nov 2026, effective 1 Dec 2026). Check the published schedule.",
   "tags": [
    "delta-one",
    "eventos-indice"
   ],
-  "source": "Learn Anything — Delta One prep (2026)",
+  "source": "S&P DJI methodology; MSCI index review schedule (2026)",
   "created": 1794100000024,
   "suspended": false,
-  "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "verified": "2026-11-15",
+  "checkBy": "2027-11-15",
+  "note": "d1-04-eventos-indice#calendario"
  },
  "d1-04-index-events-003": {
   "deck": "d1-04-index-events",
@@ -4485,7 +4503,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000025,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-04-eventos-indice#calendario"
  },
  "d1-04-index-events-004": {
   "deck": "d1-04-index-events",
@@ -4498,7 +4517,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000026,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-04-eventos-indice#pesos"
  },
  "d1-04-index-events-005": {
   "deck": "d1-04-index-events",
@@ -4511,7 +4531,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000027,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-04-eventos-indice#pesos"
  },
  "d1-04-index-events-006": {
   "deck": "d1-04-index-events",
@@ -4524,7 +4545,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000028,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-04-eventos-indice#quem"
  },
  "d1-04-index-events-007": {
   "deck": "d1-04-index-events",
@@ -4537,7 +4559,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000029,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-04-eventos-indice#leilao"
  },
  "d1-04-index-events-008": {
   "deck": "d1-04-index-events",
@@ -4550,21 +4573,23 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000030,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-04-eventos-indice#leilao"
  },
  "d1-04-index-events-009": {
   "deck": "d1-04-index-events",
-  "front": "What is imbalance information in the US closing auction, and when does order entry stop?",
-  "back": "The exchange publishes the paired volume and the net buy or sell imbalance in the final minutes.\nMOC/LOC entry closes about 3:50 pm ET on NYSE and Nasdaq. After that, mostly orders that offset the imbalance are accepted.",
+  "front": "US closing auctions: when does imbalance information start, and when does MOC/LOC entry stop?",
+  "back": "Imbalance information: from 3:50 pm ET on both NYSE and Nasdaq.\n**NYSE**: MOC/LOC entry stops at 3:50 pm; after that only orders that offset a published imbalance.\n**Nasdaq**: MOC until 3:55 pm; LOC until 3:58 pm (late LOCs may be repriced).",
   "tags": [
    "delta-one",
    "eventos-indice"
   ],
-  "source": "Learn Anything — Delta One prep (2026)",
+  "source": "NYSE closing auction fact sheet; Nasdaq Closing Cross FAQ",
   "created": 1794100000031,
   "suspended": false,
-  "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "verified": "2026-11-15",
+  "checkBy": "2027-11-15",
+  "note": "d1-04-eventos-indice#leilao"
  },
  "d1-04-index-events-010": {
   "deck": "d1-04-index-events",
@@ -4577,7 +4602,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000032,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-04-eventos-indice#efeito"
  },
  "d1-04-index-events-011": {
   "deck": "d1-04-index-events",
@@ -4590,7 +4616,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000033,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-04-eventos-indice#restrike"
  },
  "d1-04-index-events-012": {
   "deck": "d1-04-index-events",
@@ -4603,7 +4630,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000034,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-04-eventos-indice#restrike"
  },
  "d1-04-index-events-013": {
   "deck": "d1-04-index-events",
@@ -4616,7 +4644,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000035,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-04-eventos-indice#restrike"
  },
  "d1-04-index-events-014": {
   "deck": "d1-04-index-events",
@@ -4629,7 +4658,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000036,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-04-eventos-indice#arb"
  },
  "d1-04-index-events-015": {
   "deck": "d1-04-index-events",
@@ -4642,7 +4672,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000037,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-04-eventos-indice#arb"
  },
  "d1-04-index-events-016": {
   "deck": "d1-04-index-events",
@@ -4655,7 +4686,8 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000038,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-04-eventos-indice#pesos"
  },
  "d1-05-products-001": {
   "deck": "d1-05-products",
@@ -4898,7 +4930,8 @@
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000055,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-06-mapa-mesas#execucao"
  },
  "d1-06-desk-map-002": {
   "deck": "d1-06-desk-map",
@@ -4911,7 +4944,8 @@
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000056,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-06-mapa-mesas#execucao"
  },
  "d1-06-desk-map-003": {
   "deck": "d1-06-desk-map",
@@ -4924,7 +4958,8 @@
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000057,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-06-mapa-mesas#d1"
  },
  "d1-06-desk-map-004": {
   "deck": "d1-06-desk-map",
@@ -4938,7 +4973,8 @@
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000058,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-06-mapa-mesas#pb"
  },
  "d1-06-desk-map-005": {
   "deck": "d1-06-desk-map",
@@ -4952,7 +4988,8 @@
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000059,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-06-mapa-mesas#lending"
  },
  "d1-06-desk-map-006": {
   "deck": "d1-06-desk-map",
@@ -4966,7 +5003,8 @@
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000060,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-06-mapa-mesas#lending"
  },
  "d1-06-desk-map-007": {
   "deck": "d1-06-desk-map",
@@ -4981,7 +5019,8 @@
   "created": 1794100000061,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "d1-06-mapa-mesas#pb"
  },
  "d1-06-desk-map-008": {
   "deck": "d1-06-desk-map",
@@ -4994,7 +5033,8 @@
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000062,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-06-mapa-mesas#deriv"
  },
  "d1-06-desk-map-009": {
   "deck": "d1-06-desk-map",
@@ -5007,7 +5047,8 @@
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000063,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-06-mapa-mesas#deriv"
  },
  "d1-06-desk-map-010": {
   "deck": "d1-06-desk-map",
@@ -5021,7 +5062,8 @@
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000064,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-06-mapa-mesas#funding"
  },
  "d1-06-desk-map-011": {
   "deck": "d1-06-desk-map",
@@ -5035,7 +5077,8 @@
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000065,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-06-mapa-mesas#funding"
  },
  "d1-06-desk-map-012": {
   "deck": "d1-06-desk-map",
@@ -5049,7 +5092,8 @@
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000066,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-06-mapa-mesas#funding"
  },
  "d1-06-desk-map-013": {
   "deck": "d1-06-desk-map",
@@ -5063,7 +5107,8 @@
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000067,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-06-mapa-mesas#controle"
  },
  "d1-06-desk-map-014": {
   "deck": "d1-06-desk-map",
@@ -5076,7 +5121,8 @@
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000068,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-06-mapa-mesas#d1"
  },
  "d1-06-desk-map-015": {
   "deck": "d1-06-desk-map",
@@ -5089,7 +5135,8 @@
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000069,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "d1-06-mapa-mesas#controle"
  },
  "llm-01-transformers-001": {
   "deck": "llm-01-transformers",

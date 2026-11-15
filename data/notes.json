@@ -2713,5 +2713,1151 @@
     "answer": "Porque o forward tem de refletir o custo real de carregar o hedge, e a mesa financia a ação na taxa de repo/funding, não na OIS. Precificar com OIS supõe um funding que a mesa não tem e esconde o spread de funding e de borrow. A diferença entre as duas taxas é o que o cliente paga como spread."
    }
   ]
+ },
+ "d1-03-dividendos": {
+  "deck": "d1-03-divs-index",
+  "title": "Dividendos, imposto e índices",
+  "order": 1,
+  "created": 1794600000007,
+  "verified": "2026-11-15",
+  "source": "IRS Notice 2026-61 e Treas. Reg. §1.871-15; notas de aula (Learn Anything, Delta One). Números ilustrativos. Não é orientação fiscal",
+  "intro": "Notas de aluno. O exemplo segue: um TRS sobre uma **ação estrangeira que paga dividendo de 2,00**, com imposto retido de 15% na fonte.\nPergunta da nota: quem fica com o dividendo, quem paga o imposto, e onde a mesa ganha ou perde.",
+  "objectives": [
+   {
+    "id": "o1",
+    "verb": "explicar",
+    "text": "as datas do dividendo e o que é o DPR"
+   },
+   {
+    "id": "o2",
+    "verb": "calcular",
+    "text": "o P&L de dividendo da mesa, dado o imposto retido e o DPR"
+   },
+   {
+    "id": "o3",
+    "verb": "comparar",
+    "text": "índices PR, GTR e NTR, e calcular o ganho de imposto num swap de NTR"
+   },
+   {
+    "id": "o4",
+    "verb": "explicar",
+    "text": "o que a §871(m) cobre hoje e o papel do QDD"
+   },
+   {
+    "id": "o5",
+    "verb": "calcular",
+    "text": "os dividendos implícitos num futuro, e explicar quem negocia dividendos"
+   }
+  ],
+  "sections": [
+   {
+    "id": "datas",
+    "title": "1. As três datas",
+    "obj": [
+     "o1"
+    ],
+    "body": "- **Ex-date**: decide quem recebe. Quem tem a ação **antes** dela recebe o dividendo.\n- **Record date**: a data do registro de acionistas. Vem logo depois, por causa da liquidação.\n- **Pay date**: o dia em que o dinheiro entra.\n- No ex-date, o preço cai mais ou menos o valor do dividendo. O valor saiu da ação e virou caixa a receber.\n- No swap: o confirm costuma fixar o valor do dividendo no ex-date e pagar no pay date. Confira o confirm.\n- Exemplo: comprou no ex-date → não recebe os 2,00, mas pagou cerca de 2,00 a menos."
+   },
+   {
+    "id": "dpr",
+    "title": "2. DPR e o risco de dividendo da mesa",
+    "obj": [
+     "o1",
+     "o2"
+    ],
+    "body": "- **DPR** (dividend pass-through ratio) = a fração do dividendo bruto que o swap repassa ao cliente. Ex.: 100%, 85%, 70%.\n- A mesa tem a ação como hedge. Ela **recebe** o dividendo líquido de imposto e **paga** o dividendo × DPR.\n$$\\text{P\\&L} = D \\times (1 - t) - D \\times \\text{DPR}$$\n- $t$ = imposto que a mesa de fato sofre na fonte.\n- Exemplo: $D = 2{,}00$, $t = 15\\%$, DPR de 100%.\n  1. Recebe: $2{,}00 \\times 85\\% = 1{,}70$.\n  2. Paga: 2,00.\n  3. P&L: **−0,30 por ação**. Em 1 milhão de ações: −300 mil.\n- Correções: DPR igual à taxa líquida (85%), ou colocar a diferença no spread.\n- O contrário também existe: DPR de 85% e a mesa sofre só 10% → recebe 1,80, paga 1,70 → **+0,10 por ação**."
+   },
+   {
+    "id": "indices",
+    "title": "3. Índices PR, GTR e NTR",
+    "obj": [
+     "o3"
+    ],
+    "body": "- **PR** (price return): só preço. O dividendo some do índice.\n- **GTR** (gross total return): reinveste o dividendo **bruto**.\n- **NTR** (net total return): reinveste o dividendo líquido, usando a taxa de imposto **padrão do provedor do índice**.\n- A taxa do provedor é uma convenção. A taxa real de cada investidor pode ser outra (tratado, estrutura).\n- Ganho num swap de NTR: se a mesa sofre menos imposto que a taxa do provedor, a diferença sobra.\n- Exemplo: provedor assume 30%, a mesa sofre 15%, dividend yield de 2%.\n  1. Diferença de imposto: 15% do dividendo.\n  2. Ganho: $15\\% \\times 2\\%$ = **30 bp ao ano**.\n- Parte volta ao cliente como spread mais apertado. É ganho de imposto sobre o dividendo, **não** benefício de funding."
+   },
+   {
+    "id": "regra871",
+    "title": "4. §871(m): ação americana, cliente de fora",
+    "obj": [
+     "o4"
+    ],
+    "body": "- Regra fiscal dos EUA. Um **dividend equivalent** pago a não americano, num derivativo sobre ação dos EUA, conta como dividendo de fonte americana.\n- Retenção: 30%, ou a taxa do tratado.\n- Por que existe: antes, um swap entregava o dividendo americano a um estrangeiro **sem retenção**. Era a vantagem fiscal do swap. A regra fechou isso.\n- Hoje, um swap delta one sobre ação dos EUA retém como a ação física.\n- Alcance **hoje**: só transações **delta one**, emitidas desde 2017.\n- Adiado: o teste mais amplo da regra final (delta ≥ 0,8 na emissão). O Notice 2026-61 do IRS mantém as transações não delta one fora **até o fim de 2028**. Foi o sexto adiamento.\n- Swap de price return **não** escapa: o preço embute o dividendo esperado, e esse dividendo implícito conta.\n- Exceções existem, como índices qualificados.\n- **QDD** (qualified derivatives dealer): o dealer assume a retenção sobre o que paga ao cliente. Em troca, não sofre retenção sobre o dividendo que recebe como hedger. Evita imposto em cascata na cadeia."
+   },
+   {
+    "id": "especiais",
+    "title": "5. Dividendos especiais",
+    "obj": [
+     "o1"
+    ],
+    "body": "- Dividendo extraordinário costuma ser tratado como **evento de ajuste**, não como fluxo de dividendo.\n- O ajuste vai no nocional, no strike ou no divisor do índice.\n- Quem define \"extraordinário\" é o confirm ou a regra do índice. Leia: é fonte comum de quebra entre mesa e cliente.\n- Efeito prático: o DPR pode não se aplicar a esse pagamento."
+   },
+   {
+    "id": "mercado",
+    "title": "6. O mercado de dividendos",
+    "obj": [
+     "o5"
+    ],
+    "body": "- **Futuro de dividendos de índice**: paga a soma dos dividendos ordinários brutos, em pontos de índice, com ex-date dentro do ano do contrato. Ex.: Euro Stoxx 50.\n- Ele isola o risco de dividendo do risco de preço.\n- Quem fica long dividendos sem querer: mesas de **produtos estruturados**. O hedge de delta de notas ligadas a price return (autocallables) ganha quando o dividendo realizado supera o precificado, e perde quando o dividendo cai.\n- Elas se protegem **vendendo** futuros ou swaps de dividendos. Delta One é contraparte natural.\n- Dividendos implícitos num futuro de índice (juros simples):\n$$D = S(1 + rT) - F$$\n- Exemplo: índice 5000, financiamento de 5%, futuro de 3 meses a 5040.\n  1. $5000 \\times 1{,}0125 = 5062{,}5$.\n  2. $D = 5062{,}5 - 5040$ = **22,5 pontos** (valor futuro).\n- Com o financiamento conhecido, o futuro revela dividendos. Com os dividendos conhecidos, revela financiamento."
+   },
+   {
+    "id": "armadilhas",
+    "title": "7. Onde eu me confundo",
+    "obj": [
+     "o2",
+     "o4"
+    ],
+    "body": "- Quem decide o dividendo é o **ex-date**, não o record date nem o pay date.\n- DPR é sobre o dividendo **bruto**. DPR de 100% com imposto na fonte = perda certa para a mesa.\n- O P&L de dividendo usa o imposto que a **mesa** sofre, não o do cliente.\n- NTR usa a taxa do provedor do índice, não a taxa de quem investe.\n- Ganho de NTR é imposto, não funding.\n- §871(m): price return não escapa. E o alcance atual é só delta one; o teste de 0,8 está adiado.\n- Dividendo maior derruba o forward e o futuro. Sinal trocado é erro comum.\n- Dividendo especial pode não passar pelo DPR."
+   }
+  ],
+  "summary": "### Datas\n- Ex-date decide quem recebe; o preço cai ≈ dividendo. Swap: fixa no ex-date, paga no pay date.\n### Mesa\n$$\\text{P\\&L} = D \\times (1 - t) - D \\times \\text{DPR}$$\n- Ex.: $2{,}00 \\times 85\\% - 2{,}00 = -0{,}30$. Correção: DPR = taxa líquida, ou spread.\n### Índices\n- PR: só preço. GTR: dividendo bruto. NTR: líquido pela taxa do provedor.\n- Ganho de NTR = (taxa do provedor − taxa real) × yield. Ex.: $15\\% \\times 2\\%$ = 30 bp.\n### §871(m)\n- Dividend equivalent a não americano = dividendo dos EUA. Retém 30% ou tratado.\n- Hoje: só delta one. Não delta one: fora até 2028 (Notice 2026-61).\n- Price return não escapa. QDD evita retenção em cascata.\n### Mercado\n- Estruturados ficam long dividendos → vendem futuros de dividendos.\n- $D = S(1 + rT) - F$.",
+  "questions": [
+   {
+    "id": "d1-03-dividendos-q01",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "dpr",
+    "stem": "Dividendo de 4,00, imposto na fonte de 20% para a mesa, DPR de 100%. A mesa tem 500 mil ações como hedge. Qual é o P&L de dividendo?",
+    "options": [
+     {
+      "t": "−400 mil",
+      "ok": true,
+      "why": "Recebe $4{,}00 \\times 80\\% = 3{,}20$ e paga 4,00. Perde 0,80 por ação × 500 mil."
+     },
+     {
+      "t": "+400 mil",
+      "ok": false,
+      "why": "O sinal está trocado: a mesa paga o bruto e recebe o líquido."
+     },
+     {
+      "t": "−2 milhões",
+      "ok": false,
+      "why": "Isso é o dividendo bruto inteiro. A mesa também recebe 3,20 por ação."
+     },
+     {
+      "t": "Zero: o DPR de 100% repassa exatamente o que entra.",
+      "ok": false,
+      "why": "O DPR é sobre o bruto. O que entra para a mesa é o líquido de imposto."
+     }
+    ]
+   },
+   {
+    "id": "d1-03-dividendos-q02",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "dpr",
+    "stem": "Dividendo de 2,00. A mesa sofre 10% de imposto. O DPR é 85%. Qual é o P&L por ação?",
+    "options": [
+     {
+      "t": "+0,10",
+      "ok": true,
+      "why": "Recebe $2{,}00 \\times 90\\% = 1{,}80$. Paga $2{,}00 \\times 85\\% = 1{,}70$."
+     },
+     {
+      "t": "−0,30",
+      "ok": false,
+      "why": "Esse é o caso de DPR 100% com imposto de 15%."
+     },
+     {
+      "t": "−0,10",
+      "ok": false,
+      "why": "O sinal está trocado: a mesa recebe mais (1,80) do que paga (1,70)."
+     },
+     {
+      "t": "+0,30",
+      "ok": false,
+      "why": "Isso ignora o imposto de 10% que a mesa sofre."
+     }
+    ]
+   },
+   {
+    "id": "d1-03-dividendos-q03",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "indices",
+    "stem": "Swap sobre um índice NTR. O provedor assume 30% de imposto; a mesa sofre 15%. O dividend yield é 3%. Qual é o ganho anual antes de repasse ao cliente?",
+    "options": [
+     {
+      "t": "45 bp",
+      "ok": true,
+      "why": "$(30\\% - 15\\%) \\times 3\\% = 0{,}45\\%$."
+     },
+     {
+      "t": "90 bp",
+      "ok": false,
+      "why": "Isso é $30\\% \\times 3\\%$: o imposto que o índice assume, não a diferença."
+     },
+     {
+      "t": "15 bp",
+      "ok": false,
+      "why": "Isso aplica os 15% sobre um yield de 1%. O yield é 3%."
+     },
+     {
+      "t": "300 bp",
+      "ok": false,
+      "why": "Isso é o dividend yield inteiro."
+     }
+    ]
+   },
+   {
+    "id": "d1-03-dividendos-q04",
+    "type": "mc",
+    "obj": "o1",
+    "sec": "datas",
+    "stem": "Um investidor compra a ação **no** ex-date. Ele recebe o dividendo?",
+    "options": [
+     {
+      "t": "Não. Só recebe quem tinha a ação antes do ex-date.",
+      "ok": true,
+      "why": "Em compensação, ele paga um preço que já caiu mais ou menos o valor do dividendo."
+     },
+     {
+      "t": "Sim, se ainda tiver a ação no pay date.",
+      "ok": false,
+      "why": "O pay date é só quando o dinheiro entra. Quem decide é o ex-date."
+     },
+     {
+      "t": "Sim, se a compra liquidar antes do record date.",
+      "ok": false,
+      "why": "O ex-date existe justamente para tratar a liquidação: comprou no ex-date, ficou fora do registro."
+     },
+     {
+      "t": "Recebe metade.",
+      "ok": false,
+      "why": "Não há rateio."
+     }
+    ]
+   },
+   {
+    "id": "d1-03-dividendos-q05",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "regra871",
+    "stem": "Um cliente não americano entra num swap de **price return**, delta one, sobre uma ação dos EUA. Isso escapa da §871(m)?",
+    "options": [
+     {
+      "t": "Não: o preço embute o dividendo esperado, e esse dividendo implícito conta.",
+      "ok": true,
+      "why": "A regra olha a economia. Se o cliente recebe o valor do dividendo pelo preço, existe um dividend equivalent."
+     },
+     {
+      "t": "Sim: sem pagamento de dividendo, não há o que reter.",
+      "ok": false,
+      "why": "Era a brecha óbvia. A regra trata o dividendo implícito como dividend equivalent."
+     },
+     {
+      "t": "Sim: a regra só vale para opções.",
+      "ok": false,
+      "why": "O alcance atual é exatamente o delta one, como um TRS."
+     },
+     {
+      "t": "Depende só do DPR.",
+      "ok": false,
+      "why": "DPR é parâmetro do total return."
+     }
+    ]
+   },
+   {
+    "id": "d1-03-dividendos-q06",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "regra871",
+    "stem": "Em novembro de 2026, quais transações a §871(m) alcança?",
+    "options": [
+     {
+      "t": "Só delta one. As não delta one ficam fora até o fim de 2028.",
+      "ok": true,
+      "why": "O Notice 2026-61 estendeu o período de transição por mais dois anos."
+     },
+     {
+      "t": "Toda transação com delta ≥ 0,8 na emissão.",
+      "ok": false,
+      "why": "Esse é o teste da regra final, que continua adiado."
+     },
+     {
+      "t": "Nenhuma: a regra inteira está suspensa.",
+      "ok": false,
+      "why": "A regra vale para delta one desde 2017."
+     },
+     {
+      "t": "Só opções listadas.",
+      "ok": false,
+      "why": "O foco atual é o delta one, como swaps."
+     }
+    ]
+   },
+   {
+    "id": "d1-03-dividendos-q07",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "regra871",
+    "stem": "Para que serve o regime de QDD?",
+    "options": [
+     {
+      "t": "Para evitar retenção em cascata: o dealer retém do cliente e não é retido no dividendo do hedge.",
+      "ok": true,
+      "why": "Sem isso, o mesmo dividendo sofreria imposto a cada elo da cadeia de dealers."
+     },
+     {
+      "t": "Para isentar o cliente final de imposto.",
+      "ok": false,
+      "why": "O cliente continua sofrendo a retenção, feita pelo dealer."
+     },
+     {
+      "t": "Para o dealer não precisar reportar ao IRS.",
+      "ok": false,
+      "why": "O QDD assume mais responsabilidade, não menos."
+     },
+     {
+      "t": "Para trocar o imposto de 30% por um spread.",
+      "ok": false,
+      "why": "Não muda a taxa; muda quem retém e onde."
+     }
+    ]
+   },
+   {
+    "id": "d1-03-dividendos-q08",
+    "type": "mc",
+    "obj": "o5",
+    "sec": "mercado",
+    "stem": "Índice a 4000, financiamento de 4%, futuro de 6 meses a 4050 (juros simples). Quais são os dividendos implícitos?",
+    "options": [
+     {
+      "t": "30 pontos",
+      "ok": true,
+      "why": "$4000 \\times 1{,}02 - 4050 = 30$."
+     },
+     {
+      "t": "50 pontos",
+      "ok": false,
+      "why": "Isso é futuro menos spot. Falta o financiamento."
+     },
+     {
+      "t": "80 pontos",
+      "ok": false,
+      "why": "Isso é só o financiamento do período."
+     },
+     {
+      "t": "110 pontos",
+      "ok": false,
+      "why": "Isso usa o financiamento do ano inteiro (160) em vez de 6 meses (80)."
+     }
+    ]
+   },
+   {
+    "id": "d1-03-dividendos-q09",
+    "type": "mc",
+    "obj": "o5",
+    "sec": "mercado",
+    "stem": "Uma mesa de produtos estruturados fica long dividendos por causa das notas que emitiu. Como ela se protege?",
+    "options": [
+     {
+      "t": "Vende futuros ou swaps de dividendos.",
+      "ok": true,
+      "why": "Ela trava o nível de dividendos e passa o risco adiante. Delta One costuma estar do outro lado."
+     },
+     {
+      "t": "Compra futuros de dividendos.",
+      "ok": false,
+      "why": "Isso dobraria a exposição long."
+     },
+     {
+      "t": "Compra a ação e fica com o dividendo.",
+      "ok": false,
+      "why": "Isso aumenta a exposição a dividendos e ainda traz risco de preço."
+     },
+     {
+      "t": "Sobe o DPR das notas.",
+      "ok": false,
+      "why": "As notas são de price return. Não têm DPR."
+     }
+    ]
+   },
+   {
+    "id": "d1-03-dividendos-q10",
+    "type": "open",
+    "obj": "o2",
+    "sec": "dpr",
+    "stem": "Explique de onde vem o risco de dividendo da mesa num TRS com hedge físico, e duas formas de corrigir.",
+    "answer": "A mesa recebe o dividendo líquido de imposto na fonte e paga ao cliente o dividendo bruto vezes o DPR. Se o DPR é maior que a taxa líquida que a mesa recebe, ela perde a diferença em cada dividendo. Correções: fixar o DPR na taxa líquida (por exemplo, 85%), ou manter o DPR e cobrar a diferença no spread."
+   },
+   {
+    "id": "d1-03-dividendos-q11",
+    "type": "open",
+    "obj": "o4",
+    "sec": "regra871",
+    "stem": "Por que a §871(m) mudou a demanda de clientes não americanos por swaps sobre ações dos EUA?",
+    "answer": "Antes da regra, um swap entregava a economia do dividendo americano sem imposto retido, enquanto a ação física sofria 30% ou a taxa do tratado. Essa era uma razão forte para usar swap. A regra trata o dividend equivalent como dividendo de fonte americana, então o swap delta one passou a reter como a ação. A vantagem fiscal sumiu; ficaram os outros motivos, como alavancagem e acesso."
+   }
+  ]
+ },
+ "d1-04-eventos-indice": {
+  "deck": "d1-04-index-events",
+  "title": "Eventos de índice e o leilão de fechamento",
+  "order": 1,
+  "created": 1794600000008,
+  "verified": "2026-11-15",
+  "source": "NYSE (closing auction fact sheet); Nasdaq (Closing Cross FAQ); calendário de revisões da MSCI; notas de aula. Números ilustrativos",
+  "intro": "Notas de aluno. O exemplo segue: uma ação **entra num índice**, e a mesa precisa comprar **1 milhão de ações no fechamento** do dia anterior à data efetiva.\nPergunta da nota: por que no fechamento, e quanto custa errar a hora.",
+  "objectives": [
+   {
+    "id": "o1",
+    "verb": "explicar",
+    "text": "as datas de um evento de índice e por que se opera no fechamento"
+   },
+   {
+    "id": "o2",
+    "verb": "diagnosticar",
+    "text": "quando quem replica um índice precisa operar"
+   },
+   {
+    "id": "o3",
+    "verb": "explicar",
+    "text": "o leilão de fechamento, MOC e LOC, e os horários de corte"
+   },
+   {
+    "id": "o4",
+    "verb": "calcular",
+    "text": "o P&L de restrike de uma execução antecipada"
+   },
+   {
+    "id": "o5",
+    "verb": "comparar",
+    "text": "arbitragem de índice e criação/resgate de ETF"
+   }
+  ],
+  "sections": [
+   {
+    "id": "calendario",
+    "title": "1. As datas",
+    "obj": [
+     "o1"
+    ],
+    "body": "- **Anúncio**: o provedor publica a mudança.\n- **Data efetiva**: a mudança vale a partir do fechamento do pregão anterior.\n- Entre as duas, a composição **pro-forma** é conhecida. Todo mundo planeja.\n- S&P: rebalance trimestral depois do fechamento da **terceira sexta-feira** de março, junho, setembro e dezembro.\n- MSCI: revisões em fevereiro, maio, agosto e novembro. Anúncio cerca de três semanas antes; efetivo perto do fim do mês.\n- Exemplo MSCI: revisão de novembro de 2026 → anúncio em 11/nov, efetiva em 1/dez. A execução é no fechamento de 30/nov.\n- As datas exatas mudam a cada ciclo. Use o calendário publicado.\n- Fora do calendário: M&A (exclusão no fechamento do negócio), spin-off, IPO com entrada rápida, mudança de número de ações ou de free float. Podem vir com pouco aviso."
+   },
+   {
+    "id": "pesos",
+    "title": "2. Quando o tracker precisa operar",
+    "obj": [
+     "o2"
+    ],
+    "body": "- Índice ponderado por **capitalização**: o peso anda com o preço, e a sua carteira também. Ele se rebalanceia sozinho.\n- Então preço que se move **não** gera trade. Só geram trade:\n  1. Mudança de composição (entra, sai).\n  2. Mudança no número de ações (recompra, emissão).\n  3. Mudança de free float.\n- **Free-float factor** = fração das ações disponível ao público. O peso usa ações ajustadas pelo float. O float mudou → o peso mudou, sem ninguém entrar ou sair.\n- Índice **equal-weight**: os pesos derivam com o preço. Em cada rebalance, o tracker vende quem subiu e compra quem caiu.\n- Consequência: mais giro que o índice por capitalização, e um fluxo previsível."
+   },
+   {
+    "id": "quem",
+    "title": "3. Por que no fechamento, e quem está lá",
+    "obj": [
+     "o1"
+    ],
+    "body": "- O índice e os swaps de cliente usam o **preço oficial de fechamento**.\n- Quem replica quer erro zero contra esse preço. Então executa nele.\n- Quem aparece no fechamento de um evento:\n  1. Fundos passivos e ETFs (tracking error contra o fechamento).\n  2. Mesas que protegem swaps e futuros de índice.\n  3. Gestores ativos e arbitradores que se posicionaram antes.\n  4. Provedores de liquidez que absorvem o desequilíbrio do leilão.\n- No exemplo: o swap do cliente vai ser marcado no fechamento. Comprar 1 milhão de ações nesse preço zera o risco da mesa."
+   },
+   {
+    "id": "leilao",
+    "title": "4. O leilão de fechamento",
+    "obj": [
+     "o3"
+    ],
+    "body": "- As ordens se acumulam antes do fechamento. A bolsa calcula **um preço** que maximiza o volume casado.\n- Todas as ordens casadas saem nesse preço. Ele vira o fechamento oficial.\n- **MOC** (market-on-close): executa no fechamento, a qualquer preço.\n- **LOC** (limit-on-close): executa no fechamento só se o preço respeitar o limite.\n- A partir de **15h50** (horário de Nova York), NYSE e Nasdaq publicam o desequilíbrio: volume casado e sobra de compra ou de venda.\n- Horários de corte:\n  1. **NYSE**: MOC e LOC até 15h50. Depois, só ordem que compensa um desequilíbrio publicado.\n  2. **Nasdaq**: MOC até 15h55. LOC até 15h58, com possível ajuste de preço.\n- Regra prática: ordem de fechamento entra **antes** do corte. Depois dele, você só consegue ajudar o lado que falta."
+   },
+   {
+    "id": "restrike",
+    "title": "5. Risco de restrike",
+    "obj": [
+     "o4"
+    ],
+    "body": "- Restrike = a diferença entre o preço que a mesa executou e o fechamento oficial.\n- Tudo o que vai para o leilão sai no fechamento: restrike zero.\n- O que é executado antes carrega a diferença:\n$$\\text{P\\&L} = Q_{\\text{antes}} \\times (P_{\\text{fech}} - P_{\\text{médio}})$$\n- A fórmula é para uma **compra**. $Q_{\\text{antes}}$ = quantidade executada antes do leilão.\n- Exemplo: comprar 1 milhão. A mesa compra 300 mil antes, a 50,40 de média. O fechamento sai a 50,00.\n  1. 700 mil no leilão: sem restrike.\n  2. 300 mil antes: $300.000 \\times (50{,}00 - 50{,}40)$ = **−120 mil USD**.\n- Numa venda, o sinal inverte: vender antes abaixo do fechamento é perda.\n- O trade-off:\n  1. Mais no leilão → mais impacto no próprio fechamento.\n  2. Mais antes → menos impacto, mais restrike.\n- Como dosar: a parte antecipada depende da profundidade esperada do leilão e da volatilidade do papel até o fechamento.\n- **Guaranteed close**: a mesa garante ao cliente o fechamento oficial numa cesta. O cliente fica com erro zero; a mesa assume o risco de execução e cobra por ele."
+   },
+   {
+    "id": "efeito",
+    "title": "6. O efeito índice",
+    "obj": [
+     "o1"
+    ],
+    "body": "- Ação que entra tende a subir entre o anúncio e a data efetiva: quem se antecipa compra.\n- Depois da data efetiva, costuma devolver parte.\n- Exclusões mostram o padrão espelhado.\n- Para quem replica, é custo: compra no pico. Para quem se antecipou, é risco: o movimento pode não vir, ou reverter antes."
+   },
+   {
+    "id": "arb",
+    "title": "7. Arbitragem de índice e ETF",
+    "obj": [
+     "o5"
+    ],
+    "body": "- **Arbitragem de índice**: futuro contra a cesta, quando o futuro sai do valor justo.\n  1. Futuro caro: compra a cesta, vende o futuro (cash-and-carry).\n  2. Futuro barato: o contrário.\n- **ETF, criação e resgate**: os participantes autorizados (APs) trocam cesta por cotas com o fundo.\n  1. ETF acima do NAV: o AP compra a cesta, entrega ao fundo, recebe cotas novas e vende. O preço cai.\n  2. ETF abaixo do NAV: o AP compra cotas, resgata, recebe a cesta e vende. O preço sobe.\n- Os dois mecanismos prendem um derivado ao seu valor justo. O que muda é o instrumento: futuro com vencimento, ou cota sem vencimento."
+   },
+   {
+    "id": "armadilhas",
+    "title": "8. Onde eu me confundo",
+    "obj": [
+     "o2",
+     "o3",
+     "o4"
+    ],
+    "body": "- A data efetiva é o dia seguinte. O trade é no **fechamento da véspera**.\n- Índice por capitalização não pede trade quando o preço anda. Equal-weight pede.\n- Mudança de float mexe no peso sem entrada nem saída.\n- MOC não tem preço limite. LOC pode simplesmente não executar.\n- Os cortes de NYSE e Nasdaq são diferentes: 15h50 e 15h55.\n- Restrike vem só da parte executada **fora** do leilão.\n- Sinal do restrike: comprou antes acima do fechamento = perda; vendeu antes acima do fechamento = ganho.\n- Colocar tudo no leilão zera o restrike, mas pode mover o fechamento contra você."
+   }
+  ],
+  "summary": "### Datas\n- Anúncio → pro-forma → data efetiva. Executa no fechamento da véspera.\n- S&P: 3ª sexta de mar/jun/set/dez. MSCI: fev/mai/ago/nov, perto do fim do mês.\n### Quem opera\n- Capitalização: só composição, número de ações ou float. Equal-weight: vende quem subiu, compra quem caiu.\n### Leilão\n- Um preço que maximiza o volume = fechamento oficial.\n- MOC: a qualquer preço. LOC: só dentro do limite.\n- Desequilíbrio a partir de 15h50. Corte: NYSE 15h50; Nasdaq MOC 15h55, LOC 15h58.\n### Restrike\n$$Q_{\\text{antes}} \\times (P_{\\text{fech}} - P_{\\text{médio}})$$\n- Ex.: $300.000 \\times (50{,}00 - 50{,}40)$ = −120 mil. Na venda, o sinal inverte.\n- Leilão: mais impacto. Antes: mais restrike.\n### Arbitragem\n- Futuro caro: compra cesta, vende futuro.\n- ETF acima do NAV: AP cria e vende. Abaixo: compra e resgata.",
+  "questions": [
+   {
+    "id": "d1-04-eventos-indice-q01",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "restrike",
+    "stem": "Exclusão de índice: a mesa precisa **vender** 800 mil ações no fechamento. Ela vende 200 mil antes, a 29,70 de média. O fechamento sai a 30,00. Qual é o P&L de restrike?",
+    "options": [
+     {
+      "t": "−60 mil USD",
+      "ok": true,
+      "why": "Vendeu 200 mil a 0,30 abaixo do fechamento: $200.000 \\times (29{,}70 - 30{,}00)$. Os 600 mil do leilão não têm restrike."
+     },
+     {
+      "t": "+60 mil USD",
+      "ok": false,
+      "why": "Numa venda, vender abaixo do fechamento é perda."
+     },
+     {
+      "t": "−240 mil USD",
+      "ok": false,
+      "why": "Isso aplica os 0,30 às 800 mil. Só as 200 mil antecipadas têm restrike."
+     },
+     {
+      "t": "Zero",
+      "ok": false,
+      "why": "Zero só se tudo fosse executado no leilão."
+     }
+    ]
+   },
+   {
+    "id": "d1-04-eventos-indice-q02",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "pesos",
+    "stem": "Você replica um índice ponderado por capitalização, com as ações nas proporções do índice. Num dia, algumas sobem 5% e outras caem 5%. Você precisa operar?",
+    "options": [
+     {
+      "t": "Não: os pesos do índice e os da carteira andam juntos.",
+      "ok": true,
+      "why": "O índice por capitalização se rebalanceia sozinho. Só composição, número de ações ou float geram trade."
+     },
+     {
+      "t": "Sim: vender as que subiram para voltar ao peso.",
+      "ok": false,
+      "why": "Isso é o que um índice equal-weight exige."
+     },
+     {
+      "t": "Sim: comprar as que subiram, porque o peso aumentou.",
+      "ok": false,
+      "why": "A posição que você já tem aumentou de valor na mesma proporção."
+     },
+     {
+      "t": "Só se o movimento passar de 10%.",
+      "ok": false,
+      "why": "O tamanho do movimento não importa."
+     }
+    ]
+   },
+   {
+    "id": "d1-04-eventos-indice-q03",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "pesos",
+    "stem": "Uma empresa do índice (por capitalização, ajustado por float) conclui uma recompra que reduz em 5% as ações em circulação. O índice atualiza o número de ações. O que o tracker faz?",
+    "options": [
+     {
+      "t": "Vende um pouco da ação: o peso dela caiu.",
+      "ok": true,
+      "why": "Mudança no número de ações é um dos gatilhos de trade num índice por capitalização."
+     },
+     {
+      "t": "Nada: recompra não muda a composição.",
+      "ok": false,
+      "why": "A composição é a mesma, mas o número de ações do índice mudou."
+     },
+     {
+      "t": "Compra mais: a recompra faz o preço subir.",
+      "ok": false,
+      "why": "O efeito no preço não gera trade. O número de ações, sim."
+     },
+     {
+      "t": "Vende a posição inteira.",
+      "ok": false,
+      "why": "A empresa continua no índice, com peso menor."
+     }
+    ]
+   },
+   {
+    "id": "d1-04-eventos-indice-q04",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "leilao",
+    "stem": "São 15h52 em Nova York. Não há desequilíbrio publicado. Você quer mandar uma MOC nova. Onde ela ainda é aceita?",
+    "options": [
+     {
+      "t": "Na Nasdaq (corte às 15h55), não na NYSE (corte às 15h50).",
+      "ok": true,
+      "why": "Na NYSE, depois das 15h50 só entra ordem que compensa um desequilíbrio publicado."
+     },
+     {
+      "t": "Nas duas: o corte é às 15h55.",
+      "ok": false,
+      "why": "O corte da NYSE é mais cedo: 15h50."
+     },
+     {
+      "t": "Em nenhuma: o corte das duas é às 15h50.",
+      "ok": false,
+      "why": "A Nasdaq aceita MOC até 15h55."
+     },
+     {
+      "t": "Só na NYSE.",
+      "ok": false,
+      "why": "Está invertido."
+     }
+    ]
+   },
+   {
+    "id": "d1-04-eventos-indice-q05",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "leilao",
+    "stem": "Você manda uma LOC de **compra** com limite 20,00. O leilão fecha a 20,15. O que acontece?",
+    "options": [
+     {
+      "t": "A ordem não executa.",
+      "ok": true,
+      "why": "A LOC só executa se o fechamento respeitar o limite. Você fica sem a posição."
+     },
+     {
+      "t": "Executa a 20,00.",
+      "ok": false,
+      "why": "Todas as ordens casadas saem no mesmo preço: o do fechamento."
+     },
+     {
+      "t": "Executa a 20,15.",
+      "ok": false,
+      "why": "Isso seria uma MOC, que aceita qualquer preço."
+     },
+     {
+      "t": "Executa pela metade.",
+      "ok": false,
+      "why": "Não há execução parcial por preço: ou o limite é respeitado, ou não."
+     }
+    ]
+   },
+   {
+    "id": "d1-04-eventos-indice-q06",
+    "type": "mc",
+    "obj": "o1",
+    "sec": "calendario",
+    "stem": "Uma mudança de índice tem data efetiva na segunda-feira. Quando quem replica executa?",
+    "options": [
+     {
+      "t": "No fechamento da sexta-feira.",
+      "ok": true,
+      "why": "A mudança vale a partir do fechamento do pregão anterior. É nesse preço que o índice troca."
+     },
+     {
+      "t": "Na abertura da segunda-feira.",
+      "ok": false,
+      "why": "O índice já abre a segunda com a nova composição, ao preço de sexta."
+     },
+     {
+      "t": "No fechamento da segunda-feira.",
+      "ok": false,
+      "why": "Aí a carteira passaria um dia inteiro diferente do índice."
+     },
+     {
+      "t": "No dia do anúncio.",
+      "ok": false,
+      "why": "Isso é se antecipar, com risco de restrike. Não replica o índice."
+     }
+    ]
+   },
+   {
+    "id": "d1-04-eventos-indice-q07",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "restrike",
+    "stem": "A mesa decide mandar 100% da ordem para o leilão. O que ela ganha e o que arrisca?",
+    "options": [
+     {
+      "t": "Zera o restrike, mas pode mover o fechamento contra si.",
+      "ok": true,
+      "why": "Tudo sai no preço oficial. Mas uma ordem grande no leilão desloca esse preço."
+     },
+     {
+      "t": "Zera o impacto de mercado, mas fica com restrike.",
+      "ok": false,
+      "why": "É o contrário."
+     },
+     {
+      "t": "Zera os dois: é sempre a melhor escolha.",
+      "ok": false,
+      "why": "Se fosse, ninguém anteciparia nada."
+     },
+     {
+      "t": "Fica com os dois riscos.",
+      "ok": false,
+      "why": "No leilão não existe restrike."
+     }
+    ]
+   },
+   {
+    "id": "d1-04-eventos-indice-q08",
+    "type": "mc",
+    "obj": "o5",
+    "sec": "arb",
+    "stem": "Um ETF negocia **acima** do NAV. O que o participante autorizado faz?",
+    "options": [
+     {
+      "t": "Compra a cesta, entrega ao fundo, recebe cotas novas e vende.",
+      "ok": true,
+      "why": "É a criação. A venda das cotas novas puxa o preço de volta ao NAV."
+     },
+     {
+      "t": "Compra cotas, resgata e vende a cesta.",
+      "ok": false,
+      "why": "Isso é o resgate, usado quando o ETF está abaixo do NAV."
+     },
+     {
+      "t": "Vende futuro e compra a cesta.",
+      "ok": false,
+      "why": "Isso é arbitragem de índice com futuro, não o mecanismo do ETF."
+     },
+     {
+      "t": "Nada: o preço converge no vencimento.",
+      "ok": false,
+      "why": "ETF não tem vencimento. Quem fecha a diferença é a criação e o resgate."
+     }
+    ]
+   },
+   {
+    "id": "d1-04-eventos-indice-q09",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "pesos",
+    "stem": "Índice equal-weight, no dia do rebalance. O que o tracker faz?",
+    "options": [
+     {
+      "t": "Vende as que mais subiram e compra as que mais caíram.",
+      "ok": true,
+      "why": "Os pesos derivaram com o preço. Voltar a pesos iguais exige esse giro."
+     },
+     {
+      "t": "Nada: os pesos se ajustam sozinhos.",
+      "ok": false,
+      "why": "Isso vale para índice por capitalização."
+     },
+     {
+      "t": "Compra as que mais subiram.",
+      "ok": false,
+      "why": "Isso aumentaria ainda mais o peso delas."
+     },
+     {
+      "t": "Só opera se a composição mudar.",
+      "ok": false,
+      "why": "No equal-weight, o preço sozinho já gera trade."
+     }
+    ]
+   },
+   {
+    "id": "d1-04-eventos-indice-q10",
+    "type": "open",
+    "obj": "o1",
+    "sec": "quem",
+    "stem": "Por que os trades de rebalance de índice são executados no fechamento?",
+    "answer": "O índice e os swaps de cliente são calculados com o preço oficial de fechamento. Quem replica quer erro zero contra esse preço, então executa a cesta pro-forma nele, em geral pelo leilão. Os pesos por capitalização dependem do preço, então a cesta só fica exata no fechamento."
+   },
+   {
+    "id": "d1-04-eventos-indice-q11",
+    "type": "open",
+    "obj": "o4",
+    "sec": "restrike",
+    "stem": "Explique o risco de restrike e o trade-off entre executar antes e executar no leilão.",
+    "answer": "Restrike é a diferença entre o preço executado pela mesa e o fechamento oficial. O que vai para o leilão não tem restrike. O que é executado antes carrega a diferença, para um lado ou para o outro. Executar antes reduz o impacto no fechamento, mas adiciona restrike. Executar tudo no leilão zera o restrike, mas concentra o impacto. A dose depende da profundidade do leilão e da volatilidade do papel."
+   }
+  ]
+ },
+ "d1-06-mapa-mesas": {
+  "deck": "d1-06-desk-map",
+  "title": "Mapa das mesas e do funding",
+  "order": 1,
+  "created": 1794600000009,
+  "verified": "2026-11-15",
+  "source": "SEC Rule 15c3-3 (17 CFR 240.15c3-3); notas de aula (Learn Anything, Delta One). Descrição genérica de um banco; não descreve nenhuma instituição específica",
+  "intro": "Notas de aluno. O exemplo segue: o **TRS de 10 milhões** das outras notas. Aqui a pergunta é outra: por quais mesas e áreas esse trade passa dentro de um banco.\nO mapa é genérico. Cada banco organiza de um jeito.",
+  "objectives": [
+   {
+    "id": "o1",
+    "verb": "explicar",
+    "text": "o que cada mesa de equities faz"
+   },
+   {
+    "id": "o2",
+    "verb": "comparar",
+    "text": "agência e risco; cash PB e synthetic prime"
+   },
+   {
+    "id": "o3",
+    "verb": "calcular",
+    "text": "o limite de reuso de garantias (rehypothecation)"
+   },
+   {
+    "id": "o4",
+    "verb": "explicar",
+    "text": "quem consome e quem fornece funding, e o papel do FTP"
+   },
+   {
+    "id": "o5",
+    "verb": "diagnosticar",
+    "text": "qual mesa ou área é dona de um problema"
+   }
+  ],
+  "sections": [
+   {
+    "id": "execucao",
+    "title": "1. Execução: cash e program trading",
+    "obj": [
+     "o1",
+     "o2"
+    ],
+    "body": "- **Cash equities**: executa ordens de clientes em ações.\n  1. High touch: com sales trader.\n  2. Low touch: algoritmos e acesso direto (DMA).\n- É quase tudo **agência**: o banco executa em nome do cliente. Pouco risco no livro.\n- **Program trading**: cestas. Aqui aparece o **risk bid**.\n- Risk bid: a mesa compra ou vende a cesta inteira do cliente a um preço garantido (ex.: o fechamento menos um desconto). O risco passa para o livro da mesa, que desmonta depois.\n- Agência × risco: na agência, o preço é o do mercado e o risco é do cliente. No risco, o preço é garantido e o risco é do banco."
+   },
+   {
+    "id": "d1",
+    "title": "2. Delta One e os strats",
+    "obj": [
+     "o1"
+    ],
+    "body": "- **Delta One** opera: swaps de cliente (ação, índice, cestas sob medida), futuros e arbitragem de índice, ETFs, financiamento e dividendos.\n- Hedge: internalização, ação física, swap com dealer, futuros e opções.\n- O produto que a mesa vende é **financiamento e acesso**, embrulhados em exposição linear.\n- **Strats**: constroem os modelos, o pricing, as ferramentas de risco e o software da mesa; analisam fluxo e P&L.\n- Eles sentam com os traders. Não são uma unidade de pesquisa à parte.\n- No exemplo: o TRS de 10 milhões nasce aqui. Delta One escolhe a rota de hedge e carrega o custo."
+   },
+   {
+    "id": "pb",
+    "title": "3. Prime brokerage",
+    "obj": [
+     "o2",
+     "o3"
+    ],
+    "body": "- **Prime brokerage** atende hedge funds: financia os longs (empréstimo de margem), consegue ações para os shorts, e faz custódia, clearing e relatórios.\n- **Cash PB**: o cliente é dono das ações, financiadas por empréstimo de margem.\n- **Synthetic prime**: o cliente tem swaps de carteira; o banco é dono dos hedges. Sobrepõe com Delta One.\n- Mesma economia; balanço, jurídico e fiscal diferentes.\n- **Rehypothecation**: o PB reusa as ações dadas em margem (empresta ou coloca em repo). É o que barateia o financiamento do cliente.\n- Limite nos EUA (SEC Rule 15c3-3): o PB pode reusar até **140% do saldo devedor** do cliente. O que passa disso é \"excess margin\" e fica segregado.\n- Exemplo: carteira de 250 mil, saldo devedor de 80 mil.\n  1. Reusável: $140\\% \\times 80$ = **112 mil**.\n  2. Segregado: 250 − 112 = 138 mil."
+   },
+   {
+    "id": "lending",
+    "title": "4. Stock loan e o estoque do banco",
+    "obj": [
+     "o1"
+    ],
+    "body": "- **Stock loan / sec lending**: consegue papel para quem está short.\n- Fontes: **agent lenders** (custodiantes que emprestam em nome de fundos de pensão e gestoras) e o estoque interno.\n- Empresta a clientes e a mesas internas. Cuida de taxas, recalls e colateral.\n- **Gestão de estoque do banco inteiro**: casar os longs internos (hedges das mesas, garantias de margem do PB) com os shorts internos **antes** de tomar fora.\n- Por quê: tomar dentro é mais barato e libera balanço.\n- No exemplo: a ação que Delta One comprou como hedge vira oferta para um short de um cliente do PB. É daí que vem a linha de receita de empréstimo da pilha."
+   },
+   {
+    "id": "deriv",
+    "title": "5. Volatilidade e estruturados",
+    "obj": [
+     "o1"
+    ],
+    "body": "- **Flow vol**: faz mercado em opções vanilla (listadas e OTC). Carrega risco de vol, skew e estrutura a termo.\n- O que ela precisa de Delta One: hedge de delta, custo de borrow e projeção de dividendos. São os insumos do forward.\n- **Exóticos / produtos estruturados**: desenha e protege notas e opções exóticas (ex.: autocallables).\n- Carrega risco de longo prazo: vol, dividendos e correlação.\n- Costuma ficar long dividendos, e vende esse risco. Delta One é contraparte natural."
+   },
+   {
+    "id": "funding",
+    "title": "6. O circuito do funding",
+    "obj": [
+     "o4"
+    ],
+    "body": "- **Tesouraria / ALM** é dona do funding e da liquidez: emissão, estratégia de repo, índices de liquidez (LCR, NSFR) e a curva interna de **FTP**.\n- **Consumidores de funding**: quem carrega estoque long. Hedges de Delta One, empréstimos de margem do PB.\n- **Fornecedores de funding**: quem traz caixa. Emissão de notas estruturadas, recursos de shorts de clientes, depósitos.\n- A Tesouraria compensa uns contra os outros e cobra ou credita cada mesa pelo FTP.\n- Por que uma **nota estruturada** é funding: o investidor paga hoje e o banco devolve no vencimento. Na economia, é o banco tomando emprestado. O investidor corre o risco de crédito do banco.\n- O spread dessa emissão costuma ser menor que o de dívida sem garantia comum.\n- No exemplo: o caixa que financia os 10 milhões de ações pode ter vindo de uma nota emitida pela mesa de estruturados. As duas mesas se completam, e o FTP é o preço entre elas."
+   },
+   {
+    "id": "controle",
+    "title": "7. Quem precifica ajustes e quem controla",
+    "obj": [
+     "o5"
+    ],
+    "body": "- **XVA**: precifica e protege os ajustes de valor dos derivativos, e cobra as mesas.\n  1. CVA: risco de crédito da contraparte.\n  2. FVA: custo de funding de derivativo sem colateral.\n  3. KVA: custo de capital.\n  4. MVA: custo da margem inicial.\n- **Product control**: P&L oficial, valuation e verificação independente de preços.\n- **Risco de mercado**: limites, VaR e estresse.\n- Os dois são independentes da mesa. A mesa não marca o próprio P&L sozinha."
+   },
+   {
+    "id": "armadilhas",
+    "title": "8. Onde eu me confundo",
+    "obj": [
+     "o2",
+     "o4",
+     "o5"
+    ],
+    "body": "- Cash equities é agência. Risk bid é risco. Não misturar.\n- Cash PB: o cliente é dono da ação. Synthetic prime: o banco é dono.\n- O limite de 140% é sobre o **saldo devedor**, não sobre o valor da carteira.\n- Stock loan toma primeiro **dentro** do banco, depois fora.\n- Nota estruturada **fornece** funding. Delta One long **consome**.\n- FTP não é custo de mercado: é o preço interno da Tesouraria.\n- XVA cobra ajustes; product control verifica preço; risco define limite. São três donos diferentes.\n- Strat não é pesquisa: fica na mesa."
+   }
+  ],
+  "summary": "### Mesas\n- Cash: agência (high/low touch). Program trading: risk bid em cesta.\n- Delta One: swaps, futuros, ETFs, financiamento, dividendos. Strats sentam na mesa.\n- PB: margem, borrow, custódia. Cash PB (cliente dono) × synthetic prime (banco dono).\n- Stock loan: agent lenders + estoque interno. Dentro antes de fora.\n- Flow vol: opções vanilla. Estruturados: notas, exóticos; long dividendos.\n### Rehypothecation\n- Reuso até 140% do saldo devedor (SEC 15c3-3). Ex.: $140\\% \\times 80$ = 112.\n### Funding\n- Consome: estoque long (Delta One, margem do PB).\n- Fornece: notas estruturadas, shorts de clientes, depósitos.\n- Tesouraria compensa e cobra pelo FTP.\n### Controle\n- XVA: CVA, FVA, KVA, MVA. Product control: P&L e preço. Risco: limites e VaR.",
+  "questions": [
+   {
+    "id": "d1-06-mapa-mesas-q01",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "pb",
+    "stem": "Cliente de PB nos EUA: carteira de 500 mil em margem, saldo devedor de 200 mil. Quanto o PB pode reusar, e quanto fica segregado?",
+    "options": [
+     {
+      "t": "Reusa até 280 mil; 220 mil ficam segregados.",
+      "ok": true,
+      "why": "$140\\% \\times 200 = 280$. O resto, $500 - 280 = 220$, é excess margin."
+     },
+     {
+      "t": "Reusa até 200 mil; 300 mil ficam segregados.",
+      "ok": false,
+      "why": "O limite é 140% do saldo devedor, não 100%."
+     },
+     {
+      "t": "Reusa 500 mil: toda a carteira está em margem.",
+      "ok": false,
+      "why": "Só o equivalente a 140% do saldo devedor pode ser reusado."
+     },
+     {
+      "t": "Reusa até 700 mil.",
+      "ok": false,
+      "why": "Isso aplica 140% à carteira. A base é o saldo devedor."
+     }
+    ]
+   },
+   {
+    "id": "d1-06-mapa-mesas-q02",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "funding",
+    "stem": "A mesa de estruturados emite uma nota de 100 milhões. Para o circuito de funding do banco, ela é:",
+    "options": [
+     {
+      "t": "Fornecedora: o investidor entrega caixa hoje.",
+      "ok": true,
+      "why": "Economicamente, o banco tomou 100 milhões emprestados até o vencimento da nota."
+     },
+     {
+      "t": "Consumidora: ela precisa financiar o hedge da nota.",
+      "ok": false,
+      "why": "O hedge consome pouco perto do caixa que a emissão traz."
+     },
+     {
+      "t": "Neutra: nota é derivativo, não é funding.",
+      "ok": false,
+      "why": "A nota tem um derivativo embutido, mas o principal é dinheiro emprestado ao banco."
+     },
+     {
+      "t": "Consumidora: ela paga cupom.",
+      "ok": false,
+      "why": "Pagar cupom é o custo do funding que ela trouxe."
+     }
+    ]
+   },
+   {
+    "id": "d1-06-mapa-mesas-q03",
+    "type": "mc",
+    "obj": "o5",
+    "sec": "execucao",
+    "stem": "Um cliente quer vender uma cesta de 200 ações **hoje**, a um preço garantido: o fechamento menos um desconto. Quem atende?",
+    "options": [
+     {
+      "t": "Program trading, com um risk bid.",
+      "ok": true,
+      "why": "A mesa compra a cesta inteira ao preço garantido e desmonta o risco depois."
+     },
+     {
+      "t": "Cash equities low touch, com um algoritmo.",
+      "ok": false,
+      "why": "Algoritmo é agência: o preço seria o que o mercado der."
+     },
+     {
+      "t": "Stock loan.",
+      "ok": false,
+      "why": "Stock loan empresta papel. Não compra cestas."
+     },
+     {
+      "t": "XVA.",
+      "ok": false,
+      "why": "XVA precifica ajustes de derivativos."
+     }
+    ]
+   },
+   {
+    "id": "d1-06-mapa-mesas-q04",
+    "type": "mc",
+    "obj": "o5",
+    "sec": "controle",
+    "stem": "Um swap sem colateral com um cliente corporativo tem custo de funding e risco de crédito relevantes. Quem precifica e cobra esses ajustes da mesa?",
+    "options": [
+     {
+      "t": "A mesa de XVA.",
+      "ok": true,
+      "why": "FVA cobre o funding do derivativo sem colateral; CVA, o risco de crédito da contraparte."
+     },
+     {
+      "t": "Product control.",
+      "ok": false,
+      "why": "Product control verifica P&L e preços. Não precifica nem protege esses ajustes."
+     },
+     {
+      "t": "Risco de mercado.",
+      "ok": false,
+      "why": "Risco define limites e mede VaR."
+     },
+     {
+      "t": "A Tesouraria, pelo LCR.",
+      "ok": false,
+      "why": "A Tesouraria define o FTP. Os ajustes de derivativos são da XVA."
+     }
+    ]
+   },
+   {
+    "id": "d1-06-mapa-mesas-q05",
+    "type": "mc",
+    "obj": "o5",
+    "sec": "controle",
+    "stem": "Quem faz a verificação **independente** dos preços usados no P&L de uma mesa?",
+    "options": [
+     {
+      "t": "Product control.",
+      "ok": true,
+      "why": "Ele é dono do P&L oficial, do valuation e da verificação de preços."
+     },
+     {
+      "t": "Os strats da mesa.",
+      "ok": false,
+      "why": "Strats constroem os modelos, mas sentam na mesa. Não são independentes."
+     },
+     {
+      "t": "O próprio trader.",
+      "ok": false,
+      "why": "O trader marca; outra área verifica."
+     },
+     {
+      "t": "A mesa de XVA.",
+      "ok": false,
+      "why": "XVA é uma mesa de trading: tem os seus preços verificados também."
+     }
+    ]
+   },
+   {
+    "id": "d1-06-mapa-mesas-q06",
+    "type": "mc",
+    "obj": "o1",
+    "sec": "lending",
+    "stem": "Uma mesa interna precisa ficar short num papel. Onde stock loan procura primeiro?",
+    "options": [
+     {
+      "t": "No estoque interno: hedges de outras mesas e garantias do PB.",
+      "ok": true,
+      "why": "Tomar dentro é mais barato e libera balanço. Só depois vêm os agent lenders."
+     },
+     {
+      "t": "Nos agent lenders, sempre.",
+      "ok": false,
+      "why": "Eles são a fonte externa, usada quando o estoque interno não basta."
+     },
+     {
+      "t": "No leilão de fechamento.",
+      "ok": false,
+      "why": "O leilão é para comprar e vender, não para tomar emprestado."
+     },
+     {
+      "t": "Na Tesouraria.",
+      "ok": false,
+      "why": "A Tesouraria cuida de caixa, não de papel."
+     }
+    ]
+   },
+   {
+    "id": "d1-06-mapa-mesas-q07",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "pb",
+    "stem": "Qual é a diferença central entre cash PB e synthetic prime?",
+    "options": [
+     {
+      "t": "Quem é dono das ações: o cliente no cash PB, o banco no sintético.",
+      "ok": true,
+      "why": "A economia é a mesma. Mudam o balanço, o enquadramento jurídico e o fiscal."
+     },
+     {
+      "t": "O cash PB não tem alavancagem.",
+      "ok": false,
+      "why": "Tem: o empréstimo de margem."
+     },
+     {
+      "t": "O sintético não permite short.",
+      "ok": false,
+      "why": "Permite, e com facilidade: é um swap short."
+     },
+     {
+      "t": "O cash PB não cobra financiamento.",
+      "ok": false,
+      "why": "Cobra, no empréstimo de margem."
+     }
+    ]
+   },
+   {
+    "id": "d1-06-mapa-mesas-q08",
+    "type": "mc",
+    "obj": "o1",
+    "sec": "deriv",
+    "stem": "O que a mesa de flow vol precisa de Delta One para precificar uma opção de ação?",
+    "options": [
+     {
+      "t": "Custo de borrow, projeção de dividendos e o hedge de delta.",
+      "ok": true,
+      "why": "São os insumos do forward. Vol e skew são da própria mesa de vol."
+     },
+     {
+      "t": "A superfície de volatilidade.",
+      "ok": false,
+      "why": "Isso é o que a mesa de vol produz."
+     },
+     {
+      "t": "O VaR da posição.",
+      "ok": false,
+      "why": "Isso vem de risco de mercado."
+     },
+     {
+      "t": "O CVA do cliente.",
+      "ok": false,
+      "why": "Isso vem de XVA."
+     }
+    ]
+   },
+   {
+    "id": "d1-06-mapa-mesas-q09",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "funding",
+    "stem": "Delta One aumenta em 500 milhões o estoque de hedges físicos. O que acontece no circuito de funding?",
+    "options": [
+     {
+      "t": "A mesa consome mais funding, e a Tesouraria cobra por FTP.",
+      "ok": true,
+      "why": "Estoque long precisa de caixa. O FTP repassa o custo da dívida e do balanço."
+     },
+     {
+      "t": "A mesa passa a fornecer funding.",
+      "ok": false,
+      "why": "Fornece funding quem traz caixa, como notas ou shorts de clientes."
+     },
+     {
+      "t": "Nada: o SOFR cancela.",
+      "ok": false,
+      "why": "O SOFR cancela no P&L do swap. O estoque ainda precisa ser financiado."
+     },
+     {
+      "t": "O PB financia direto, sem a Tesouraria.",
+      "ok": false,
+      "why": "A compensação entre mesas passa pela Tesouraria e pelo FTP."
+     }
+    ]
+   },
+   {
+    "id": "d1-06-mapa-mesas-q10",
+    "type": "open",
+    "obj": "o4",
+    "sec": "funding",
+    "stem": "Explique como notas estruturadas e Delta One se completam dentro do banco, e o papel da Tesouraria.",
+    "answer": "A nota estruturada traz caixa: o investidor paga hoje e o banco devolve no vencimento, então a mesa de estruturados fornece funding. Delta One carrega estoque long de hedges e precisa de caixa, então consome funding. A Tesouraria compensa as duas pontas internamente e usa o FTP para creditar quem fornece e cobrar quem consome."
+   },
+   {
+    "id": "d1-06-mapa-mesas-q11",
+    "type": "open",
+    "obj": "o3",
+    "sec": "pb",
+    "stem": "O que é rehypothecation, por que ela existe e qual é o limite nos EUA?",
+    "answer": "É o reuso, pelo prime broker, das ações que o cliente deu em margem: emprestar ou colocar em repo. Existe porque barateia o financiamento do cliente e dá papel para o stock loan. Nos EUA, a Rule 15c3-3 da SEC limita o reuso a 140% do saldo devedor do cliente. O que passa disso é excess margin e fica segregado."
+   }
+  ]
  }
 }
