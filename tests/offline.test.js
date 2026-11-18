@@ -50,12 +50,12 @@ async function page(store,storage){
   ok(!store.has('reviews/c2'),'c2 not on server');
   ok(P.ob().some(o=>o.p==='reviews/c2')&&P.ob().some(o=>o.p.startsWith('log/')),'c2 review and log are in localStorage outbox');
   ok(P.S().revs.has('c2'),'c2 progress shown locally');
-  ok((P.w.document.querySelector('.sync')||{}).textContent?.includes('1 resposta'),'banner shows 1 pending answer');
+  ok((P.w.document.querySelector('.sync')||{}).textContent?.includes('1 answer'),'banner shows 1 pending answer');
   P.m.emit(); await sleep(50);
   ok(P.S().revs.has('c2'),'server snapshot without c2 does not revert it (overlay)');
   ok(P.S().log.length===2,'today log keeps both answers (overlay)');
   P.m.killAll(); await sleep(50);
-  console.log('    err=',P.S().err,'|',P.text().slice(0,200).replace(/\s+/g,' '));ok(!P.text().includes('Recarregue'),'listener loss does not block the app');
+  console.log('    err=',P.S().err,'|',P.text().slice(0,200).replace(/\s+/g,' '));ok(!P.text().includes('Reload the page'),'listener loss does not block the app');
   ok(P.w.document.querySelector('[data-reveal]')||P.w.document.querySelector('.grade'),'study screen still usable');
 
   console.log('3. back online');

@@ -1,131 +1,131 @@
 {
  "cesari-01-intro": {
-  "name": "Finanças::Risco de Contraparte::Cesari 2009::01 Introdução",
-  "desc": "Conceitos base: exposure, EE, PFE, netting, CVA, AMC",
+  "name": "Finance::Counterparty Risk::Cesari 2009::01 Introduction",
+  "desc": "Core concepts: exposure, EE, PFE, netting, CVA, AMC",
   "created": 1793930000000
  },
  "cesari-02-framework": {
-  "name": "Finanças::Risco de Contraparte::Cesari 2009::02 Modelling Framework",
-  "desc": "Definição formal de exposure e dinâmica dos fatores",
+  "name": "Finance::Counterparty Risk::Cesari 2009::02 Modelling Framework",
+  "desc": "Formal exposure definition and factor dynamics",
   "created": 1793930000001
  },
  "cesari-03-simulation": {
-  "name": "Finanças::Risco de Contraparte::Cesari 2009::03 Simulation Models",
-  "desc": "Hull-White, modelos de equity/FX, default e copulas",
+  "name": "Finance::Counterparty Risk::Cesari 2009::03 Simulation Models",
+  "desc": "Hull-White, equity/FX models, default and copulas",
   "created": 1793930000002
  },
  "cesari-04-valuation": {
-  "name": "Finanças::Risco de Contraparte::Cesari 2009::04 Valuation and Sensitivities",
-  "desc": "American Monte Carlo, vieses e gregas por regressão",
+  "name": "Finance::Counterparty Risk::Cesari 2009::04 Valuation and Sensitivities",
+  "desc": "American Monte Carlo, biases and Greeks by regression",
   "created": 1793930000003
  },
  "cesari-12-aggregation": {
-  "name": "Finanças::Risco de Contraparte::Cesari 2009::12 Aggregation and Mitigation",
-  "desc": "Netting, colateral, close-out, alocação de risco",
+  "name": "Finance::Counterparty Risk::Cesari 2009::12 Aggregation and Mitigation",
+  "desc": "Netting, collateral, close-out, risk allocation",
   "created": 1793930000004
  },
  "cesari-13-market-credit": {
-  "name": "Finanças::Risco de Contraparte::Cesari 2009::13 Market and Credit Risk",
-  "desc": "Mudança de medida, stress e wrong-way risk",
+  "name": "Finance::Counterparty Risk::Cesari 2009::13 Market and Credit Risk",
+  "desc": "Change of measure, stress testing and wrong-way risk",
   "created": 1793930000005
  },
  "cesari-14-pricing": {
-  "name": "Finanças::Risco de Contraparte::Cesari 2009::14 Pricing CCR",
-  "desc": "CVA, C-CDS e hedge de risco de contraparte",
+  "name": "Finance::Counterparty Risk::Cesari 2009::14 Pricing CCR",
+  "desc": "CVA, contingent CDS and counterparty risk hedging",
   "created": 1793930000006
  },
  "d1-01-physical": {
-  "name": "Finanças::Delta One::01 Physical hedge cost",
+  "name": "Finance::Delta One::01 Physical hedge cost",
   "desc": "Funding, haircut, leverage (SLR) charge, capital, sec lending income",
   "created": 1794000000000
  },
  "d1-02-synthetic": {
-  "name": "Finanças::Delta One::02 Synthetic hedges and switches",
+  "name": "Finance::Delta One::02 Synthetic hedges and switches",
   "desc": "Dealer swaps, options-implied financing, internalization, switches, borrow risk",
   "created": 1794000000001
  },
  "d1-03-divs-index": {
-  "name": "Finanças::Delta One::03 Dividends and index events",
+  "name": "Finance::Delta One::03 Dividends and index events",
   "desc": "DPR, GTR/NTR, withholding edge, closing auction, restrike",
   "created": 1794000000002
  },
  "d1-04-index-events": {
-  "name": "Finanças::Delta One::04 Index events and rebalances",
+  "name": "Finance::Delta One::04 Index events and rebalances",
   "desc": "Calendar, closing auction, facilitation, restrike, index arbitrage, ETFs",
   "created": 1794100000000
  },
  "d1-05-products": {
-  "name": "Finanças::Delta One::05 Products and pricing",
+  "name": "Finance::Delta One::05 Products and pricing",
   "desc": "TRS mechanics, forwards, futures, TRF, EFP, client use cases",
   "created": 1794100000001
  },
  "d1-06-desk-map": {
-  "name": "Finanças::Delta One::06 Desk map",
+  "name": "Finance::Delta One::06 Desk map",
   "desc": "Generic equities division: who does what, and how desks feed each other",
   "created": 1794100000002
  },
  "llm-01-transformers": {
-  "name": "Tecnologia::LLM::01 Transformers",
+  "name": "Technology::LLM::01 Transformers",
   "desc": "Attention, positions, blocks, tokens, KV cache, sampling, MoE",
   "created": 1794100000003
  },
  "llm-02-training": {
-  "name": "Tecnologia::LLM::02 Training and adaptation",
+  "name": "Technology::LLM::02 Training and adaptation",
   "desc": "Pretraining, scaling laws, SFT, RLHF, DPO, LoRA, quantization",
   "created": 1794100000004
  },
  "llm-03-agents": {
-  "name": "Tecnologia::LLM::03 Agents, RAG and MCP",
+  "name": "Technology::LLM::03 Agents, RAG and MCP",
   "desc": "Tool use, context, injection, retrieval, evals, MCP",
   "created": 1794100000005
  },
  "llm-04-langgraph": {
-  "name": "Tecnologia::LLM::04 LangGraph",
+  "name": "Technology::LLM::04 LangGraph",
   "desc": "State graphs, reducers, checkpoints, interrupts, Send, subgraphs, streaming",
   "created": 1794100000006
  },
  "sd-01-scale": {
-  "name": "Tecnologia::System Design::01 Scalability and performance",
+  "name": "Technology::System Design::01 Scalability and performance",
   "desc": "Latency, percentiles, queueing laws, scaling, load balancing, caching",
   "created": 1794100000007
  },
  "sd-02-data": {
-  "name": "Tecnologia::System Design::02 Data and consistency",
+  "name": "Technology::System Design::02 Data and consistency",
   "desc": "CAP, replication, quorums, sharding, indexes, transactions, event sourcing",
   "created": 1794100000008
  },
  "sd-03-reliability": {
-  "name": "Tecnologia::System Design::03 Reliability and messaging",
+  "name": "Technology::System Design::03 Reliability and messaging",
   "desc": "Idempotency, retries, delivery semantics, queues and logs, outbox, SLOs",
   "created": 1794100000009
  },
  "sd-04-web-security": {
-  "name": "Tecnologia::System Design::04 Web and auth security",
+  "name": "Technology::System Design::04 Web and auth security",
   "desc": "HTTP, cookies, CORS, CSRF, XSS, JWT, OAuth 2.0, OIDC, PKCE, TLS",
   "created": 1794100000010
  },
  "sd-05-web-apps": {
-  "name": "Tecnologia::System Design::05 Web apps and Next.js",
+  "name": "Technology::System Design::05 Web apps and Next.js",
   "desc": "Rendering modes, server vs client components, BFF, streaming",
   "created": 1794100000011
  },
  "sd-06-trading-systems": {
-  "name": "Tecnologia::System Design::06 Trading systems",
+  "name": "Technology::System Design::06 Trading systems",
   "desc": "OMS/EMS, FIX, risk checks, market data, positions, P&L",
   "created": 1794100000012
  },
  "sd-07-crypto": {
-  "name": "Tecnologia::System Design::07 Applied cryptography",
+  "name": "Technology::System Design::07 Applied cryptography",
   "desc": "Hash, HMAC, signatures, JWT algorithms, passwords, AEAD, KMS, mTLS",
   "created": 1794200000000
  },
  "sd-08-patterns": {
-  "name": "Tecnologia::System Design::08 Software design patterns",
+  "name": "Technology::System Design::08 Software design patterns",
   "desc": "SOLID, dependency injection, GoF patterns, architecture, Python idioms",
   "created": 1794200000001
  },
  "llm-05-inference": {
-  "name": "Tecnologia::LLM::05 Inference and GPU sizing",
+  "name": "Technology::LLM::05 Inference and GPU sizing",
   "desc": "Weights memory, KV cache sizing, bandwidth limits, batching, parallelism",
   "created": 1794200000002
  }

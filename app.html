@@ -186,7 +186,7 @@ textarea{min-height:110px;resize:vertical;font-family:var(--f-mono);font-size:13
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
-<div id="app"><p class="muted">Carregando seus baralhos…</p></div>
+<div id="app"><p class="muted">Loading your decks…</p></div>
 <div id="overlay"></div>
 <div id="toast" class="toast" hidden></div>
 
@@ -201,8 +201,8 @@ function fmtIvl(ms){
   const m=ms/MIN; if(m<60)return Math.max(1,Math.round(m))+' min';
   const h=m/60; if(h<24)return Math.round(h)+' h';
   const d=ms/DAY; if(d<30)return Math.round(d)+' d';
-  if(d<365)return (d/30).toFixed(1).replace('.',',')+' m';
-  return (d/365).toFixed(1).replace('.',',')+' a';
+  if(d<365)return (d/30).toFixed(1)+' mo';
+  return (d/365).toFixed(1)+' y';
 }
 let toastT; function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,3200)}
 
@@ -229,7 +229,7 @@ function md(src){
   flushP();flushL();
   return out.join('').replace(/\u0000(\d+)\u0000/g,(_,i)=>keep[+i]);
 }
-function plain(src){return String(src||'').replace(/```[\s\S]*?```/g,'[código]').replace(/[*#`]/g,'').replace(/\s+/g,' ').trim()}
+function plain(src){return String(src||'').replace(/```[\s\S]*?```/g,'[code]').replace(/[*#`]/g,'').replace(/\s+/g,' ').trim()}
 function typeset(el){
   const go=()=>{try{MathJax.typesetClear&&MathJax.typesetClear([el]);MathJax.typesetPromise([el]).catch(()=>{})}catch(e){}};
   if(window.MathJax&&MathJax.typesetPromise){MathJax.startup.promise.then(go)}
@@ -284,7 +284,9 @@ function schedule(prev,g,now){
 }
 
 /* ---------- state ---------- */
-const S={login:{email:'',sent:false,busy:false},filter:(()=>{const f=ls.get('kairos.filter',{});return {off:Array.isArray(f.off)?f.off:[]}})(),panels:new Set(ls.get('kairos.panels',[])),pk:{},db:null,decks:new Map(),cards:new Map(),notes:new Map(),note:null,qrev:new Map(),quiz:null,revs:new Map(),flags:new Map(),flagging:null,settings:{newPerDay:20,retention:0.9,steps:'errors'},
+/* Tag slugs were renamed (Portuguese -> English). Old slugs in a saved filter map to the new ones. */
+const TAG_RENAME={fundamentos:'fundamentals','medidas-de-risco':'risk-measures',simulacao:'simulation',juros:'rates',credito:'credit',colateral:'collateral',regulatorio:'regulatory',datado:'dated','seguranca-web':'web-security',financiamento:'financing','eventos-indice':'index-events',agentes:'agents','produtos-d1':'d1-products','treino-llm':'llm-training',confiabilidade:'reliability',mesas:'desks',dados:'data',escalabilidade:'scalability',criptografia:'cryptography',inferencia:'inference',dividendos:'dividends',mensageria:'messaging'};
+const S={login:{email:'',sent:false,busy:false},filter:(()=>{const f=ls.get('kairos.filter',{}),old=Array.isArray(f.off)?f.off:[];const off=[...new Set(old.map(t=>Object.prototype.hasOwnProperty.call(TAG_RENAME,t)?TAG_RENAME[t]:t))];if(off.length!==old.length||off.some((t,i)=>t!==old[i]))ls.set('kairos.filter',{...f,off});return {off}})(),panels:new Set(ls.get('kairos.panels',[])),pk:{},db:null,decks:new Map(),cards:new Map(),notes:new Map(),note:null,qrev:new Map(),quiz:null,revs:new Map(),flags:new Map(),flagging:null,settings:{newPerDay:20,retention:0.9,steps:'errors'},
   log:[],logKey:null,logUnsub:null,ready:new Set(),stale:false,err:null,nodb:false,
   view:'home',study:null,open:new Set(ls.get('fich.open',[])),browse:{q:'',deck:''},edit:null,undo:null,confirmDel:false};
 /* ---------- outbox: every write goes to localStorage first, then syncs ----------
@@ -316,7 +318,7 @@ async function flush(){
       catch(e){
         const code=e&&e.code;
         if(code==='invalid_argument'||code==='quota_exceeded'||code==='transform_error'){
-          toast(code==='quota_exceeded'?'Limite de armazenamento atingido. Apague cards antigos.':'Uma alteração foi recusada e descartada.');
+          toast(code==='quota_exceeded'?'Storage limit reached. Delete old cards.':'A change was rejected and discarded.');
           const i=outbox.indexOf(o); if(i>=0){outbox.splice(i,1);saveOutbox()} continue;
         }
         S.offline=true; break;
@@ -335,11 +337,11 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)flush()});
 function syncHTML(){
   const n=outbox.filter(o=>o.p.startsWith('reviews/')).length, other=outbox.filter(o=>!o.p.startsWith('reviews/')&&!o.p.startsWith('log/')).length;
   if(!outbox.length&&!S.offline)return '';
-  const what=outbox.length?(n?n+(n===1?' resposta':' respostas'):'')+(n&&other?' e ':'')+(other?other+(other===1?' alteração':' alterações'):'')+' no aparelho, aguardando sincronizar':'Sem conexão';
+  const what=outbox.length?(n?n+(n===1?' answer':' answers'):'')+(n&&other?' and ':'')+(other?other+(other===1?' change':' changes'):'')+' on this device, waiting to sync':'Offline';
   return '<div class="sync" role="status"><span class="dot"></span>'+what+'</div>';
 }
 
-const TAG_LABELS={fundamentos:'Fundamentos','medidas-de-risco':'Medidas de risco',cva:'CVA',hedge:'Hedge',netting:'Netting e alocação',colateral:'Colateral','close-out':'Close-out','wrong-way':'Wrong-way risk',credito:'Modelos de crédito',juros:'Modelos de juros','equity-fx':'Equity, FX e inflação',amc:'American Monte Carlo',simulacao:'Simulação e medidas',regulatorio:'Regulatório','delta-one':'Delta One',financiamento:'Financiamento e balanço',dividendos:'Dividendos e impostos','eventos-indice':'Eventos de índice','produtos-d1':'Produtos Delta One',mesas:'Organização das mesas',llm:'LLM',transformers:'Transformers','treino-llm':'Treino de LLMs',agentes:'Agentes',rag:'RAG',mcp:'MCP',langgraph:'LangGraph','system-design':'System design',escalabilidade:'Escalabilidade',dados:'Dados e consistência',confiabilidade:'Confiabilidade',mensageria:'Mensageria','seguranca-web':'Segurança web e auth','web-app':'Apps web e Next.js','trading-systems':'Sistemas de trading',criptografia:'Criptografia aplicada','design-patterns':'Padrões de projeto',inferencia:'Inferência e GPUs',datado:'Prática de 2009 (datado)'};
+const TAG_LABELS={fundamentals:'Fundamentals','risk-measures':'Risk measures',cva:'CVA',hedge:'Hedging',netting:'Netting and allocation',collateral:'Collateral','close-out':'Close-out','wrong-way':'Wrong-way risk',credit:'Credit models',rates:'Interest rate models','equity-fx':'Equity, FX and inflation',amc:'American Monte Carlo',simulation:'Simulation and measures',regulatory:'Regulatory','delta-one':'Delta One',financing:'Financing and balance sheet',dividends:'Dividends and taxes','index-events':'Index events','d1-products':'Delta One products',desks:'Desk organization',llm:'LLM',transformers:'Transformers','llm-training':'LLM training',agents:'Agents',rag:'RAG',mcp:'MCP',langgraph:'LangGraph','system-design':'System design',scalability:'Scalability',data:'Data and consistency',reliability:'Reliability',messaging:'Messaging','web-security':'Web security and auth','web-app':'Web apps and Next.js','trading-systems':'Trading systems',cryptography:'Applied cryptography','design-patterns':'Design patterns',inference:'Inference and GPUs',dated:'Dated (practice has changed)'};
 const tagLabel=t=>TAG_LABELS[t]||t;
 function passesFilter(c){const off=S.filter.off;if(!off.length)return true;for(const t of (c.tags||[]))if(off.includes(t))return false;return true}
 function saveFilter(){ls.set('kairos.filter',S.filter)}
@@ -347,53 +349,53 @@ function filterHTML(){
   const counts=new Map();
   for(const c of S.cards.values()){if(c.suspended)continue;for(const t of (c.tags||[]))counts.set(t,(counts.get(t)||0)+1)}
   if(!counts.size)return '';
-  const tags=[...counts.keys()].sort((a,b)=>(a==='datado')-(b==='datado')||tagLabel(a).localeCompare(tagLabel(b),'pt'));
+  const tags=[...counts.keys()].sort((a,b)=>(a==='dated')-(b==='dated')||tagLabel(a).localeCompare(tagLabel(b),'en'));
   const off=S.filter.off.filter(t=>counts.has(t));
   const hidden=[...S.cards.values()].filter(c=>!c.suspended&&!passesFilter(c)).length;
-  return '<details class="settings" data-panel="filtros"'+(S.panels.has('filtros')?' open':'')+'><summary>Filtros de estudo'+(off.length?' <span class="pill">'+off.length+' tema'+(off.length>1?'s':'')+' oculto'+(off.length>1?'s':'')+'</span>':'')+'</summary>'+
-    '<p class="hint" style="margin:0 0 10px">Desligue um tema para esconder todos os cards que o tocam. Vale para o estudo e para as contagens deste aparelho.</p>'+
+  return '<details class="settings" data-panel="filtros"'+(S.panels.has('filtros')?' open':'')+'><summary>Study filters'+(off.length?' <span class="pill">'+off.length+' topic'+(off.length>1?'s':'')+' hidden</span>':'')+'</summary>'+
+    '<p class="hint" style="margin:0 0 10px">Turn off a topic to hide every card tagged with it. This applies to study and counts on this device.</p>'+
     '<div class="chips">'+tags.map(t=>'<button class="chip-t'+(off.includes(t)?' off':'')+'" data-tag="'+esc(t)+'" aria-pressed="'+!off.includes(t)+'"><span>'+esc(tagLabel(t))+'</span><span class="mono">'+counts.get(t)+'</span></button>').join('')+'</div>'+
-    '<div class="row" style="margin:12px 0 16px;justify-content:space-between"><span class="hint">'+(hidden?hidden+' cards ocultos':'Todos os cards visíveis')+'</span>'+(off.length?'<button class="btn ghost" data-tag-reset>Mostrar tudo</button>':'')+'</div></details>';
+    '<div class="row" style="margin:12px 0 16px;justify-content:space-between"><span class="hint">'+(hidden?hidden+' cards hidden':'All cards visible')+'</span>'+(off.length?'<button class="btn ghost" data-tag-reset>Show all</button>':'')+'</div></details>';
 }
 /* ---------- flags: cards the user marked as wrong ----------
    flags/{id} = {note, at, sig}. sig fingerprints front+back when flagged; once the card
    text changes (Claude fixed it), the flag no longer matches and the card returns. */
 function cardSig(c){let h=2166136261;const t=(c.front||'')+'\u0001'+(c.back||'');for(let i=0;i<t.length;i++){h^=t.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(36)}
-function isFlagged(id,c){const f=S.flags.get(id);c=c||S.cards.get(id);return !!(f&&c&&f.sig===cardSig(c))}
+function isFlagged(id,c){const f=S.flags.get(id);c=c||S.cards.get(id);return !!(f&&c&&(f.sig===cardSig(c)||(Array.isArray(c.aka)&&c.aka.includes(f.sig))))}
 function flaggedList(){return cardsOrdered().filter(([id,c])=>isFlagged(id,c))}
 function flagReport(rows){
-  return 'Kairos — cards sinalizados ('+rows.length+')\n'+rows.map(([id,c])=>{const f=S.flags.get(id);return '- id: '+id+' | '+deckName(c.deck).split('::').pop()+' | frente: '+plain(c.front).slice(0,160)+' | problema: '+((f.note||'').trim()||'(sem nota)')}).join('\n');
+  return 'Kairos — flagged cards ('+rows.length+')\n'+rows.map(([id,c])=>{const f=S.flags.get(id);return '- id: '+id+' | '+deckName(c.deck).split('::').pop()+' | front: '+plain(c.front).slice(0,160)+' | problem: '+((f.note||'').trim()||'(no note)')}).join('\n');
 }
 function copyField(id){
   const el=document.getElementById(id); if(!el)return;
-  const manual=()=>{el.focus();el.select();toast('Texto selecionado: copie manualmente')};
-  try{navigator.clipboard.writeText(el.value).then(()=>toast('Lista copiada'),manual)}catch(e){manual()}
+  const manual=()=>{el.focus();el.select();toast('Text selected. Copy it manually.')};
+  try{navigator.clipboard.writeText(el.value).then(()=>toast('List copied'),manual)}catch(e){manual()}
 }
 function flagsHTML(){
   const rows=flaggedList(), hidden=(window.KAIROS_WEB&&window.KAIROS_WEB.hiddenPublic)?window.KAIROS_WEB.hiddenPublic():[];
   if(!rows.length&&!hidden.length)return '';
   let b='';
   if(rows.length){
-    b+='<p class="hint" style="margin:0 0 10px">Estes cards saíram do estudo. Copie a lista e mande para o Claude. Quando ele corrigir o texto, o card volta sozinho.</p><div class="list" style="margin-bottom:10px">';
-    for(const [id,c] of rows){const f=S.flags.get(id);b+='<div class="item"><span class="q">'+esc(plain(c.front))+'</span><span class="info"><span>'+esc((f.note||'').trim()||'sem nota')+'</span><button class="btn ghost" data-unflag="'+esc(id)+'">Remover sinal</button></span></div>'}
-    b+='</div><textarea id="flag-report" class="codebox" readonly>'+esc(flagReport(rows))+'</textarea><div class="row" style="margin:8px 0 16px"><button class="btn primary" data-copy-flags>Copiar lista para o Claude</button></div>';
+    b+='<p class="hint" style="margin:0 0 10px">These cards are out of study. Copy the list and send it to Claude. When Claude fixes the text, the card returns on its own.</p><div class="list" style="margin-bottom:10px">';
+    for(const [id,c] of rows){const f=S.flags.get(id);b+='<div class="item"><span class="q">'+esc(plain(c.front))+'</span><span class="info"><span>'+esc((f.note||'').trim()||'no note')+'</span><button class="btn ghost" data-unflag="'+esc(id)+'">Remove flag</button></span></div>'}
+    b+='</div><textarea id="flag-report" class="codebox" readonly>'+esc(flagReport(rows))+'</textarea><div class="row" style="margin:8px 0 16px"><button class="btn primary" data-copy-flags>Copy list for Claude</button></div>';
   }
   if(hidden.length){
-    b+='<p class="hint" style="margin:0 0 8px">Excluídos neste aparelho. O Claude não vê exclusões; restaure e sinalize se o card tem problema.</p><div class="list" style="margin-bottom:16px">';
-    for(const h of hidden)b+='<div class="item"><span class="q">'+esc(plain(h.front))+'</span><span class="info"><button class="btn ghost" data-restore="'+esc(h.id)+'">Restaurar</button></span></div>';
+    b+='<p class="hint" style="margin:0 0 8px">Deleted on this device. Claude does not see deletions. Restore and flag a card if it has a problem.</p><div class="list" style="margin-bottom:16px">';
+    for(const h of hidden)b+='<div class="item"><span class="q">'+esc(plain(h.front))+'</span><span class="info"><button class="btn ghost" data-restore="'+esc(h.id)+'">Restore</button></span></div>';
     b+='</div>';
   }
-  return '<details class="settings" data-panel="sinalizados"'+(S.panels.has('sinalizados')||rows.length?' open':'')+'><summary>Cards sinalizados'+(rows.length?' <span class="pill">'+rows.length+'</span>':'')+'</summary>'+b+'</details>';
+  return '<details class="settings" data-panel="sinalizados"'+(S.panels.has('sinalizados')||rows.length?' open':'')+'><summary>Flagged cards'+(rows.length?' <span class="pill">'+rows.length+'</span>':'')+'</summary>'+b+'</details>';
 }
 function flagSheetHTML(){
   const id=S.flagging; if(!id)return ''; const c=S.cards.get(id); if(!c)return '';
-  return '<div class="scrim" data-close-scrim><div class="sheet" role="dialog" aria-modal="true" aria-label="Sinalizar card">'+
-    '<div class="bar"><h2>Sinalizar card</h2><button class="btn ghost" data-close>Fechar</button></div>'+
+  return '<div class="scrim" data-close-scrim><div class="sheet" role="dialog" aria-modal="true" aria-label="Flag card">'+
+    '<div class="bar"><h2>Flag card</h2><button class="btn ghost" data-close>Close</button></div>'+
     '<p class="item-q" style="margin:0 0 12px;font-family:var(--f-card)">'+esc(plain(c.front).slice(0,200))+'</p>'+
-    '<div class="field"><label for="f-note">O que está errado?</label><textarea id="f-note" style="min-height:80px" placeholder="Ex.: resposta incompleta; pergunta ambígua; fato errado; card inútil">'+esc((S.flags.get(id)||{}).note||'')+'</textarea><span class="hint">O card sai do estudo até o Claude corrigir. A nota é opcional, mas ajuda.</span></div>'+
-    '<div class="row" style="justify-content:flex-end"><button class="btn primary" data-flag-save>Sinalizar</button></div></div></div>';
+    '<div class="field"><label for="f-note">What is wrong?</label><textarea id="f-note" style="min-height:80px" placeholder="E.g. incomplete answer; ambiguous question; wrong fact; useless card">'+esc((S.flags.get(id)||{}).note||'')+'</textarea><span class="hint">The card leaves study until Claude fixes it. The note is optional but helps.</span></div>'+
+    '<div class="row" style="justify-content:flex-end"><button class="btn primary" data-flag-save>Flag</button></div></div></div>';
 }
-function deckName(id){const d=S.decks.get(id);return d?(d.name||id):'(sem baralho)'}
+function deckName(id){const d=S.decks.get(id);return d?(d.name||id):'(no deck)'}
 function deckIdsUnder(path){const out=[];for(const [id,d] of S.decks){const n=d.name||id;if(n===path||n.startsWith(path+'::'))out.push(id)}return out}
 function newToday(){const seen=new Set();for(const e of S.log)if(e.p==='new')seen.add(e.c);return seen.size}
 function newLeft(){return Math.max(0,(+S.settings.newPerDay||0)-newToday())}
@@ -468,7 +470,7 @@ function undo(){
   S.log=S.log.filter(e=>e.t!==u.t); const logCopy=S.log.slice();
   if(u.prev)queue('reviews/'+u.id,'set',u.prev); else queue('reviews/'+u.id,'del');
   if(u.key===S.logKey)queue('log/'+u.key,'set',{entries:logCopy});
-  S.study.cur=u.id; S.study.revealed=false; S.study.missed=null; render(); toast('Resposta desfeita');
+  S.study.cur=u.id; S.study.revealed=false; S.study.missed=null; render(); toast('Answer undone');
 }
 
 /* ---------- views ---------- */
@@ -496,13 +498,13 @@ function sumNode(node,cm){
 }
 function treeHTML(node,depth,cap){
   let h='';
-  const kids=[...node.children.values()].sort((a,b)=>a.name.localeCompare(b.name,'pt'));
+  const kids=[...node.children.values()].sort((a,b)=>a.name.localeCompare(b.name,'en'));
   for(const ch of kids){
     const has=ch.children.size>0, open=S.open.has(ch.path);
     const desc=ch.ids.length===1?(S.decks.get(ch.ids[0]).desc||''):'';
     h+='<div class="node" style="padding-left:'+(depth*18)+'px">'+
-      '<button class="tog'+(has?'':' leaf')+(open?' open':'')+'" data-tog="'+esc(ch.path)+'" aria-label="'+(open?'Recolher':'Expandir')+'" aria-expanded="'+open+'">'+chev+'</button>'+
-      '<button class="dname" data-study="'+esc(ch.path)+'">'+esc(ch.name)+(ch.ids.some(id=>S.decks.get(id)&&S.decks.get(id).private)?' <span class="pill">privado</span>':'')+'<small>'+(desc?esc(desc)+' · ':'')+ch.sum.total+' cards</small></button>'+
+      '<button class="tog'+(has?'':' leaf')+(open?' open':'')+'" data-tog="'+esc(ch.path)+'" aria-label="'+(open?'Collapse':'Expand')+'" aria-expanded="'+open+'">'+chev+'</button>'+
+      '<button class="dname" data-study="'+esc(ch.path)+'">'+esc(ch.name)+(ch.ids.some(id=>S.decks.get(id)&&S.decks.get(id).private)?' <span class="pill">private</span>':'')+'<small>'+(desc?esc(desc)+' · ':'')+ch.sum.total+' cards</small></button>'+
       countsHTML(ch.sum,cap)+'</div>';
     if(has&&open)h+=treeHTML(ch,depth+1,cap);
   }
@@ -510,67 +512,67 @@ function treeHTML(node,depth,cap){
 }
 function homeHTML(){
   const cm=deckCounts(), root=buildTree(), all=sumNode(root,cm), cap=newLeft();
-  let h='<div class="top"><div class="brand">'+LOGO+'<div><h1>Kairos</h1><div class="tagline">no momento certo</div><div class="today mono">Hoje: '+S.log.length+' respostas · '+newToday()+'/'+(+S.settings.newPerDay||0)+' novos'+syncLine()+'</div></div></div>'+
-    '<div class="topbtns">'+(S.notes.size?'<button class="btn" data-go="notebook">Caderno'+((n=>n?' <span class="pill">'+n+'</span>':'')(pendingCount(allQuestions())))+'</button>':'')+'<button class="btn" data-go="browse">Ver cards</button></div></div><div class="stack">'+syncHTML();
-  if(S.stale&&!S.ready.size)h+='<div class="notice">Os dados ainda não chegaram. Verifique a conexão; a página atualiza sozinha.</div>';
+  let h='<div class="top"><div class="brand">'+LOGO+'<div><h1>Kairos</h1><div class="tagline">at the right moment</div><div class="today mono">Today: '+S.log.length+' answers · '+newToday()+'/'+(+S.settings.newPerDay||0)+' new'+syncLine()+'</div></div></div>'+
+    '<div class="topbtns">'+(S.notes.size?'<button class="btn" data-go="notebook">Notebook'+((n=>n?' <span class="pill">'+n+'</span>':'')(pendingCount(allQuestions())))+'</button>':'')+'<button class="btn" data-go="browse">Browse cards</button></div></div><div class="stack">'+syncHTML();
+  if(S.stale&&!S.ready.size)h+='<div class="notice">The data has not arrived yet. Check your connection. The page updates on its own.</div>';
   if(!S.decks.size){
-    h+='<div class="notice"><b>Nenhum baralho ainda.</b><br>Mande um material no chat do projeto Flashcards (PDF, capítulo, anotações). O Claude cria o baralho e os cards; eles aparecem aqui sozinhos.</div>';
+    h+='<div class="notice"><b>No decks yet.</b><br>Send material to the chat of the Flashcards project (PDF, chapter, notes). Claude creates the deck and the cards. They appear here on their own.</div>';
   }else{
-    h+='<button class="all" data-study-all><span><b>Estudar tudo</b><br><span class="muted" style="font-size:13px">'+all.total+' cards em '+S.decks.size+' baralhos</span></span>'+countsHTML(all,cap)+'</button>';
-    h+='<div><div class="legend" style="margin-bottom:6px"><span class="c-new">novos</span><span class="c-learn">aprendendo</span><span class="c-due">a revisar</span></div><div class="tree">'+treeHTML(root,0,cap)+'</div></div>';
+    h+='<button class="all" data-study-all><span><b>Study all</b><br><span class="muted" style="font-size:13px">'+all.total+' cards in '+S.decks.size+' decks</span></span>'+countsHTML(all,cap)+'</button>';
+    h+='<div><div class="legend" style="margin-bottom:6px"><span class="c-new">new</span><span class="c-learn">learning</span><span class="c-due">due</span></div><div class="tree">'+treeHTML(root,0,cap)+'</div></div>';
   }
   const r=+S.settings.retention||0.9;
   h+=flagsHTML();
   h+=filterHTML();
   h+=accountHTML();
-  h+='<details class="settings" data-panel="ajustes"'+(S.panels.has('ajustes')?' open':'')+'><summary>Ajustes</summary>'+
-    '<div class="field"><label for="set-new">Cards novos por dia</label><input id="set-new" type="number" min="0" max="999" value="'+(+S.settings.newPerDay||0)+'"><span class="hint">Limite somado de todos os baralhos. Cada card novo gera cerca de 10 revisões no primeiro mês.</span></div>'+
-    '<div class="field"><label for="set-ret">Retenção desejada</label><select id="set-ret">'+[0.8,0.85,0.9,0.93,0.95].map(v=>'<option value="'+v+'"'+(Math.abs(v-r)<1e-6?' selected':'')+'>'+Math.round(v*100)+'%</option>').join('')+'</select><span class="hint">Probabilidade de lembrar no dia da revisão. Mais alta encurta os intervalos e aumenta a carga. Com 90%, “Bom” num card novo volta em 4 dias; com 85%, em 6.</span></div>'+
-    '<div class="field"><label for="set-steps">Card novo: quando volta no mesmo dia</label><select id="set-steps"><option value="errors"'+(S.settings.steps!=='short'?' selected':'')+'>Só se eu errar (“Bom” já vai para dias)</option><option value="short"'+(S.settings.steps==='short'?' selected':'')+'>Sempre (1 min e 10 min, como o Anki)</option></select></div>'+
-    '<div class="row" style="margin-bottom:16px"><button class="btn primary" data-save-settings>Salvar ajustes</button></div></details>';
+  h+='<details class="settings" data-panel="ajustes"'+(S.panels.has('ajustes')?' open':'')+'><summary>Settings</summary>'+
+    '<div class="field"><label for="set-new">New cards per day</label><input id="set-new" type="number" min="0" max="999" value="'+(+S.settings.newPerDay||0)+'"><span class="hint">Limit across all decks. Each new card adds about 10 reviews in its first month.</span></div>'+
+    '<div class="field"><label for="set-ret">Target retention</label><select id="set-ret">'+[0.8,0.85,0.9,0.93,0.95].map(v=>'<option value="'+v+'"'+(Math.abs(v-r)<1e-6?' selected':'')+'>'+Math.round(v*100)+'%</option>').join('')+'</select><span class="hint">Chance to recall a card on its review day. A higher value shortens intervals and adds workload. At 90%, “Good” on a new card returns in 4 days. At 85%, it returns in 6.</span></div>'+
+    '<div class="field"><label for="set-steps">New card: same-day repeats</label><select id="set-steps"><option value="errors"'+(S.settings.steps!=='short'?' selected':'')+'>Only when I miss (“Good” goes straight to days)</option><option value="short"'+(S.settings.steps==='short'?' selected':'')+'>Always (1 min and 10 min, as in Anki)</option></select></div>'+
+    '<div class="row" style="margin-bottom:16px"><button class="btn primary" data-save-settings>Save settings</button></div></details>';
   return h+'</div>';
 }
 function studyHTML(){
   const st=S.study, r=nextCard(st.deckSet,st.idSet), c=st.cur&&S.cards.get(st.cur);
-  const head=syncHTML()+'<div class="studybar"><button class="btn ghost" data-go="home" aria-label="Voltar">← Baralhos</button><span class="title">'+esc(st.label)+'</span>'+countsHTML(r.counts)+'</div>';
+  const head=syncHTML()+'<div class="studybar"><button class="btn ghost" data-go="home" aria-label="Back">← Decks</button><span class="title">'+esc(st.label)+'</span>'+countsHTML(r.counts)+'</div>';
   if(!c){
     clearTimeout(waitTimer);
-    let msg='Nada para revisar agora neste baralho.';
-    if(r.wait){msg='Próximo card em aprendizado volta em '+fmtIvl(r.wait-Date.now())+'. A tela atualiza sozinha.';waitTimer=setTimeout(()=>{advance();render()},Math.max(1000,r.wait-Date.now()-20*MIN+500))}
-    else if(newLeft()===0)msg+=' O limite de cards novos de hoje acabou.';
-    return head+'<div class="done">'+LOGO+'<h1>Feito por agora</h1><p class="muted">'+msg+'</p><div class="row" style="justify-content:center;margin-top:16px">'+(S.undo?'<button class="btn" data-undo>Desfazer última</button>':'')+'<button class="btn primary" data-go="home">Voltar aos baralhos</button></div></div>';
+    let msg='Nothing to review in this deck right now.';
+    if(r.wait){msg='The next learning card returns in '+fmtIvl(r.wait-Date.now())+'. The screen updates on its own.';waitTimer=setTimeout(()=>{advance();render()},Math.max(1000,r.wait-Date.now()-20*MIN+500))}
+    else if(newLeft()===0)msg+=' You reached today\'s limit of new cards.';
+    return head+'<div class="done">'+LOGO+'<h1>Done for now</h1><p class="muted">'+msg+'</p><div class="row" style="justify-content:center;margin-top:16px">'+(S.undo?'<button class="btn" data-undo>Undo last answer</button>':'')+'<button class="btn primary" data-go="home">Back to decks</button></div></div>';
   }
   const rv=S.revs.get(st.cur);
   const miss=st.missed&&S.cards.get(st.missed), missRef=miss&&noteOf(miss);
-  const reread=missRef?'<div class="reread" role="status"><span>Errou: '+esc(plain(miss.front).slice(0,80))+'</span><span class="row" style="flex-shrink:0"><button class="btn" data-open-note="'+esc(miss.note)+'">Reler no caderno</button><button class="btn ghost" data-missed-close aria-label="Fechar">×</button></span></div>':'';
-  const tag=!rv?'Novo':rv.state==='review'?'Revisão · '+(rv.lapses?rv.lapses+' lapsos':'sem lapsos'):'Aprendendo';
+  const reread=missRef?'<div class="reread" role="status"><span>Missed: '+esc(plain(miss.front).slice(0,80))+'</span><span class="row" style="flex-shrink:0"><button class="btn" data-open-note="'+esc(miss.note)+'">Reread in notebook</button><button class="btn ghost" data-missed-close aria-label="Close">×</button></span></div>':'';
+  const tag=!rv?'New':rv.state==='review'?'Review · '+(rv.lapses?rv.lapses+' lapses':'no lapses'):'Learning';
   return head+reread+'<article class="index"><div class="head"><span>'+esc(deckName(c.deck))+'</span><span>'+tag+'</span></div>'+
     '<div class="face" id="face-front"></div>'+(st.revealed?'<div class="face back" id="face-back"></div>':'')+'</article>'+
-    '<div class="meta"><span>'+(c.source?esc(c.source):'')+(c.verified?' · verificado em '+esc(c.verified):'')+(c.checkBy&&c.checkBy<=new Date().toISOString().slice(0,10)?' · <b class="stale">rever fatos</b>':'')+'</span><span class="row">'+(S.undo?'<button class="btn ghost" data-undo>Desfazer</button>':'')+(st.revealed&&noteOf(c)?'<button class="btn ghost" data-open-note="'+esc(c.note)+'">Caderno</button>':'')+'<button class="btn ghost" data-flag="'+esc(st.cur)+'">Sinalizar</button><button class="btn ghost" data-edit="'+esc(st.cur)+'">Editar</button></span></div>';
+    '<div class="meta"><span>'+(c.source?esc(c.source):'')+(c.verified?' · verified '+esc(c.verified):'')+(c.checkBy&&c.checkBy<=new Date().toISOString().slice(0,10)?' · <b class="stale">check facts</b>':'')+'</span><span class="row">'+(S.undo?'<button class="btn ghost" data-undo>Undo</button>':'')+(st.revealed&&noteOf(c)?'<button class="btn ghost" data-open-note="'+esc(c.note)+'">Notebook</button>':'')+'<button class="btn ghost" data-flag="'+esc(st.cur)+'">Flag</button><button class="btn ghost" data-edit="'+esc(st.cur)+'">Edit</button></span></div>';
 }
 function answerBarHTML(){
   const st=S.study; if(S.view!=='study'||!st||!st.cur||!S.cards.get(st.cur))return '';
-  if(!st.revealed)return '<div class="answerbar"><div class="inner"><button class="btn primary reveal" data-reveal>Mostrar resposta</button></div></div>';
-  const now=Date.now(), prev=S.revs.get(st.cur)||null, names=['Errei','Difícil','Bom','Fácil'];
+  if(!st.revealed)return '<div class="answerbar"><div class="inner"><button class="btn primary reveal" data-reveal>Show answer</button></div></div>';
+  const now=Date.now(), prev=S.revs.get(st.cur)||null, names=['Again','Hard','Good','Easy'];
   return '<div class="answerbar"><div class="inner grades">'+[1,2,3,4].map(g=>{const n=schedule(prev,g,now);return '<button class="grade g'+g+'" data-grade="'+g+'"><b>'+names[g-1]+'</b><span>'+fmtIvl(n.due-now)+'</span></button>'}).join('')+'</div></div>';
 }
 function stateChip(id,c){
-  if(isFlagged(id,c))return '<span class="chip learn">Sinalizado</span>';
-  if(c.suspended)return '<span class="chip sus">Suspenso</span>';
-  const rv=S.revs.get(id); if(!rv)return '<span class="chip new">Novo</span>';
-  if(rv.state!=='review')return '<span class="chip learn">Aprendendo</span>';
-  const d=rv.due-Date.now(); return '<span class="chip rev">'+(d<=0?'Para hoje':'Em '+fmtIvl(d))+'</span>';
+  if(isFlagged(id,c))return '<span class="chip learn">Flagged</span>';
+  if(c.suspended)return '<span class="chip sus">Suspended</span>';
+  const rv=S.revs.get(id); if(!rv)return '<span class="chip new">New</span>';
+  if(rv.state!=='review')return '<span class="chip learn">Learning</span>';
+  const d=rv.due-Date.now(); return '<span class="chip rev">'+(d<=0?'Due today':'In '+fmtIvl(d))+'</span>';
 }
 function browseHTML(){
   const b=S.browse, ql=b.q.trim().toLowerCase();
-  const names=[...new Set([...S.decks.values()].map(d=>d.name))].sort((a,b)=>a.localeCompare(b,'pt'));
+  const names=[...new Set([...S.decks.values()].map(d=>d.name))].sort((a,b)=>a.localeCompare(b,'en'));
   const paths=new Set(); for(const n of names){const p=n.split('::');for(let i=1;i<=p.length;i++)paths.add(p.slice(0,i).join('::'))}
   const deckSet=b.deck?new Set(deckIdsUnder(b.deck)):null;
   const rows=cardsOrdered().filter(([id,c])=>(!deckSet||deckSet.has(c.deck))&&(!ql||(c.front+' '+c.back+' '+(c.tags||[]).join(' ')+' '+(c.source||'')).toLowerCase().includes(ql)));
-  let h='<div class="studybar"><button class="btn ghost" data-go="home">← Baralhos</button><span class="title">Cards</span><button class="btn" data-new-card'+(S.decks.size?'':' disabled')+'>Novo card</button></div>'+
-    '<div class="filters"><input id="b-q" type="search" placeholder="Buscar na frente, verso, tags ou fonte" value="'+esc(b.q)+'"><select id="b-deck"><option value="">Todos os baralhos</option>'+[...paths].sort((a,b)=>a.localeCompare(b,'pt')).map(p=>'<option value="'+esc(p)+'"'+(p===b.deck?' selected':'')+'>'+esc(p.split('::').join(' › '))+'</option>').join('')+'</select></div>';
-  if(!rows.length)return h+'<div class="notice">Nenhum card encontrado.</div>';
-  h+='<p class="muted mono" style="font-size:12px;margin:0 0 8px">'+(rows.length>200?'Mostrando 200 de '+rows.length:rows.length+' cards')+'</p><div class="list">';
+  let h='<div class="studybar"><button class="btn ghost" data-go="home">← Decks</button><span class="title">Cards</span><button class="btn" data-new-card'+(S.decks.size?'':' disabled')+'>New card</button></div>'+
+    '<div class="filters"><input id="b-q" type="search" placeholder="Search front, back, tags or source" value="'+esc(b.q)+'"><select id="b-deck"><option value="">All decks</option>'+[...paths].sort((a,b)=>a.localeCompare(b,'en')).map(p=>'<option value="'+esc(p)+'"'+(p===b.deck?' selected':'')+'>'+esc(p.split('::').join(' › '))+'</option>').join('')+'</select></div>';
+  if(!rows.length)return h+'<div class="notice">No cards found.</div>';
+  h+='<p class="muted mono" style="font-size:12px;margin:0 0 8px">'+(rows.length>200?'Showing 200 of '+rows.length:rows.length+' cards')+'</p><div class="list">';
   for(const [id,c] of rows.slice(0,200)){
     h+='<button class="item" data-edit="'+esc(id)+'"><span class="q">'+esc(plain(c.front))+'</span><span class="info">'+stateChip(id,c)+'<span>'+esc(deckName(c.deck).split('::').join(' › '))+'</span>'+((c.tags||[]).length?'<span>#'+c.tags.map(esc).join(' #')+'</span>':'')+'</span></button>';
   }
@@ -580,22 +582,22 @@ function editorHTML(){
   const e=S.edit; if(!e)return '';
   const c=e.id?S.cards.get(e.id):null; if(e.id&&!c)return '';
   const v=c||{deck:e.deck||[...S.decks.keys()][0],front:'',back:'',tags:[],source:'',suspended:false};
-  const opts=[...S.decks.entries()].sort((a,b)=>(a[1].name||a[0]).localeCompare(b[1].name||b[0],'pt')).map(([id,d])=>'<option value="'+esc(id)+'"'+(id===v.deck?' selected':'')+'>'+esc((d.name||id).split('::').join(' › '))+'</option>').join('');
+  const opts=[...S.decks.entries()].sort((a,b)=>(a[1].name||a[0]).localeCompare(b[1].name||b[0],'en')).map(([id,d])=>'<option value="'+esc(id)+'"'+(id===v.deck?' selected':'')+'>'+esc((d.name||id).split('::').join(' › '))+'</option>').join('');
   const rv=e.id&&S.revs.get(e.id);
-  return '<div class="scrim" data-close-scrim><div class="sheet" role="dialog" aria-modal="true" aria-label="'+(e.id?'Editar card':'Novo card')+'">'+
-    '<div class="bar"><h2>'+(e.id?'Editar card':'Novo card')+'</h2><button class="btn ghost" data-close>Fechar</button></div>'+
-    '<div class="field"><label for="e-deck">Baralho</label><select id="e-deck">'+opts+'</select></div>'+
-    '<div class="field"><label for="e-front">Frente</label><textarea id="e-front">'+esc(v.front)+'</textarea><span class="hint">Markdown simples e LaTeX entre $…$ ou $$…$$.</span></div>'+
-    '<div class="field"><label for="e-back">Verso</label><textarea id="e-back">'+esc(v.back)+'</textarea></div>'+
-    '<div class="field"><label for="e-tags">Tags</label><input id="e-tags" type="text" value="'+esc((v.tags||[]).join(', '))+'" placeholder="separe por vírgula"></div>'+
-    '<div class="field"><label for="e-src">Fonte</label><input id="e-src" type="text" value="'+esc(v.source||'')+'" placeholder="livro, capítulo, página"></div>'+
-    '<label class="check"><input id="e-sus" type="checkbox"'+(v.suspended?' checked':'')+'> Suspenso (não aparece no estudo)</label>'+
-    (rv?'<p class="muted mono" style="font-size:12px">Estabilidade '+(rv.s||0).toFixed(1)+' d · dificuldade '+(rv.d||0).toFixed(1)+'/10 · '+(rv.reps||0)+' respostas · '+(rv.lapses||0)+' lapsos</p>':'')+
+  return '<div class="scrim" data-close-scrim><div class="sheet" role="dialog" aria-modal="true" aria-label="'+(e.id?'Edit card':'New card')+'">'+
+    '<div class="bar"><h2>'+(e.id?'Edit card':'New card')+'</h2><button class="btn ghost" data-close>Close</button></div>'+
+    '<div class="field"><label for="e-deck">Deck</label><select id="e-deck">'+opts+'</select></div>'+
+    '<div class="field"><label for="e-front">Front</label><textarea id="e-front">'+esc(v.front)+'</textarea><span class="hint">Simple Markdown. LaTeX between $…$ or $$…$$.</span></div>'+
+    '<div class="field"><label for="e-back">Back</label><textarea id="e-back">'+esc(v.back)+'</textarea></div>'+
+    '<div class="field"><label for="e-tags">Tags</label><input id="e-tags" type="text" value="'+esc((v.tags||[]).join(', '))+'" placeholder="comma-separated"></div>'+
+    '<div class="field"><label for="e-src">Source</label><input id="e-src" type="text" value="'+esc(v.source||'')+'" placeholder="book, chapter, page"></div>'+
+    '<label class="check"><input id="e-sus" type="checkbox"'+(v.suspended?' checked':'')+'> Suspended (hidden from study)</label>'+
+    (rv?'<p class="muted mono" style="font-size:12px">Stability '+(rv.s||0).toFixed(1)+' d · difficulty '+(rv.d||0).toFixed(1)+'/10 · '+(rv.reps||0)+' answers · '+(rv.lapses||0)+' lapses</p>':'')+
     '<div class="row" style="justify-content:space-between"><span class="row">'+
-      (e.id&&!/^u-/.test(e.id)?(isFlagged(e.id)?'<button class="btn" data-unflag="'+esc(e.id)+'">Remover sinal</button>':'<button class="btn" data-flag="'+esc(e.id)+'">Sinalizar problema</button>'):'')+
-      (e.id&&/^u-/.test(e.id)?'<button class="btn danger" data-del>'+(S.confirmDel?'Confirmar exclusão':'Excluir')+'</button>':'')+
-      (rv?'<button class="btn" data-reset>Zerar progresso</button>':'')+
-    '</span><button class="btn primary" data-save>Salvar</button></div></div></div>';
+      (e.id&&!/^u-/.test(e.id)?(isFlagged(e.id)?'<button class="btn" data-unflag="'+esc(e.id)+'">Remove flag</button>':'<button class="btn" data-flag="'+esc(e.id)+'">Flag problem</button>'):'')+
+      (e.id&&/^u-/.test(e.id)?'<button class="btn danger" data-del>'+(S.confirmDel?'Confirm delete':'Delete')+'</button>':'')+
+      (rv?'<button class="btn" data-reset>Reset progress</button>':'')+
+    '</span><button class="btn primary" data-save>Save</button></div></div></div>';
 }
 
 /* ---------- notebook (caderno): study notes; a card links back with note: "noteId#sectionId" ---------- */
@@ -605,16 +607,16 @@ function noteCards(nid,sec){return cardsOrdered().filter(([id,c])=>{if(c.suspend
 /* weak = the card was missed at least once (lapse) or is back in learning after an answer */
 function isWeak(id){const rv=S.revs.get(id);return !!(rv&&(rv.lapses>0||(rv.state!=='review'&&rv.reps>0)))}
 function linksHTML(rows){
-  if(!rows.length)return '<span>Sem cartas ligadas</span>';
+  if(!rows.length)return '<span>No linked cards</span>';
   const weak=rows.filter(([id])=>isWeak(id)).length;
-  return '<span>'+rows.length+(rows.length===1?' carta':' cartas')+(weak?' · <span class="weak">'+weak+(weak===1?' fraca':' fracas')+'</span>':'')+'</span>';
+  return '<span>'+rows.length+(rows.length===1?' card':' cards')+(weak?' · <span class="weak">'+weak+' weak</span>':'')+'</span>';
 }
-function notesOrdered(){return [...S.notes.entries()].sort((a,b)=>deckName(a[1].deck).localeCompare(deckName(b[1].deck),'pt')||((a[1].order||0)-(b[1].order||0))||String(a[1].title).localeCompare(String(b[1].title),'pt'))}
+function notesOrdered(){return [...S.notes.entries()].sort((a,b)=>deckName(a[1].deck).localeCompare(deckName(b[1].deck),'en')||((a[1].order||0)-(b[1].order||0))||String(a[1].title).localeCompare(String(b[1].title),'en'))}
 /* ---------- questions: multiple choice (graded by the app) and open (self-graded) ----------
    qrev/{questionId} = FSRS state + lastOk (1, 0.5 or 0) + tries/okTries.
    In a session: a miss comes back after 3 other questions; a hit or "Moderado" leaves the session.
    Between sessions: FSRS decides the day. The user never sees grade buttons for multiple choice. */
-const OBJ_VERBS={definir:'Definir',explicar:'Explicar',calcular:'Calcular',comparar:'Comparar',diagnosticar:'Diagnosticar'};
+const OBJ_VERBS={definir:'Define',explicar:'Explain',calcular:'Calculate',comparar:'Compare',diagnosticar:'Diagnose'};
 function noteQuestions(nid){const n=S.notes.get(nid);return n&&Array.isArray(n.questions)?n.questions.map(q=>({...q,nid})):[]}
 function allQuestions(){const out=[];for(const [nid] of notesOrdered())out.push(...noteQuestions(nid));return out}
 function questionById(id){for(const q of allQuestions())if(q.id===id)return q;return null}
@@ -627,13 +629,13 @@ function objScore(nid,oid){
 }
 function scoreHTML(sc){
   if(!sc.total)return '';
-  if(!sc.seen)return '<span class="muted">'+sc.total+(sc.total===1?' questão':' questões')+'</span>';
+  if(!sc.seen)return '<span class="muted">'+sc.total+(sc.total===1?' question':' questions')+'</span>';
   const pct=Math.round(100*sc.ok/sc.seen);
-  return '<span class="'+(pct<70?'weak':'c-due')+'">'+pct+'%</span> <span class="muted">· '+sc.seen+'/'+sc.total+' feitas</span>';
+  return '<span class="'+(pct<70?'weak':'c-due')+'">'+pct+'%</span> <span class="muted">· '+sc.seen+'/'+sc.total+' done</span>';
 }
 function objectivesHTML(nid,n){
   const objs=Array.isArray(n.objectives)?n.objectives:[]; if(!objs.length)return '';
-  return '<div class="objs"><h3>Ao final, você consegue</h3><ol>'+objs.map(o=>'<li><span class="nbody"><b>'+esc(OBJ_VERBS[o.verb]||o.verb)+'</b> '+md(o.text).replace(/^<p>|<\/p>$/g,'')+'</span><span class="oscore">'+scoreHTML(objScore(nid,o.id))+'</span></li>').join('')+'</ol></div>';
+  return '<div class="objs"><h3>By the end, you can</h3><ol>'+objs.map(o=>'<li><span class="nbody"><b>'+esc(OBJ_VERBS[o.verb]||o.verb)+'</b> '+md(o.text).replace(/^<p>|<\/p>$/g,'')+'</span><span class="oscore">'+scoreHTML(objScore(nid,o.id))+'</span></li>').join('')+'</ol></div>';
 }
 /* FSRS for questions. "Moderado" on a new question goes straight to days (≈1 d), not to a 10-min step. */
 function qschedule(prev,g,now){
@@ -648,9 +650,9 @@ function qschedule(prev,g,now){
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function startQuiz(nid,everything){
   const qs=nid?noteQuestions(nid):allQuestions(), pick=everything?qs:qs.filter(qPending);
-  if(!pick.length){toast('Nenhuma questão pendente');return}
+  if(!pick.length){toast('No questions due');return}
   const n=nid&&S.notes.get(nid);
-  S.quiz={nid,label:n?(n.title||nid):'Questões pendentes',back:S.view,noteBack:S.note?S.note.back:'notebook',
+  S.quiz={nid,label:n?(n.title||nid):'Due questions',back:S.view,noteBack:S.note?S.note.back:'notebook',
     queue:shuffle(pick.map(q=>q.id)),total:pick.length,missed:new Set(),done:new Set(),cur:null,order:[],picked:null,shown:false,typed:''};
   nextQuestion(); S.view='quiz'; render(); scrollTo(0,0);
 }
@@ -672,21 +674,21 @@ function pickOption(i){
 }
 function quizHTML(){
   const z=S.quiz;
-  const head='<div class="studybar"><button class="btn ghost" data-quiz-back>← '+(z.back==='note'?'Nota':'Caderno')+'</button><span class="title">'+esc(z.label)+'</span><span class="mono muted" style="font-size:13px">'+(z.done.size)+'/'+z.total+'</span></div>';
+  const head='<div class="studybar"><button class="btn ghost" data-quiz-back>← '+(z.back==='note'?'Note':'Notebook')+'</button><span class="title">'+esc(z.label)+'</span><span class="mono muted" style="font-size:13px">'+(z.done.size)+'/'+z.total+'</span></div>';
   const q=z.cur&&questionById(z.cur);
   if(!q){
     const first=z.total-z.missed.size;
-    let h=head+'<div class="done">'+LOGO+'<h1>Fim da sessão</h1><p class="muted">Acertou de primeira: '+first+' de '+z.total+'.</p></div>';
+    let h=head+'<div class="done">'+LOGO+'<h1>Session complete</h1><p class="muted">Right on the first try: '+first+' of '+z.total+'.</p></div>';
     if(z.missed.size){
       h+='<div class="list">';
-      for(const id of z.missed){const m=questionById(id);if(m)h+='<button class="item" data-open-note="'+esc(m.nid+(m.sec?'#'+m.sec:''))+'"><span class="q">'+esc(plain(m.stem))+'</span><span class="info"><span class="weak">errou nesta sessão</span><span>Reler no caderno →</span></span></button>'}
-      h+='</div><p class="hint">As questões erradas voltam amanhã. Peça ao Claude cartas sobre elas.</p>';
+      for(const id of z.missed){const m=questionById(id);if(m)h+='<button class="item" data-open-note="'+esc(m.nid+(m.sec?'#'+m.sec:''))+'"><span class="q">'+esc(plain(m.stem))+'</span><span class="info"><span class="weak">missed this session</span><span>Reread in notebook →</span></span></button>'}
+      h+='</div><p class="hint">Missed questions return tomorrow. Ask Claude for cards on them.</p>';
     }
-    return h+'<div class="row" style="justify-content:center;margin-top:16px"><button class="btn primary" data-quiz-back>Voltar</button></div>';
+    return h+'<div class="row" style="justify-content:center;margin-top:16px"><button class="btn primary" data-quiz-back>Back</button></div>';
   }
   const n=S.notes.get(q.nid), o=n&&(n.objectives||[]).find(x=>x.id===q.obj);
-  let h=head+'<article class="index qcard"><div class="head"><span>'+(o?esc(OBJ_VERBS[o.verb]||o.verb):'Questão')+'</span><span>'+(q.type==='mc'?'Múltipla escolha':'Dissertativa')+(z.repeat?' · repetição':'')+'</span></div><div class="face nbody">'+md(q.stem)+'</div></article>';
-  const reread=q.sec?'<button class="btn" data-open-note="'+esc(q.nid+'#'+q.sec)+'">Reler no caderno</button>':'';
+  let h=head+'<article class="index qcard"><div class="head"><span>'+(o?esc(OBJ_VERBS[o.verb]||o.verb):'Question')+'</span><span>'+(q.type==='mc'?'Multiple choice':'Open answer')+(z.repeat?' · repeat':'')+'</span></div><div class="face nbody">'+md(q.stem)+'</div></article>';
+  const reread=q.sec?'<button class="btn" data-open-note="'+esc(q.nid+'#'+q.sec)+'">Reread in notebook</button>':'';
   if(q.type==='mc'){
     const done=z.picked!=null;
     h+='<div class="opts">'+z.order.map((i,k)=>{
@@ -696,67 +698,67 @@ function quizHTML(){
     }).join('')+'</div>';
     if(done){
       const ok=q.options[z.picked].ok;
-      h+='<div class="verdict '+(ok?'good':'bad')+'">'+(ok?'Certo. Ela volta daqui a alguns dias.':'Errado. Ela volta depois de 3 questões.')+'</div><div class="row" style="justify-content:space-between;margin-top:10px">'+reread+'<button class="btn primary" data-q-next>Próxima →</button></div>';
+      h+='<div class="verdict '+(ok?'good':'bad')+'">'+(ok?'Correct. It returns in a few days.':'Wrong. It returns after 3 questions.')+'</div><div class="row" style="justify-content:space-between;margin-top:10px">'+reread+'<button class="btn primary" data-q-next>Next →</button></div>';
     }
   }else{
     if(!z.shown){
-      h+='<div class="field" style="margin-top:12px"><label for="q-ans">Sua resposta (opcional)</label><textarea id="q-ans" placeholder="Escreva ou dite. Ninguém corrige o texto: você compara com a resposta.">'+esc(z.typed)+'</textarea></div><div class="row"><button class="btn primary" data-q-show>Ver resposta</button></div>';
+      h+='<div class="field" style="margin-top:12px"><label for="q-ans">Your answer (optional)</label><textarea id="q-ans" placeholder="Type or dictate. Nobody grades this text. You compare it with the answer.">'+esc(z.typed)+'</textarea></div><div class="row"><button class="btn primary" data-q-show>Show answer</button></div>';
     }else{
-      h+=(z.typed.trim()?'<div class="field" style="margin-top:12px"><label>Sua resposta</label><div class="notice" style="white-space:pre-wrap;color:var(--ink)">'+esc(z.typed)+'</div></div>':'')+
-        '<div class="field" style="margin-top:12px"><label>Resposta modelo</label><div class="notice nbody" style="color:var(--ink)">'+md(q.answer||'')+'</div></div>'+
-        '<p class="hint" style="margin:0 0 8px">Compare as ideias, não as palavras. Moderado = acertou a ideia central, mas faltou uma parte.</p>'+
-        '<div class="grades" style="grid-template-columns:repeat(3,1fr)"><button class="grade g1" data-q-grade="1"><b>Errei</b><span>repete hoje</span></button><button class="grade g2" data-q-grade="2"><b>Moderado</b><span>volta antes</span></button><button class="grade g3" data-q-grade="3"><b>Acertei</b><span>vai pro fundo</span></button></div>'+
-        '<div class="row" style="justify-content:space-between;margin-top:10px">'+reread+'<button class="btn ghost" data-q-copy>Copiar para o Claude corrigir</button></div>';
+      h+=(z.typed.trim()?'<div class="field" style="margin-top:12px"><label>Your answer</label><div class="notice" style="white-space:pre-wrap;color:var(--ink)">'+esc(z.typed)+'</div></div>':'')+
+        '<div class="field" style="margin-top:12px"><label>Model answer</label><div class="notice nbody" style="color:var(--ink)">'+md(q.answer||'')+'</div></div>'+
+        '<p class="hint" style="margin:0 0 8px">Compare ideas, not words. Partly = you got the core idea but missed a part.</p>'+
+        '<div class="grades" style="grid-template-columns:repeat(3,1fr)"><button class="grade g1" data-q-grade="1"><b>Wrong</b><span>again today</span></button><button class="grade g2" data-q-grade="2"><b>Partly</b><span>back sooner</span></button><button class="grade g3" data-q-grade="3"><b>Right</b><span>back much later</span></button></div>'+
+        '<div class="row" style="justify-content:space-between;margin-top:10px">'+reread+'<button class="btn ghost" data-q-copy>Copy for Claude to grade</button></div>';
     }
   }
   return h;
 }
 
 function notebookHTML(){
-  let h='<div class="studybar"><button class="btn ghost" data-go="home">← Baralhos</button><span class="title">Caderno</span></div>';
-  if(!S.notes.size)return h+'<div class="notice">Nenhuma nota ainda. Peça uma nota de estudo ao Claude; ela aparece aqui sozinha.</div>';
+  let h='<div class="studybar"><button class="btn ghost" data-go="home">← Decks</button><span class="title">Notebook</span></div>';
+  if(!S.notes.size)return h+'<div class="notice">No notes yet. Ask Claude for a study note. It appears here on its own.</div>';
   const pend=pendingCount(allQuestions());
-  if(pend)h+='<button class="all" data-quiz-all style="margin-bottom:12px"><span><b>Questões pendentes</b><br><span class="muted" style="font-size:13px">Novas e as que voltam hoje, de todas as notas</span></span><span class="counts"><span class="c-due">'+pend+'</span></span></button>';
-  h+='<p class="hint" style="margin:0 0 10px">Ordem: leia a nota → faça as questões → as que você errar viram cartas.</p><div class="list">';
+  if(pend)h+='<button class="all" data-quiz-all style="margin-bottom:12px"><span><b>Due questions</b><br><span class="muted" style="font-size:13px">New questions and questions due today, from all notes</span></span><span class="counts"><span class="c-due">'+pend+'</span></span></button>';
+  h+='<p class="hint" style="margin:0 0 10px">Order: read the note → answer the questions → missed ones become cards.</p><div class="list">';
   for(const [id,n] of notesOrdered()){
     const p=pendingCount(noteQuestions(id));
-    h+='<button class="item" data-open-note="'+esc(id)+'"><span class="q">'+esc(n.title||id)+'</span><span class="info"><span>'+esc(deckName(n.deck).split('::').join(' › '))+'</span>'+(p?'<span class="c-due">'+p+(p===1?' questão pendente':' questões pendentes')+'</span>':'')+linksHTML(noteCards(id))+'</span></button>';
+    h+='<button class="item" data-open-note="'+esc(id)+'"><span class="q">'+esc(n.title||id)+'</span><span class="info"><span>'+esc(deckName(n.deck).split('::').join(' › '))+'</span>'+(p?'<span class="c-due">'+p+(p===1?' question due':' questions due')+'</span>':'')+linksHTML(noteCards(id))+'</span></button>';
   }
   return h+'</div>';
 }
 function noteHTML(){
   const nid=S.note&&S.note.id, n=nid&&S.notes.get(nid);
-  const backTo=S.note&&S.note.back, back='<button class="btn ghost" data-note-back>← '+(backTo==='study'?'Estudo':backTo==='quiz'?'Questões':backTo==='notebook'?'Caderno':'Voltar')+'</button>';
-  if(!n)return '<div class="studybar">'+back+'</div><div class="notice">Nota não encontrada.</div>';
+  const backTo=S.note&&S.note.back, back='<button class="btn ghost" data-note-back>← '+(backTo==='study'?'Study':backTo==='quiz'?'Questions':backTo==='notebook'?'Notebook':'Back')+'</button>';
+  if(!n)return '<div class="studybar">'+back+'</div><div class="notice">Note not found.</div>';
   const tab=S.note.tab||'nota', secs=Array.isArray(n.sections)?n.sections:[], all=noteCards(nid), qs=noteQuestions(nid), pend=pendingCount(qs);
-  const tabs=[['nota','Nota'],['resumo','Resumo'],['questoes','Questões'+(pend?' ('+pend+')':'')]].filter(t=>t[0]==='nota'||(t[0]==='resumo'?n.summary:qs.length));
+  const tabs=[['nota','Note'],['resumo','Summary'],['questoes','Questions'+(pend?' ('+pend+')':'')]].filter(t=>t[0]==='nota'||(t[0]==='resumo'?n.summary:qs.length));
   let h='<div class="studybar">'+back+'<span class="title">'+esc(deckName(n.deck).split('::').pop())+'</span></div>'+
     (tabs.length>1?'<div class="tabs" role="tablist">'+tabs.map(t=>'<button role="tab" aria-selected="'+(t[0]===tab)+'" data-note-tab="'+t[0]+'">'+esc(t[1])+'</button>').join('')+'</div>':'')+
     '<article class="note"><h2 class="ntitle">'+esc(n.title||nid)+'</h2>';
-  const quizBtns=qs.length?'<div class="row" style="margin-top:14px">'+(pend?'<button class="btn primary" data-quiz-note="'+esc(nid)+'">Fazer as '+pend+(pend===1?' questão':' questões')+'</button>':'<button class="btn primary" data-quiz-note="'+esc(nid)+'" data-quiz-every>Refazer todas as '+qs.length+'</button>')+'</div>':'';
+  const quizBtns=qs.length?'<div class="row" style="margin-top:14px">'+(pend?'<button class="btn primary" data-quiz-note="'+esc(nid)+'">Answer '+pend+(pend===1?' question':' questions')+'</button>':'<button class="btn primary" data-quiz-note="'+esc(nid)+'" data-quiz-every>Redo all '+qs.length+'</button>')+'</div>':'';
   if(tab==='resumo'){
     h+='<div class="nbody summary">'+md(n.summary||'')+'</div></article>'+quizBtns;
     return h;
   }
   if(tab==='questoes'){
-    h+=objectivesHTML(nid,n)+'<p class="hint">'+qs.filter(q=>q.type==='mc').length+' de múltipla escolha, corrigidas pelo app. '+qs.filter(q=>q.type!=='mc').length+' dissertativas: você compara com a resposta modelo e se avalia.</p></article>'+quizBtns;
-    if(pend&&pend<qs.length)h+='<div class="row" style="margin-top:8px"><button class="btn ghost" data-quiz-note="'+esc(nid)+'" data-quiz-every>Refazer todas as '+qs.length+'</button></div>';
+    h+=objectivesHTML(nid,n)+'<p class="hint">'+qs.filter(q=>q.type==='mc').length+' multiple choice, graded by the app. '+qs.filter(q=>q.type!=='mc').length+' open answer: you compare with the model answer and grade yourself.</p></article>'+quizBtns;
+    if(pend&&pend<qs.length)h+='<div class="row" style="margin-top:8px"><button class="btn ghost" data-quiz-note="'+esc(nid)+'" data-quiz-every>Redo all '+qs.length+'</button></div>';
     return h;
   }
-  h+='<div class="hint">'+(n.source?esc(n.source):'')+(n.verified?' · verificado em '+esc(n.verified):'')+'</div>'+
+  h+='<div class="hint">'+(n.source?esc(n.source):'')+(n.verified?' · verified '+esc(n.verified):'')+'</div>'+
     (n.intro?'<div class="nbody" style="margin-top:10px">'+md(n.intro)+'</div>':'')+objectivesHTML(nid,n)+
-    (secs.length>1?'<nav class="toc" aria-label="Seções">'+secs.map(s=>'<button data-jump="'+esc(s.id)+'">'+esc(s.title)+'</button>').join('')+'</nav>':'');
+    (secs.length>1?'<nav class="toc" aria-label="Sections">'+secs.map(s=>'<button data-jump="'+esc(s.id)+'">'+esc(s.title)+'</button>').join('')+'</nav>':'');
   for(const s of secs){
     const rows=noteCards(nid,s.id);
     h+='<section class="nsec" id="sec-'+esc(s.id)+'"><h3>'+esc(s.title)+'</h3><div class="nbody">'+md(s.body)+'</div>'+
-      '<div class="nlinks">'+linksHTML(rows)+(rows.length?'<button class="btn ghost" data-study-note="'+esc(nid+'#'+s.id)+'">Estudar estas</button>':'')+'</div></section>';
+      '<div class="nlinks">'+linksHTML(rows)+(rows.length?'<button class="btn ghost" data-study-note="'+esc(nid+'#'+s.id)+'">Study these</button>':'')+'</div></section>';
   }
   h+='</article>'+quizBtns;
-  if(all.length)h+='<div class="row" style="margin-top:8px"><button class="btn" data-study-note="'+esc(nid)+'">Estudar as '+all.length+' cartas desta nota</button></div>';
+  if(all.length)h+='<div class="row" style="margin-top:8px"><button class="btn" data-study-note="'+esc(nid)+'">Study the '+all.length+' cards in this note</button></div>';
   return h;
 }
 function openNote(ref,back){
-  const r=parseRef(ref); if(!S.notes.has(r.id)){toast('Nota não encontrada');return}
+  const r=parseRef(ref); if(!S.notes.has(r.id)){toast('Note not found');return}
   const from=S.view==='note'&&S.note?S.note.back:S.view;
   S.note={id:r.id,back:back||from,tab:r.sec?'nota':(S.note&&S.note.id===r.id&&S.view==='note'?S.note.tab:'nota')}; S.view='note'; render();
   requestAnimationFrame(()=>requestAnimationFrame(()=>{if(r.sec)jumpTo(r.sec);else scrollTo(0,0)}));
@@ -767,12 +769,12 @@ function jumpTo(sec){
 }
 function studyNote(ref){
   const r=parseRef(ref), n=S.notes.get(r.id); if(!n)return;
-  const ids=noteCards(r.id,r.sec).map(x=>x[0]); if(!ids.length){toast('Nenhuma carta ligada');return}
+  const ids=noteCards(r.id,r.sec).map(x=>x[0]); if(!ids.length){toast('No linked cards');return}
   const sec=r.sec&&(n.sections||[]).find(s=>s.id===r.sec);
   startStudy(null,(n.title||r.id)+(sec?' › '+sec.title:''),ids);
 }
 function copyText(text,done){
-  const manual=()=>{const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();try{document.execCommand('copy');toast(done)}catch(e){toast('Não foi possível copiar')}t.remove()};
+  const manual=()=>{const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();try{document.execCommand('copy');toast(done)}catch(e){toast('Could not copy')}t.remove()};
   try{navigator.clipboard.writeText(text).then(()=>toast(done),manual)}catch(e){manual()}
 }
 
@@ -780,8 +782,8 @@ let raf=0; function render(){if(!raf)raf=requestAnimationFrame(doRender)}
 function doRender(){
   raf=0;
   const app=document.getElementById('app'), ov=document.getElementById('overlay');
-  if(S.nodb){app.innerHTML='<div class="notice">Abra esta página no claude.ai para acessar seus cards.</div>';return}
-  if(S.err){app.innerHTML='<div class="notice">A conexão com os dados caiu ('+esc(S.err)+'). Recarregue a página.</div>';return}
+  if(S.nodb){app.innerHTML='<div class="notice">Open this page in claude.ai to access your cards.</div>';return}
+  if(S.err){app.innerHTML='<div class="notice">The data connection was lost ('+esc(S.err)+'). Reload the page.</div>';return}
   if(S.view==='study'&&S.study&&(!S.study.cur||!S.cards.get(S.study.cur))){S.study.cur=null;advance()}
   const focus=document.activeElement&&document.activeElement.id, sel=focus==='b-q'?document.activeElement.selectionStart:null;
   const keep={};for(const id of ['acct-email','acct-code','set-new','f-note']){const el=document.getElementById(id);if(el&&document.activeElement===el)keep[id]=el.value}
@@ -807,37 +809,37 @@ function acct(){return window.KAIROS_WEB&&window.KAIROS_WEB.account}
 function syncLine(){
   const A=acct(); if(!A||!A.configured())return '';
   const u=A.user(), st=A.state();
-  if(!u)return ' · <span class="muted">só neste aparelho</span>';
-  if(st.error)return ' · <span style="color:var(--again)">sincronização falhou</span>';
-  if(st.syncing||st.pending)return ' · sincronizando…';
-  return ' · sincronizado';
+  if(!u)return ' · <span class="muted">only on this device</span>';
+  if(st.error)return ' · <span style="color:var(--again)">sync failed</span>';
+  if(st.syncing||st.pending)return ' · syncing…';
+  return ' · synced';
 }
 function accountHTML(){
   const A=acct(); if(!A||!A.configured())return '';
   const u=A.user(), st=A.state(), f=S.login;
   let b;
   if(u){
-    const when=st.lastSync?new Date(st.lastSync).toLocaleString('pt-BR',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'}):'ainda não';
-    b='<p style="margin:0 0 8px">Conectado como <b>'+esc(u.email)+'</b>.</p>'+
-      '<p class="hint" style="margin:0 0 12px">Última sincronização: '+esc(when)+(st.pending?' · '+st.pending+' alteração(ões) a enviar':'')+(st.error?' · erro: '+esc(st.error):'')+'</p>'+
-      '<div class="row" style="margin-bottom:16px"><button class="btn" data-acct="sync">Sincronizar agora</button><button class="btn ghost" data-acct="signout">Sair</button></div>';
+    const when=st.lastSync?new Date(st.lastSync).toLocaleString('en-US',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'}):'never';
+    b='<p style="margin:0 0 8px">Signed in as <b>'+esc(u.email)+'</b>.</p>'+
+      '<p class="hint" style="margin:0 0 12px">Last sync: '+esc(when)+(st.pending?' · '+st.pending+' change(s) to send':'')+(st.error?' · error: '+esc(st.error):'')+'</p>'+
+      '<div class="row" style="margin-bottom:16px"><button class="btn" data-acct="sync">Sync now</button><button class="btn ghost" data-acct="signout">Sign out</button></div>';
   }else{
-    b='<p class="hint" style="margin:0 0 12px">Entre para sincronizar o progresso entre aparelhos e ver seus baralhos privados. Sem login, tudo continua funcionando neste aparelho.</p>'+
-      '<div class="field"><label for="acct-email">E-mail</label><input id="acct-email" type="email" autocomplete="email" inputmode="email" value="'+esc(f.email)+'"></div>';
-    if(f.sent)b+='<div class="field"><label for="acct-code">Código de 6 dígitos enviado para o e-mail</label><input id="acct-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="10"></div>'+
-      '<div class="row" style="margin-bottom:16px"><button class="btn primary" data-acct="verify"'+(f.busy?' disabled':'')+'>Entrar</button><button class="btn ghost" data-acct="send"'+(f.busy?' disabled':'')+'>Reenviar código</button></div>';
-    else b+='<div class="row" style="margin-bottom:16px"><button class="btn primary" data-acct="send"'+(f.busy?' disabled':'')+'>Enviar código</button></div>';
+    b='<p class="hint" style="margin:0 0 12px">Sign in to sync progress across devices and to see your private decks. Without sign-in, everything still works on this device.</p>'+
+      '<div class="field"><label for="acct-email">Email</label><input id="acct-email" type="email" autocomplete="email" inputmode="email" value="'+esc(f.email)+'"></div>';
+    if(f.sent)b+='<div class="field"><label for="acct-code">6-digit code sent to your email</label><input id="acct-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="10"></div>'+
+      '<div class="row" style="margin-bottom:16px"><button class="btn primary" data-acct="verify"'+(f.busy?' disabled':'')+'>Sign in</button><button class="btn ghost" data-acct="send"'+(f.busy?' disabled':'')+'>Resend code</button></div>';
+    else b+='<div class="row" style="margin-bottom:16px"><button class="btn primary" data-acct="send"'+(f.busy?' disabled':'')+'>Send code</button></div>';
   }
-  return '<details class="settings" data-panel="conta"'+(S.panels.has('conta')?' open':'')+'><summary>Conta e sincronização'+(u?'':' <span class="pill">opcional</span>')+'</summary>'+b+'</details>';
+  return '<details class="settings" data-panel="conta"'+(S.panels.has('conta')?' open':'')+'><summary>Account and sync'+(u?'':' <span class="pill">optional</span>')+'</summary>'+b+'</details>';
 }
 async function acctAction(a){
   const A=acct(); if(!A)return; const f=S.login;
   try{
-    if(a==='send'){const email=(document.getElementById('acct-email').value||'').trim();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){toast('Digite um e-mail válido');return}f.email=email;f.busy=true;render();await A.sendCode(email);f.sent=true;toast('Código enviado. Confira o e-mail.')}
-    else if(a==='verify'){const code=(document.getElementById('acct-code').value||'').replace(/\D/g,'');if(code.length<6){toast('Digite o código de 6 dígitos');return}f.busy=true;render();await A.verify(f.email,code);S.login={email:'',sent:false,busy:false};toast('Conectado')}
-    else if(a==='sync'){await A.syncNow();toast(A.state().error?'Falhou: '+A.state().error:'Sincronizado')}
-    else if(a==='signout'){await A.signOut();toast('Você saiu. Os dados deste aparelho foram limpos.')}
-  }catch(e){toast((e&&e.message)||'Falhou')}
+    if(a==='send'){const email=(document.getElementById('acct-email').value||'').trim();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){toast('Enter a valid email');return}f.email=email;f.busy=true;render();await A.sendCode(email);f.sent=true;toast('Code sent. Check your email.')}
+    else if(a==='verify'){const code=(document.getElementById('acct-code').value||'').replace(/\D/g,'');if(code.length<6){toast('Enter the 6-digit code');return}f.busy=true;render();await A.verify(f.email,code);S.login={email:'',sent:false,busy:false};toast('Signed in')}
+    else if(a==='sync'){await A.syncNow();toast(A.state().error?'Failed: '+A.state().error:'Synced')}
+    else if(a==='signout'){await A.signOut();toast('Signed out. Data on this device was cleared.')}
+  }catch(e){toast((e&&e.message)||'Failed')}
   finally{f.busy=false;render()}
 }
 
@@ -853,10 +855,10 @@ document.addEventListener('click',ev=>{
     const body={note:(document.getElementById('f-note').value||'').trim().slice(0,500),at:Date.now(),sig:cardSig(c)};
     S.flags.set(id,body); queue('flags/'+id,'set',body); S.flagging=null;
     if(S.study&&S.study.cur===id){S.study.cur=null;advance()}
-    toast('Card sinalizado. Ele sai do estudo até ser corrigido.'); render(); return}
-  if(d.unflag){S.flags.delete(d.unflag);queue('flags/'+d.unflag,'del');S.edit=null;toast('Sinal removido');render();return}
+    toast('Card flagged. It leaves study until it is fixed.'); render(); return}
+  if(d.unflag){S.flags.delete(d.unflag);queue('flags/'+d.unflag,'del');S.edit=null;toast('Flag removed');render();return}
   if(d.copyFlags!==undefined){copyField('flag-report');return}
-  if(d.restore){queue('cards/'+d.restore,'set',{__restored:true});toast('Card restaurado');render();return}
+  if(d.restore){queue('cards/'+d.restore,'set',{__restored:true});toast('Card restored');render();return}
   if(d.tag){const off=S.filter.off;const i=off.indexOf(d.tag);if(i>=0)off.splice(i,1);else off.push(d.tag);saveFilter();if(S.study)S.study.cur=null;render();return}
   if(d.tagReset!==undefined){S.filter.off=[];saveFilter();render();return}
   if(d.acct){acctAction(d.acct);return}
@@ -869,7 +871,7 @@ document.addEventListener('click',ev=>{
   if(d.qNext!==undefined){nextQuestion();render();scrollTo(0,0);return}
   if(d.qShow!==undefined){const t=document.getElementById('q-ans');if(t)S.quiz.typed=t.value;S.quiz.shown=true;render();return}
   if(d.qGrade){gradeQuestion(+d.qGrade);nextQuestion();render();scrollTo(0,0);return}
-  if(d.qCopy!==undefined){const q=questionById(S.quiz.cur);if(q)copyText('Kairos — corrija minha resposta.\nPergunta: '+plain(q.stem)+'\nMinha resposta: '+(S.quiz.typed.trim()||'(vou ditar)'),'Copiado. Cole no chat com o Claude.');return}
+  if(d.qCopy!==undefined){const q=questionById(S.quiz.cur);if(q)copyText('Kairos — grade my answer.\nQuestion: '+plain(q.stem)+'\nMy answer: '+(S.quiz.typed.trim()||'(I will dictate it)'),'Copied. Paste it into the chat with Claude.');return}
   if(d.quizBack!==undefined){const z=S.quiz;S.quiz=null;if(z&&z.back==='note'&&z.nid&&S.notes.has(z.nid)){S.note={id:z.nid,back:z.noteBack||'notebook',tab:'questoes'};S.view='note'}else S.view='notebook';render();scrollTo(0,0);return}
   if(d.jump){jumpTo(d.jump);return}
   if(d.studyNote){studyNote(d.studyNote);return}
@@ -877,7 +879,7 @@ document.addEventListener('click',ev=>{
 
   if(d.tog){S.open.has(d.tog)?S.open.delete(d.tog):S.open.add(d.tog);ls.set('fich.open',[...S.open]);render();return}
   if(d.study){startStudy(d.study,d.study.split('::').join(' › '));return}
-  if(d.studyAll!==undefined){startStudy(null,'Todos os baralhos');return}
+  if(d.studyAll!==undefined){startStudy(null,'All decks');return}
   if(d.go){S.view=d.go;if(d.go!=='study')clearTimeout(waitTimer);render();scrollTo(0,0);return}
   if(d.reveal!==undefined){S.study.revealed=true;render();return}
   if(d.grade){answer(+d.grade);return}
@@ -887,21 +889,21 @@ document.addEventListener('click',ev=>{
   if(d.saveSettings!==undefined){
     const n=Math.max(0,Math.min(999,parseInt(document.getElementById('set-new').value,10)||0)), r=parseFloat(document.getElementById('set-ret').value)||0.9, stp=document.getElementById('set-steps').value==='short'?'short':'errors';
     S.settings={...S.settings,newPerDay:n,retention:r,steps:stp}; const copy={...S.settings};
-    queue('config/settings','set',copy); toast('Ajustes salvos'); render(); return}
+    queue('config/settings','set',copy); toast('Settings saved'); render(); return}
   if(d.save!==undefined){
     const e=S.edit, old=e.id?S.cards.get(e.id):null, now=Date.now();
     const front=document.getElementById('e-front').value.trim(), back=document.getElementById('e-back').value.trim();
-    if(!front){toast('A frente não pode ficar vazia');return}
+    if(!front){toast('The front cannot be empty');return}
     const body={...(old||{created:now}),deck:document.getElementById('e-deck').value,front,back,
       tags:document.getElementById('e-tags').value.split(',').map(s=>s.trim()).filter(Boolean),
       source:document.getElementById('e-src').value.trim(),suspended:document.getElementById('e-sus').checked,updated:now};
     const id=e.id||('u-'+now.toString(36)+Math.random().toString(36).slice(2,6));
-    S.cards.set(id,body); S.edit=null; queue('cards/'+id,'set',body); toast('Card salvo'); render(); return}
+    S.cards.set(id,body); S.edit=null; queue('cards/'+id,'set',body); toast('Card saved'); render(); return}
   if(d.del!==undefined){
     if(!S.confirmDel){S.confirmDel=true;render();return}
     const id=S.edit.id; S.cards.delete(id); S.revs.delete(id); S.edit=null; S.confirmDel=false;
-    queue('cards/'+id,'del'); queue('reviews/'+id,'del'); toast('Card excluído'); render(); return}
-  if(d.reset!==undefined){const id=S.edit.id; S.revs.delete(id); queue('reviews/'+id,'del'); toast('Progresso zerado'); render(); return}
+    queue('cards/'+id,'del'); queue('reviews/'+id,'del'); toast('Card deleted'); render(); return}
+  if(d.reset!==undefined){const id=S.edit.id; S.revs.delete(id); queue('reviews/'+id,'del'); toast('Progress reset'); render(); return}
 });
 document.addEventListener('toggle',ev=>{const p=ev.target&&ev.target.dataset&&ev.target.dataset.panel;if(!p)return;if(ev.target.open)S.panels.add(p);else S.panels.delete(p);ls.set('kairos.panels',[...S.panels])},true);
 document.addEventListener('input',ev=>{

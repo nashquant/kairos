@@ -22,7 +22,7 @@ srv.listen(0,async()=>{
     let P=await open(port);
     ok(P.S().decks.size>=7,'decks loaded from data/decks.json');
     ok(P.S().cards.size>=300,'cards loaded from data/cards.json ('+P.S().cards.size+')');
-    ok(P.app().includes('Kairos')&&!P.app().includes('Não foi possível'),'home renders');
+    ok(P.app().includes('Kairos')&&!P.app().includes('Could not load'),'home renders');
     console.log('2. study and persist');
     P.click('[data-study-all]'); await sleep(50);
     const first=P.S().study.cur; P.click('[data-reveal]'); await sleep(30); P.click('[data-grade="3"]'); await sleep(100);

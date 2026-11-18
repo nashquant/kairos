@@ -62,13 +62,13 @@ srv.listen(0,async()=>{
     console.log('1. anonymous use, then first login migrates progress');
     const A=await device(port,'A');
     ok(A.A().configured()&&!A.A().user(),'login available but optional');
-    ok(A.w.document.body.textContent.includes('só neste aparelho'),'header says progress is only on this device');
+    ok(A.w.document.body.textContent.includes('only on this device'),'header says progress is only on this device');
     await A.click('[data-study-all]'); const a1=await answer(A,3);
     ok(A.S().revs.has(a1),'anonymous answer saved locally');
     await login(A,'me@x.com');
     ok(A.A().user()&&A.A().user().email==='me@x.com','login with email code');
     ok(server.rows.has('u-me|reviews/'+a1),'anonymous progress uploaded on first login');
-    ok(A.w.document.body.textContent.includes('sincronizado'),'header says synced');
+    ok(A.w.document.body.textContent.includes('synced'),'header says synced');
 
     console.log('2. second device pulls');
     const B=await device(port,'B'); await login(B,'me@x.com');

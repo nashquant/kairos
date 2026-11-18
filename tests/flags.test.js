@@ -47,20 +47,24 @@ srv.listen(0,async()=>{
     const before=P.w.eval('(()=>{let n=0;for(const v of deckCounts().values())n+=v.n;return n})()');
     await P.click(`[data-flag="${id}"]`);
     ok(!!P.w.document.getElementById('f-note'),'flag sheet opens');
-    P.w.document.getElementById('f-note').value='resposta incompleta'; await P.click('[data-flag-save]');
+    P.w.document.getElementById('f-note').value='incomplete answer'; await P.click('[data-flag-save]');
     ok(P.S().study.cur!==id,'study moves to the next card');
     const after=P.w.eval('(()=>{let n=0;for(const v of deckCounts().values())n+=v.n;return n})()');
     ok(before-after===1,'flagged card leaves the counts');
     P.w.eval("S.view='home';render()"); await sleep(50);
     const report=P.w.document.getElementById('flag-report');
-    ok(report&&report.value.includes('id: '+id)&&report.value.includes('resposta incompleta'),'home lists the flag with id and note for Claude');
+    ok(report&&report.value.includes('id: '+id)&&report.value.includes('incomplete answer'),'home lists the flag with id and note for Claude');
     const saved=P.store(); P.w.close();
 
     console.log('3. Claude fixes the card -> flag resolves');
     const P2=await open(port,saved);
     ok(P2.w.eval(`isFlagged(${JSON.stringify(id)})`),'flag survives reload');
     const cards=JSON.parse(fs.readFileSync(path.join(WEB,'data','cards.json'),'utf8'));
-    cards[id].back=cards[id].back+'\n\nCorrigido.'; fs.writeFileSync(path.join(WEB,'data','cards.json'),JSON.stringify(cards));
+    const oldSig=P2.w.eval(`cardSig(S.cards.get(${JSON.stringify(id)}))`);
+    cards[id].back=cards[id].back+'\n\n(translated)'; cards[id].aka=[oldSig]; fs.writeFileSync(path.join(WEB,'data','cards.json'),JSON.stringify(cards));
+    await P2.w.eval('KAIROS_WEB.reload()'); await sleep(150);
+    ok(P2.w.eval(`isFlagged(${JSON.stringify(id)})`),'translated text with aka: flag still matches');
+    delete cards[id].aka; cards[id].back=cards[id].back+'\n\nFixed.'; fs.writeFileSync(path.join(WEB,'data','cards.json'),JSON.stringify(cards));
     await P2.w.eval('KAIROS_WEB.reload()'); await sleep(150);
     ok(!P2.w.eval(`isFlagged(${JSON.stringify(id)})`),'changed text: card is back in study');
     ok(!P2.w.document.getElementById('flag-report'),'flag list is empty');

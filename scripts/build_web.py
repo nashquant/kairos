@@ -22,11 +22,11 @@ config = json.loads((ROOT / "data" / "config.json").read_text(encoding="utf-8"))
 version = hashlib.sha256((app + adapter + json.dumps(decks) + json.dumps(cards) + json.dumps(notes) + json.dumps(config)).encode()).hexdigest()[:12]
 
 head = """<!doctype html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Flashcards com repetição espaçada FSRS. Cada card volta no momento certo.">
+<meta name="description" content="Spaced-repetition flashcards with FSRS. Each card comes back at the right moment.">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -46,7 +46,7 @@ marker = "<script>\n/* ---------- utils ---------- */"
 assert app.count(marker) == 1, "app.html main script marker not found"
 SUPABASE_JS = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js"
 app = app.replace(marker, '<script src="' + SUPABASE_JS + '"></script>\n<script>\nwindow.KAIROS_CONFIG = ' + json.dumps(config) + ';\n' + adapter + "\n</script>\n" + marker, 1)
-app = app.replace("Abra esta página no claude.ai para acessar seus cards.", "Não foi possível carregar os cards. Abra o site com internet uma vez.")
+app = app.replace("Open this page in claude.ai to access your cards.", "Could not load the cards. Open the site once while online.")
 
 tail = """
 <script>
@@ -70,8 +70,8 @@ for f in (SRC / "icons").glob("*.png"):
 (OUT / "data" / "notes.json").write_text(json.dumps(notes, ensure_ascii=False), encoding="utf-8")
 manifest = {
     "name": "Kairos", "short_name": "Kairos",
-    "description": "Flashcards com repetição espaçada FSRS.",
-    "lang": "pt-BR", "start_url": "./", "scope": "./", "display": "standalone",
+    "description": "Spaced-repetition flashcards with FSRS.",
+    "lang": "en", "start_url": "./", "scope": "./", "display": "standalone",
     "background_color": "#0D1412", "theme_color": "#1C6B62",
     "icons": [
         {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
