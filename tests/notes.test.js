@@ -31,7 +31,7 @@ srv.listen(0,async()=>{
     ok(P.S().view==='note','note view opens');
     ok(note.sections.every(s=>P.$('#sec-'+s.id)),'every section renders with an anchor');
     const linked=P.w.eval(`noteCards(${JSON.stringify(nid)}).length`);
-    ok(linked>0&&P.text().includes('Estudar as '+linked+' cartas'),'note shows its '+linked+' linked cards');
+    ok(linked>0&&P.text().includes('Study the '+linked+' cards'),'note shows its '+linked+' linked cards');
     ok(P.w.document.querySelectorAll('.objs li').length===(note.objectives||[]).length,'objectives render');
     await P.click('[data-note-tab="resumo"]');
     ok(P.$('.summary')&&P.S().note.tab==='resumo','summary tab renders');
@@ -66,7 +66,7 @@ srv.listen(0,async()=>{
     console.log('5. questions: multiple choice graded by the app');
     const qs=note.questions||[]; const mcs=qs.filter(q=>q.type==='mc');
     P.w.eval("S.view='notebook';render()"); await sleep(60);
-    ok(P.$('[data-quiz-all]')&&P.text().includes(qs.length+' questões pendentes'),'notebook shows '+qs.length+' pending questions for the note');
+    ok(P.$('[data-quiz-all]')&&P.text().includes(qs.length+' questions due'),'notebook shows '+qs.length+' pending questions for the note');
     await P.click(`[data-open-note="${nid}"]`); await P.click('[data-note-tab="questoes"]');
     await P.click(`[data-quiz-note="${nid}"]`);
     let z=P.S().quiz;
@@ -94,9 +94,9 @@ srv.listen(0,async()=>{
 
     console.log('6. open questions: self-grade');
     while(P.S().quiz.cur){const c=byId[P.S().quiz.cur];if(c.type==='mc'){await P.click(`[data-opt="${c.options.findIndex(o=>o.ok)}"]`);await P.click('[data-q-next]')}else{await P.click('[data-q-show]');await P.click('[data-q-grade="2"]')}}
-    ok(P.text().includes('Fim da sessão'),'session ends');
+    ok(P.text().includes('Session complete'),'session ends');
     const openQs=qs.filter(q=>q.type==='open');
-    ok(openQs.every(o=>{const r=P.S().qrev.get(o.id);return r&&r.state==='review'&&r.lastOk===0.5}),'"Moderado" goes to days with half credit (last answer)');
+    ok(openQs.every(o=>{const r=P.S().qrev.get(o.id);return r&&r.state==='review'&&r.lastOk===0.5}),'"Partly" goes to days with half credit (last answer)');
     const newMc=mcs.find(m=>m.id!==q.id), rr=P.S().qrev.get(newMc.id);
     ok(rr.due-rr.last>=3*864e5,'first-try right on a new question: 3+ days');
     ok(P.S().qrev.size===qs.length,'every question has progress');
