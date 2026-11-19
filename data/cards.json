@@ -3063,16 +3063,13 @@
  "cesari-12-aggregation-040": {
   "deck": "cesari-12-aggregation",
   "front": "How does eq. 12.6 change for (a) a one-way CSA and (b) with an MTA?",
-  "back": "(a) $\\Delta_{1way}=(\\Delta_{collateral})^+$: only calls, never returns.\n(b) $\\Delta_{collateral}\\,\\mathbb{1}_{\\Delta_{collateral}>MTA}$: transfers below the MTA are set to zero.",
+  "back": "(a) $\\Delta_{1way}=(\\Delta_{collateral})^+$: only calls, never returns.\n(b) $\\Delta_{collateral}\\,\\mathbb{1}_{|\\Delta_{collateral}|>MTA}$: transfers smaller than the MTA, in either direction, are set to zero.\nThe book writes $\\mathbb{1}_{\\Delta_{collateral}>MTA}$. Taken literally, that also blocks every return of collateral. Its own Table 12.1 (two-way CSA) returns 0.70 mUSD on day 6, so the test is on $|\\Delta|$.",
   "tags": [
    "collateral"
   ],
   "source": "Cesari 2009, §12.4.1, p. 192",
   "created": 1793930000240,
-  "suspended": false,
-  "aka": [
-   "er2k4x"
-  ]
+  "suspended": false
  },
  "cesari-12-aggregation-041": {
   "deck": "cesari-12-aggregation",
@@ -4462,17 +4459,14 @@
  "cesari-14-pricing-047": {
   "deck": "cesari-14-pricing",
   "front": "In the case study, how did the book hedge the FX risk of the CVA, and with what result?",
-  "back": "One-year EUR/USD futures (liquid, no new counterparty risk): long ≈ EUR 37 mn, from the CVA delta of ≈ −USD 37 mn.\nResult: profit ≈ USD 1 mn against a loss of USD 14 mn without the hedge.",
+  "back": "One-year EUR/USD futures (liquid, no new counterparty risk).\nSize: the CVA delta was ≈ −37 mUSD per 1.00 move in EUR/USD (−370 kUSD per 0.01). USD per (USD/EUR) is EUR, so the hedge is long ≈ 37 mEUR notional of futures.\nResult: profit ≈ USD 1 mn, against a loss of USD 14 mn without the hedge.",
   "tags": [
    "hedge",
    "equity-fx"
   ],
   "source": "Cesari 2009, §14.9, p. 227–228",
   "created": 1793930000339,
-  "suspended": false,
-  "aka": [
-   "111g4ku"
-  ]
+  "suspended": false
  },
  "cesari-14-pricing-048": {
   "deck": "cesari-14-pricing",
@@ -9136,7 +9130,7 @@
  "d1-05-products-018": {
   "deck": "d1-05-products",
   "front": "10m notional, 1y, quarterly, flat 4.3% curve, spread 50 bp. Value to the client receiving equity?",
-  "back": "About −49.4k USD (FinancePy). That is ≈ spread × notional × year fraction × discount factor.\nThe desk's day-one PV is the PV of the spread.",
+  "back": "About −49.4k USD (FinancePy). That is ≈ spread × notional × year fraction × discount factor, summed over the 4 quarters. The year fraction is Act/360, so a full year counts 365/360.\nThe desk's day-one PV is the PV of the spread.",
   "tags": [
    "delta-one",
    "d1-products"

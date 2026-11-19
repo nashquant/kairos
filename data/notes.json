@@ -2412,7 +2412,7 @@
     "obj": [
      "o1"
     ],
-    "body": "- At inception, with zero spread, no dividends and a single curve: the TRS is worth ≈ **0**.\n- Reason: under the risk-neutral measure, the expected total return of the stock is the risk-free rate. The equity leg and the floating leg have the same value.\n- So the day-one value is the **PV of the spread**.\n- Example: 10 million, 1 year, quarterly, flat curve at 4.3%, spread of 50 bp.\n  1. Spread per year: USD 50k.\n  2. Discounted: ≈ **USD 49.4k** for the desk (−49.4k for the client).\n- FinancePy's `EquitySwap.value` needs three curves:\n  1. Discount: PV of the cash flows (collateral rate).\n  2. Index: projects the floating rate.\n  3. Dividends: set the equity forward.\n- Which rate drives the equity forward on the desk: the stock's **repo/funding** rate, not OIS. It is the real cost to carry the hedge. The difference between the two is why the client pays a spread."
+    "body": "- At inception, with zero spread, no dividends and a single curve: the TRS is worth ≈ **0**.\n- Reason: under the risk-neutral measure, the expected total return of the stock is the risk-free rate. The equity leg and the floating leg have the same value.\n- So the day-one value is the **PV of the spread**.\n- Example: 10 million, 1 year, quarterly, flat curve at 4.3%, spread of 50 bp.\n  1. Spread per quarter: 50 bp × 10 million × 91.25/360 (Act/360) ≈ USD 12.67k, so ≈ USD 50.7k per year.\n  2. Discounted at 4.3%: ≈ **USD 49.4k** for the desk (−49.4k for the client).\n  3. Without Act/360 (12.5k per quarter), the result would be ≈ 48.7k. The day count is worth ≈ 0.7k here.\n- FinancePy's `EquitySwap.value` needs three curves:\n  1. Discount: PV of the cash flows (collateral rate).\n  2. Index: projects the floating rate.\n  3. Dividends: set the equity forward.\n- Which rate drives the equity forward on the desk: the stock's **repo/funding** rate, not OIS. It is the real cost to carry the hedge. The difference between the two is why the client pays a spread."
    },
    {
     "id": "clientes",
@@ -2756,7 +2756,7 @@
     "obj": [
      "o1"
     ],
-    "body": "- **Ex-date**: decides who receives. Who holds the stock **before** it receives the dividend.\n- **Record date**: the date of the shareholder register. It comes right after, because of settlement.\n- **Pay date**: the day the cash arrives.\n- On the ex-date, the price falls by roughly the dividend amount. The value left the stock and became cash receivable.\n- In a swap: the confirm usually fixes the dividend amount on the ex-date and pays on the pay date. Check the confirm.\n- Example: bought on the ex-date → does not receive the 2.00, but paid about 2.00 less."
+    "body": "- **Ex-date**: decides who receives. Who holds the stock **before** it receives the dividend.\n- **Record date**: the date of the shareholder register. The ex-date is set from it, because of settlement:\n  1. **US** (T+1 since 28 May 2024): the ex-date is normally the **same day** as the record date.\n  2. **T+2 markets** (e.g. most of Europe): the record date is the business day **after** the ex-date.\n- **Pay date**: the day the cash arrives.\n- On the ex-date, the price falls by roughly the dividend amount. The value left the stock and became cash receivable.\n- In a swap: the confirm usually fixes the dividend amount on the ex-date and pays on the pay date. Check the confirm.\n- Example: bought on the ex-date → does not receive the 2.00, but paid about 2.00 less."
    },
    {
     "id": "dpr",
