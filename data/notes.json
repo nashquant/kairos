@@ -3908,5 +3908,373 @@
     "answer": "It is the prime broker's reuse of the shares that the client pledged as margin: lending them or repoing them. It exists because it makes client financing cheaper and provides stock for stock loan. In the US, SEC Rule 15c3-3 limits reuse to 140% of the client's debit balance. Anything above that is excess margin and stays segregated."
    }
   ]
+ },
+ "prob-01-bayes-dice": {
+  "deck": "prob-01-bayes",
+  "title": "Bayes' theorem: the two-dice casino",
+  "order": 1,
+  "created": 1794700000001,
+  "verified": "2026-11-20",
+  "source": "Casino dice puzzle (Nov 2026); derivation worked in chat; every number checked by running it (posterior formulas, value iteration on |d| ≤ 80)",
+  "intro": "Student notes. One example runs to the end: a casino has **two dice that look the same**. One is fair. The other rolls 1–5 with equal chance and never rolls a 6. You pick one at random.\nRoll: costs 1 USD; a 6 pays 20 USD and ends the game. Switch: costs 5 USD. Quit: free.\nQuestion of the note: how much does a run of misses tell you, and when should you switch?",
+  "objectives": [
+   {
+    "id": "o1",
+    "verb": "define",
+    "text": "prior, likelihood, evidence and posterior, and how they fit in Bayes' theorem"
+   },
+   {
+    "id": "o2",
+    "verb": "calculate",
+    "text": "the posterior that a die is fair after a run of misses, with equal or unequal priors"
+   },
+   {
+    "id": "o3",
+    "verb": "explain",
+    "text": "why equal priors cancel and why the face that shows (1 to 5) carries no information"
+   },
+   {
+    "id": "o4",
+    "verb": "calculate",
+    "text": "the chance of a 6 on the next roll and the one-roll update of the posterior"
+   },
+   {
+    "id": "o5",
+    "verb": "explain",
+    "text": "why the state reduces to one integer d, and how the Bellman equation is built"
+   },
+   {
+    "id": "o6",
+    "verb": "diagnose",
+    "text": "why the optimal policy keeps rolling when the immediate expected value is negative"
+   }
+  ],
+  "sections": [
+   {
+    "id": "scenario",
+    "title": "1. The game and the two hypotheses",
+    "obj": [
+     "o1"
+    ],
+    "body": "- Call the dice A and B. Exactly one is fair. Two hypotheses:\n  1. $H_A$: A is fair, B is rigged.\n  2. $H_B$: B is fair, A is rigged.\n- You picked at random → **prior** $P(H_A) = P(H_B) = 1/2$.\n- Rigged die: faces 1–5, each 1/5. Fair die: faces 1–6, each 1/6.\n- A 6 ends the game. So while you play, every roll you see is a **miss** (1 to 5).\n- Assumption: the 20 USD is gross. The 1 USD for that roll is already paid."
+   },
+   {
+    "id": "bayes",
+    "title": "2. Bayes' theorem: the four pieces",
+    "obj": [
+     "o1"
+    ],
+    "body": "$$P(H \\mid D) = \\frac{P(D \\mid H)\\,P(H)}{P(D)}$$\n- $P(H)$ = **prior**: belief in $H$ before the data.\n- $P(D \\mid H)$ = **likelihood**: how probable the data are if $H$ is true.\n- $P(D)$ = **evidence**: how probable the data are overall.\n- $P(H \\mid D)$ = **posterior**: belief in $H$ after the data.\n- The evidence comes from the law of total probability (sum over all hypotheses):\n$$P(D) = P(D \\mid H_A)P(H_A) + P(D \\mid H_B)P(H_B)$$\n- Its job: make the posteriors of all hypotheses sum to 1."
+   },
+   {
+    "id": "likelihood",
+    "title": "3. Likelihood: only the miss count matters",
+    "obj": [
+     "o2",
+     "o3"
+    ],
+    "body": "- Data: $a$ misses on A, $b$ misses on B.\n- Chance of one specific face (say a 3):\n  1. fair die: 1/6\n  2. rigged die: 1/5\n- Ratio per miss: $(1/6)/(1/5) = 5/6$, **for every face**. → the face value adds nothing. Only the count matters.\n- So, counting misses only:\n  1. $P(D \\mid H_A) = (5/6)^a \\cdot 1^b$ (A fair misses with 5/6 each time; B rigged always misses)\n  2. $P(D \\mid H_B) = 1^a \\cdot (5/6)^b$\n- Example: $a = 2$, $b = 0$ → $P(D \\mid H_A) = 25/36 \\approx 0.694$; $P(D \\mid H_B) = 1$."
+   },
+   {
+    "id": "posterior",
+    "title": "4. The posterior, step by step",
+    "obj": [
+     "o2",
+     "o3"
+    ],
+    "body": "1. Plug in:\n$$P(H_A \\mid D) = \\frac{(5/6)^a \\cdot \\tfrac12}{(5/6)^a \\cdot \\tfrac12 + (5/6)^b \\cdot \\tfrac12}$$\n2. The 1/2 is in every term → it cancels. (Only because the priors are equal.)\n$$P(H_A \\mid D) = \\frac{(5/6)^a}{(5/6)^a + (5/6)^b}$$\n3. Divide top and bottom by $(5/6)^a$:\n$$P(H_A \\mid D) = \\frac{1}{1 + (6/5)^{a-b}}$$\n- The evidence did **not** disappear. It is the whole denominator.\n- Only $a - b$ matters.\n- Example $a = 2$, $b = 0$: evidence $= 0.694 \\times 0.5 + 1 \\times 0.5 = 0.847$ → posterior $= 0.347 / 0.847 \\approx$ **0.410**. Formula: $1/(1 + 1.2^2) = 1/2.44 \\approx 0.410$. Same.\n- Odds form (same thing, shorter): posterior odds = prior odds × likelihood ratio. Here odds$(H_A) = 1 \\times (5/6)^{a-b}$. For $a - b = 2$: $0.694$ → $0.694/1.694 = 0.410$.\n- Unequal prior, e.g. $P(H_A) = 0.8$, $a = 2$, $b = 0$: $0.8 \\times 0.694 / (0.8 \\times 0.694 + 0.2) = 0.556/0.756 \\approx$ **0.735**. The prior no longer cancels."
+   },
+   {
+    "id": "update",
+    "title": "5. One roll at a time",
+    "obj": [
+     "o4"
+    ],
+    "body": "- $q$ = P(the die in hand is fair).\n- Chance of a 6 on the next roll (total probability again):\n$$P(6) = q \\cdot \\tfrac16 + (1-q) \\cdot 0 = \\tfrac{q}{6}$$\n- After a miss, today's posterior is tomorrow's prior:\n$$q' = \\frac{q \\cdot \\tfrac56}{q \\cdot \\tfrac56 + (1-q)} = \\frac{5q}{6-q}$$\n- Example: $q = 0.5$ → $q' = 2.5/5.5 = 5/11 \\approx$ **0.455**.\n- Check: $1/(1 + 1.2^1) = 0.455$. One-at-a-time = all-at-once. (Checked for every $d$ from −20 to 20.)\n- Example: $q = 0.410$ → $P(6) = 0.410/6 \\approx$ **0.068**, not 1/6."
+   },
+   {
+    "id": "state",
+    "title": "6. The state: one integer d",
+    "obj": [
+     "o5"
+    ],
+    "body": "- Take the die in hand as the reference.\n- $d$ = (misses of the die in hand) − (misses of the other die).\n$$q(d) = \\frac{1}{1 + (6/5)^d}$$\n- P(other die is fair) = $1 - q(d)$, because exactly one is fair.\n- Moves:\n  1. Roll, miss → $d \\to d + 1$.\n  2. Switch → the other die becomes the reference → $d \\to -d$.\n- Start: $d = 0$, $q = 0.5$.\n- Table: $q(2) = 0.410$; $q(5) = 0.287$; $q(8) = 0.189$; $q(9) = 0.162$."
+   },
+   {
+    "id": "bellman",
+    "title": "7. The decision: Bellman equation and result",
+    "obj": [
+     "o5",
+     "o6"
+    ],
+    "body": "- $V(d)$ = best expected profit from state $d$. Three choices, take the max:\n$$V(d) = \\max\\Big\\{\\, 0,\\; -1 + \\tfrac{q}{6} \\cdot 20 + \\big(1 - \\tfrac{q}{6}\\big) V(d+1),\\; -5 + V(-d) \\,\\Big\\}$$\n  1. 0 = quit.\n  2. Roll: pay 1; with $q/6$ win 20 and stop; else go to $d + 1$.\n  3. Switch: pay 5; go to $-d$.\n- Answer to the puzzle = $V(0)$ and the choice that reaches it.\n- Solved by value iteration on $|d| \\le 80$:\n  1. Roll while $d \\le 8$. Switch at $d = 9$ ($q = 0.162$).\n  2. After the switch: $d = -9$, so the new die has $q = 0.838$.\n  3. Never quit. $V(0) \\approx$ **3.634 USD**.\n- Immediate value of a roll: $20q/6 - 1 > 0$ only if $q > 0.3$. That is $d \\le 4$.\n- At $d = 5$ to $8$ ($q$ from 0.287 to 0.189) a roll loses money on average, but the optimum still rolls. → each miss is **information**: it makes the switch safer."
+   },
+   {
+    "id": "pitfalls",
+    "title": "8. Where I get confused",
+    "obj": [
+     "o3",
+     "o6"
+    ],
+    "body": "- The prior cancels **only** because both priors are 1/2.\n- The evidence $P(D)$ never disappears. It is the denominator, written out.\n- Forgetting the denominator: $(5/6)^a$ alone is a likelihood, not a posterior.\n- The face (1, 2, …, 5) is not extra data: every face has ratio 5/6.\n- $P(6)$ is $q/6$, not $1/6$. You do not know the die is fair.\n- $q$ is about the die in hand. The other die is fair with $1 - q$.\n- Switching flips $d$ to $-d$. It does not reset it to 0.\n- Negative immediate value ≠ stop. The future (switching with better information) counts."
+   }
+  ],
+  "summary": "### Bayes\n- $P(H \\mid D) = P(D \\mid H)\\,P(H) / P(D)$\n- $P(D) = \\sum_i P(D \\mid H_i) P(H_i)$\n- Odds form: posterior odds = prior odds × likelihood ratio.\n### The dice\n- Ratio per miss = 5/6 (any face). Only the miss count matters.\n- $q(d) = 1/(1 + (6/5)^d)$, $d$ = misses in hand − misses other.\n- E.g. $d = 2$ → 0.410; $d = 9$ → 0.162.\n- One roll: $q' = 5q/(6-q)$; $P(6) = q/6$.\n### Decision\n- $V(d) = \\max\\{0,\\; -1 + \\tfrac{q}{6} 20 + (1-\\tfrac{q}{6}) V(d+1),\\; -5 + V(-d)\\}$\n- Roll while $d \\le 8$; switch at $d = 9$; never quit. $V(0) \\approx 3.634$ USD.\n- Myopic roll value > 0 only if $q > 0.3$; the optimum rolls further (information).",
+  "questions": [
+   {
+    "id": "prob-01-bayes-dice-q01",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "posterior",
+    "stem": "Equal priors. Die A missed 3 times; die B was never rolled. What is P(A is fair)?",
+    "options": [
+     {
+      "t": "0.367",
+      "ok": true,
+      "why": "$1/(1 + 1.2^3) = 1/2.728 \\approx 0.367$."
+     },
+     {
+      "t": "0.579",
+      "ok": false,
+      "why": "That is $(5/6)^3$, the likelihood alone. It is not normalized by the evidence."
+     },
+     {
+      "t": "0.289",
+      "ok": false,
+      "why": "That is $(5/6)^3 \\times 0.5$, the numerator. The evidence in the denominator is missing."
+     },
+     {
+      "t": "0.500",
+      "ok": false,
+      "why": "Misses are evidence: a rigged die always misses, a fair one only 5/6 of the time."
+     }
+    ]
+   },
+   {
+    "id": "prob-01-bayes-dice-q02",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "posterior",
+    "stem": "Equal priors. A missed 4 times, then you switched and B missed 2 times. What is P(A is fair)?",
+    "options": [
+     {
+      "t": "0.410",
+      "ok": true,
+      "why": "Only $a - b = 2$ matters: $1/(1 + 1.2^2) \\approx 0.410$."
+     },
+     {
+      "t": "0.325",
+      "ok": false,
+      "why": "That uses $a = 4$ and ignores B's misses. B's misses are evidence that B is rigged, so A gains."
+     },
+     {
+      "t": "0.251",
+      "ok": false,
+      "why": "That treats all 6 misses as evidence against A: $1/(1 + 1.2^6)$."
+     },
+     {
+      "t": "0.590",
+      "ok": false,
+      "why": "That is $q(-2)$: P(B is fair), the other die."
+     }
+    ]
+   },
+   {
+    "id": "prob-01-bayes-dice-q03",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "posterior",
+    "stem": "In the posterior $(5/6)^a / [(5/6)^a + (5/6)^b]$, why is there no $P(H_A)$?",
+    "options": [
+     {
+      "t": "Both priors are 1/2, so the factor is in every term and cancels.",
+      "ok": true,
+      "why": "With unequal priors it stays in the formula."
+     },
+     {
+      "t": "The evidence $P(D)$ equals 1, so Bayes reduces to the likelihood.",
+      "ok": false,
+      "why": "$P(D)$ is the denominator, written out. It is not 1 (e.g. 0.847 for $a = 2$, $b = 0$)."
+     },
+     {
+      "t": "After enough rolls the data dominate, so the prior does not matter.",
+      "ok": false,
+      "why": "True in the limit, but the prior cancels here exactly, for any number of rolls."
+     },
+     {
+      "t": "The prior only matters for continuous parameters.",
+      "ok": false,
+      "why": "Bayes' theorem uses the prior for discrete hypotheses too."
+     }
+    ]
+   },
+   {
+    "id": "prob-01-bayes-dice-q04",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "posterior",
+    "stem": "You have a tip: P(A is fair) = 0.8 before any roll. A misses twice. What is P(A is fair) now?",
+    "options": [
+     {
+      "t": "0.735",
+      "ok": true,
+      "why": "$0.8 \\times 0.694 / (0.8 \\times 0.694 + 0.2 \\times 1) = 0.556 / 0.756 \\approx 0.735$."
+     },
+     {
+      "t": "0.410",
+      "ok": false,
+      "why": "That is the equal-prior answer. With a prior of 0.8 the prior no longer cancels."
+     },
+     {
+      "t": "0.556",
+      "ok": false,
+      "why": "That is the numerator $0.8 \\times (5/6)^2$. Divide by the evidence."
+     },
+     {
+      "t": "0.800",
+      "ok": false,
+      "why": "Two misses are evidence against A. The posterior must fall."
+     }
+    ]
+   },
+   {
+    "id": "prob-01-bayes-dice-q05",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "update",
+    "stem": "The die in hand has $q = 0.410$. What is the chance that the next roll is a 6?",
+    "options": [
+     {
+      "t": "0.068",
+      "ok": true,
+      "why": "$P(6) = q \\cdot 1/6 + (1-q) \\cdot 0 = 0.410/6 \\approx 0.068$."
+     },
+     {
+      "t": "0.167",
+      "ok": false,
+      "why": "1/6 assumes the die is fair. You only believe that with 0.410."
+     },
+     {
+      "t": "0.410",
+      "ok": false,
+      "why": "That is P(fair), not P(6). A fair die still misses 5/6 of the time."
+     },
+     {
+      "t": "0.098",
+      "ok": false,
+      "why": "That is $(1-q)/6$: it uses P(rigged), and the rigged die never rolls a 6."
+     }
+    ]
+   },
+   {
+    "id": "prob-01-bayes-dice-q06",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "likelihood",
+    "stem": "Two players each see one miss on die A. One saw a 3, the other only heard \"not a 6\". Do their posteriors differ?",
+    "options": [
+     {
+      "t": "No: for every face, P(face | fair)/P(face | rigged) = (1/6)/(1/5) = 5/6, the same as for \"not a 6\".",
+      "ok": true,
+      "why": "The face carries no extra information. Only the miss count matters."
+     },
+     {
+      "t": "Yes: the player who saw the 3 has more data, so a sharper posterior.",
+      "ok": false,
+      "why": "More detail is not more information here. The likelihood ratio is 5/6 either way."
+     },
+     {
+      "t": "Yes: a 3 is more likely on the rigged die (1/5 > 1/6), so it moves the posterior more.",
+      "ok": false,
+      "why": "\"Not a 6\" has the same ratio: (5/6)/1 = 5/6."
+     }
+    ]
+   },
+   {
+    "id": "prob-01-bayes-dice-q07",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "update",
+    "stem": "Start with $q = 0.5$. One roll, a miss. What is $q$ now?",
+    "options": [
+     {
+      "t": "0.455",
+      "ok": true,
+      "why": "$q' = 5q/(6-q) = 2.5/5.5 = 5/11 \\approx 0.455$."
+     },
+     {
+      "t": "0.417",
+      "ok": false,
+      "why": "That is $0.5 \\times 5/6$: the numerator only. Divide by $0.5 \\times 5/6 + 0.5$."
+     },
+     {
+      "t": "0.500",
+      "ok": false,
+      "why": "A miss is less likely on the fair die, so the belief in fair must fall."
+     },
+     {
+      "t": "0.545",
+      "ok": false,
+      "why": "That is $1 - 0.455$: P(the other die is fair)."
+     }
+    ]
+   },
+   {
+    "id": "prob-01-bayes-dice-q08",
+    "type": "mc",
+    "obj": "o5",
+    "sec": "state",
+    "stem": "The die in hand has 9 misses, the other has 0, so $d = 9$. You switch. What is P(the new die in hand is fair)?",
+    "options": [
+     {
+      "t": "0.838",
+      "ok": true,
+      "why": "Switching sends $d \\to -9$: $q(-9) = 1 - q(9) = 1 - 0.162 \\approx 0.838$."
+     },
+     {
+      "t": "0.500",
+      "ok": false,
+      "why": "Switching does not reset $d$ to 0. The 9 misses stay as evidence."
+     },
+     {
+      "t": "0.162",
+      "ok": false,
+      "why": "That is P(the old die is fair). Exactly one die is fair, so the new one has $1 - 0.162$."
+     }
+    ]
+   },
+   {
+    "id": "prob-01-bayes-dice-q09",
+    "type": "mc",
+    "obj": "o6",
+    "sec": "bellman",
+    "stem": "At $d = 6$, $q = 0.251$. The immediate value of a roll is $20 \\times 0.251/6 - 1 \\approx -0.16$ USD. What does the optimal policy do?",
+    "options": [
+     {
+      "t": "Roll: each miss raises the value of switching later, and that outweighs the small loss.",
+      "ok": true,
+      "why": "The optimum rolls up to $d = 8$ and switches at $d = 9$. $V(6) \\approx 2.96 > 0$."
+     },
+     {
+      "t": "Quit: a roll with negative expected value should never be taken.",
+      "ok": false,
+      "why": "That ignores the future. Quitting gives 0, but $V(6) \\approx 2.96$."
+     },
+     {
+      "t": "Switch now: once a roll has negative value, switch at once.",
+      "ok": false,
+      "why": "Switch now gives $-5 + V(-6) \\approx 2.29$, below roll at 2.96."
+     }
+    ]
+   },
+   {
+    "id": "prob-01-bayes-dice-q10",
+    "type": "open",
+    "obj": "o5",
+    "sec": "state",
+    "stem": "Why does the whole history of rolls reduce to one integer $d$, and what are the transitions?",
+    "answer": "The posterior is $1/(1 + (6/5)^{a-b})$: it depends only on the difference of miss counts. The face values add nothing (ratio 5/6 for every face). Measure it from the die in hand: $d$ = misses in hand − misses other. A miss sends $d \\to d+1$; a switch sends $d \\to -d$; a 6 or quitting ends the game."
+   }
+  ]
  }
 }
