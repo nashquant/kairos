@@ -71,7 +71,7 @@ srv.listen(0,async()=>{
 
     console.log('4. editor: public cards are flagged, not deleted; restore old deletions');
     P2.w.eval(`S.edit={id:${JSON.stringify(id)}};render()`); await sleep(40);
-    ok(!P2.w.document.querySelector('[data-del]')&&P2.w.document.querySelector('[data-flag]'),'public card editor offers "Sinalizar problema", no delete');
+    ok(!P2.w.document.querySelector('[data-del]')&&P2.w.document.querySelector('[data-flag]'),'public card editor offers "Flag problem", no delete');
     P2.w.eval('S.edit=null;render()'); await sleep(20);
     const other=[...P2.S().cards.keys()].find(k=>k!==id&&!k.startsWith('u-'));
     await P2.w.eval(`S.db.doc('cards/'+${JSON.stringify(other)}).delete()`); await sleep(80);

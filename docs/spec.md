@@ -18,8 +18,8 @@ The website (https://nashquant.github.io/kairos/) is the app. Claude adds cards 
 - Sign-out clears the device.
 
 ## Flagged cards (fix requests)
-- In the app, the user flags a bad card (**Sinalizar**). It leaves study; the note says what is wrong. Public cards can no longer be deleted in the app, only flagged.
-- The user pastes a list like `- id: <cardId> | <deck> | frente: … | problema: …`.
+- In the app, the user flags a bad card (**Flag**). It leaves study; the note says what is wrong. Public cards can no longer be deleted in the app, only flagged.
+- The user pastes a list like `- id: <cardId> | <deck> | front: … | problem: …`.
 - To fix: edit that card **in place** in `data/cards.json` (same id) and **delete its `aka` field** if present. Any change to `front` or `back` resolves the flag on every device, and the card returns to study.
 - `aka` lists fingerprints of earlier texts that must keep matching existing flags (added when cards were translated). A flag matches if its fingerprint equals the current text's or one in `aka`. To drop a useless card, set `"suspended": true` (keeps ids stable; never reuse an id).
 - A flag stores a fingerprint of front+back, so changing only tags or source does not resolve it.
