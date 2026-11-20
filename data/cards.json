@@ -4566,7 +4566,7 @@
   ],
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000001,
-  "suspended": false,
+  "suspended": true,
   "verified": "2026-11-05",
   "note": "d1-01-hedge-fisico#pilha"
  },
@@ -4630,7 +4630,7 @@
  "d1-01-physical-007": {
   "deck": "d1-01-physical",
   "front": "Physical stock, leverage requirement 4.5%, $K_e$ 12%, debt cost 5%. Leverage charge?",
-  "back": "$100\\% \\times 4.5\\% \\times 7\\% = 31.5$ bp.\nUsually the largest line of the physical hedge.",
+  "back": "$100\\% \\times 4.5\\% \\times (12\\% - 5\\%) = 31.5$ bp per year on notional.",
   "tags": [
    "delta-one",
    "regulatory",
@@ -4639,7 +4639,7 @@
   "source": "Learn Anything, Delta One S1",
   "created": 1794000000006,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-20",
   "note": "d1-01-hedge-fisico#leverage"
  },
  "d1-01-physical-008": {
@@ -4777,8 +4777,8 @@
  },
  "d1-02-synthetic-001": {
   "deck": "d1-02-synthetic",
-  "front": "Name the hedge routes for a client long single-stock TRS.",
-  "back": "1. Internalize against a client short.\n2. Buy the stock (physical).\n3. Swap facility with a street dealer.\n4. Listed options: long call + short put.\n(Index: futures.)",
+  "front": "Besides internalization and buying the stock, which two routes hedge a client long single-stock TRS?",
+  "back": "1. A swap facility with a street dealer (the desk goes long the swap).\n2. Listed options: long call + short put, same strike and expiry (synthetic long forward).\nFor an index, also futures.",
   "tags": [
    "delta-one",
    "hedge"
@@ -4786,7 +4786,7 @@
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000016,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-20",
   "note": "d1-02-hedge-sintetico#rotas"
  },
  "d1-02-synthetic-002": {
@@ -4934,7 +4934,7 @@
  "d1-02-synthetic-012": {
   "deck": "d1-02-synthetic",
   "front": "How is a switch executed without market risk?",
-  "back": "Trade both legs as one package at one price.\nDealer: sell shares and enter the swap at the same price. Options: reversal. Index: EFP (exchange for physical).",
+  "back": "Trade both legs as one package at one price.\nDealer: sell shares and enter the swap at the same price (or the reverse).\nOptions: reversal to go synthetic, conversion to go physical.\nIndex: EFP (exchange for physical).",
   "tags": [
    "delta-one",
    "hedge"
@@ -4942,7 +4942,7 @@
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000027,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-20",
   "note": "d1-02-hedge-sintetico#switch"
  },
  "d1-02-synthetic-013": {
@@ -4976,8 +4976,8 @@
  },
  "d1-02-synthetic-015": {
   "deck": "d1-02-synthetic",
-  "front": "Four ways a desk manages borrow risk on short swaps.",
-  "back": "1. Term borrow (lock the fee, pay a premium).\n2. Repricing rights in the confirm.\n3. ISDA disruption events: increased cost / loss of stock borrow.\n4. Pricing buffer on high-utilization names.",
+  "front": "Client short swap, borrow fee jumps. Which ISDA equity events let the hedging party reprice or terminate?",
+  "back": "**Increased Cost of Stock Borrow** and **Loss of Stock Borrow**: Additional Disruption Events (2002 ISDA Equity Derivatives Definitions, §12.9), elected in the confirm.\nThe confirm sets the thresholds (Initial / Maximum Stock Loan Rate).",
   "tags": [
    "delta-one",
    "financing",
@@ -4986,7 +4986,7 @@
   "source": "Learn Anything, Delta One S2",
   "created": 1794000000030,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-20",
   "note": "d1-02-hedge-sintetico#short"
  },
  "d1-02-synthetic-016": {
@@ -5046,9 +5046,9 @@
   "note": "d1-03-dividendos#indices"
  },
  "d1-03-divs-index-004": {
-  "deck": "d1-03-divs-index",
-  "front": "Why must index rebalance trades be executed at the close?",
-  "back": "Client swaps and the index use the official closing price.\nCap weights depend on spot, so the desk executes the pro-forma basket at the close, usually via the closing auction.",
+  "deck": "d1-04-index-events",
+  "front": "Why does a desk hedging index swaps trade the rebalance in the closing auction?",
+  "back": "The index applies the change at the official close, and client swaps are marked at that price.\nTrading in the closing auction locks the same price: zero tracking error (no restrike).",
   "tags": [
    "delta-one",
    "index-events"
@@ -5056,11 +5056,11 @@
   "source": "Learn Anything, Delta One diagnostic",
   "created": 1794000000035,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-20",
   "note": "d1-04-eventos-indice#quem"
  },
  "d1-03-divs-index-005": {
-  "deck": "d1-03-divs-index",
+  "deck": "d1-04-index-events",
   "front": "What is restrike risk on an index rebalance?",
   "back": "Slippage between the desk's execution prices and the official close.\nTrading early reduces market impact but adds this slippage: a trade-off.",
   "tags": [
@@ -5202,8 +5202,8 @@
  },
  "d1-02-synthetic-017": {
   "deck": "d1-02-synthetic",
-  "front": "Which signals would warn you that a name may go special?",
-  "back": "1. Rising utilization.\n2. Rising fee or falling rebate.\n3. Recalls.\n4. Event catalysts: M&A, convertible issuance, index deletion, short-seller reports.\n5. Options-implied forward trading below theoretical.",
+  "front": "Why can a convertible bond issue make the stock go special?",
+  "back": "Convertible arbitrage funds buy the bond and short the stock to hedge its delta.\nThe new short demand uses up lendable supply, so the borrow fee rises.",
   "tags": [
    "delta-one",
    "financing"
@@ -5211,7 +5211,7 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000009,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-20",
   "note": "d1-02-hedge-sintetico#short"
  },
  "d1-02-synthetic-018": {
@@ -5407,8 +5407,8 @@
  },
  "d1-04-index-events-001": {
   "deck": "d1-04-index-events",
-  "front": "Name the three key dates of an index change.",
-  "back": "1. **Announcement**: the provider publishes the change.\n2. **Effective date**: the change takes effect after the close of the prior trading day.\n3. Between them, the **pro-forma** composition is known and trackers plan their trades.",
+  "front": "Index change with effective date Monday. On which close do trackers trade, and why that close?",
+  "back": "Friday's close: the last close before the effective date.\nThe index applies the change at that closing price, so trading there gives zero tracking error.",
   "tags": [
    "delta-one",
    "index-events"
@@ -5416,7 +5416,7 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000023,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-20",
   "note": "d1-04-eventos-indice#calendario"
  },
  "d1-04-index-events-002": {
@@ -5478,8 +5478,8 @@
  },
  "d1-04-index-events-006": {
   "deck": "d1-04-index-events",
-  "front": "Who trades an index event at the close?",
-  "back": "1. Passive funds and ETFs (tracking error vs the close).\n2. Desks hedging index swaps and futures.\n3. Active managers and arbitrageurs who pre-position.\n4. Liquidity providers who offset auction imbalances.",
+  "front": "Index addition, effective close: passive trackers must buy. Who mainly sells to them?",
+  "back": "Pre-positioners (arbitrageurs, active managers) who bought after the announcement and now unwind, plus liquidity providers who offset the auction imbalance.",
   "tags": [
    "delta-one",
    "index-events"
@@ -5487,7 +5487,7 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000028,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-20",
   "note": "d1-04-eventos-indice#quem"
  },
  "d1-04-index-events-007": {
@@ -5536,7 +5536,7 @@
  "d1-04-index-events-010": {
   "deck": "d1-04-index-events",
   "front": "What is the \"index effect\" around additions?",
-  "back": "Added stocks tend to rise between announcement and effective date as pre-positioners buy, and often give back part of it afterwards.\nDeletions show the mirror pattern. It is a cost for trackers and a risk for pre-positioners.",
+  "back": "Added stocks tend to rise between announcement and effective date as pre-positioners buy, and often give back part of it afterwards. Deletions show the mirror pattern.\nFor S&P 500 additions the effect has shrunk from about 7% (1990s) to under 1% (2010s).",
   "tags": [
    "delta-one",
    "index-events"
@@ -5544,7 +5544,7 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000032,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-20",
   "note": "d1-04-eventos-indice#efeito"
  },
  "d1-04-index-events-011": {
@@ -5648,7 +5648,7 @@
  "d1-05-products-002": {
   "deck": "d1-05-products",
   "front": "Describe the two legs of an equity TRS.",
-  "back": "**Equity leg**: price return of the underlying + dividends × DPR.\n**Financing leg**: notional × (benchmark + spread) × day count.\nThe client long receives the equity leg and pays the financing leg.",
+  "back": "**Equity leg**: price return of the underlying + dividends × DPR.\n**Financing leg**: notional × (benchmark + spread) × year fraction (e.g. days/360).\nThe client long receives the equity leg and pays the financing leg.",
   "tags": [
    "delta-one",
    "d1-products"
@@ -5656,7 +5656,7 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000040,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-20",
   "note": "d1-05-produtos-precos#trs"
  },
  "d1-05-products-003": {
@@ -5734,7 +5734,7 @@
  "d1-05-products-008": {
   "deck": "d1-05-products",
   "front": "Why do clients use swaps instead of buying the stock?",
-  "back": "1. Leverage without a margin loan.\n2. Access to markets without local custody or settlement.\n3. Easy shorts.\n4. One master agreement for many lines.\nTrade-offs: no voting rights, counterparty risk, and tax rules such as §871(m).",
+  "back": "1. Leverage without a margin loan.\n2. Access to markets without local custody or settlement.\n3. Easy shorts.\n4. One master agreement for many lines.",
   "tags": [
    "delta-one",
    "d1-products"
@@ -5742,7 +5742,7 @@
   "source": "Learn Anything — Delta One prep (2026)",
   "created": 1794100000046,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-20",
   "note": "d1-05-produtos-precos#clientes"
  },
  "d1-05-products-009": {
@@ -5995,7 +5995,7 @@
  "d1-06-desk-map-010": {
   "deck": "d1-06-desk-map",
   "front": "Why is a structured note a funding source for the bank?",
-  "back": "The investor pays cash upfront and the bank repays at maturity. Economically it is bank borrowing.\nThe investor takes the bank's credit risk. Issuance spreads are often cheaper than plain unsecured debt.",
+  "back": "The investor pays cash upfront and the bank repays at maturity. Economically it is bank borrowing.\nThe investor takes the bank's credit risk. Issuance spreads can be cheaper than plain unsecured debt.",
   "tags": [
    "delta-one",
    "desks",
@@ -6004,7 +6004,7 @@
   "source": "Learn Anything — Delta One prep (2026); generic bulge-bracket structure",
   "created": 1794100000064,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-20",
   "note": "d1-06-mapa-mesas#funding"
  },
  "d1-06-desk-map-011": {
@@ -6534,8 +6534,8 @@
  },
  "llm-02-training-010": {
   "deck": "llm-02-training",
-  "front": "What is LoRA, and how many parameters does it train for a 4096×4096 matrix at rank 8?",
-  "back": "Freeze $W$ and learn a low-rank update $\\Delta W = BA$, with $B \\in \\mathbb{R}^{d\\times r}$, $A \\in \\mathbb{R}^{r\\times d}$.\n$2 \\times 4096 \\times 8 = 65{,}536$ parameters, vs 16.8M for the full matrix.",
+  "front": "LoRA at rank 8 on a 4096×4096 weight: how many trainable parameters, and why so few?",
+  "back": "$\\Delta W = BA$ with $B$: 4096×8 and $A$: 8×4096; $W$ stays frozen.\n$2 \\times 4096 \\times 8 = 65{,}536$ parameters, about 0.4% of the 16.8M in $W$.\nThe bet: the fine-tuning update has low rank.",
   "tags": [
    "llm",
    "llm-training"
@@ -6543,7 +6543,7 @@
   "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
   "created": 1794100000103,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20"
  },
  "llm-02-training-011": {
   "deck": "llm-02-training",
@@ -6715,8 +6715,8 @@
  },
  "llm-03-agents-009": {
   "deck": "llm-03-agents",
-  "front": "Main defences against prompt injection.",
-  "back": "Treat tool outputs as data; least-privilege tools; human approval for side effects; separate untrusted content from privileged actions; allow-lists for destinations.",
+  "front": "Why must prompt-injection defences be structural, not instructions in the prompt?",
+  "back": "The model cannot reliably tell data from instructions, so \"ignore injected text\" only lowers the odds.\nStructural defences limit what a hijacked agent can do: least-privilege tools, human approval of side effects, allow-listed destinations.",
   "tags": [
    "llm",
    "agents",
@@ -6725,7 +6725,7 @@
   "source": "OWASP Top 10 for LLM Applications; Simon Willison",
   "created": 1794100000116,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-20",
   "note": "llm-03-agentes#seguranca"
  },
  "llm-03-agents-010": {
@@ -7140,7 +7140,7 @@
  },
  "llm-04-langgraph-014": {
   "deck": "llm-04-langgraph",
-  "front": "LangGraph stream modes.",
+  "front": "What do the LangGraph stream modes `values`, `updates`, `messages` and `custom` emit?",
   "back": "`values`: full state after each step.\n`updates`: only each node's update.\n`messages`: LLM tokens as they generate.\n`custom`: data a node emits itself.",
   "tags": [
    "llm",
@@ -7150,7 +7150,7 @@
   "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
   "created": 1794100000145,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-20",
   "checkBy": "2027-05-05",
   "note": "llm-04-langgraph#extras"
  },
@@ -7188,7 +7188,7 @@
  "llm-04-langgraph-017": {
   "deck": "llm-04-langgraph",
   "front": "What protects a cyclic graph from looping forever?",
-  "back": "The recursion limit: a cap on **super-steps** per run, set as `recursion_limit` at the top level of the config (not inside `configurable`).\nExceeding it raises `GraphRecursionError`. Also design explicit exit conditions.",
+  "back": "The recursion limit: a cap on **super-steps** per run, set as `recursion_limit` at the top level of the config (not inside `configurable`). Exceeding it raises `GraphRecursionError`.\nThe default is now very high (10,007 since 1.1.4; it was 25), so set your own and design explicit exit conditions.",
   "tags": [
    "llm",
    "langgraph"
@@ -7196,8 +7196,8 @@
   "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026",
   "created": 1794100000148,
   "suspended": false,
-  "verified": "2026-11-13",
-  "checkBy": "2027-05-05",
+  "verified": "2026-11-20",
+  "checkBy": "2027-05-20",
   "note": "llm-04-langgraph#superstep"
  },
  "sd-01-scale-001": {
@@ -7306,8 +7306,8 @@
  },
  "sd-01-scale-009": {
   "deck": "sd-01-scale",
-  "front": "Cache-aside, write-through, write-back.",
-  "back": "**Cache-aside**: app reads cache, on miss loads DB and fills cache.\n**Write-through**: write cache and DB together; consistent, slower writes.\n**Write-back**: write cache, flush to DB later; fast, risk of loss.",
+  "front": "Cache-aside: who fills the cache, and what should a write do to the cached key?",
+  "back": "The application fills it. Read: try the cache; on a miss, read the DB and store the value with a TTL.\nWrite: update the DB, then **delete** the key (not update it). Deletes are idempotent; racing cache updates can leave a stale value.",
   "tags": [
    "system-design",
    "scalability",
@@ -7316,7 +7316,7 @@
   "source": "Standard system design practice",
   "created": 1794100000157,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20"
  },
  "sd-01-scale-010": {
   "deck": "sd-01-scale",
@@ -7346,8 +7346,8 @@
  },
  "sd-01-scale-012": {
   "deck": "sd-01-scale",
-  "front": "Rough latency numbers to remember.",
-  "back": "L1 cache ~1 ns; main memory ~100 ns; SSD random read ~100 µs; same-datacenter round trip ~0.5 ms; cross-continent round trip ~100–150 ms.",
+  "front": "Rough latency: main-memory read, SSD random read, same-datacenter round trip, cross-continent round trip?",
+  "back": "~100 ns; ~100 µs; ~0.5 ms; ~100–150 ms.\nOne cross-continent round trip costs about a million memory reads.",
   "tags": [
    "system-design",
    "scalability"
@@ -7355,7 +7355,7 @@
   "source": "Standard system design practice",
   "created": 1794100000160,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20"
  },
  "sd-01-scale-013": {
   "deck": "sd-01-scale",
@@ -7402,7 +7402,7 @@
  "sd-02-data-001": {
   "deck": "sd-02-data",
   "front": "What does CAP say?",
-  "back": "During a network partition, a distributed store must choose consistency (refuse some requests) or availability (serve possibly stale data).",
+  "back": "During a network partition, a replicated store must choose: stay **linearizable** (C) and refuse some requests, or stay **available** (A) and answer every request, possibly with stale or conflicting data.",
   "tags": [
    "system-design",
    "data"
@@ -7410,7 +7410,7 @@
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000164,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20"
  },
  "sd-02-data-002": {
   "deck": "sd-02-data",
@@ -7427,8 +7427,8 @@
  },
  "sd-02-data-003": {
   "deck": "sd-02-data",
-  "front": "Strong vs eventual consistency; what is read-your-writes?",
-  "back": "Strong: every read sees the latest write.\nEventual: replicas converge if writes stop.\nRead-your-writes: a user always sees their own writes, even if others see them later.",
+  "front": "Strong vs eventual consistency: what does a read guarantee?",
+  "back": "Strong (linearizable): every read sees the latest completed write.\nEventual: reads may be stale; replicas converge once writes stop.",
   "tags": [
    "system-design",
    "data"
@@ -7436,7 +7436,7 @@
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000166,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20"
  },
  "sd-02-data-004": {
   "deck": "sd-02-data",
@@ -7454,7 +7454,7 @@
  "sd-02-data-005": {
   "deck": "sd-02-data",
   "front": "Synchronous vs asynchronous replication.",
-  "back": "Sync: the write waits for the replica; no data loss on failover, higher latency.\nAsync: fast writes; a leader crash can lose recent writes.",
+  "back": "Sync: the leader waits for the replica's ack. Failover to it loses no committed writes, but writes are slower and stall if that replica is down.\nAsync: fast writes; a leader crash can lose recent writes.",
   "tags": [
    "system-design",
    "data",
@@ -7463,7 +7463,7 @@
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000168,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20"
  },
  "sd-02-data-006": {
   "deck": "sd-02-data",
@@ -7678,7 +7678,7 @@
  "sd-03-reliability-007": {
   "deck": "sd-03-reliability",
   "front": "Where does Kafka guarantee ordering?",
-  "back": "Only within a partition. Pick the key so events that must stay ordered (e.g. one account) share a partition.",
+  "back": "Only within a partition, read by a classic consumer group. Pick the key so events that must stay ordered (e.g. one account) share a partition.\nShare groups (Kafka 4.2+) give up this order.",
   "tags": [
    "system-design",
    "messaging"
@@ -7686,12 +7686,13 @@
   "source": "Standard system design practice",
   "created": 1794100000185,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20",
+  "checkBy": "2027-11-20"
  },
  "sd-03-reliability-008": {
   "deck": "sd-03-reliability",
   "front": "What is the transactional outbox pattern?",
-  "back": "Write the state change and an outbox row in the same DB transaction; a relay publishes outbox rows to the broker.\nNo lost or phantom events between DB and broker.",
+  "back": "Write the state change and an outbox row in the same DB transaction; a relay publishes outbox rows to the broker.\nNo lost events and no events for rolled-back changes, but the relay may publish twice, so consumers must be idempotent.",
   "tags": [
    "system-design",
    "messaging",
@@ -7700,12 +7701,12 @@
   "source": "Standard system design practice",
   "created": 1794100000186,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20"
  },
  "sd-03-reliability-009": {
   "deck": "sd-03-reliability",
   "front": "What is a saga?",
-  "back": "A long business transaction split into local transactions, each with a compensating action.\nOn failure, run compensations in reverse instead of a distributed lock.",
+  "back": "A business transaction across services split into local transactions, each with a compensating action.\nOn failure, run the compensations of completed steps in reverse, instead of a distributed transaction (2PC). Cost: no isolation between concurrent sagas.",
   "tags": [
    "system-design",
    "messaging",
@@ -7714,7 +7715,7 @@
   "source": "Standard system design practice",
   "created": 1794100000187,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20"
  },
  "sd-03-reliability-010": {
   "deck": "sd-03-reliability",
@@ -7770,8 +7771,8 @@
  },
  "sd-03-reliability-014": {
   "deck": "sd-03-reliability",
-  "front": "SLI, SLO, SLA, error budget.",
-  "back": "SLI: a measured indicator (e.g. % requests under 300 ms).\nSLO: the internal target (99.9%).\nSLA: the contractual promise, with penalties.\nError budget: 1 − SLO; spend it on releases, freeze when it runs out.",
+  "front": "SLI vs SLO vs SLA.",
+  "back": "SLI: a measured indicator (e.g. % of requests under 300 ms).\nSLO: the internal target for that SLI (e.g. 99.9%).\nSLA: a contract with penalties, usually looser than the SLO.",
   "tags": [
    "system-design",
    "reliability"
@@ -7779,7 +7780,7 @@
   "source": "Standard system design practice",
   "created": 1794100000192,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20"
  },
  "sd-03-reliability-015": {
   "deck": "sd-03-reliability",
@@ -7797,7 +7798,7 @@
  "sd-04-web-security-001": {
   "deck": "sd-04-web-security",
   "front": "Which HTTP methods are safe, and which are idempotent?",
-  "back": "Safe (no state change): GET, HEAD, OPTIONS.\nIdempotent: the safe ones + PUT and DELETE.\nPOST and PATCH are not idempotent by default.",
+  "back": "Safe (read-only semantics): GET, HEAD, OPTIONS, TRACE.\nIdempotent: the safe ones + PUT and DELETE.\nPOST and PATCH are not idempotent by default.",
   "tags": [
    "system-design",
    "web-security"
@@ -7805,7 +7806,7 @@
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000194,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20"
  },
  "sd-04-web-security-002": {
   "deck": "sd-04-web-security",
@@ -7849,7 +7850,7 @@
  "sd-04-web-security-005": {
   "deck": "sd-04-web-security",
   "front": "What is CSRF, and its main defences?",
-  "back": "A malicious site makes the victim's browser send an authenticated request (cookies attach automatically).\nDefences: SameSite cookies, CSRF tokens, checking Origin.",
+  "back": "A malicious site makes the victim's browser send an authenticated request (cookies attach automatically).\nPrimary defences: CSRF tokens or Fetch Metadata (`Sec-Fetch-Site`) checks. SameSite cookies and Origin checks add depth.",
   "tags": [
    "system-design",
    "web-security"
@@ -7857,7 +7858,8 @@
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000198,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20",
+  "checkBy": "2027-11-20"
  },
  "sd-04-web-security-006": {
   "deck": "sd-04-web-security",
@@ -7874,7 +7876,7 @@
  },
  "sd-04-web-security-007": {
   "deck": "sd-04-web-security",
-  "front": "Server session vs bearer token (e.g. JWT).",
+  "front": "Server-side session vs self-contained token (e.g. JWT): main trade-off?",
   "back": "Session: random id in a cookie, state on the server; easy to revoke.\nSelf-contained token: no lookup per request; hard to revoke before expiry, so keep lifetimes short.",
   "tags": [
    "system-design",
@@ -7883,12 +7885,12 @@
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000200,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20"
  },
  "sd-04-web-security-008": {
   "deck": "sd-04-web-security",
   "front": "Structure of a JWT, and what to verify.",
-  "back": "`header.payload.signature`, base64url. Signed, **not encrypted**: anyone can read the payload.\nVerify signature, `exp`, `iss` and `aud`.",
+  "back": "`header.payload.signature`, base64url. Signed, **not encrypted**: anyone can read the payload.\nVerify the signature with an algorithm and key you fix (never trust `alg`), then `exp`, `iss` and `aud`.",
   "tags": [
    "system-design",
    "web-security"
@@ -7896,7 +7898,7 @@
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000201,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20"
  },
  "sd-04-web-security-009": {
   "deck": "sd-04-web-security",
@@ -7927,7 +7929,7 @@
  "sd-04-web-security-011": {
   "deck": "sd-04-web-security",
   "front": "Steps of the authorization code flow.",
-  "back": "1. App redirects the user to the IdP with client id, scopes, redirect URI, `state`.\n2. User signs in; IdP redirects back with a short-lived code.\n3. App's backend exchanges the code for tokens.\n4. App verifies the ID token and starts a session.",
+  "back": "1. App redirects the user to the IdP with client id, scopes, redirect URI, `state` and a PKCE `code_challenge`.\n2. User signs in; IdP redirects back with a short-lived code.\n3. App exchanges the code + `code_verifier` for tokens at the token endpoint.\n4. App verifies the ID token and starts a session.",
   "tags": [
    "system-design",
    "web-security"
@@ -7935,7 +7937,8 @@
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000204,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20",
+  "checkBy": "2027-11-20"
  },
  "sd-04-web-security-012": {
   "deck": "sd-04-web-security",
@@ -8018,7 +8021,7 @@
  "sd-04-web-security-018": {
   "deck": "sd-04-web-security",
   "front": "Where should a browser app keep OAuth tokens?",
-  "back": "Not in localStorage: any XSS can read it.\nPrefer a backend-for-frontend: the server holds tokens; the browser gets an HttpOnly session cookie.",
+  "back": "Best: a backend-for-frontend (BFF) holds the tokens; the browser gets only an HttpOnly session cookie (RFC 10017).\nAvoid localStorage: any XSS can steal tokens from it. With a BFF, XSS can still send requests, but cannot steal tokens.",
   "tags": [
    "system-design",
    "web-security",
@@ -8027,12 +8030,13 @@
   "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
   "created": 1794100000211,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20",
+  "checkBy": "2027-11-20"
  },
  "sd-05-web-apps-001": {
   "deck": "sd-05-web-apps",
   "front": "CSR vs SSR vs SSG vs ISR.",
-  "back": "CSR: the browser renders from JS.\nSSR: the server renders HTML per request.\nSSG: HTML built at build time.\nISR: static pages regenerated in the background after a set time.",
+  "back": "CSR: the browser renders from JS.\nSSR: the server renders HTML per request.\nSSG: HTML built at build time.\nISR: prerendered pages served from cache and regenerated in the background, after a revalidate period or on demand (`revalidateTag`/`revalidatePath`).",
   "tags": [
    "system-design",
    "web-app"
@@ -8040,8 +8044,8 @@
   "source": "Next.js and React documentation; standard practice",
   "created": 1794100000212,
   "suspended": false,
-  "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "verified": "2026-11-20",
+  "checkBy": "2027-05-20"
  },
  "sd-05-web-apps-002": {
   "deck": "sd-05-web-apps",
@@ -8074,7 +8078,7 @@
  "sd-05-web-apps-004": {
   "deck": "sd-05-web-apps",
   "front": "What reaches the browser in a Next.js app, and what must not?",
-  "back": "Everything in client components and env vars prefixed `NEXT_PUBLIC_` is public.\nSecrets and tokens stay in server-only code.",
+  "back": "Public: Client Component code, every prop a Server Component passes to a Client Component (serialized in the RSC payload), Server Action return values, and `NEXT_PUBLIC_*` env vars.\nSecrets stay in server-only modules (`import 'server-only'` fails the build if a client imports them).",
   "tags": [
    "system-design",
    "web-app",
@@ -8083,8 +8087,8 @@
   "source": "Next.js and React documentation; standard practice",
   "created": 1794100000215,
   "suspended": false,
-  "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "verified": "2026-11-20",
+  "checkBy": "2027-05-20"
  },
  "sd-05-web-apps-005": {
   "deck": "sd-05-web-apps",
@@ -8133,7 +8137,7 @@
  "sd-05-web-apps-008": {
   "deck": "sd-05-web-apps",
   "front": "SSE vs WebSocket for streaming LLM output.",
-  "back": "SSE: one-way server → client over plain HTTP, auto-reconnect; enough for token streaming.\nWebSocket: two-way, persistent; for real-time interaction both ways.",
+  "back": "SSE: one-way server → client over plain HTTP; enough for token streaming. (Auto-reconnect needs `EventSource`, which is GET-only.)\nWebSocket: two-way, persistent; for real-time interaction both ways.",
   "tags": [
    "system-design",
    "web-app"
@@ -8141,7 +8145,7 @@
   "source": "Next.js and React documentation; standard practice",
   "created": 1794100000219,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-20",
   "checkBy": "2027-05-05"
  },
  "sd-06-trading-systems-001": {
@@ -8181,7 +8185,8 @@
   "source": "Standard industry practice",
   "created": 1794100000222,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20",
+  "checkBy": "2027-11-20"
  },
  "sd-06-trading-systems-004": {
   "deck": "sd-06-trading-systems",
@@ -8384,7 +8389,7 @@
  "sd-07-crypto-001": {
   "deck": "sd-07-crypto",
   "front": "Hash vs HMAC vs digital signature vs encryption: what does each give?",
-  "back": "Hash: a fingerprint; detects changes, no key.\nHMAC: integrity + authenticity with a **shared** secret key.\nSignature: integrity + authenticity with a **private** key; anyone can verify with the public key.\nEncryption: confidentiality.",
+  "back": "Hash: a fingerprint, no key; detects accidental changes only (an attacker can recompute it).\nHMAC: integrity + authenticity with a **shared** secret key.\nSignature: integrity + authenticity with a **private** key; anyone can verify with the public key.\nEncryption: confidentiality.",
   "tags": [
    "system-design",
    "cryptography"
@@ -8392,7 +8397,7 @@
   "source": "Standard practice; RFC 2104 (HMAC); OWASP",
   "created": 1794200000009,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20"
  },
  "sd-07-crypto-002": {
   "deck": "sd-07-crypto",
@@ -8491,7 +8496,7 @@
  "sd-07-crypto-009": {
   "deck": "sd-07-crypto",
   "front": "How should passwords be stored?",
-  "back": "With a slow, salted, memory-hard function: Argon2id (or bcrypt, scrypt).\nNever plain SHA-256: GPUs try billions of guesses per second.",
+  "back": "With a slow, salted password hash: Argon2id first (memory-hard), else scrypt; bcrypt (legacy) and PBKDF2 (FIPS) are acceptable.\nNever plain SHA-256: GPUs try billions of guesses per second.",
   "tags": [
    "system-design",
    "cryptography",
@@ -8500,7 +8505,7 @@
   "source": "Standard practice; RFC 2104 (HMAC); OWASP",
   "created": 1794200000017,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20"
  },
  "sd-07-crypto-010": {
   "deck": "sd-07-crypto",
@@ -8650,8 +8655,8 @@
  },
  "sd-08-patterns-005": {
   "deck": "sd-08-patterns",
-  "front": "Dependency inversion and dependency injection.",
-  "back": "Core logic depends on abstractions, not on concrete IO (DB, vendor API).\nPass dependencies in (constructor or argument). Tests inject fakes; production injects real ones.",
+  "front": "Dependency inversion vs dependency injection: how do they differ?",
+  "back": "Inversion (the D in SOLID) is a principle: core logic depends on abstractions it owns; IO adapters (DB, vendor API) implement them.\nInjection is a technique: pass dependencies in (constructor or argument), so tests inject fakes and production injects real ones.",
   "tags": [
    "system-design",
    "design-patterns"
@@ -8659,7 +8664,7 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000029,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20"
  },
  "sd-08-patterns-006": {
   "deck": "sd-08-patterns",
@@ -8754,8 +8759,8 @@
  },
  "sd-08-patterns-013": {
   "deck": "sd-08-patterns",
-  "front": "Observer / pub-sub.",
-  "back": "Subscribers register for events and are notified when they occur; the publisher does not know them.\nExample: pricing and risk services subscribe to market data ticks.",
+  "front": "Observer vs publish–subscribe.",
+  "back": "Observer: the subject keeps a list of observers and calls them directly (in-process).\nPub-sub: a broker or event bus sits between; publishers and subscribers know only the topic. Example: pricing and risk services subscribe to market-data ticks.",
   "tags": [
    "system-design",
    "design-patterns",
@@ -8764,7 +8769,7 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000037,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20"
  },
  "sd-08-patterns-014": {
   "deck": "sd-08-patterns",
@@ -8886,8 +8891,8 @@
  },
  "sd-08-patterns-023": {
   "deck": "sd-08-patterns",
-  "front": "DRY vs YAGNI vs KISS: how do they trade off?",
-  "back": "DRY: one source of truth for each piece of knowledge.\nYAGNI: do not build for imagined needs.\nKISS: prefer the simple design.\nPremature abstraction to stay DRY often breaks YAGNI and KISS: duplicate twice, abstract on the third.",
+  "front": "DRY vs YAGNI/KISS: when should duplicated code become an abstraction?",
+  "back": "Rule of three: write it once, tolerate one duplicate, abstract when the third copy appears.\nAbstracting earlier to stay DRY often guesses the wrong shape and breaks YAGNI and KISS.",
   "tags": [
    "system-design",
    "design-patterns"
@@ -8895,7 +8900,7 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000047,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20"
  },
  "llm-05-inference-001": {
   "deck": "llm-05-inference",
@@ -8953,7 +8958,7 @@
  "llm-05-inference-005": {
   "deck": "llm-05-inference",
   "front": "KV cache for a Llama-3-70B-style model (80 layers, 8 KV heads, head dim 128, bf16). Per token? 8k context? 32 users at 8k?",
-  "back": "Per token: $2 \\times 80 \\times 8 \\times 128 \\times 2 \\approx 320$ KiB.\n8k tokens: ≈ 2.5 GiB per sequence.\n32 sequences: ≈ 80 GiB, as much as one H100 holds.",
+  "back": "Per token: $2 \\times 80 \\times 8 \\times 128 \\times 2 = 327{,}680$ bytes = 320 KiB.\n8k tokens: 2.5 GiB per sequence.\n32 sequences: 80 GiB ≈ 86 GB, more than one H100's 80 GB, before any weights.",
   "tags": [
    "llm",
    "inference"
@@ -8961,7 +8966,7 @@
   "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
   "created": 1794200000052,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20"
  },
  "llm-05-inference-006": {
   "deck": "llm-05-inference",
@@ -8980,7 +8985,7 @@
  "llm-05-inference-007": {
   "deck": "llm-05-inference",
   "front": "Why is single-sequence decode speed limited by memory bandwidth?",
-  "back": "Each new token reads all weights from GPU memory once.\nUpper bound: tokens/s ≈ bandwidth / weight bytes. H100 (~3.35 TB/s), 70B bf16 (140 GB): ≈ 24 tokens/s per sequence.",
+  "back": "Each new token reads all weights from GPU memory once.\nCeiling: tokens/s ≈ bandwidth / weight bytes. Llama-3-8B in bf16 (16 GB) on one H100 SXM (3.35 TB/s): ≈ 210 tokens/s per sequence.",
   "tags": [
    "llm",
    "inference"
@@ -8988,8 +8993,8 @@
   "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
   "created": 1794200000054,
   "suspended": false,
-  "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "verified": "2026-11-20",
+  "checkBy": "2027-05-20"
  },
  "llm-05-inference-008": {
   "deck": "llm-05-inference",
@@ -9020,8 +9025,8 @@
  },
  "llm-05-inference-010": {
   "deck": "llm-05-inference",
-  "front": "Which levers shrink the KV cache?",
-  "back": "1. GQA/MQA (fewer KV heads; built into the model).\n2. KV quantization (e.g. fp8: half of bf16).\n3. Shorter context or sliding-window attention.\n4. Paged allocation to cut waste.",
+  "front": "Which levers shrink the KV cache per token or per sequence?",
+  "back": "1. Fewer KV heads (GQA/MQA) or a compressed KV (MLA); built into the model.\n2. KV quantization (e.g. fp8: half of bf16).\n3. Shorter context or sliding-window attention.\nPaged allocation (vLLM) cuts waste, not the size per token.",
   "tags": [
    "llm",
    "inference"
@@ -9029,7 +9034,7 @@
   "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
   "created": 1794200000057,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-20"
  },
  "llm-05-inference-011": {
   "deck": "llm-05-inference",
@@ -9102,7 +9107,7 @@
  "llm-05-inference-016": {
   "deck": "llm-05-inference",
   "front": "Common GPU memory sizes to remember.",
-  "back": "A100: 40 or 80 GB. H100: 80 GB. H200: 141 GB. L4 and RTX 4090: 24 GB.",
+  "back": "A100: 40 or 80 GB. H100: 80 GB. H200: 141 GB.\nB200: 180 GB usable (192 GB physical). B300: 288 GB.\nL4 and RTX 4090: 24 GB.",
   "tags": [
    "llm",
    "inference"
@@ -9110,8 +9115,8 @@
   "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
   "created": 1794200000063,
   "suspended": false,
-  "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "verified": "2026-11-20",
+  "checkBy": "2027-05-20"
  },
  "d1-05-products-017": {
   "deck": "d1-05-products",
@@ -9152,13 +9157,14 @@
   "source": "FinancePy 1.1.2 EquitySwap, computed 2026-11-05",
   "created": 1794300000002,
   "suspended": false,
-  "verified": "2026-11-05",
-  "note": "d1-05-produtos-precos#valor"
+  "verified": "2026-11-20",
+  "note": "d1-05-produtos-precos#valor",
+  "checkBy": "2027-05-20"
  },
  "d1-05-products-020": {
   "deck": "d1-05-products",
   "front": "Which rate should drive the equity forward when a desk prices a TRS: OIS or the stock's repo/funding rate? Why?",
-  "back": "The repo/funding rate: it is what holding the hedge actually costs.\nOIS-only pricing assumes the hedge funds at OIS, which hides the funding and borrow spread from S1. The gap is why the client pays a spread.",
+  "back": "The repo/funding rate: it is what holding the hedge actually costs.\nOIS-only pricing assumes the hedge funds at OIS, which hides the desk's funding and borrow spread. That gap is why the client pays a spread.",
   "tags": [
    "delta-one",
    "d1-products",
@@ -9167,7 +9173,7 @@
   "source": "FinancePy 1.1.2 EquitySwap, computed 2026-11-05",
   "created": 1794300000003,
   "suspended": false,
-  "verified": "2026-11-05",
+  "verified": "2026-11-20",
   "note": "d1-05-produtos-precos#valor"
  },
  "llm-01-transformers-025": {
@@ -9304,7 +9310,7 @@
   "back": "A cross-encoder reads the query and each candidate chunk **together** and rescores the top results.\nHigher precision than embedding similarity, but one model call per candidate: use it only on the top few dozen.",
   "tags": [
    "llm",
-   "agents"
+   "rag"
   ],
   "source": "Standard retrieval practice",
   "created": 1794300002011,
@@ -9551,5 +9557,746 @@
   "suspended": false,
   "verified": "2026-11-15",
   "note": "d1-04-eventos-indice#etf-alavancado"
+ },
+ "sd-05-web-apps-009": {
+  "deck": "sd-05-web-apps",
+  "front": "In Next.js with Cache Components, what does Partial Prerendering (PPR) send for a route?",
+  "back": "A prerendered static shell (static parts, `\"use cache\"` output, `<Suspense>` fallbacks), servable from a CDN at once.\nUncached and request-time parts (cookies, headers) stream into the Suspense holes per request.",
+  "tags": [
+   "system-design",
+   "web-app",
+   "scalability"
+  ],
+  "source": "Next.js docs, Caching: https://nextjs.org/docs/app/getting-started/caching",
+  "created": 1794300003027,
+  "suspended": false,
+  "verified": "2026-11-20",
+  "checkBy": "2027-05-20"
+ },
+ "sd-05-web-apps-010": {
+  "deck": "sd-05-web-apps",
+  "front": "Next.js: how do you cache per-user data with `\"use cache\"` when it depends on a cookie?",
+  "back": "Read the cookie outside the cached function and pass the value in as an argument: arguments and captured values form the cache key.\n(Alternative: `\"use cache: private\"`.)",
+  "tags": [
+   "system-design",
+   "web-app",
+   "scalability"
+  ],
+  "source": "Next.js docs, Caching (Passing runtime values to cached functions): https://nextjs.org/docs/app/getting-started/caching",
+  "created": 1794300003028,
+  "suspended": false,
+  "verified": "2026-11-20",
+  "checkBy": "2027-05-20"
+ },
+ "sd-05-web-apps-011": {
+  "deck": "sd-05-web-apps",
+  "front": "Next.js after a mutation: `updateTag` vs `revalidateTag(tag, 'max')`?",
+  "back": "`updateTag`: expires the entry at once, so the user reads their own write; Server Actions only.\n`revalidateTag(…, 'max')`: stale-while-revalidate (serve stale, refresh in background); also from Route Handlers, e.g. a CMS webhook.",
+  "tags": [
+   "system-design",
+   "web-app",
+   "data"
+  ],
+  "source": "Next.js docs, Revalidating: https://nextjs.org/docs/app/getting-started/revalidating",
+  "created": 1794300003029,
+  "suspended": false,
+  "verified": "2026-11-20",
+  "checkBy": "2027-05-20"
+ },
+ "sd-05-web-apps-012": {
+  "deck": "sd-05-web-apps",
+  "front": "Why is an auth check in Next.js `proxy.ts` (formerly `middleware.ts`) not enough on its own?",
+  "back": "A matcher change or refactor can silently skip routes, and Server Functions are POSTs to the page's route, so an excluded path skips them too.\nVerify auth and authorization close to the data: in the data access layer and inside each Server Action.",
+  "tags": [
+   "system-design",
+   "web-app",
+   "web-security"
+  ],
+  "source": "Next.js docs, proxy.js (Execution order; v16.0.0 renamed Middleware to Proxy): https://nextjs.org/docs/app/api-reference/file-conventions/proxy ; Data Security guide: https://nextjs.org/docs/app/guides/data-security",
+  "created": 1794300003030,
+  "suspended": false,
+  "verified": "2026-11-20",
+  "checkBy": "2027-05-20"
+ },
+ "sd-06-trading-systems-010": {
+  "deck": "sd-06-trading-systems",
+  "front": "How does a price-time priority matching engine rank resting orders?",
+  "back": "Best price first; at the same price, the earliest order first (FIFO).\nAt most venues, an order that changes price or increases size loses its time priority.",
+  "tags": [
+   "system-design",
+   "trading-systems"
+  ],
+  "source": "Harris, Trading and Exchanges (2003), ch. 6 (order precedence rules); exchange rulebooks (e.g. CME Globex FIFO matching)",
+  "created": 1794300003031,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-06-trading-systems-011": {
+  "deck": "sd-06-trading-systems",
+  "front": "Why do exchange-style matching engines (e.g. LMAX) run business logic on a single thread?",
+  "back": "A sequencer orders all input events; one thread applies them, so there are no locks and the output is deterministic.\nReplicas replay the same journaled input to stay in sync and to recover state.",
+  "tags": [
+   "system-design",
+   "trading-systems",
+   "reliability"
+  ],
+  "source": "Fowler, 'The LMAX Architecture' (2011): https://martinfowler.com/articles/lmax.html",
+  "created": 1794300003032,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-06-trading-systems-012": {
+  "deck": "sd-06-trading-systems",
+  "front": "Exchange market data comes on two identical UDP multicast feeds (A and B). How does a consumer use them?",
+  "back": "Arbitration: take the first copy of each sequence number from either feed and drop the duplicate.\nA real gap exists only if both feeds miss the same packet; then recover (snapshot or replay).",
+  "tags": [
+   "system-design",
+   "trading-systems",
+   "reliability"
+  ],
+  "source": "CME Group MDP 3.0 documentation (Feed A / Feed B, packet sequence numbers); standard practice",
+  "created": 1794300003033,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-06-trading-systems-013": {
+  "deck": "sd-06-trading-systems",
+  "front": "What deployment failure caused Knight Capital's loss of over USD 460M in 45 minutes (August 2012)?",
+  "back": "A manual deploy missed 1 of 8 order-router servers. A reused flag then woke dead 'Power Peg' code there, which sent millions of unintended orders.\nLesson: automated, verified deploys; delete dead code; hard pre-trade limits and a kill switch.",
+  "tags": [
+   "system-design",
+   "trading-systems",
+   "reliability"
+  ],
+  "source": "SEC press release 2013-222: https://www.sec.gov/newsroom/press-releases/2013-222 ; SEC Order, Release No. 34-70694 (2013)",
+  "created": 1794300003034,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-07-crypto-017": {
+  "deck": "sd-07-crypto",
+  "front": "AES-GCM with random 96-bit nonces: how many messages per key, and why the limit?",
+  "back": "About $2^{32}$ (NIST SP 800-38D). Birthday bound: collision chance $\\approx q^2/2^{97}$, so $q = 2^{32}$ gives $\\approx 2^{-33}$.\nA collision is a nonce reuse, so rekey before the limit.",
+  "tags": [
+   "system-design",
+   "cryptography"
+  ],
+  "source": "NIST SP 800-38D (2007), sec. 8.3; AWS Security Blog, 'How AWS KMS and AWS Encryption SDK overcome symmetric encryption bounds'",
+  "created": 1794300003035,
+  "suspended": false,
+  "verified": "2026-11-20",
+  "checkBy": "2027-11-20"
+ },
+ "sd-07-crypto-018": {
+  "deck": "sd-07-crypto",
+  "front": "Why is HKDF the wrong tool to turn a password into a key?",
+  "back": "HKDF only concentrates existing entropy; it cannot add any, and it is fast by design.\nA password has low entropy, so use a slow password KDF (Argon2id, scrypt, PBKDF2) to make each guess expensive.",
+  "tags": [
+   "system-design",
+   "cryptography"
+  ],
+  "source": "RFC 5869, sec. 4 ('can concentrate existing entropy but cannot amplify entropy'; 'a slowing down mechanism is not part of this specification')",
+  "created": 1794300003036,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-07-crypto-019": {
+  "deck": "sd-07-crypto",
+  "front": "Why is reusing the per-signature nonce $k$ fatal in ECDSA, and how does Ed25519 avoid it?",
+  "back": "Two signatures with the same $k$ give two linear equations; solving them reveals $k$ and then the private key (Sony PS3, 2010).\nEd25519 derives the nonce deterministically by hashing the key and the message (RFC 6979 does the same for ECDSA).",
+  "tags": [
+   "system-design",
+   "cryptography"
+  ],
+  "source": "RFC 8032 (EdDSA), sec. 5.1.6; RFC 6979 (deterministic ECDSA); fail0verflow, 27C3 talk 'Console Hacking 2010'",
+  "created": 1794300003037,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-08-patterns-024": {
+  "deck": "sd-08-patterns",
+  "front": "Interface segregation principle.",
+  "back": "Clients should not depend on methods they do not use: split fat interfaces into small, role-specific ones.\nExample: a read-only `QuoteSource` for pricers instead of a full `MarketDataService` with admin methods.",
+  "tags": [
+   "system-design",
+   "design-patterns"
+  ],
+  "source": "Martin, 'The Interface Segregation Principle' (1996); Martin, Agile Software Development (2002)",
+  "created": 1794300003038,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-01-scale-016": {
+  "deck": "sd-01-scale",
+  "front": "Why keep server utilization well below 100%? Use the M/M/1 queue.",
+  "back": "Mean time in system $W = \\dfrac{S}{1-\\rho}$ (service time $S$, utilization $\\rho$).\n$\\rho = 0.5 \\Rightarrow 2S$; $\\rho = 0.9 \\Rightarrow 10S$. Latency explodes near saturation, so keep headroom.",
+  "tags": [
+   "system-design",
+   "scalability"
+  ],
+  "source": "M/M/1 queue; Harchol-Balter, Performance Modeling and Design of Computer Systems (2013), ch. 6",
+  "created": 1794300003039,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-01-scale-017": {
+  "deck": "sd-01-scale",
+  "front": "Back-of-envelope: 100 million requests per day is about how many per second on average?",
+  "back": "A day is 86,400 s ≈ $10^5$ s, so ≈ 1,000 req/s (exactly ~1,160).\nSize for peak, which is several times the average.",
+  "tags": [
+   "system-design",
+   "scalability"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794300003040,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-01-scale-018": {
+  "deck": "sd-01-scale",
+  "front": "Write-through vs write-back cache: trade-off?",
+  "back": "Write-through: acknowledge after writing cache and DB; consistent cache, slower writes.\nWrite-back: acknowledge after the cache write, flush to DB later; fast writes, but a cache crash loses unflushed data.",
+  "tags": [
+   "system-design",
+   "scalability",
+   "data"
+  ],
+  "source": "Standard system design practice",
+  "created": 1794300003041,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-01-scale-019": {
+  "deck": "sd-01-scale",
+  "front": "What does a CDN do for latency and origin load?",
+  "back": "It caches content on edge servers near users: fewer long round trips, fewer requests reach the origin.\nFits static assets and cacheable responses; `Cache-Control` and TTLs control freshness.",
+  "tags": [
+   "system-design",
+   "scalability"
+  ],
+  "source": "Standard system design practice; RFC 9111 (HTTP caching)",
+  "created": 1794300003042,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-02-data-016": {
+  "deck": "sd-02-data",
+  "front": "What is read-your-writes consistency, and one way to provide it with leader–follower replication?",
+  "back": "A user always sees their own earlier writes, even if others see them later.\nServe that user's recently changed data from the leader, or from a follower only once it has caught up to the user's last write.",
+  "tags": [
+   "system-design",
+   "data"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications, ch. 5",
+  "created": 1794300003043,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-02-data-017": {
+  "deck": "sd-02-data",
+  "front": "Linearizability vs serializability.",
+  "back": "Linearizability: a recency guarantee on single objects; every read sees the latest write, as if one copy existed.\nSerializability: an isolation guarantee on transactions; the result equals some serial order, not necessarily real-time order.",
+  "tags": [
+   "system-design",
+   "data"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications, ch. 9 'Linearizability'",
+  "created": 1794300003044,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-02-data-018": {
+  "deck": "sd-02-data",
+  "front": "What does read committed prevent, and what anomaly does it still allow?",
+  "back": "Prevents dirty reads and dirty writes.\nStill allows read skew (non-repeatable reads): one transaction sees different committed values over time. Snapshot isolation fixes it.",
+  "tags": [
+   "system-design",
+   "data"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications, ch. 7 'Weak Isolation Levels'",
+  "created": 1794300003045,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-02-data-019": {
+  "deck": "sd-02-data",
+  "front": "Why is two-phase commit called a blocking protocol?",
+  "back": "If the coordinator crashes after participants vote yes, they are *in doubt*: they cannot commit or abort alone, and they hold locks until it recovers.",
+  "tags": [
+   "system-design",
+   "data",
+   "reliability"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications, ch. 9 'Atomic Commit and Two-Phase Commit'",
+  "created": 1794300003046,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-02-data-020": {
+  "deck": "sd-02-data",
+  "front": "Why do Raft and Paxos clusters use $2f+1$ nodes?",
+  "back": "Decisions need a majority, and any two majorities overlap, so two leaders cannot both win.\n$2f+1$ nodes keep working with $f$ failures (5 nodes tolerate 2).",
+  "tags": [
+   "system-design",
+   "data",
+   "reliability"
+  ],
+  "source": "Ongaro & Ousterhout, 'In Search of an Understandable Consensus Algorithm' (Raft), USENIX ATC 2014",
+  "created": 1794300003047,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-02-data-021": {
+  "deck": "sd-02-data",
+  "front": "A lock holder pauses (e.g. GC), its lease expires, and another node takes the lock. How do fencing tokens prevent corruption?",
+  "back": "The lock service issues a strictly increasing token with each grant. Storage rejects any write whose token is lower than one it has already seen.",
+  "tags": [
+   "system-design",
+   "data",
+   "reliability"
+  ],
+  "source": "Kleppmann, Designing Data-Intensive Applications, ch. 8 'Fencing tokens'",
+  "created": 1794300003048,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-03-reliability-016": {
+  "deck": "sd-03-reliability",
+  "front": "SLO of 99.9% over 30 days: how big is the error budget, and how is it used?",
+  "back": "$0.001 \\times 30 \\times 24 \\times 60 = 43.2$ min of unavailability.\nWhile budget remains, ship changes; when it is spent, slow releases and work on reliability.",
+  "tags": [
+   "system-design",
+   "reliability"
+  ],
+  "source": "Google SRE book, ch. 3 'Embracing Risk' (error budgets)",
+  "created": 1794300003049,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-03-reliability-017": {
+  "deck": "sd-03-reliability",
+  "front": "A request needs three services in series, each 99.9% available (independent failures). Availability of the request path?",
+  "back": "$0.999^3 \\approx 99.7\\%$. Hard dependencies in series multiply, so each one lowers availability.\nRedundant copies in parallel raise it: $1-(1-a)^k$.",
+  "tags": [
+   "system-design",
+   "reliability"
+  ],
+  "source": "Standard reliability engineering (series/parallel availability)",
+  "created": 1794300003050,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-03-reliability-018": {
+  "deck": "sd-03-reliability",
+  "front": "Three service layers each make up to 4 attempts (1 + 3 retries). How many calls can one user request cause at the bottom layer?",
+  "back": "$4^3 = 64$. Retries multiply across layers and can bury a struggling service.\nRetry at one layer only, and cap retries with a retry budget.",
+  "tags": [
+   "system-design",
+   "reliability"
+  ],
+  "source": "Google SRE book, ch. 22 'Addressing Cascading Failures'",
+  "created": 1794300003051,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-03-reliability-019": {
+  "deck": "sd-03-reliability",
+  "front": "Disaster recovery: what do RPO and RTO measure?",
+  "back": "RPO (recovery point objective): the maximum acceptable data loss, as time.\nRTO (recovery time objective): the maximum acceptable time to restore service.\nAsync replication means RPO > 0.",
+  "tags": [
+   "system-design",
+   "reliability"
+  ],
+  "source": "Standard DR practice; AWS Well-Architected Reliability Pillar, 'Disaster recovery objectives'",
+  "created": 1794300003052,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-03-reliability-020": {
+  "deck": "sd-03-reliability",
+  "front": "A Kafka topic has 12 partitions, and a classic consumer group has 20 consumers. What happens?",
+  "back": "Each partition goes to at most one consumer in the group, so 8 consumers sit idle. Parallelism is capped by the partition count.\nShare groups (production-ready in Kafka 4.2) remove the cap but drop ordering.",
+  "tags": [
+   "system-design",
+   "messaging"
+  ],
+  "source": "Apache Kafka docs (consumer groups); Kafka 4.2.0 release announcement, https://kafka.apache.org/blog/2026/02/17/apache-kafka-4.2.0-release-announcement/",
+  "created": 1794300003053,
+  "suspended": false,
+  "verified": "2026-11-20",
+  "checkBy": "2027-11-20"
+ },
+ "sd-04-web-security-028": {
+  "deck": "sd-04-web-security",
+  "front": "Why should OAuth clients not use the implicit grant, and what replaces it?",
+  "back": "It returns the access token in the redirect URL, where it can leak (history, logs, Referer) or be injected, and it cannot be bound to the client.\nUse the authorization code flow with PKCE.",
+  "tags": [
+   "system-design",
+   "web-security"
+  ],
+  "source": "RFC 9700 (OAuth 2.0 Security BCP, Jan 2025), §2.1.2",
+  "created": 1794300003054,
+  "suspended": false,
+  "verified": "2026-11-20",
+  "checkBy": "2027-11-20"
+ },
+ "sd-04-web-security-029": {
+  "deck": "sd-04-web-security",
+  "front": "When are two URLs the same origin?",
+  "back": "Same scheme, host and port.\n`https://a.com` vs `https://api.a.com`: different (host). `http://a.com` vs `https://a.com`: different (scheme).",
+  "tags": [
+   "system-design",
+   "web-security"
+  ],
+  "source": "RFC 6454 (The Web Origin Concept); MDN Same-origin policy",
+  "created": 1794300003055,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-04-web-security-030": {
+  "deck": "sd-04-web-security",
+  "front": "SameSite=Strict vs Lax: when does the browser still send the cookie on a cross-site request?",
+  "back": "Strict: never.\nLax: only on top-level navigations with a safe method (e.g. following a link with GET).\n`SameSite=None` sends it always and requires `Secure`.",
+  "tags": [
+   "system-design",
+   "web-security"
+  ],
+  "source": "MDN Set-Cookie SameSite; draft-ietf-httpbis-rfc6265bis; OWASP CSRF Prevention Cheat Sheet",
+  "created": 1794300003056,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-04-web-security-031": {
+  "deck": "sd-04-web-security",
+  "front": "What must a server send so a cross-origin `fetch` with `credentials: 'include'` can read the response?",
+  "back": "`Access-Control-Allow-Origin` with the exact origin (not `*`) and `Access-Control-Allow-Credentials: true`.\nNever echo any `Origin` back blindly: every site could then read user data.",
+  "tags": [
+   "system-design",
+   "web-security"
+  ],
+  "source": "MDN CORS guide, 'Credentialed requests and wildcards', https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS",
+  "created": 1794300003057,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-04-web-security-032": {
+  "deck": "sd-04-web-security",
+  "front": "What is the primary defence against SQL injection?",
+  "back": "Parameterized queries (prepared statements): input is sent as data and never parsed as SQL.\nEscaping and input validation are only secondary.",
+  "tags": [
+   "system-design",
+   "web-security"
+  ],
+  "source": "OWASP SQL Injection Prevention Cheat Sheet",
+  "created": 1794300003058,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "sd-04-web-security-033": {
+  "deck": "sd-04-web-security",
+  "front": "What is SSRF, and why is it dangerous in the cloud?",
+  "back": "Server-side request forgery: the attacker makes your server fetch a URL they choose.\nIt can reach internal services, e.g. the metadata endpoint `169.254.169.254` that returns cloud credentials. Defence: allow-list destinations.",
+  "tags": [
+   "system-design",
+   "web-security"
+  ],
+  "source": "OWASP SSRF Prevention Cheat Sheet; OWASP Top 10 2021 A10",
+  "created": 1794300003059,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "d1-05-products-021": {
+  "deck": "d1-05-products",
+  "front": "What does a client give up by holding a TRS instead of the stock?",
+  "back": "Voting rights, and it takes the bank's counterparty risk.\nOn US stocks, §871(m) withholds on dividend equivalents as on the physical stock, so there is no tax edge.",
+  "tags": [
+   "delta-one",
+   "d1-products"
+  ],
+  "source": "Learn Anything — Delta One prep (2026); IRC §871(m)",
+  "created": 1794300003060,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "d1-05-products-022": {
+  "deck": "d1-05-products",
+  "front": "What is a delta-one (tracker) certificate, and what risk does its holder carry that an ETF holder does not?",
+  "back": "A bank-issued note that pays the performance of an index or basket, usually less a fee.\nThe holder carries the issuer's credit risk. ETF assets are held by the fund, apart from any bank.",
+  "tags": [
+   "delta-one",
+   "d1-products",
+   "credit"
+  ],
+  "source": "Generic product description (e.g. tracker certificates in European structured products markets)",
+  "created": 1794300003061,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "d1-05-products-023": {
+  "deck": "d1-05-products",
+  "front": "Client wants 1-year long index exposure: rolling futures vs a 1-year TRS. What financing risk does the futures route carry?",
+  "back": "Roll risk: each roll pays the implied financing priced at that time, unknown today.\nA TRS fixes the spread over the benchmark for the term.",
+  "tags": [
+   "delta-one",
+   "d1-products",
+   "financing"
+  ],
+  "source": "Learn Anything — Delta One prep (2026)",
+  "created": 1794300003062,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "d1-04-index-events-027": {
+  "deck": "d1-04-index-events",
+  "front": "How often are the Russell US indexes reconstituted, and since when?",
+  "back": "Twice a year, in June and December, starting in 2026.\nBefore 2026: once a year, in June.",
+  "tags": [
+   "delta-one",
+   "index-events"
+  ],
+  "source": "FTSE Russell press release, 13 Nov 2026 (https://www.lseg.com/en/media-centre/press-releases/ftse-russell/2026/ftse-russell-begins-december-2026-semi-annual-russell-us-indexes-reconstitution); https://lseg.com/en/ftse-russell/research/russell-us-indexes-move-to-semi-annual-reconstitution",
+  "created": 1794300003063,
+  "suspended": false,
+  "verified": "2026-11-20",
+  "checkBy": "2027-06-01"
+ },
+ "d1-01-physical-026": {
+  "deck": "d1-01-physical",
+  "front": "Physical hedge costs 82 bp before lending income. Client pays SOFR + 50; the desk keeps half the borrow fee. Which borrow fee breaks even?",
+  "back": "Lending income needed: $82 - 50 = 32$ bp.\nThe desk keeps half → borrow fee $= 2 \\times 32 = 64$ bp.",
+  "tags": [
+   "delta-one",
+   "financing"
+  ],
+  "source": "Learn Anything, Delta One S1",
+  "created": 1794300003064,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "d1-02-synthetic-020": {
+  "deck": "d1-02-synthetic",
+  "front": "Dealer quotes SOFR + 29. Your leverage line 4.7 bp, counterparty capital 12 bp (client + dealer). Client pays SOFR + 50. Desk P&L?",
+  "back": "All-in $= 29 + 4.7 + 12 = 45.7$ bp. P&L $= 50 - 45.7 = +4.3$ bp.\nThe dealer spread alone understates the cost.",
+  "tags": [
+   "delta-one",
+   "hedge"
+  ],
+  "source": "Learn Anything, Delta One S2",
+  "created": 1794300003065,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "d1-02-synthetic-021": {
+  "deck": "d1-02-synthetic",
+  "front": "$S = K = 100$, 1 year, no dividends, $C - P = 4.60$. Implied financing rate, and spread over SOFR at 4.30%?",
+  "back": "$K \\cdot DF = 100 - 4.60 = 95.40 \\Rightarrow DF = 0.954$.\nRate $= 1/0.954 - 1 = 4.82\\%$ → about 52 bp over SOFR.",
+  "tags": [
+   "delta-one",
+   "hedge"
+  ],
+  "source": "Learn Anything, Delta One S2",
+  "created": 1794300003066,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "d1-02-synthetic-022": {
+  "deck": "d1-02-synthetic",
+  "front": "$S = 100$, rate 4.30%, 1 year, no dividends. The options-implied forward is 101.30. Implied borrow fee?",
+  "back": "Theoretical forward $= 100 \\times 1.043 = 104.30$.\nGap $= 3.00$ on 100 → borrow ≈ 300 bp per year. Implied below theoretical = hard to borrow.",
+  "tags": [
+   "delta-one",
+   "financing"
+  ],
+  "source": "Learn Anything, Delta One S2",
+  "created": 1794300003067,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "d1-02-synthetic-023": {
+  "deck": "d1-02-synthetic",
+  "front": "A switch saves 26 bp per year. 3 months of the swap remain; both legs cost 8 bp. Do it?",
+  "back": "No. Saving over the remaining term $= 26 \\times 0.25 = 6.5$ bp < 8 bp.\nScale the annual saving by the remaining tenor before comparing.",
+  "tags": [
+   "delta-one",
+   "hedge"
+  ],
+  "source": "Learn Anything, Delta One S2",
+  "created": 1794300003068,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "d1-02-synthetic-024": {
+  "deck": "d1-02-synthetic",
+  "front": "A name you hedge synthetically (long call + short put) goes special. Which options package switches you to physical, and why do it?",
+  "back": "A conversion: buy the stock, buy the put, sell the call, as one package. Delta is unchanged.\nYou now hold shares you can lend at the special fee.",
+  "tags": [
+   "delta-one",
+   "hedge"
+  ],
+  "source": "Learn Anything, Delta One S2",
+  "created": 1794300003069,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "d1-03-divs-index-017": {
+  "deck": "d1-03-divs-index",
+  "front": "NTR index swap: provider assumes 30% withholding, the desk suffers 15%, dividend yield 2%. Annual gain before pass-through?",
+  "back": "$(30\\% - 15\\%) \\times 2\\% = 0.30\\% = 30$ bp per year.\nA tax gain on the dividend, not a funding benefit.",
+  "tags": [
+   "delta-one",
+   "dividends"
+  ],
+  "source": "Learn Anything, Delta One diagnostic",
+  "created": 1794300003070,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "d1-03-divs-index-018": {
+  "deck": "d1-03-divs-index",
+  "front": "Index 5000, 3-month financing 5% (simple). Expected dividends rise from 22.5 to 32.5 points. What happens to the fair future?",
+  "back": "$F = S(1 + rT) - D$: $5062.5 - 22.5 = 5040$ → $5062.5 - 32.5 = 5030$.\nHigher dividends lower the future point for point (in future value).",
+  "tags": [
+   "delta-one",
+   "dividends"
+  ],
+  "source": "Learn Anything, Delta One prep (2026)",
+  "created": 1794300003071,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "llm-02-training-015": {
+  "deck": "llm-02-training",
+  "front": "Why does LoRA cut fine-tuning memory so much, and what memory remains?",
+  "back": "Gradients and Adam states exist only for the adapters (well under 1% of parameters).\nThe frozen base weights remain: 70B in bf16 = 140 GB, vs ≈ 1.1 TB for full fine-tuning with Adam (16 bytes/parameter).",
+  "tags": [
+   "llm",
+   "llm-training"
+  ],
+  "source": "Hu et al. 2021 (LoRA); mixed-precision Adam accounting",
+  "created": 1794300003072,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "llm-02-training-016": {
+  "deck": "llm-02-training",
+  "front": "What does QLoRA add to LoRA?",
+  "back": "The frozen base is stored in 4-bit (NF4); only the LoRA adapters train, in bf16.\nBase memory falls about 4× vs bf16: the paper fine-tunes a 65B model on one 48 GB GPU.",
+  "tags": [
+   "llm",
+   "llm-training"
+  ],
+  "source": "Dettmers et al. 2023 (QLoRA)",
+  "created": 1794300003073,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "llm-02-training-017": {
+  "deck": "llm-02-training",
+  "front": "How does GRPO differ from PPO in RL fine-tuning?",
+  "back": "No value (critic) model. For each prompt, sample a group of answers; each answer's advantage = its reward minus the group mean, divided by the group std.\nLess memory and simpler; used with verifiable rewards (DeepSeekMath, DeepSeek-R1).",
+  "tags": [
+   "llm",
+   "llm-training"
+  ],
+  "source": "Shao et al. 2024 (DeepSeekMath); DeepSeek-AI 2025 (R1)",
+  "created": 1794300003074,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "llm-05-inference-017": {
+  "deck": "llm-05-inference",
+  "front": "What is continuous (in-flight) batching?",
+  "back": "The server schedules per decode step, not per request: a finished sequence leaves the batch and a waiting one joins at once.\nStatic batching waits for the longest sequence, so GPU slots sit idle.",
+  "tags": [
+   "llm",
+   "inference"
+  ],
+  "source": "Yu et al. 2022 (Orca, iteration-level scheduling); vLLM",
+  "created": 1794300003075,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "llm-05-inference-018": {
+  "deck": "llm-05-inference",
+  "front": "How does speculative decoding speed up generation without changing the output?",
+  "back": "A small draft model proposes $k$ tokens; the big model checks all $k$ in one forward pass, which costs about as much as one token because decode is bandwidth-bound.\nRejection sampling keeps the big model's output distribution exactly.",
+  "tags": [
+   "llm",
+   "inference"
+  ],
+  "source": "Leviathan et al. 2023; Chen et al. 2023 (speculative sampling)",
+  "created": 1794300003076,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "llm-05-inference-019": {
+  "deck": "llm-05-inference",
+  "front": "bf16 decode on an H100: at about what batch size do the weight reads stop being the bottleneck, and why?",
+  "back": "Per token, each 2-byte weight gives 2 FLOPs (multiply-add): 1 FLOP per byte per sequence. A batch of $B$ gives $B$ FLOPs/byte.\nH100: 989 TFLOPS / 3.35 TB/s ≈ 300 FLOPs/byte, so $B \\approx 300$. (KV-cache reads grow with $B$ and keep attention bandwidth-bound.)",
+  "tags": [
+   "llm",
+   "inference"
+  ],
+  "source": "Roofline model; NVIDIA H100 SXM datasheet (989 TFLOPS dense bf16, 3.35 TB/s)",
+  "created": 1794300003077,
+  "suspended": false,
+  "verified": "2026-11-20",
+  "checkBy": "2027-05-20"
+ },
+ "llm-03-agents-028": {
+  "deck": "llm-03-agents",
+  "front": "pass@k vs pass^k for agent evals: what does each measure?",
+  "back": "pass@k: at least one of $k$ tries succeeds (capability). pass^k: all $k$ tries succeed (consistency).\nAt 90% per try, pass^8 = $0.9^8 \\approx 43\\%$. A deployed agent needs pass^k.",
+  "tags": [
+   "llm",
+   "agents"
+  ],
+  "source": "Yao et al. 2024 (τ-bench)",
+  "created": 1794300003078,
+  "suspended": false,
+  "verified": "2026-11-20"
+ },
+ "llm-03-agents-029": {
+  "deck": "llm-03-agents",
+  "front": "What did MCP spec 2026-07-28 change about connections?",
+  "back": "MCP became stateless: no `initialize` handshake and no protocol-level sessions.\nEvery request carries its protocol version and client capabilities in `_meta`; servers advertise theirs via `server/discover`.",
+  "tags": [
+   "llm",
+   "mcp"
+  ],
+  "source": "MCP specification 2026-07-28, changelog (https://modelcontextprotocol.io/specification/2026-07-28/changelog)",
+  "created": 1794300003079,
+  "suspended": false,
+  "verified": "2026-11-20",
+  "checkBy": "2027-05-20"
+ },
+ "llm-04-langgraph-022": {
+  "deck": "llm-04-langgraph",
+  "front": "A node calls `interrupt()` twice. How does LangGraph match resume values to the calls?",
+  "back": "By position (index) within the node, since the node re-runs from the start on resume.\nSo never reorder interrupt calls or skip one conditionally, or values go to the wrong call.",
+  "tags": [
+   "llm",
+   "langgraph"
+  ],
+  "source": "LangGraph documentation, interrupts (https://docs.langchain.com/oss/python/langgraph/interrupts), checked Nov 2026",
+  "created": 1794300003080,
+  "suspended": false,
+  "verified": "2026-11-20",
+  "checkBy": "2027-05-20"
+ },
+ "llm-04-langgraph-023": {
+  "deck": "llm-04-langgraph",
+  "front": "In LangGraph 1.x, what replaces `create_react_agent`?",
+  "back": "`create_agent` from `langchain.agents` (LangChain 1.0). It runs on LangGraph and adds middleware for custom behaviour; `prompt` became `system_prompt`.",
+  "tags": [
+   "llm",
+   "langgraph",
+   "agents"
+  ],
+  "source": "LangGraph v1 migration guide (https://docs.langchain.com/oss/python/migrate/langgraph-v1), checked Nov 2026",
+  "created": 1794300003081,
+  "suspended": false,
+  "verified": "2026-11-20",
+  "checkBy": "2027-05-20"
  }
 }

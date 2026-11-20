@@ -773,7 +773,7 @@
   "title": "Agents: loop, tools, context and security",
   "order": 1,
   "created": 1794600000002,
-  "verified": "2026-11-13",
+  "verified": "2026-11-20",
   "source": "Anthropic, \"Building effective agents\" (2024); MCP specification; Simon Willison (2025); lecture notes",
   "intro": "Student notes. One example runs to the end: a **support agent** with two tools, `get_order(id)` and `send_email(to, text)`.\nOrder: read the note → do the questions → the ones you get wrong become cards.",
   "objectives": [
@@ -795,12 +795,17 @@
    {
     "id": "o4",
     "verb": "compare",
-    "text": "workflow vs agent; RAG and memory options"
+    "text": "workflow vs agent; context layout and caching; RAG and memory options"
    },
    {
     "id": "o5",
     "verb": "explain",
     "text": "what MCP solves, its roles and its primitives"
+   },
+   {
+    "id": "o6",
+    "verb": "diagnose",
+    "text": "repeated side effects from retries, and fix them with idempotency"
    }
   ],
   "sections": [
@@ -825,7 +830,8 @@
     "id": "erros",
     "title": "3. Errors multiply",
     "obj": [
-     "o2"
+     "o2",
+     "o6"
     ],
     "body": "- Dependent steps: the probability that the whole chain succeeds is the **product** of the probabilities.\n$$P(\\text{all succeed}) = p^{\\,n}$$\n- Examples:\n  1. 95% per step, 10 steps → $0.95^{10}$ ≈ **60%**.\n  2. 99% per step, 10 steps → ≈ 90%.\n  3. 95% per step, 20 steps → ≈ 36%.\n- Two levers: raise $p$ (checks, retries) and lower $n$ (shorter chain).\n- Retry has a hidden cost: the tool can run twice.\n- So a tool with a side effect must be **idempotent**. A repeated `send_email` = two emails. Fix: an idempotency key, or check before acting."
    },
@@ -859,7 +865,7 @@
     "obj": [
      "o5"
     ],
-    "body": "- Problem: $N$ apps × $M$ tools = $N \\times M$ custom integrations.\n- MCP = open protocol. Each tool becomes a **server**, built once, that serves any client → $N + M$.\n- Roles:\n  1. **Host**: the LLM app (chat, IDE).\n  2. **Client**: the connector inside the host, one per server.\n  3. **Server**: exposes the capabilities.\n- Server primitives, and who controls each:\n  1. **Tools**: actions. The model decides to call them.\n  2. **Resources**: data for the context. The application decides.\n  3. **Prompts**: prompt templates. The user decides.\n- Transport: stdio for a local server; Streamable HTTP for a remote server. Messages in JSON-RPC 2.0.\n- MCP standardizes the **connection**. It does not make the tool safe: an MCP server is untrusted content like any other."
+    "body": "- Problem: $N$ apps × $M$ tools = $N \\times M$ custom integrations.\n- MCP = open protocol. Each tool becomes a **server**, built once, that serves any client → $N + M$.\n- Roles:\n  1. **Host**: the LLM app (chat, IDE).\n  2. **Client**: the connector inside the host, one per server.\n  3. **Server**: exposes the capabilities.\n- Server primitives, and who controls each:\n  1. **Tools**: actions. The model decides to call them.\n  2. **Resources**: data for the context. The application decides.\n  3. **Prompts**: prompt templates. The user decides.\n- Transport: stdio for a local server; Streamable HTTP for a remote server. Messages in JSON-RPC 2.0.\n- Since spec 2026-07-28 MCP is stateless: no `initialize` handshake, no session; each request carries its version and capabilities.\n- MCP standardizes the **connection**. It does not make the tool safe: an MCP server is untrusted content like any other."
    },
    {
     "id": "avaliacao",
@@ -876,7 +882,7 @@
      "o1",
      "o3"
     ],
-    "body": "- The model never executes the tool. The app executes it.\n- An agent is not always better than a workflow. If the path is fixed, a workflow is cheaper and more predictable.\n- Chain success is a product, not an average: 10 steps at 95% give 60%, not 95%.\n- A valid schema is not a correct answer.\n- In the trifecta, **each item alone is harmless**. The risk comes from all three together.\n- A larger chunk does not improve retrieval; it usually makes matching worse.\n- MCP: tools → model; resources → application; prompts → user. The last two are easy to swap.\n- Prompt caching depends on an identical prefix. Putting the date or the user's name at the start of the system prompt destroys the cache."
+    "body": "- The model never executes the tool. The app executes it.\n- An agent is not always better than a workflow. If the path is fixed, a workflow is cheaper and more predictable.\n- Chain success is a product, not an average: 10 steps at 95% give 60%, not 95%.\n- A valid schema is not a correct answer.\n- In the trifecta, **no single item lets an injection steal data**. Exfiltration needs all three. (Injection can still do other harm through tools with side effects.)\n- A larger chunk does not improve retrieval; it usually makes matching worse.\n- MCP: tools → model; resources → application; prompts → user. The last two are easy to swap.\n- Prompt caching depends on an identical prefix. Putting the date or the user's name at the start of the system prompt destroys the cache."
    }
   ],
   "summary": "### Agent\n- LLM in a loop: action → result → repeat. Workflow = path in the code; agent = path decided by the LLM.\n- Tool = name + description + JSON schema. The model emits the call; the app executes it and returns the result.\n### Reliability\n$$P = p^{\\,n}$$\n- $0.95^{10}$ ≈ 60% · $0.99^{10}$ ≈ 90% · $0.95^{20}$ ≈ 36%.\n- Tool with a side effect: idempotent.\n### Context\n- Cache: stable first, variable last.\n- RAG: small chunk = precise; large = context. Hybrid = BM25 + vector. Reranker on the top results.\n### Security\n- Lethal trifecta: private data + untrusted content + outbound channel. Remove one.\n### MCP\n- $N \\times M$ → $N + M$. Host › client › server.\n- Tools (model) · resources (application) · prompts (user).\n- stdio local; Streamable HTTP remote; JSON-RPC 2.0.",
@@ -957,9 +963,9 @@
       "why": "This reduces the risk but does not guarantee anything. The model does not reliably separate data from instructions."
      },
      {
-      "t": "Switch to a larger model.",
+      "t": "Allow only GET requests when opening URLs.",
       "ok": false,
-      "why": "Larger models are also vulnerable. The trifecta stays complete."
+      "why": "A GET can carry data in the query string to an attacker's server. The outbound channel stays open."
      },
      {
       "t": "Validate the JSON of the tool calls.",
@@ -1029,7 +1035,7 @@
    {
     "id": "llm-03-agentes-q06",
     "type": "mc",
-    "obj": "o1",
+    "obj": "o4",
     "sec": "contexto",
     "stem": "The system prompt starts with \"Today is 2026-11-13, 14:32:07\". What is the effect on prompt caching?",
     "options": [
@@ -1116,7 +1122,7 @@
    {
     "id": "llm-03-agentes-q09",
     "type": "mc",
-    "obj": "o3",
+    "obj": "o6",
     "sec": "erros",
     "stem": "The agent called `send_email`, the network dropped before the response, and the framework repeated the call. The customer got two emails. What is the root fix?",
     "options": [
@@ -1165,7 +1171,7 @@
   "title": "LangGraph: state, graph and persistence",
   "order": 1,
   "created": 1794600000003,
-  "verified": "2026-11-13",
+  "verified": "2026-11-20",
   "source": "LangGraph documentation (docs.langchain.com), checked Nov 2026, version 1.2",
   "intro": "Student notes. One example runs to the end: the support agent from the agents note, now as a graph with 3 nodes: `agent` → `tools` → `approve`.\nThe API changes fast. Before you use a detail in production, check it in the documentation.",
   "objectives": [
@@ -1227,7 +1233,7 @@
      "o1",
      "o4"
     ],
-    "body": "- The graph runs in **super-steps** (Pregel model). One super-step = one \"tick\".\n- The nodes scheduled in the same tick run in parallel.\n- The reducers apply the updates only **at the end** of the tick. A node does not see the update of a neighbor in the same tick.\n- Two parallel nodes write the same key without a reducer → `InvalidUpdateError`. LangGraph does not know which overwrite wins.\n- Fix: give the key a reducer, or write to different keys.\n- If a node fails in the tick, the writes of the successful nodes stay saved (**pending writes**). On resume, only the failed node runs again.\n- Recursion limit = maximum number of **super-steps** per run. Exceed it → `GraphRecursionError`.\n- Example: each `agent` → `tools` loop uses 2 super-steps. With a limit of 25, 12 loops fit.\n- `recursion_limit` goes at the top level of the config, not inside `configurable`. The default value changed between versions: check the value in your version."
+    "body": "- The graph runs in **super-steps** (Pregel model). One super-step = one \"tick\".\n- The nodes scheduled in the same tick run in parallel.\n- The reducers apply the updates only **at the end** of the tick. A node does not see the update of a neighbor in the same tick.\n- Two parallel nodes write the same key without a reducer → `InvalidUpdateError`. LangGraph does not know which overwrite wins.\n- Fix: give the key a reducer, or write to different keys.\n- If a node fails in the tick, the writes of the successful nodes stay saved (**pending writes**). On resume, only the failed node runs again.\n- Recursion limit = maximum number of **super-steps** per run. Exceed it → `GraphRecursionError`.\n- Example: each `agent` → `tools` loop uses 2 super-steps, plus 1 for the final `agent` answer. With a limit of 25: $2 \\times 12 + 1 = 25$, so 12 loops fit.\n- `recursion_limit` goes at the top level of the config, not inside `configurable`. The default was 25; since 1.1.4 it is 10,007, so it no longer stops a runaway loop early. Set your own."
    },
    {
     "id": "persistencia",
@@ -1268,10 +1274,10 @@
     "obj": [
      "o4"
     ],
-    "body": "- The node returns a partial update. If it returns the full state on a key with `operator.add`, the list **duplicates**.\n- Without a reducer, the key overwrites. A message list without `add_messages` loses the history.\n- Updates from the same super-step appear only in the next tick.\n- The recursion limit counts super-steps, not loop iterations or LLM calls.\n- After `interrupt`, the node restarts from the beginning. Everything before the interrupt runs twice.\n- Without `thread_id` in the config, the checkpointer does not save or resume.\n- The checkpointer is not long-term memory. Another thread sees none of it.\n- `Command(resume=...)` is an input to `invoke`. `Command(update=..., goto=...)` is a node return value. They are different uses of the same class."
+    "body": "- The node returns a partial update. If it returns the full state on a key with `operator.add`, the list **duplicates**.\n- Without a reducer, the key overwrites. A message list without `add_messages` loses the history.\n- Updates from the same super-step appear only in the next tick.\n- The recursion limit counts super-steps, not loop iterations or LLM calls.\n- After `interrupt`, the node restarts from the beginning. Everything before the interrupt runs twice.\n- With a checkpointer, a call without `thread_id` in the config raises `ValueError`: there is no thread to save to or resume.\n- The checkpointer is not long-term memory. Another thread sees none of it.\n- `Command(resume=...)` is an input to `invoke`. `Command(update=..., goto=...)` is a node return value. They are different uses of the same class."
    }
   ],
-  "summary": "### Model\n- Typed state + nodes (functions) + edges. `compile(checkpointer=...)`.\n- A node returns a **partial update**.\n### Reducers\n- Default: overwrite. `operator.add`: concatenate. `add_messages`: append and update by id.\n### Flow\n- `add_edge` fixed · `add_conditional_edges` by state · `Command(update, goto)` from inside the node · `Send` for fan-out.\n- Super-step: nodes in parallel; updates applied at the end.\n- Same key, no reducer, in parallel → `InvalidUpdateError`.\n- `recursion_limit` counts super-steps → `GraphRecursionError`.\n### Persistence\n- Checkpointer: snapshot per super-step, per `thread_id`. Short term.\n- Store: key-value across threads. Long term.\n- Durability: `exit` < `async` < `sync`.\n### Human-in-the-loop\n- `interrupt()` pauses; `Command(resume=x)` resumes.\n- The node **restarts from the beginning**: side effect after the interrupt.\n### Time travel\n- `get_state_history` → replay by `checkpoint_id` or fork with `update_state` (goes through the reducers).",
+  "summary": "### Model\n- Typed state + nodes (functions) + edges. `compile(checkpointer=...)`.\n- A node returns a **partial update**.\n### Reducers\n- Default: overwrite. `operator.add`: concatenate. `add_messages`: append and update by id.\n### Flow\n- `add_edge` fixed · `add_conditional_edges` by state · `Command(update, goto)` from inside the node · `Send` for fan-out.\n- Super-step: nodes in parallel; updates applied at the end.\n- Same key, no reducer, in parallel → `InvalidUpdateError`.\n- `recursion_limit` counts super-steps → `GraphRecursionError`.\n### Persistence\n- Checkpointer: snapshot per super-step, per `thread_id`. Short term.\n- Store: key-value across threads. Long term.\n- Durability (safety): `exit` < `async` < `sync`. Speed: the reverse.\n### Human-in-the-loop\n- `interrupt()` pauses; `Command(resume=x)` resumes.\n- The node **restarts from the beginning**: side effect after the interrupt.\n### Time travel\n- `get_state_history` → replay by `checkpoint_id` or fork with `update_state` (goes through the reducers).",
   "questions": [
    {
     "id": "llm-04-langgraph-q01",
@@ -1394,22 +1400,22 @@
     "type": "mc",
     "obj": "o4",
     "sec": "superstep",
-    "stem": "The `agent` → `tools` loop uses 2 super-steps per iteration. `recursion_limit` is 10. How many full iterations fit?",
+    "stem": "The `agent` → `tools` loop uses 2 super-steps per iteration, and the run ends with one more `agent` step that answers. `recursion_limit` is 10. How many tool iterations can the agent run and still finish?",
     "options": [
      {
-      "t": "5",
+      "t": "4",
       "ok": true,
-      "why": "The limit counts super-steps: $10 / 2 = 5$ iterations. Then `GraphRecursionError` follows."
+      "why": "The limit counts super-steps: $2 \\times 4 + 1 = 9 \\le 10$. A fifth iteration needs $2 \\times 5 + 1 = 11$."
+     },
+     {
+      "t": "5",
+      "ok": false,
+      "why": "5 iterations use all 10 super-steps; the final `agent` step is the 11th and raises `GraphRecursionError`."
      },
      {
       "t": "10",
       "ok": false,
-      "why": "The limit does not count iterations. Each iteration has 2 super-steps."
-     },
-     {
-      "t": "20",
-      "ok": false,
-      "why": "This inverts the calculation."
+      "why": "The limit counts super-steps, not iterations. Each iteration has 2."
      },
      {
       "t": "Unlimited, if there is an edge to END.",
@@ -1557,7 +1563,7 @@
   "title": "Cost of the physical hedge",
   "order": 1,
   "created": 1794600000004,
-  "verified": "2026-11-13",
+  "verified": "2026-11-20",
   "source": "Lecture notes (Learn Anything, Delta One); illustrative numbers, not from any real desk",
   "intro": "Student notes. One example runs to the end: the client goes **long a TRS of 10 million USD** on a stock and pays SOFR + 50 bp. The desk buys the stock to hedge.\nQuestion of the note: do these 50 bp pay for the hedge? All numbers are illustrative.",
   "objectives": [
@@ -1594,7 +1600,7 @@
     "obj": [
      "o1"
     ],
-    "body": "- Client long TRS: receives the stock return, pays SOFR + spread.\n- Desk: is short the return → buys the stock (physical hedge) → needs cash to carry the position.\n- The client pays SOFR. The desk pays SOFR for its funding. **SOFR cancels.**\n- Only the spreads over SOFR remain. Unit for everything: **bp per year on the notional**.\n- Conversion: 1 bp on 10 million = 1,000 USD per year.\n- Consequence: if SOFR rises or falls, the P&L of this carry does not change."
+    "body": "- Client long TRS: receives the stock return, pays SOFR + spread.\n- Desk: is short the return → buys the stock (physical hedge) → needs cash to carry the position.\n- The client pays SOFR. The desk pays SOFR for its funding. **SOFR cancels.**\n- Only the spreads over SOFR remain. Unit for everything: **bp per year on the notional**.\n- Conversion: 1 bp on 10 million = 1,000 USD per year.\n- Consequence: if SOFR rises or falls, the funding carry does not change. (The leverage line uses all-in $K_e - K_d$; it stays the same only if $K_e$ moves with rates.)"
    },
    {
     "id": "funding",
@@ -1610,7 +1616,7 @@
     "obj": [
      "o3"
     ],
-    "body": "- SLR = Tier 1 capital / total leverage exposure.\n- The exposure counts **every asset at full size**, with no risk weight. 10 million of a liquid, safe stock weighs the same as 10 million of a risky one.\n- Idea: a fraction of the asset must be funded with equity instead of debt. Equity requires a higher return.\n$$\\text{charge} = E \\times L \\times (K_e - K_d)$$\n- $E$ = exposure (% of notional); $L$ = leverage requirement; $K_e$ = cost of equity; $K_d$ = cost of debt.\n- Why $K_e$ **minus** debt: the funding lines already charged the cost of debt on 100% of the asset. Equity only replaces a part of that debt. A full $K_e$ charge counts the debt twice.\n- Example: physical stock (exposure 100%), requirement 4.5%, $K_e$ 12%, debt 5%.\n  1. Excess: 12% − 5% = 7%.\n  2. Charge: $100\\% \\times 4.5\\% \\times 7\\%$ = **31.5 bp**.\n- It is usually the largest line of the physical hedge.\n- US eSLR rule (in force since 1 Apr 2026, for G-SIB holding companies): it moved from 3% + a fixed 2% to 3% + half of the G-SIB surcharge. The requirement fell.\n- Effect of 5% → 4.5%: 35 bp → 31.5 bp. 3.5 bp less per year."
+    "body": "- SLR = Tier 1 capital / total leverage exposure.\n- The exposure counts **every asset at full size**, with no risk weight. 10 million of a liquid, safe stock weighs the same as 10 million of a risky one.\n- Idea: a fraction of the asset must be funded with equity instead of debt. Equity requires a higher return.\n$$\\text{charge} = E \\times L \\times (K_e - K_d)$$\n- $E$ = exposure (% of notional); $L$ = leverage requirement; $K_e$ = cost of equity; $K_d$ = cost of debt.\n- Why $K_e$ **minus** debt: the funding lines already charged the cost of debt on 100% of the asset. Equity only replaces a part of that debt. A full $K_e$ charge counts the debt twice.\n- Example: physical stock (exposure 100%), requirement 4.5%, $K_e$ 12%, debt 5%.\n  1. Excess: 12% − 5% = 7%.\n  2. Charge: $100\\% \\times 4.5\\% \\times 7\\%$ = **31.5 bp**.\n- In this example it is the largest single line (funding is split into repo 25.5 and haircut 15).\n- US eSLR rule (in force since 1 Apr 2026, for G-SIB holding companies): it moved from 3% + a fixed 2% to 3% + half of the G-SIB surcharge. The requirement fell.\n- Effect of 5% → 4.5%: 35 bp → 31.5 bp. 3.5 bp less per year."
    },
    {
     "id": "capital",
@@ -1654,7 +1660,7 @@
     "body": "- SOFR is not in the calculation. Only spreads.\n- The haircut is the **weight** of the expensive funding, not a cost in bp.\n- Leverage uses $K_e$ − debt. A full $K_e$ counts the debt twice.\n- Leverage has no risk weight. Counterparty capital has one. They are different lines.\n- Securities lending is revenue for whoever is **long** the stock. For whoever is short, special is a cost.\n- The desk receives a **share** of the borrow fee, not the full fee.\n- Negative rebate exists: borrow fee above the reinvestment rate.\n- bp on notional → dollars: 1 bp on 10 million = 1,000 USD per year."
    }
   ],
-  "summary": "### Unit\n- SOFR cancels. Everything in bp/year on the notional. 1 bp on 10 million = 1,000 USD/year.\n### The five lines\n- Funding = $(1-h) \\times \\text{repo} + h \\times \\text{unsecured}$. E.g.: $0.85 \\times 30 + 0.15 \\times 100$ = 40.5.\n- Leverage = exposure × requirement × ($K_e$ − debt). E.g.: $100\\% \\times 4.5\\% \\times 7\\%$ = 31.5.\n- Counterparty capital: client risk, by RWA. E.g.: 10.\n- Securities lending: revenue. GC ≈ −10; special = hundreds of bp.\n### P&L\n- Cost = 40.5 + 31.5 + 10 − 10 = 72. Client 50 → −22 bp.\n- Special (300 bp, half to the desk): cost −68 → +118 bp.\n### Rule\n- Profit if spread ≥ funding + leverage + capital − lending.\n- Otherwise: internalize or synthetic hedge.\n### Sec lending\n- Rebate = reinvestment − borrow fee (can be negative).\n- Signals: utilization and days to cover rising; recalls.",
+  "summary": "### Unit\n- SOFR cancels. Everything in bp/year on the notional. 1 bp on 10 million = 1,000 USD/year.\n### The lines (funding = repo + haircut)\n- Funding = $(1-h) \\times \\text{repo} + h \\times \\text{unsecured}$. E.g.: $0.85 \\times 30 + 0.15 \\times 100$ = 40.5.\n- Leverage = exposure × requirement × ($K_e$ − debt). E.g.: $100\\% \\times 4.5\\% \\times 7\\%$ = 31.5.\n- Counterparty capital: client risk, by RWA. E.g.: 10.\n- Securities lending: revenue. GC ≈ −10; special = hundreds of bp.\n### P&L\n- Cost = 40.5 + 31.5 + 10 − 10 = 72. Client 50 → −22 bp.\n- Special (300 bp, half to the desk): cost −68 → +118 bp.\n### Rule\n- Profit if spread ≥ funding + leverage + capital − lending.\n- Otherwise: internalize or synthetic hedge.\n### Sec lending\n- Rebate = reinvestment − borrow fee (can be negative).\n- Signals: utilization and days to cover rising; recalls.",
   "questions": [
    {
     "id": "d1-01-hedge-fisico-q01",
@@ -1739,7 +1745,7 @@
      {
       "t": "Because the client pays SOFR, which cancels the debt.",
       "ok": false,
-      "why": "SOFR cancels the base rate. The cost of debt here is the spread, which does not cancel."
+      "why": "SOFR cancels between the client leg and the funding lines. In the leverage line, $K_e$ and $K_d$ are both all-in rates (12% and 5%); the excess that equity demands does not cancel."
      }
     ]
    },
@@ -1835,7 +1841,7 @@
     "type": "mc",
     "obj": "o1",
     "sec": "cenario",
-    "stem": "SOFR falls from 4.30% to 3.80%. What happens to the desk's carry on a client long TRS with a physical hedge?",
+    "stem": "SOFR falls from 4.30% to 3.80%. What happens to the desk's funding carry (client financing leg vs hedge funding) on a client long TRS with a physical hedge?",
     "options": [
      {
       "t": "Nothing: SOFR cancels on both legs.",
@@ -1940,7 +1946,7 @@
   "title": "Synthetic hedge and switches",
   "order": 1,
   "created": 1794600000005,
-  "verified": "2026-11-13",
+  "verified": "2026-11-20",
   "source": "Lecture notes (Learn Anything, Delta One); illustrative numbers, not from any real desk",
   "intro": "This note continues the physical hedge note. Same client: long TRS of 10 million, pays SOFR + 50 bp. The physical hedge cost **72 bp** and gave −22 bp.\nQuestion of the note: is there a cheaper route, and when is a switch worth it? All numbers are illustrative.",
   "objectives": [
@@ -1977,7 +1983,7 @@
     "obj": [
      "o1"
     ],
-    "body": "- For a client long TRS on a stock, in this order:\n  1. **Internalize** against another client's short.\n  2. Buy the stock (physical).\n  3. Swap with a street dealer (swap facility).\n  4. Listed options: long call + short put.\n- For an index, there is also the future.\n- Why internalization comes first: a client long against a client short needs no hedge, no stock and no balance sheet. Cost near zero, and the desk earns the spread on both sides."
+    "body": "- For a client long TRS on a stock, the routes:\n  1. **Internalize** against another client's short.\n  2. Buy the stock (physical).\n  3. Swap with a street dealer (swap facility).\n  4. Listed options: long call + short put.\n- For an index, there is also the future.\n- Order: check internalization first. Rank the others by all-in cost (section 8); the cheapest changes with the inputs.\n- Why internalization comes first: a client long against a client short needs no hedge, no stock and no balance sheet. Cost near zero, and the desk earns the spread on both sides."
    },
    {
     "id": "balanco",
@@ -1993,7 +1999,7 @@
     "obj": [
      "o2"
     ],
-    "body": "- The desk goes long a swap with another bank. The dealer carries the stock.\n- Why the dealer can quote below your physical cost:\n  1. Cheaper funding or balance sheet than yours.\n  2. The dealer matches your trade with flow from its own clients.\n- The dealer spread is **your funding cost**. Add your own leverage and capital lines.\n- Example: the dealer charges SOFR + 35.\n  1. Dealer spread: 35\n  2. Your leverage (15%): 4.7\n  3. Your counterparty capital (client + dealer): 6\n- All-in = **45.7 bp**. P&L = 50 − 45.7 = **+4.3 bp**.\n- The physical hedge gave −22. The route changed the sign of the trade.\n- What you lose: the securities lending revenue. The dealer now holds the stock."
+    "body": "- The desk goes long a swap with another bank. The dealer carries the stock.\n- Why the dealer can quote below your physical cost:\n  1. Cheaper funding or balance sheet than yours.\n  2. The dealer matches your trade with flow from its own clients.\n- The dealer spread is **your funding cost**. Add your own leverage and capital lines.\n- Example: the dealer charges SOFR + 29.\n  1. Dealer spread: 29\n  2. Your leverage (15%): 4.7\n  3. Your counterparty capital: client 10 (same as in the physical hedge) + dealer 2 = 12\n- All-in = **45.7 bp**. P&L = 50 − 45.7 = **+4.3 bp**.\n- The physical hedge gave −22. The route changed the sign of the trade.\n- What you lose: the securities lending revenue. The dealer now holds the stock."
    },
    {
     "id": "opcoes",
@@ -2018,7 +2024,7 @@
     "obj": [
      "o4"
     ],
-    "body": "- Switch = move the hedge between physical and synthetic, with the same delta before and after.\n- Three reasons:\n  1. The stock goes special → go physical and earn the lending fee.\n  2. Balance sheet pressure (reporting dates) → go synthetic.\n  3. The relative cost of the routes changes.\n- Execution without market risk: both legs in a **package**, at a single price.\n  1. Dealer: sell the stock and enter the swap at the same price.\n  2. Options: reversal (sell the stock, buy a call, sell a put).\n  3. Index: EFP.\n- Conversion = long stock + long put + short call. Reversal = short stock + long call + short put.\n- Worth it when: savings over the remaining term > bid-ask of the two legs.\n- Example: savings of 72 − 45.7 = 26.3 bp per year. Switch cost: 8 bp.\n  1. 6 months remain: 26.3 × 0.5 = 13.2 bp > 8 → **do it**.\n  2. 3 months remain: 26.3 × 0.25 = 6.6 bp < 8 → **do not do it**."
+    "body": "- Switch = move the hedge between physical and synthetic, with the same delta before and after.\n- Three reasons:\n  1. The stock goes special → go physical and earn the lending fee.\n  2. Balance sheet pressure (reporting dates) → go synthetic.\n  3. The relative cost of the routes changes.\n- Execution without market risk: both legs in a **package**, at a single price.\n  1. Dealer: sell the stock and enter the swap at the same price.\n  2. Options: to go synthetic, a reversal (sell the stock, buy a call, sell a put); to go physical, a conversion (buy the stock, buy a put, sell a call).\n  3. Index: EFP.\n- Conversion = long stock + long put + short call. Reversal = short stock + long call + short put.\n- Worth it when: savings over the remaining term > bid-ask of the two legs.\n- Example: savings of 72 − 45.7 = 26.3 bp per year. Switch cost: 8 bp.\n  1. 6 months remain: 26.3 × 0.5 = 13.2 bp > 8 → **do it**.\n  2. 3 months remain: 26.3 × 0.25 = 6.6 bp < 8 → **do not do it**."
    },
    {
     "id": "short",
@@ -2047,7 +2053,7 @@
     "body": "- The dealer spread is not the full cost. Your leverage and your capital are missing.\n- In the synthetic, the desk **loses** the securities lending revenue.\n- The option premium is not a cost. The cost is the implied rate.\n- Hedge of a client long = long call + short put. It is easy to invert.\n- Implied forward **below** the theoretical forward = stock expensive to borrow, not cheap.\n- Switch savings are per year. Multiply by the remaining term before you compare them with the cost.\n- Special helps the desk that is long physical and hurts the desk that is short. The sign depends on the side."
    }
   ],
-  "summary": "### Routes (client long)\n- Internalize › physical › swap with dealer › call − put. Index: future.\n### Balance sheet\n- Physical: exposure 100% → 31.5 bp. Margined swap: ≈ 15% → 4.7 bp.\n### All-in\n- spread + exposure × lev. × ($K_e$ − debt) + capital − lending + execution.\n- Dealer: 35 + 4.7 + 6 = 45.7 → +4.3 bp. Physical: 72 → −22 bp.\n### Options\n$$C - P = S - PV(\\text{div}) - K \\cdot DF(T)$$\n- Solve for $DF$ → implied rate. The premium is not a cost.\n- Implied forward below the theoretical forward → the difference is the borrow.\n### Switch\n- Do it if savings × remaining term > bid-ask of the two legs. As a package (dealer, reversal, EFP).\n### Client short\n- Fixed spread × floating borrow fee + recall = term mismatch.\n- Defenses: term borrow, repricing, ISDA events, buffer.",
+  "summary": "### Routes (client long)\n- Internalize first. Then the cheapest all-in of: physical, swap with dealer, call − put. Index: future.\n### Balance sheet\n- Physical: exposure 100% → 31.5 bp. Margined swap: ≈ 15% → 4.7 bp.\n### All-in\n- spread + exposure × lev. × ($K_e$ − debt) + capital − lending + execution.\n- Dealer: 29 + 4.7 + 12 = 45.7 → +4.3 bp. Physical: 72 → −22 bp.\n### Options\n$$C - P = S - PV(\\text{div}) - K \\cdot DF(T)$$\n- Solve for $DF$ → implied rate. The premium is not a cost.\n- Implied forward below the theoretical forward → the difference is the borrow.\n### Switch\n- Do it if savings × remaining term > bid-ask of the two legs. As a package (dealer, reversal or conversion, EFP).\n### Client short\n- Fixed spread × floating borrow fee + recall = term mismatch.\n- Defenses: term borrow, repricing, ISDA events, buffer.",
   "questions": [
    {
     "id": "d1-02-hedge-sintetico-q01",
@@ -2096,9 +2102,9 @@
       "why": "This uses only the dealer spread. Your leverage and your capital are missing."
      },
      {
-      "t": "−6 bp",
+      "t": "+25 bp",
       "ok": false,
-      "why": "That is the P&L of the physical hedge in the example (cost of 66)."
+      "why": "This leaves out your leverage line: 60 − (30 + 5). The dealer swap still uses some balance sheet: 8 bp."
      },
      {
       "t": "+47 bp",
@@ -2270,9 +2276,9 @@
       "why": "The opposite is true: short sellers pay a high fee."
      },
      {
-      "t": "An expected dividend of 4.",
+      "t": "An expected dividend of about 2.",
       "ok": false,
-      "why": "A dividend of 2 would explain the difference, but the question says there are no dividends."
+      "why": "A dividend of about 2 would explain the gap, but the stem says there are no dividends."
      },
      {
       "t": "Pricing error: the two must be equal.",
@@ -2333,7 +2339,7 @@
   "title": "Products and pricing",
   "order": 1,
   "created": 1794600000006,
-  "verified": "2026-11-13",
+  "verified": "2026-11-20",
   "source": "Hull, Options, Futures and Other Derivatives (forwards and futures); FinancePy (EquitySwap); lecture notes. Illustrative numbers",
   "intro": "Student notes. The running example: the **USD 10 million TRS**, SOFR at 4.30%, spread of 50 bp.\nThis note covers the product math: the financing leg, the forward with a dividend, and what a future reveals.",
   "objectives": [
@@ -2379,7 +2385,7 @@
      "o1",
      "o2"
     ],
-    "body": "- **Equity leg**: price return + dividends × DPR.\n- **Financing leg**: notional × (benchmark + spread) × year fraction.\n- Long client: **receives** the equity leg and **pays** the financing leg.\n- Financing leg math:\n$$\\text{payment} = N \\times (r + s) \\times \\frac{\\text{days}}{360}$$\n- Example: 10 million, SOFR 4.30%, spread 50 bp, 91 days, Act/360.\n  1. Rate: 4.30% + 0.50% = 4.80%.\n  2. Fraction: 91/360 = 0.2528.\n  3. Payment ≈ **USD 121,333**.\n- Only the spread is desk margin: $10\\,\\text{m} \\times 0.50\\% \\times 91/360$ ≈ USD 12.6k in the quarter. The rest pays the SOFR of the funding."
+    "body": "- **Equity leg**: price return + dividends × DPR.\n- **Financing leg**: notional × (benchmark + spread) × year fraction.\n- Long client: **receives** the equity leg and **pays** the financing leg.\n- Financing leg math:\n$$\\text{payment} = N \\times (r + s) \\times \\frac{\\text{days}}{360}$$\n- Example: 10 million, SOFR 4.30%, spread 50 bp, 91 days, Act/360.\n  1. Rate: 4.30% + 0.50% = 4.80%.\n  2. Fraction: 91/360 = 0.2528.\n  3. Payment ≈ **USD 121,333**.\n- The spread is what the desk earns above SOFR: $10\\,\\text{m} \\times 0.50\\% \\times 91/360$ ≈ USD 12.6k in the quarter. It must first pay the desk's funding and borrow cost above SOFR; only the rest is margin."
    },
    {
     "id": "resets",
@@ -2707,7 +2713,7 @@
    {
     "id": "d1-05-produtos-precos-q11",
     "type": "open",
-    "obj": "o5",
+    "obj": "o1",
     "sec": "valor",
     "stem": "Why should the stock's repo/funding rate, and not OIS, drive the equity forward when the desk prices a TRS?",
     "answer": "Because the forward must reflect the real cost to carry the hedge, and the desk finances the stock at the repo/funding rate, not at OIS. Pricing with OIS assumes funding that the desk does not have and hides the funding and borrow spread. The difference between the two rates is what the client pays as spread."
@@ -3095,7 +3101,7 @@
   "title": "Index events and the closing auction",
   "order": 1,
   "created": 1794600000008,
-  "verified": "2026-11-15",
+  "verified": "2026-11-20",
   "source": "NYSE (closing auction fact sheet); Nasdaq (Closing Cross FAQ); MSCI review calendar; lecture notes. Illustrative numbers",
   "intro": "Student notes. Running example: a stock **enters an index**, and the desk must buy **1 million shares at the close** on the day before the effective date.\nQuestion of this note: why at the close, and what does bad timing cost.",
   "objectives": [
@@ -3123,6 +3129,11 @@
     "id": "o5",
     "verb": "compare",
     "text": "index arbitrage and ETF creation/redemption"
+   },
+   {
+    "id": "o6",
+    "verb": "calculate",
+    "text": "the closing rebalance order of a leveraged ETF"
    }
   ],
   "sections": [
@@ -3180,14 +3191,14 @@
     "obj": [
      "o5"
     ],
-    "body": "- **Index arbitrage**: future against the basket, when the future moves away from fair value.\n  1. Rich future: buy the basket, sell the future (cash-and-carry).\n  2. Cheap future: the opposite.\n- **ETF creation and redemption**: authorized participants (APs) exchange baskets for ETF shares with the fund.\n  1. ETF above NAV: the AP buys the basket, delivers it to the fund, receives new ETF shares and sells them. The price falls.\n  2. ETF below NAV: the AP buys ETF shares, redeems them, receives the basket and sells it. The price rises.\n- Both mechanisms tie a derivative to its fair value. The difference is the instrument: a future with an expiry, or an ETF share with no expiry."
+    "body": "- **Index arbitrage**: future against the basket, when the future moves away from fair value.\n  1. Rich future: buy the basket, sell the future (cash-and-carry).\n  2. Cheap future: the opposite.\n- **ETF creation and redemption**: authorized participants (APs) exchange baskets for ETF shares with the fund.\n  1. ETF above NAV: the AP buys the basket, delivers it to the fund, receives new ETF shares and sells them. The price falls.\n  2. ETF below NAV: the AP buys ETF shares, redeems them, receives the basket and sells it. The price rises.\n- Both mechanisms tie a traded price to the value of the underlying basket. The difference is the instrument: a future with an expiry, or an ETF share with no expiry."
    },
    {
     "id": "etf-alavancado",
     "title": "8. Leveraged ETFs: the closing flow",
     "obj": [
      "o1",
-     "o4"
+     "o6"
     ],
     "body": "- The fund promises $L$ times the **daily** return. It must end each day with exposure = $L$ × assets.\n- Rebalance order at the close:\n$$\\text{order} = A \\cdot L \\cdot (L-1) \\cdot r$$\n- $A$ = fund assets, $r$ = index return on the day. The sign follows the market.\n- Example: 3x, 1 billion, +2% → exposure 3.06; assets 1.06; target 3.18 → **buy 120 million**.\n- Multiplier $L(L-1)$: 2x → 2; 3x → 6; −1x → 2; −2x → 6; −3x → 12. Long and inverse funds trade on the same side: the flows add up.\n- Creations and redemptions: add $L$ × net flow. This term follows the investor, not the market.\n- Who sends the order: the dealer that hedges the fund's swap.\n- Round trip, index 100 → 110 → 100, 2x fund:\n  1. Day 1: +20% → 120. The fund buys 20 at the close, at 110.\n  2. Day 2: the index falls 9.09% (10/110). The fund falls 18.18% → **98.18**.\n  3. The loss of 1.82 is what the 20 bought at the top lost.\n- Rule of thumb for the loss on a round trip: $L(L-1) \\cdot r^2$."
    },
@@ -3202,7 +3213,7 @@
     "body": "- The effective date is the next day. The trade is at the **close of the day before**.\n- A cap-weighted index needs no trade when the price moves. An equal-weight index does.\n- A float change moves the weight with no addition or deletion.\n- MOC has no limit price. LOC can simply fail to execute.\n- The NYSE and Nasdaq cut-offs differ: 15:50 and 15:55.\n- Restrike comes only from the part executed **outside** the auction.\n- Restrike sign: bought early above the close = loss; sold early above the close = gain.\n- Putting everything in the auction makes restrike zero, but can move the close against you."
    }
   ],
-  "summary": "### Dates\n- Announcement → pro-forma → effective date. Execute at the close of the day before.\n- S&P: 3rd Friday of Mar/Jun/Sep/Dec. MSCI: Feb/May/Aug/Nov, near month-end.\n### Who trades\n- Cap-weighted: only composition, share count or float. Equal-weight: sell the risers, buy the fallers.\n### Auction\n- One price that maximizes volume = official close.\n- MOC: at any price. LOC: only within the limit.\n- Imbalance from 15:50. Cut-off: NYSE 15:50; Nasdaq MOC 15:55, LOC 15:58.\n### Restrike\n$$Q_{\\text{early}} \\times (P_{\\text{close}} - P_{\\text{avg}})$$\n- E.g.: $300{,}000 \\times (50.00 - 50.40)$ = −120k. For a sale, the sign flips.\n- Auction: more impact. Early: more restrike.\n### Arbitrage\n- Rich future: buy the basket, sell the future.\n- ETF above NAV: AP creates and sells. Below NAV: AP buys and redeems.",
+  "summary": "### Dates\n- Announcement → pro-forma → effective date. Execute at the close of the day before.\n- S&P: 3rd Friday of Mar/Jun/Sep/Dec. MSCI: Feb/May/Aug/Nov, near month-end.\n### Who trades\n- Cap-weighted: only composition, share count or float. Equal-weight: sell the risers, buy the fallers.\n### Auction\n- One price that maximizes volume = official close.\n- MOC: at any price. LOC: only within the limit.\n- Imbalance from 15:50. Cut-off: NYSE 15:50; Nasdaq MOC 15:55, LOC 15:58.\n### Restrike\n$$Q_{\\text{early}} \\times (P_{\\text{close}} - P_{\\text{avg}})$$\n- E.g.: $300{,}000 \\times (50.00 - 50.40)$ = −120k. For a sale, the sign flips.\n- Auction: more impact. Early: more restrike.\n### Arbitrage\n- Rich future: buy the basket, sell the future.\n- ETF above NAV: AP creates and sells. Below NAV: AP buys and redeems.\n### Leveraged ETFs\n- Closing order $= A \\cdot L(L-1) \\cdot r$, always with the day's move. Long and inverse funds trade on the same side.\n- Plus $L \\times$ net creations.\n- Round-trip loss ≈ $L(L-1)\\,r^2$.",
   "questions": [
    {
     "id": "d1-04-eventos-indice-q01",
@@ -3296,7 +3307,7 @@
     "type": "mc",
     "obj": "o3",
     "sec": "leilao",
-    "stem": "It is 15:52 in New York. No imbalance is published. You want to send a new MOC. Where is it still accepted?",
+    "stem": "It is 15:52 in New York. You want to send a new MOC that does not offset any published imbalance. Where is it still accepted?",
     "options": [
      {
       "t": "On Nasdaq (cut-off at 15:55), not on NYSE (cut-off at 15:50).",
@@ -3345,7 +3356,7 @@
      {
       "t": "Half of it executes.",
       "ok": false,
-      "why": "There is no partial execution by price: either the limit is respected, or it is not."
+      "why": "A buy limit of 20.00 is below the 20.15 close, so none of it is eligible. Partial fills happen only to orders priced exactly at the close."
      }
     ]
    },
@@ -3471,7 +3482,7 @@
     "obj": "o1",
     "sec": "quem",
     "stem": "Why do index rebalance trades execute at the close?",
-    "answer": "The index and client swaps are calculated with the official closing price. A tracker wants zero error against this price, so it executes the pro-forma basket at this price, usually through the auction. Cap weights depend on price, so the basket is exact only at the close."
+    "answer": "The index and client swaps are calculated with the official closing price. A tracker wants zero error against this price, so it executes the pro-forma basket at this price, usually through the auction. Any fill at another price leaves a gap against the index: restrike."
    },
    {
     "id": "d1-04-eventos-indice-q11",
@@ -3480,6 +3491,35 @@
     "sec": "restrike",
     "stem": "Explain restrike risk and the trade-off between executing early and executing in the auction.",
     "answer": "Restrike is the difference between the desk's execution price and the official close. What goes to the auction has no restrike. What executes early carries the difference, in either direction. Executing early reduces the impact on the close, but adds restrike. Executing everything in the auction makes restrike zero, but concentrates the impact. The split depends on the auction depth and the stock's volatility."
+   },
+   {
+    "id": "d1-04-eventos-indice-q12",
+    "type": "mc",
+    "obj": "o6",
+    "sec": "etf-alavancado",
+    "stem": "A −2x inverse ETF has NAV of 500 million. The index falls 3% on the day. No creations or redemptions. What must the fund's exposure trade at the close?",
+    "options": [
+     {
+      "t": "Sell 90 million of index exposure.",
+      "ok": true,
+      "why": "$500 \\times (-2)(-3) \\times (-3\\%) = -90$. Exposure −1000 → −970; NAV 500 → 530; target −1060: add 90 of short."
+     },
+     {
+      "t": "Buy 90 million of index exposure.",
+      "ok": false,
+      "why": "Sign error. $L(L-1) > 0$ also for inverse funds, so the order follows the market: on a down day it sells."
+     },
+     {
+      "t": "Sell 30 million of index exposure.",
+      "ok": false,
+      "why": "This is $A \\cdot |L| \\cdot r$. The multiplier is $L(L-1) = 6$, not 2."
+     },
+     {
+      "t": "Nothing: the short exposure gained as promised.",
+      "ok": false,
+      "why": "NAV rose 6% but the short exposure shrank 3%. The ratio is no longer −2, so the fund must trade."
+     }
+    ]
    }
   ]
  },
@@ -3488,7 +3528,7 @@
   "title": "Map of the desks and of funding",
   "order": 1,
   "created": 1794600000009,
-  "verified": "2026-11-15",
+  "verified": "2026-11-20",
   "source": "SEC Rule 15c3-3 (17 CFR 240.15c3-3); lecture notes (Learn Anything, Delta One). Generic description of a bank; it does not describe any specific institution",
   "intro": "Student notes. Running example: the **10 million TRS** from the other notes. Here the question is different: which desks and functions does this trade pass through inside a bank?\nThe map is generic. Each bank organizes them differently.",
   "objectives": [
@@ -3551,7 +3591,7 @@
     "obj": [
      "o1"
     ],
-    "body": "- **Stock loan / sec lending**: sources stock for short sellers.\n- Sources: **agent lenders** (custodians that lend on behalf of pension funds and asset managers) and internal inventory.\n- Lends to clients and to internal desks. Manages fees, recalls and collateral.\n- **Firm-wide inventory management**: match internal longs (desk hedges, PB margin collateral) with internal shorts **before** borrowing externally.\n- Why: borrowing internally is cheaper and frees balance sheet.\n- In the example: the stock that Delta One bought as a hedge becomes supply for a PB client's short. This is the source of the lending revenue line in the stack."
+    "body": "- **Stock loan / sec lending**: sources stock for short sellers.\n- Sources: **agent lenders** (custodians that lend on behalf of pension funds and asset managers) and internal inventory.\n- Lends to clients and to internal desks. Manages fees, recalls and collateral.\n- **Firm-wide inventory management**: match internal longs (desk hedges, PB margin collateral) with internal shorts **before** borrowing externally.\n- Why: borrowing internally is cheaper and frees balance sheet.\n- In the example: the stock that Delta One bought as a hedge becomes supply for a PB client's short. The lending fee offsets part of the cost of the physical hedge."
    },
    {
     "id": "deriv",
@@ -3559,7 +3599,7 @@
     "obj": [
      "o1"
     ],
-    "body": "- **Flow vol**: makes markets in vanilla options (listed and OTC). Carries vol, skew and term-structure risk.\n- What it needs from Delta One: delta hedging, borrow cost and dividend forecasts. These are the forward inputs.\n- **Exotics / structured products**: designs and hedges notes and exotic options (e.g., autocallables).\n- Carries long-dated risk: vol, dividends and correlation.\n- It is usually long dividends, and sells this risk. Delta One is a natural counterparty."
+    "body": "- **Flow vol**: makes markets in vanilla options (listed and OTC). Carries vol, skew and term-structure risk.\n- What it needs from Delta One: borrow cost and dividend forecasts (the forward inputs), and execution of its delta hedges.\n- **Exotics / structured products**: designs and hedges notes and exotic options (e.g., autocallables).\n- Carries long-dated risk: vol, dividends and correlation.\n- It is usually long dividends, and sells this risk. Delta One is a natural counterparty."
    },
    {
     "id": "funding",
@@ -3803,7 +3843,7 @@
      {
       "t": "Borrow cost, dividend forecasts and the delta hedge.",
       "ok": true,
-      "why": "These are the forward inputs. Vol and skew belong to the vol desk itself."
+      "why": "Borrow and dividends set the forward; Delta One also executes the delta hedge. Vol and skew belong to the vol desk itself."
      },
      {
       "t": "The volatility surface.",
