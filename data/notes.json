@@ -79,27 +79,27 @@
   "objectives": [
    {
     "id": "o1",
-    "verb": "explicar",
+    "verb": "explain",
     "text": "why attention replaced recurrence, and the cost it brought"
    },
    {
     "id": "o2",
-    "verb": "calcular",
+    "verb": "calculate",
     "text": "the attention weights and output of a token, with and without a causal mask"
    },
    {
     "id": "o3",
-    "verb": "explicar",
+    "verb": "explain",
     "text": "the role of Q, K, V and of the $\\sqrt{d_k}$ scaling"
    },
    {
     "id": "o4",
-    "verb": "calcular",
+    "verb": "calculate",
     "text": "shapes, cost and memory of attention for $n$ tokens"
    },
    {
     "id": "o5",
-    "verb": "diagnosticar",
+    "verb": "diagnose",
     "text": "common bugs in an attention implementation"
    }
   ],
@@ -395,27 +395,27 @@
   "objectives": [
    {
     "id": "o1",
-    "verb": "explicar",
+    "verb": "explain",
     "text": "the role of each part of the block: attention, MLP, residual and norm"
    },
    {
     "id": "o2",
-    "verb": "calcular",
+    "verb": "calculate",
     "text": "probabilities from logits, with temperature and top-p"
    },
    {
     "id": "o3",
-    "verb": "calcular",
+    "verb": "calculate",
     "text": "the loss and perplexity of a prediction"
    },
    {
     "id": "o4",
-    "verb": "explicar",
+    "verb": "explain",
     "text": "why the KV cache works, and calculate its size"
    },
    {
     "id": "o5",
-    "verb": "diagnosticar",
+    "verb": "diagnose",
     "text": "generation behavior: determinism, prefill and decode"
    }
   ],
@@ -779,27 +779,27 @@
   "objectives": [
    {
     "id": "o1",
-    "verb": "explicar",
+    "verb": "explain",
     "text": "an agent's loop and the mechanics of tool calling"
    },
    {
     "id": "o2",
-    "verb": "calcular",
+    "verb": "calculate",
     "text": "the success probability of a chain of dependent steps"
    },
    {
     "id": "o3",
-    "verb": "diagnosticar",
+    "verb": "diagnose",
     "text": "prompt injection risk with the lethal trifecta"
    },
    {
     "id": "o4",
-    "verb": "comparar",
+    "verb": "compare",
     "text": "workflow vs agent; RAG and memory options"
    },
    {
     "id": "o5",
-    "verb": "explicar",
+    "verb": "explain",
     "text": "what MCP solves, its roles and its primitives"
    }
   ],
@@ -1171,27 +1171,27 @@
   "objectives": [
    {
     "id": "o1",
-    "verb": "explicar",
+    "verb": "explain",
     "text": "the LangGraph model: state, nodes, edges and super-steps"
    },
    {
     "id": "o2",
-    "verb": "calcular",
+    "verb": "calculate",
     "text": "the state after an update, with and without a reducer"
    },
    {
     "id": "o3",
-    "verb": "explicar",
+    "verb": "explain",
     "text": "what the checkpointer saves and what it enables"
    },
    {
     "id": "o4",
-    "verb": "diagnosticar",
+    "verb": "diagnose",
     "text": "common errors: InvalidUpdateError, repeated side effect after interrupt, recursion limit"
    },
    {
     "id": "o5",
-    "verb": "comparar",
+    "verb": "compare",
     "text": "conditional edge, Command and Send; checkpointer and store"
    }
   ],
@@ -1563,27 +1563,27 @@
   "objectives": [
    {
     "id": "o1",
-    "verb": "explicar",
+    "verb": "explain",
     "text": "why only the spreads over SOFR matter, and who charges each cost line"
    },
    {
     "id": "o2",
-    "verb": "calcular",
+    "verb": "calculate",
     "text": "the funding cost of a position with repo and haircut"
    },
    {
     "id": "o3",
-    "verb": "calcular",
+    "verb": "calculate",
     "text": "the leverage charge (SLR), and explain $K_e$ minus debt"
    },
    {
     "id": "o4",
-    "verb": "calcular",
+    "verb": "calculate",
     "text": "the P&L of the cost stack and the break-even"
    },
    {
     "id": "o5",
-    "verb": "diagnosticar",
+    "verb": "diagnose",
     "text": "the effect of a stock going special and the risks of securities lending"
    }
   ],
@@ -1946,27 +1946,27 @@
   "objectives": [
    {
     "id": "o1",
-    "verb": "comparar",
+    "verb": "compare",
     "text": "the hedge routes of a TRS and the order in which you check each one"
    },
    {
     "id": "o2",
-    "verb": "calcular",
+    "verb": "calculate",
     "text": "the all-in cost of a synthetic hedge, with the reduced leverage"
    },
    {
     "id": "o3",
-    "verb": "calcular",
+    "verb": "calculate",
     "text": "the financing rate and the borrow implied in option prices"
    },
    {
     "id": "o4",
-    "verb": "calcular",
+    "verb": "calculate",
     "text": "whether a switch between physical and synthetic pays off"
    },
    {
     "id": "o5",
-    "verb": "diagnosticar",
+    "verb": "diagnose",
     "text": "the borrow risk in a client short swap"
    }
   ],
@@ -2339,27 +2339,27 @@
   "objectives": [
    {
     "id": "o1",
-    "verb": "explicar",
+    "verb": "explain",
     "text": "the two legs of a TRS, the resets and the initial margin"
    },
    {
     "id": "o2",
-    "verb": "calcular",
+    "verb": "calculate",
     "text": "the financing leg payment"
    },
    {
     "id": "o3",
-    "verb": "calcular",
+    "verb": "calculate",
     "text": "the price of an equity forward with a dividend"
    },
    {
     "id": "o4",
-    "verb": "calcular",
+    "verb": "calculate",
     "text": "the financing and the dividends implied in a future, and decide the trade"
    },
    {
     "id": "o5",
-    "verb": "comparar",
+    "verb": "compare",
     "text": "TRS, future, TRF and EFP; price return and total return"
    }
   ],
@@ -2725,27 +2725,27 @@
   "objectives": [
    {
     "id": "o1",
-    "verb": "explicar",
+    "verb": "explain",
     "text": "the dividend dates and what the DPR is"
    },
    {
     "id": "o2",
-    "verb": "calcular",
+    "verb": "calculate",
     "text": "the desk's dividend P&L, given the withholding tax and the DPR"
    },
    {
     "id": "o3",
-    "verb": "comparar",
+    "verb": "compare",
     "text": "PR, GTR and NTR indices, and calculate the tax gain in an NTR swap"
    },
    {
     "id": "o4",
-    "verb": "explicar",
+    "verb": "explain",
     "text": "what §871(m) covers today and the role of the QDD"
    },
    {
     "id": "o5",
-    "verb": "calcular",
+    "verb": "calculate",
     "text": "the dividends implied in a future, and explain who trades dividends"
    }
   ],
@@ -3101,27 +3101,27 @@
   "objectives": [
    {
     "id": "o1",
-    "verb": "explicar",
+    "verb": "explain",
     "text": "the dates of an index event and why trades execute at the close"
    },
    {
     "id": "o2",
-    "verb": "diagnosticar",
+    "verb": "diagnose",
     "text": "when an index tracker must trade"
    },
    {
     "id": "o3",
-    "verb": "explicar",
+    "verb": "explain",
     "text": "the closing auction, MOC and LOC, and the cut-off times"
    },
    {
     "id": "o4",
-    "verb": "calcular",
+    "verb": "calculate",
     "text": "the restrike P&L of early execution"
    },
    {
     "id": "o5",
-    "verb": "comparar",
+    "verb": "compare",
     "text": "index arbitrage and ETF creation/redemption"
    }
   ],
@@ -3494,27 +3494,27 @@
   "objectives": [
    {
     "id": "o1",
-    "verb": "explicar",
+    "verb": "explain",
     "text": "what each equities desk does"
    },
    {
     "id": "o2",
-    "verb": "comparar",
+    "verb": "compare",
     "text": "agency and risk; cash PB and synthetic prime"
    },
    {
     "id": "o3",
-    "verb": "calcular",
+    "verb": "calculate",
     "text": "the collateral reuse limit (rehypothecation)"
    },
    {
     "id": "o4",
-    "verb": "explicar",
+    "verb": "explain",
     "text": "who consumes and who supplies funding, and the role of FTP"
    },
    {
     "id": "o5",
-    "verb": "diagnosticar",
+    "verb": "diagnose",
     "text": "which desk or function owns a problem"
    }
   ],

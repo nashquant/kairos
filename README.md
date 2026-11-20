@@ -18,13 +18,13 @@ Login is optional (6-digit email code via Supabase Auth). Without login, progres
 
 Private decks reach Supabase through an encrypted chunk in `data/private/` and the *Ingest private decks* workflow; see `docs/spec.md`.
 
-## Notebook (Caderno)
+## Notebook
 
-Study modules in `data/notes.json`, modelled on CFA prep: objectives → student-style note → one-screen summary → questions → cards. Multiple-choice questions are graded by the app (a miss comes back in the same session; FSRS sets the next day); open questions are self-graded. Cards link to the note section they came from (`note`), and after "Errei" the app offers to reread it. Spec: `docs/spec.md`.
+Study modules in `data/notes.json`, modelled on CFA prep: objectives → student-style note → one-screen summary → questions → cards. Multiple-choice questions are graded by the app (a miss comes back in the same session; FSRS sets the next day); open questions are self-graded. Cards link to the note section they came from (`note`), and after "Again" the app offers to reread it. Spec: `docs/spec.md`.
 
 ## Study filters
 
-Under **Filtros de estudo**, turn a theme off to hide every card that has that tag. The choice stays on the device and applies to study and counts.
+Under **Study filters**, turn a theme off to hide every card that has that tag. The choice stays on the device and applies to study and counts.
 
 ## How it works
 

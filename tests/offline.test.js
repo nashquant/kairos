@@ -33,7 +33,7 @@ async function page(store,storage){
   return {m,w,S,ob,click,text};
 }
 (async()=>{
-  const store=new Map([['decks/d1',{name:'Teste::A',created:1}],
+  const store=new Map([['decks/d1',{name:'Test::A',created:1}],
     ['cards/c1',{deck:'d1',front:'Q1',back:'A1',tags:[],created:1}],['cards/c2',{deck:'d1',front:'Q2',back:'A2',tags:[],created:2}],
     ['cards/c3',{deck:'d1',front:'Q3',back:'A3',tags:[],created:3}],['cards/c4',{deck:'d1',front:'Q4',back:'A4',tags:[],created:4}]]);
   console.log('1. online answer');

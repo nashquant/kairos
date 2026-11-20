@@ -137,7 +137,7 @@ textarea{min-height:110px;resize:vertical;font-family:var(--f-mono);font-size:13
 .sync{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-bottom:12px}
 .sync .dot{width:8px;height:8px;border-radius:50%;background:var(--bronze);flex-shrink:0}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(96px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;z-index:30;max-width:90%}
-/* notebook (caderno) */
+/* notebook */
 .topbtns{display:flex;gap:8px}
 .note{background:var(--surface);border-radius:6px;box-shadow:var(--shadow);padding:18px 18px 8px;border-top:2px solid var(--margin)}
 .note .ntitle{font-family:var(--f-card);font-size:24px;line-height:1.25;margin:0 0 6px;font-weight:500;text-transform:none;letter-spacing:0;color:var(--ink)}
@@ -352,7 +352,7 @@ function filterHTML(){
   const tags=[...counts.keys()].sort((a,b)=>(a==='dated')-(b==='dated')||tagLabel(a).localeCompare(tagLabel(b),'en'));
   const off=S.filter.off.filter(t=>counts.has(t));
   const hidden=[...S.cards.values()].filter(c=>!c.suspended&&!passesFilter(c)).length;
-  return '<details class="settings" data-panel="filtros"'+(S.panels.has('filtros')?' open':'')+'><summary>Study filters'+(off.length?' <span class="pill">'+off.length+' topic'+(off.length>1?'s':'')+' hidden</span>':'')+'</summary>'+
+  return '<details class="settings" data-panel="filters"'+(S.panels.has('filters')?' open':'')+'><summary>Study filters'+(off.length?' <span class="pill">'+off.length+' topic'+(off.length>1?'s':'')+' hidden</span>':'')+'</summary>'+
     '<p class="hint" style="margin:0 0 10px">Turn off a topic to hide every card tagged with it. This applies to study and counts on this device.</p>'+
     '<div class="chips">'+tags.map(t=>'<button class="chip-t'+(off.includes(t)?' off':'')+'" data-tag="'+esc(t)+'" aria-pressed="'+!off.includes(t)+'"><span>'+esc(tagLabel(t))+'</span><span class="mono">'+counts.get(t)+'</span></button>').join('')+'</div>'+
     '<div class="row" style="margin:12px 0 16px;justify-content:space-between"><span class="hint">'+(hidden?hidden+' cards hidden':'All cards visible')+'</span>'+(off.length?'<button class="btn ghost" data-tag-reset>Show all</button>':'')+'</div></details>';
@@ -385,7 +385,7 @@ function flagsHTML(){
     for(const h of hidden)b+='<div class="item"><span class="q">'+esc(plain(h.front))+'</span><span class="info"><button class="btn ghost" data-restore="'+esc(h.id)+'">Restore</button></span></div>';
     b+='</div>';
   }
-  return '<details class="settings" data-panel="sinalizados"'+(S.panels.has('sinalizados')||rows.length?' open':'')+'><summary>Flagged cards'+(rows.length?' <span class="pill">'+rows.length+'</span>':'')+'</summary>'+b+'</details>';
+  return '<details class="settings" data-panel="flagged"'+(S.panels.has('flagged')||rows.length?' open':'')+'><summary>Flagged cards'+(rows.length?' <span class="pill">'+rows.length+'</span>':'')+'</summary>'+b+'</details>';
 }
 function flagSheetHTML(){
   const id=S.flagging; if(!id)return ''; const c=S.cards.get(id); if(!c)return '';
@@ -525,7 +525,7 @@ function homeHTML(){
   h+=flagsHTML();
   h+=filterHTML();
   h+=accountHTML();
-  h+='<details class="settings" data-panel="ajustes"'+(S.panels.has('ajustes')?' open':'')+'><summary>Settings</summary>'+
+  h+='<details class="settings" data-panel="settings"'+(S.panels.has('settings')?' open':'')+'><summary>Settings</summary>'+
     '<div class="field"><label for="set-new">New cards per day</label><input id="set-new" type="number" min="0" max="999" value="'+(+S.settings.newPerDay||0)+'"><span class="hint">Limit across all decks. Each new card adds about 10 reviews in its first month.</span></div>'+
     '<div class="field"><label for="set-ret">Target retention</label><select id="set-ret">'+[0.8,0.85,0.9,0.93,0.95].map(v=>'<option value="'+v+'"'+(Math.abs(v-r)<1e-6?' selected':'')+'>'+Math.round(v*100)+'%</option>').join('')+'</select><span class="hint">Chance to recall a card on its review day. A higher value shortens intervals and adds workload. At 90%, “Good” on a new card returns in 4 days. At 85%, it returns in 6.</span></div>'+
     '<div class="field"><label for="set-steps">New card: same-day repeats</label><select id="set-steps"><option value="errors"'+(S.settings.steps!=='short'?' selected':'')+'>Only when I miss (“Good” goes straight to days)</option><option value="short"'+(S.settings.steps==='short'?' selected':'')+'>Always (1 min and 10 min, as in Anki)</option></select></div>'+
@@ -600,7 +600,7 @@ function editorHTML(){
     '</span><button class="btn primary" data-save>Save</button></div></div></div>';
 }
 
-/* ---------- notebook (caderno): study notes; a card links back with note: "noteId#sectionId" ---------- */
+/* ---------- notebook: study notes; a card links back with note: "noteId#sectionId" ---------- */
 function parseRef(ref){const r=String(ref||''),i=r.indexOf('#');return i<0?{id:r,sec:''}:{id:r.slice(0,i),sec:r.slice(i+1)}}
 function noteOf(c){if(!c||!c.note)return null;const r=parseRef(c.note),n=S.notes.get(r.id);return n?{...r,n}:null}
 function noteCards(nid,sec){return cardsOrdered().filter(([id,c])=>{if(c.suspended||!c.note)return false;const r=parseRef(c.note);return r.id===nid&&(!sec||r.sec===sec)})}
@@ -614,9 +614,9 @@ function linksHTML(rows){
 function notesOrdered(){return [...S.notes.entries()].sort((a,b)=>deckName(a[1].deck).localeCompare(deckName(b[1].deck),'en')||((a[1].order||0)-(b[1].order||0))||String(a[1].title).localeCompare(String(b[1].title),'en'))}
 /* ---------- questions: multiple choice (graded by the app) and open (self-graded) ----------
    qrev/{questionId} = FSRS state + lastOk (1, 0.5 or 0) + tries/okTries.
-   In a session: a miss comes back after 3 other questions; a hit or "Moderado" leaves the session.
+   In a session: a miss comes back after 3 other questions; a hit or "Partly" leaves the session.
    Between sessions: FSRS decides the day. The user never sees grade buttons for multiple choice. */
-const OBJ_VERBS={definir:'Define',explicar:'Explain',calcular:'Calculate',comparar:'Compare',diagnosticar:'Diagnose'};
+const OBJ_VERBS={define:'Define',explain:'Explain',calculate:'Calculate',compare:'Compare',diagnose:'Diagnose'};
 function noteQuestions(nid){const n=S.notes.get(nid);return n&&Array.isArray(n.questions)?n.questions.map(q=>({...q,nid})):[]}
 function allQuestions(){const out=[];for(const [nid] of notesOrdered())out.push(...noteQuestions(nid));return out}
 function questionById(id){for(const q of allQuestions())if(q.id===id)return q;return null}
@@ -637,7 +637,7 @@ function objectivesHTML(nid,n){
   const objs=Array.isArray(n.objectives)?n.objectives:[]; if(!objs.length)return '';
   return '<div class="objs"><h3>By the end, you can</h3><ol>'+objs.map(o=>'<li><span class="nbody"><b>'+esc(OBJ_VERBS[o.verb]||o.verb)+'</b> '+md(o.text).replace(/^<p>|<\/p>$/g,'')+'</span><span class="oscore">'+scoreHTML(objScore(nid,o.id))+'</span></li>').join('')+'</ol></div>';
 }
-/* FSRS for questions. "Moderado" on a new question goes straight to days (≈1 d), not to a 10-min step. */
+/* FSRS for questions. "Partly" on a new question goes straight to days (≈1 d), not to a 10-min step. */
 function qschedule(prev,g,now){
   const st=prev?prev.state:'new';
   if(g===2&&st!=='review'){
@@ -730,17 +730,17 @@ function noteHTML(){
   const nid=S.note&&S.note.id, n=nid&&S.notes.get(nid);
   const backTo=S.note&&S.note.back, back='<button class="btn ghost" data-note-back>← '+(backTo==='study'?'Study':backTo==='quiz'?'Questions':backTo==='notebook'?'Notebook':'Back')+'</button>';
   if(!n)return '<div class="studybar">'+back+'</div><div class="notice">Note not found.</div>';
-  const tab=S.note.tab||'nota', secs=Array.isArray(n.sections)?n.sections:[], all=noteCards(nid), qs=noteQuestions(nid), pend=pendingCount(qs);
-  const tabs=[['nota','Note'],['resumo','Summary'],['questoes','Questions'+(pend?' ('+pend+')':'')]].filter(t=>t[0]==='nota'||(t[0]==='resumo'?n.summary:qs.length));
+  const tab=S.note.tab||'note', secs=Array.isArray(n.sections)?n.sections:[], all=noteCards(nid), qs=noteQuestions(nid), pend=pendingCount(qs);
+  const tabs=[['note','Note'],['summary','Summary'],['questions','Questions'+(pend?' ('+pend+')':'')]].filter(t=>t[0]==='note'||(t[0]==='summary'?n.summary:qs.length));
   let h='<div class="studybar">'+back+'<span class="title">'+esc(deckName(n.deck).split('::').pop())+'</span></div>'+
     (tabs.length>1?'<div class="tabs" role="tablist">'+tabs.map(t=>'<button role="tab" aria-selected="'+(t[0]===tab)+'" data-note-tab="'+t[0]+'">'+esc(t[1])+'</button>').join('')+'</div>':'')+
     '<article class="note"><h2 class="ntitle">'+esc(n.title||nid)+'</h2>';
   const quizBtns=qs.length?'<div class="row" style="margin-top:14px">'+(pend?'<button class="btn primary" data-quiz-note="'+esc(nid)+'">Answer '+pend+(pend===1?' question':' questions')+'</button>':'<button class="btn primary" data-quiz-note="'+esc(nid)+'" data-quiz-every>Redo all '+qs.length+'</button>')+'</div>':'';
-  if(tab==='resumo'){
+  if(tab==='summary'){
     h+='<div class="nbody summary">'+md(n.summary||'')+'</div></article>'+quizBtns;
     return h;
   }
-  if(tab==='questoes'){
+  if(tab==='questions'){
     h+=objectivesHTML(nid,n)+'<p class="hint">'+qs.filter(q=>q.type==='mc').length+' multiple choice, graded by the app. '+qs.filter(q=>q.type!=='mc').length+' open answer: you compare with the model answer and grade yourself.</p></article>'+quizBtns;
     if(pend&&pend<qs.length)h+='<div class="row" style="margin-top:8px"><button class="btn ghost" data-quiz-note="'+esc(nid)+'" data-quiz-every>Redo all '+qs.length+'</button></div>';
     return h;
@@ -760,7 +760,7 @@ function noteHTML(){
 function openNote(ref,back){
   const r=parseRef(ref); if(!S.notes.has(r.id)){toast('Note not found');return}
   const from=S.view==='note'&&S.note?S.note.back:S.view;
-  S.note={id:r.id,back:back||from,tab:r.sec?'nota':(S.note&&S.note.id===r.id&&S.view==='note'?S.note.tab:'nota')}; S.view='note'; render();
+  S.note={id:r.id,back:back||from,tab:r.sec?'note':(S.note&&S.note.id===r.id&&S.view==='note'?S.note.tab:'note')}; S.view='note'; render();
   requestAnimationFrame(()=>requestAnimationFrame(()=>{if(r.sec)jumpTo(r.sec);else scrollTo(0,0)}));
 }
 function jumpTo(sec){
@@ -830,7 +830,7 @@ function accountHTML(){
       '<div class="row" style="margin-bottom:16px"><button class="btn primary" data-acct="verify"'+(f.busy?' disabled':'')+'>Sign in</button><button class="btn ghost" data-acct="send"'+(f.busy?' disabled':'')+'>Resend code</button></div>';
     else b+='<div class="row" style="margin-bottom:16px"><button class="btn primary" data-acct="send"'+(f.busy?' disabled':'')+'>Send code</button></div>';
   }
-  return '<details class="settings" data-panel="conta"'+(S.panels.has('conta')?' open':'')+'><summary>Account and sync'+(u?'':' <span class="pill">optional</span>')+'</summary>'+b+'</details>';
+  return '<details class="settings" data-panel="account"'+(S.panels.has('account')?' open':'')+'><summary>Account and sync'+(u?'':' <span class="pill">optional</span>')+'</summary>'+b+'</details>';
 }
 async function acctAction(a){
   const A=acct(); if(!A)return; const f=S.login;
@@ -872,7 +872,7 @@ document.addEventListener('click',ev=>{
   if(d.qShow!==undefined){const t=document.getElementById('q-ans');if(t)S.quiz.typed=t.value;S.quiz.shown=true;render();return}
   if(d.qGrade){gradeQuestion(+d.qGrade);nextQuestion();render();scrollTo(0,0);return}
   if(d.qCopy!==undefined){const q=questionById(S.quiz.cur);if(q)copyText('Kairos — grade my answer.\nQuestion: '+plain(q.stem)+'\nMy answer: '+(S.quiz.typed.trim()||'(I will dictate it)'),'Copied. Paste it into the chat with Claude.');return}
-  if(d.quizBack!==undefined){const z=S.quiz;S.quiz=null;if(z&&z.back==='note'&&z.nid&&S.notes.has(z.nid)){S.note={id:z.nid,back:z.noteBack||'notebook',tab:'questoes'};S.view='note'}else S.view='notebook';render();scrollTo(0,0);return}
+  if(d.quizBack!==undefined){const z=S.quiz;S.quiz=null;if(z&&z.back==='note'&&z.nid&&S.notes.has(z.nid)){S.note={id:z.nid,back:z.noteBack||'notebook',tab:'questions'};S.view='note'}else S.view='notebook';render();scrollTo(0,0);return}
   if(d.jump){jumpTo(d.jump);return}
   if(d.studyNote){studyNote(d.studyNote);return}
   if(d.missedClose!==undefined){if(S.study)S.study.missed=null;render();return}

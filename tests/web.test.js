@@ -38,9 +38,9 @@ srv.listen(0,async()=>{
     ok(P2.S().log.length===1,'today log survives reload');
     console.log('4. local card edit');
     P2.w.eval(`S.edit={id:${JSON.stringify(first)}}`); P2.w.eval('render()'); await sleep(30);
-    P2.w.document.getElementById('e-front').value='Pergunta editada'; P2.click('[data-save]'); await sleep(80);
-    ok(P2.S().cards.get(first).front==='Pergunta editada','edit applied');
-    ok(JSON.parse(P2.w.localStorage.getItem('kairos.local.v1'))['cards/'+first].front==='Pergunta editada','edit stored on device');
+    P2.w.document.getElementById('e-front').value='Edited question'; P2.click('[data-save]'); await sleep(80);
+    ok(P2.S().cards.get(first).front==='Edited question','edit applied');
+    ok(JSON.parse(P2.w.localStorage.getItem('kairos.local.v1'))['cards/'+first].front==='Edited question','edit stored on device');
     ok(P.errors.length===0&&P2.errors.length===0,'no script errors '+JSON.stringify(P.errors.concat(P2.errors)));
   }catch(e){console.error(e);fail++}
   console.log(`\n${pass} passed, ${fail} failed`); srv.close(); process.exit(fail?1:0);

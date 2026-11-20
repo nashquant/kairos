@@ -10,7 +10,7 @@ notes = json.loads(notes_path.read_text(encoding="utf-8")) if notes_path.exists(
 labels = set(re.findall(r"'?([a-z0-9-]+)'?:'", (ROOT / "app.html").read_text(encoding="utf-8").split("const TAG_LABELS=")[1].split("};")[0]))
 DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 errs = []
-VERBS = {"definir", "explicar", "calcular", "comparar", "diagnosticar"}
+VERBS = {"define", "explain", "calculate", "compare", "diagnose"}
 qids = set()
 for cid, c in cards.items():
     for k in ("deck", "front", "back", "tags", "source", "created", "suspended"):

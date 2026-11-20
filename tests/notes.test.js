@@ -1,4 +1,4 @@
-// Tests the notebook (caderno): list, note view, card -> note links, reread after a miss, study by note, questions.
+// Tests the notebook: list, note view, card -> note links, reread after a miss, study by note, questions.
 // Run after scripts/build_web.py.
 const http=require('http'),fs=require('fs'),path=require('path'); const {JSDOM}=require('jsdom');
 const WEB=path.join(__dirname,'..','web'); const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -22,7 +22,7 @@ srv.listen(0,async()=>{
     console.log('1. notebook list');
     const P=await open(port);
     ok(P.S().notes.size===Object.keys(notes).length,'notes loaded from data/notes.json');
-    ok(!!P.$('[data-go="notebook"]'),'home shows the Caderno button');
+    ok(!!P.$('[data-go="notebook"]'),'home shows the Notebook button');
     await P.click('[data-go="notebook"]');
     ok(P.text().includes(note.title),'notebook lists the note');
 
@@ -33,9 +33,9 @@ srv.listen(0,async()=>{
     const linked=P.w.eval(`noteCards(${JSON.stringify(nid)}).length`);
     ok(linked>0&&P.text().includes('Study the '+linked+' cards'),'note shows its '+linked+' linked cards');
     ok(P.w.document.querySelectorAll('.objs li').length===(note.objectives||[]).length,'objectives render');
-    await P.click('[data-note-tab="resumo"]');
-    ok(P.$('.summary')&&P.S().note.tab==='resumo','summary tab renders');
-    await P.click('[data-note-tab="nota"]');
+    await P.click('[data-note-tab="summary"]');
+    ok(P.$('.summary')&&P.S().note.tab==='summary','summary tab renders');
+    await P.click('[data-note-tab="note"]');
     const before=P.$('.note'); P.w.eval('render()'); await sleep(60);
     ok(P.$('.note')===before,'re-render without change keeps the note DOM (no MathJax reset)');
     await P.click('[data-note-back]');
@@ -53,7 +53,7 @@ srv.listen(0,async()=>{
     await P.click('[data-reveal]');
     ok(!!P.$(`.meta [data-open-note]`),'revealed card offers the notebook link');
     await P.click('[data-grade="1"]');
-    ok(P.S().study.missed===cur&&!!P.$('.reread'),'after "Errei" the reread banner shows');
+    ok(P.S().study.missed===cur&&!!P.$('.reread'),'after "Again" the reread banner shows');
     await P.click('.reread [data-open-note]'); await sleep(80);
     ok(P.S().view==='note'&&P.S().note.back==='study','reread opens the note, back goes to study');
     const sec=card.note.split('#')[1];
@@ -67,7 +67,7 @@ srv.listen(0,async()=>{
     const qs=note.questions||[]; const mcs=qs.filter(q=>q.type==='mc');
     P.w.eval("S.view='notebook';render()"); await sleep(60);
     ok(P.$('[data-quiz-all]')&&P.text().includes(qs.length+' questions due'),'notebook shows '+qs.length+' pending questions for the note');
-    await P.click(`[data-open-note="${nid}"]`); await P.click('[data-note-tab="questoes"]');
+    await P.click(`[data-open-note="${nid}"]`); await P.click('[data-note-tab="questions"]');
     await P.click(`[data-quiz-note="${nid}"]`);
     let z=P.S().quiz;
     ok(P.S().view==='quiz'&&z.total===qs.length,'quiz starts with every new question');
@@ -101,7 +101,7 @@ srv.listen(0,async()=>{
     ok(rr.due-rr.last>=3*864e5,'first-try right on a new question: 3+ days');
     ok(P.S().qrev.size===qs.length,'every question has progress');
     await P.click('[data-quiz-back]');
-    ok(P.S().view==='note'&&P.S().note.tab==='questoes','back returns to the note questions tab');
+    ok(P.S().view==='note'&&P.S().note.tab==='questions','back returns to the note questions tab');
     ok(P.text().includes('%'),'objective scores show');
     ok(P.w.eval(`pendingCount(noteQuestions(${JSON.stringify(nid)}))`)===0,'no questions of this note pending after the session');
 

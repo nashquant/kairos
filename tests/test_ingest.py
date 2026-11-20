@@ -72,7 +72,7 @@ def main():
     ok(json.loads((tmp / "data" / "ingest-public-key.json").read_text())["kid"] == pub["kid"], "bootstrap is idempotent (same key)")
 
     plain = tmp / "plain.json"
-    plain.write_text(json.dumps({"decks": {"p1": {"name": "Pessoal::Teste", "created": 1}}, "cards": {"p1-001": {"deck": "p1", "front": "Pergunta secreta", "back": "x", "tags": [], "created": 1}, "p1-002": {"deck": "p1", "front": "Q2", "back": "y", "tags": [], "created": 2}}}))
+    plain.write_text(json.dumps({"decks": {"p1": {"name": "Personal::Test", "created": 1}}, "cards": {"p1-001": {"deck": "p1", "front": "Secret question", "back": "x", "tags": [], "created": 1}, "p1-002": {"deck": "p1", "front": "Q2", "back": "y", "tags": [], "created": 2}}}))
     run("scripts/encrypt_private.py", str(plain), "chunk-001")
     ok("secreta" not in (tmp / "data" / "private" / "chunk-001.enc.json").read_text(), "chunk is ciphertext only")
     out = run("scripts/ingest_private.py", "apply")

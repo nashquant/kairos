@@ -54,7 +54,7 @@ async function device(port,name){
   return dev;
 }
 async function answer(d,g){if(d.S().view!=='study')await d.click('[data-study-all]');await d.click('[data-reveal]');const id=d.S().study.cur;await d.click(`[data-grade="${g}"]`);return id}
-async function login(d,email){d.w.eval(`S.view='home';S.panels.add('conta');render()`);await sleep(40);d.w.document.getElementById('acct-email').value=email;await d.click('[data-acct="send"]');await sleep(40);d.w.document.getElementById('acct-code').value='123456';await d.click('[data-acct="verify"]');await sleep(150)}
+async function login(d,email){d.w.eval(`S.view='home';S.panels.add('account');render()`);await sleep(40);d.w.document.getElementById('acct-email').value=email;await d.click('[data-acct="send"]');await sleep(40);d.w.document.getElementById('acct-code').value='123456';await d.click('[data-acct="verify"]');await sleep(150)}
 
 srv.listen(0,async()=>{
   const port=srv.address().port;
@@ -92,14 +92,14 @@ srv.listen(0,async()=>{
     ok(server.rows.get(k).updated_at>before&&B.S().revs.get(a1).reps===A.S().revs.get(a1).reps&&A.S().revs.get(a1).reps===2,'newer answer on A replaces the old one on B');
 
     console.log('4. private decks for the owner only');
-    server.priv.push({owner:'u-me',coll:'decks',id:'p1',body:{name:'Pessoal::Teste',created:1}},{owner:'u-me',coll:'cards',id:'p1-001',body:{deck:'p1',front:'Q priv',back:'A',tags:['fundamentos'],created:1}});
+    server.priv.push({owner:'u-me',coll:'decks',id:'p1',body:{name:'Personal::Test',created:1}},{owner:'u-me',coll:'cards',id:'p1-001',body:{deck:'p1',front:'Q priv',back:'A',tags:['basics'],created:1}});
     await A.A().syncNow(); await sleep(60);
     ok(A.S().decks.get('p1')&&A.S().decks.get('p1').private&&A.S().cards.has('p1-001'),'owner sees the private deck after sync');
     const C=await device(port,'C'); await login(C,'friend@x.com');
     ok(!C.S().decks.has('p1')&&!C.S().revs.has(a1),'another user sees neither private decks nor my progress');
 
     console.log('5. sign out clears the device');
-    A.w.eval(`S.view='home';S.panels.add('conta');render()`);await sleep(40);await A.click('[data-acct="signout"]'); await sleep(100);
+    A.w.eval(`S.view='home';S.panels.add('account');render()`);await sleep(40);await A.click('[data-acct="signout"]'); await sleep(100);
     ok(!A.A().user()&&A.S().revs.size===0&&!A.S().decks.has('p1'),'sign out removes progress and private decks from the device');
     ok(A.S().decks.size>=7,'public decks remain');
     await login(A,'me@x.com');

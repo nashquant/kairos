@@ -34,17 +34,17 @@ The website (https://nashquant.github.io/kairos/) is the app. Claude adds cards 
 - `verified` (`YYYY-MM-DD`): the day Claude last checked the card's facts against a source. Set it on every new card and on every content change.
 - `checkBy` (`YYYY-MM-DD`): only on time-sensitive facts (rules, regulation, product names, APIs, hardware specs). After that date the app shows "recheck facts". Recheck, then update `verified` and move `checkBy` forward, or tag `dated`.
 
-## Notes (caderno): one module = objectives, note, summary, questions, cards
+## Notes (notebook): one module = objectives, note, summary, questions, cards
 Benchmark: CFA prep (LOS → notes → module quiz → QuickSheet) and USMLE (First Aid → UWorld → AnKing tags).
 - `data/notes.json`: `{id: {deck, title, order, created, verified, source?, intro?, objectives, sections, summary, questions}}`. Note, objective, section and question ids are permanent ASCII slugs.
-- `objectives`: 3–6 `{id, verb, text}`. `verb` ∈ definir, explicar, calcular, comparar, diagnosticar. The verb sets the question type (calcular → a calculation).
+- `objectives`: 3–6 `{id, verb, text}`. `verb` ∈ define, explain, calculate, compare, diagnose. The verb sets the question type (calculate → a calculation).
 - `sections`: `{id, title, body, obj[]}`. Style: a good student's notes after a class, not a textbook. Short bullets, arrows, plain words. One small worked example carried through the whole note. A last section with the confusions to avoid; those feed the distractors.
 - `summary`: the cheat sheet. Fits one phone screen: formula, shapes, decision rules.
 - `questions`: 6–10 per note, mostly application (calculate, diagnose), some facts.
   - `{id: "<noteId>-qNN", type: "mc", obj, sec, stem, options: [{t, ok, why}]}`: 3–5 options, exactly one `ok`. Every option has `why`. Distractors come from real confusions, never from silly options.
-  - `{id, type: "open", obj, sec, stem, answer}`: for "explicar" objectives. The user self-grades: Acertei / Moderado / Errei.
-- Grading: the app grades multiple choice. In a session, a miss comes back after 3 other questions; a hit or "Moderado" leaves the session. Between sessions, FSRS sets the day (miss = again, Moderado = hard, hit = good). Progress: `qrev/{questionId}` in user docs. Options are shuffled every time.
-- Cards come from missed questions, not from the whole note. A card points back with `note: "<noteId>#<sectionId>"`. After "Errei" on a card, the app offers "Reler no caderno".
+  - `{id, type: "open", obj, sec, stem, answer}`: for "explain" objectives. The user self-grades: Right / Partly / Wrong.
+- Grading: the app grades multiple choice. In a session, a miss comes back after 3 other questions; a hit or "Partly" leaves the session. Between sessions, FSRS sets the day (miss = again, Partly = hard, hit = good). Progress: `qrev/{questionId}` in user docs. Options are shuffled every time.
+- Cards come from missed questions, not from the whole note. A card points back with `note: "<noteId>#<sectionId>"`. After "Again" on a card, the app offers "Reread in notebook".
 - Notes are public, like public decks. Use them only for public decks; private notes are not supported yet (needs a Supabase schema change). Never put employer material in a note.
 - Set `verified` on every content change, as for cards. Check every number in a worked example or question by running it.
 

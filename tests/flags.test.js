@@ -36,7 +36,7 @@ srv.listen(0,async()=>{
     P.w.eval("S.settings.retention=0.85");
     ok(due(3,'errors')===6*DAY,'85% retention: "Good" on a new card = 6 days');
     P.w.eval("S.settings.retention=0.9;S.settings.steps='errors'");
-    P.w.eval("S.panels.add('ajustes');render()"); await sleep(40);
+    P.w.eval("S.panels.add('settings');render()"); await sleep(40);
     P.w.document.getElementById('set-steps').value='short'; await P.click('[data-save-settings]');
     ok(P.S().settings.steps==='short','setting saves');
     P.w.document.getElementById('set-steps').value='errors'; await P.click('[data-save-settings]');
