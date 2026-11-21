@@ -128,5 +128,10 @@
   "name": "Technology::LLM::05 Inference and GPU sizing",
   "desc": "Weights memory, KV cache sizing, bandwidth limits, batching, parallelism",
   "created": 1794200000002
+ },
+ "prob-01-bayes": {
+  "name": "Math::Probability::01 Bayes' theorem",
+  "desc": "Prior, likelihood, evidence, posterior; sequential updates; a Bayesian stopping problem",
+  "created": 1794700000000
  }
 }

@@ -5,6 +5,9 @@ Changes that git does not see (Supabase data, private decks) go here too.
 
 ## 2026-11-20
 
+- New public deck `prob-01-bayes` (Math › Probability › 01 Bayes' theorem) with note `prob-01-bayes-dice`: Bayes' theorem through the two-dice casino puzzle (fair die vs a die that never rolls a 6; roll 1, switch 5, a 6 pays 20). Six objectives, eight sections, summary, 10 questions (9 multiple choice, 1 open). No cards yet: per the spec, cards come from missed questions. No new tags (notes carry none).
+  - Numbers checked by running them: posteriors, one-roll update (checked equal to the batch formula for d in −20…20), and the decision result by value iteration on |d| ≤ 80 (switch at d = 9, never quit, V(0) ≈ 3.634). Every formula compiles in MathJax (144).
+  - Visibility public because notes only support public decks; nothing employer-related.
 - Finished the English pass started in `a7b3376`:
   - Objective verbs in `data/notes.json`: `definir/explicar/calcular/comparar/diagnosticar` → `define/explain/calculate/compare/diagnose` (`OBJ_VERBS`, `tests/test_data.py`, spec).
   - Internal keys in `app.html`: panels `filtros/ajustes/sinalizados/conta` → `filters/settings/flagged/account`; note tabs `nota/resumo/questoes` → `note/summary/questions`. Saved panel open/closed state (`kairos.panels`) resets once; no migration, it is cosmetic.
