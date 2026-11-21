@@ -4276,5 +4276,421 @@
     "answer": "The posterior is $1/(1 + (6/5)^{a-b})$: it depends only on the difference of miss counts. The face values add nothing (ratio 5/6 for every face). Measure it from the die in hand: $d$ = misses in hand − misses other. A miss sends $d \\to d+1$; a switch sends $d \\to -d$; a 6 or quitting ends the game."
    }
   ]
+ },
+ "sd-01-scale": {
+  "deck": "sd-01-scale",
+  "title": "Scale: capacity, latency and caching",
+  "order": 1,
+  "created": 1794600000010,
+  "verified": "2026-11-21",
+  "source": "Little (1961); Harchol-Balter, Performance Modeling and Design of Computer Systems (2013), ch. 6; Dean & Barroso, The Tail at Scale (CACM, 2013); Karger et al., Consistent Hashing (STOC 1997); RFC 9111 (HTTP caching)",
+  "intro": "Student notes. One example runs to the end: a **link shortener**. A user opens `sho.rt/abc`; the service looks up the long URL and answers with a redirect.\nLoad: **100 million redirects per day**, peak 5× the average. Reads dominate: a link is created once and opened many times.\nQuestion of the note: how many machines, how much cache, and what breaks first? All numbers are illustrative.",
+  "objectives": [
+   {
+    "id": "o1",
+    "verb": "calculate",
+    "text": "capacity from traffic: requests per second, concurrency (Little's law), utilization and queueing delay"
+   },
+   {
+    "id": "o2",
+    "verb": "calculate",
+    "text": "the chance a fan-out request hits a slow server, and why to watch p99"
+   },
+   {
+    "id": "o3",
+    "verb": "compare",
+    "text": "vertical and horizontal scaling, L4 and L7 load balancers, hash mod n and consistent hashing"
+   },
+   {
+    "id": "o4",
+    "verb": "compare",
+    "text": "cache-aside, write-through, write-back and CDN caching"
+   },
+   {
+    "id": "o5",
+    "verb": "diagnose",
+    "text": "overload: cache stampede, hit-ratio drop, missing back-pressure, rate limits"
+   }
+  ],
+  "sections": [
+   {
+    "id": "envelope",
+    "title": "1. Back-of-envelope numbers",
+    "obj": [
+     "o1"
+    ],
+    "body": "- First step of every design: turn the business number into requests per second.\n- A day = 86,400 s ≈ $10^5$ s.\n- Example: 100 million / 86,400 ≈ **1,160 req/s** on average.\n- Size for the **peak**, not the average. Peak = 5× → ≈ **5,800 req/s**.\n- Latency ladder (orders of magnitude, not specs):\n  - main-memory read ~100 ns\n  - SSD random read ~100 µs\n  - round trip, same datacenter ~0.5 ms\n  - round trip, cross-continent ~100–150 ms\n- Rule: one cross-continent round trip ≈ a million memory reads. Count network round trips first.\n- Latency vs throughput:\n  - Latency: time for one request.\n  - Throughput: requests completed per second.\n  - Batching raises throughput and latency together."
+   },
+   {
+    "id": "queueing",
+    "title": "2. Little's law and queueing",
+    "obj": [
+     "o1"
+    ],
+    "body": "- **Little's law**: $L = \\lambda W$.\n  - $L$: requests in the system (in flight).\n  - $\\lambda$: arrival rate. $W$: time each request spends inside.\n  - Holds for any stable system, whatever the arrival pattern.\n- Example: peak 5,800 req/s, 50 ms end to end at the server.\n  - $L = 5{,}800 \\times 0.05 = 290$ requests in flight.\n  - → at least 290 concurrent slots (threads, connections, async tasks) across the fleet.\n- **Utilization** $\\rho$ = busy time / total time.\n  - Example: 10 ms of CPU per request → $5{,}800 \\times 0.010 = 58$ cores busy at 100%.\n- **M/M/1 queue** (one server, random arrivals): $W = \\dfrac{S}{1-\\rho}$, $S$ = service time.\n  - $S$ = 10 ms: $\\rho = 0.5$ → 20 ms · $\\rho = 0.7$ → 33 ms · $\\rho = 0.9$ → 100 ms.\n- Latency is not linear in load. From 0.5 to 0.9, load grows 1.8×; latency grows 5×.\n- Rough rule: target $\\rho \\approx 0.7$ at peak → $58 / 0.7 \\approx$ **83 cores**.\n- M/M/1 is a rough model. Real servers have many workers and less random arrivals. The shape (blow-up near 1) is the lesson."
+   },
+   {
+    "id": "tail",
+    "title": "3. Tail latency and fan-out",
+    "obj": [
+     "o2"
+    ],
+    "body": "- p99 = the latency that 99% of requests beat. The slowest 1% sit above it.\n- The average hides the tail. Users who click a lot hit the tail often.\n- **Fan-out**: one user request calls $n$ servers in parallel and waits for **all** of them.\n  - Each server is slow with probability $p$.\n  - P(request slow) = $1 - (1-p)^n$.\n- Example: the stats page of a link reads click counts from 20 shards; each shard is slow 1% of the time.\n  - $1 - 0.99^{20} \\approx$ **18%** of page loads are slow.\n  - With 100 shards: $1 - 0.99^{100} \\approx 63\\%$.\n- → in a fan-out, the p99 of one server becomes the median experience.\n- Mitigations (Dean & Barroso): hedged requests (send a copy after a short delay, take the first answer), fewer shards per request, timeouts with partial results."
+   },
+   {
+    "id": "scaling",
+    "title": "4. Scaling the service tier",
+    "obj": [
+     "o3"
+    ],
+    "body": "- **Vertical**: a bigger machine.\n  - Simple: no code change.\n  - Capped by the largest machine, and one machine = one point of failure.\n- **Horizontal**: more machines behind a load balancer.\n  - Needs **stateless** services: any instance can serve any request.\n  - State moves out: database, cache, or a signed token on the client.\n- Example: the redirect tier is stateless. 83 cores → e.g. 11 machines of 8 cores, plus spares for a failure.\n- **Load balancer**:\n  - L4: routes by IP and port. Fast. Does not read the request.\n  - L7: reads HTTP. Routes by path or header, terminates TLS, retries.\n- **Amdahl's law** caps parallel speedup: $\\dfrac{1}{(1-p) + p/n}$, $p$ = parallel share, $n$ = cores.\n  - Example: a nightly job recounts clicks; 90% of it parallelizes.\n  - 10 cores → $1/(0.1 + 0.09) \\approx 5.3\\times$. Infinite cores → $1/0.1 = 10\\times$.\n  - The serial 10% sets the ceiling. Shrink it before you buy cores."
+   },
+   {
+    "id": "caching",
+    "title": "5. Caching",
+    "obj": [
+     "o4",
+     "o1"
+    ],
+    "body": "- A cache keeps hot data in memory, near the reader. It trades freshness for speed.\n- **Cache-aside** (the common default):\n  - Read: try the cache → on a miss, read the DB and store the value with a TTL.\n  - Write: update the DB → **delete** the key. Do not update it: two racing writers can leave the older value in the cache.\n- **Write-through**: the write goes to cache and DB before the acknowledgement. Consistent cache; slower writes.\n- **Write-back**: acknowledge after the cache write; flush to the DB later. Fast writes; a cache crash loses unflushed data.\n- **Eviction**: LRU removes the least recently used key when the cache is full (hash map + doubly linked list, O(1)).\n- **CDN**: caches responses on edge servers near users. Saves the long round trip and origin load. `Cache-Control` and TTLs (RFC 9111) control freshness.\n- Example: link lookups are cache-aside, hit ratio 90%. Cache read 1 ms, DB read 20 ms.\n  - Mean lookup = $0.9 \\times 1 + 0.1 \\times (1 + 20) = 3$ ms.\n  - DB load at peak = 10% × 5,800 = **580 req/s**.\n- The DB sees the **miss** rate. Hit ratio 90% → 80% doubles the DB load (580 → 1,160 req/s)."
+   },
+   {
+    "id": "partitioning",
+    "title": "6. Spreading keys across nodes",
+    "obj": [
+     "o3"
+    ],
+    "body": "- The cache is a cluster. Each key must map to one node.\n- **hash(key) mod n**: simple, but adding a node remaps most keys.\n  - Example: 4 → 5 cache nodes. A key stays only if $k \\bmod 4 = k \\bmod 5$: **80% of keys move**.\n  - Moved keys are misses → hit ratio falls → the DB takes the load (section 5).\n- **Consistent hashing**: nodes and keys sit on a ring; a key belongs to the next node clockwise.\n  - Adding a 5th node moves only the keys it takes over: about $1/5$ = **20%**.\n  - **Virtual nodes**: each node owns many points on the ring. Evens out the load and the moved share."
+   },
+   {
+    "id": "overload",
+    "title": "7. Overload and protection",
+    "obj": [
+     "o5"
+    ],
+    "body": "- **Cache stampede**: a hot key expires and many requests miss at once → all hit the DB.\n  - Example: a viral link with 2,000 req/s; its key expires; every request in the next 20 ms goes to the DB.\n  - Fixes: request coalescing (one loader, the others wait), TTL jitter, refresh before expiry.\n- **Rate limiting with a token bucket**:\n  - The bucket holds up to $b$ tokens and refills at $r$ per second. Each request takes one token or is rejected.\n  - Allows bursts up to $b$; long-run average $r$.\n  - Example: per-client $b = 100$, $r = 10$/s, bucket full. A burst of 150 → 100 pass, 50 rejected. After 3 s, 30 tokens are back.\n- **Back-pressure**: a slow consumer makes producers slow down (bounded queue, blocking, credits).\n  - Without it, an unbounded queue grows until memory runs out, and every request waits behind the backlog.\n- **Headroom**: from section 2, near $\\rho = 1$ latency explodes. Protection keeps the system out of that zone."
+   },
+   {
+    "id": "traps",
+    "title": "8. Confusions to avoid",
+    "obj": [
+     "o1",
+     "o2",
+     "o3",
+     "o4",
+     "o5"
+    ],
+    "body": "- Sizing for the average instead of the peak.\n- Thinking latency grows linearly with load. Near saturation it explodes ($S/(1-\\rho)$).\n- Little's law gives **concurrency**, not throughput. $L = \\lambda W$, not $\\lambda = L W$.\n- Watching the average latency. In a fan-out, a rare slow server becomes the common case.\n- Updating the cached key on a write. Delete it: deletes are idempotent; racing updates leave stale data.\n- Write-back is not \"consistent and fast\". It is fast, and loses data if the cache dies before the flush.\n- A small hit-ratio drop looks harmless. The DB sees the miss rate: 10% → 20% misses = 2× DB load.\n- Rescaling a cache with hash mod n. Most keys move at once → miss storm.\n- Adding cores past the Amdahl ceiling. The serial part does not shrink."
+   }
+  ],
+  "summary": "### Envelope\n- req/s ≈ per day / $10^5$. Size for **peak**.\n- Memory 100 ns · SSD 100 µs · DC round trip 0.5 ms · cross-continent 100–150 ms.\n### Queueing\n- Little: $L = \\lambda W$ → concurrency.\n- M/M/1: $W = S/(1-\\rho)$. $\\rho$ 0.5 → 2S · 0.9 → 10S. Target ≈ 0.7.\n### Tail\n- Fan-out to $n$: P(slow) $= 1-(1-p)^n$. 20 × 1% → 18% · 100 × 1% → 63%.\n### Scale\n- Horizontal needs stateless. L4 = IP/port · L7 = HTTP.\n- Amdahl: $1/((1-p)+p/n)$, ceiling $1/(1-p)$.\n### Cache\n- Aside: app fills; write → update DB, **delete** key.\n- Through: consistent, slow writes · Back: fast, can lose data.\n- DB load = miss rate × traffic.\n### Keys\n- mod n: 4→5 moves 80% · consistent hashing ≈ $1/n$.\n### Overload\n- Stampede → coalesce, jitter TTL, refresh early.\n- Token bucket: burst $b$, average $r$. Back-pressure = bounded queues.",
+  "questions": [
+   {
+    "id": "sd-01-scale-q01",
+    "type": "mc",
+    "obj": "o1",
+    "sec": "envelope",
+    "stem": "The shortener serves 100 million redirects per day. Peak is 5× the average. What peak rate do you size for?",
+    "options": [
+     {
+      "t": "About 5,800 req/s",
+      "ok": true,
+      "why": "100,000,000 / 86,400 ≈ 1,160 req/s on average; × 5 ≈ 5,800."
+     },
+     {
+      "t": "About 1,160 req/s",
+      "ok": false,
+      "why": "That is the average. The fleet must survive the peak."
+     },
+     {
+      "t": "About 58,000 req/s",
+      "ok": false,
+      "why": "Off by 10×: a day has ~86,400 s, not ~8,640."
+     },
+     {
+      "t": "About 350,000 req/s",
+      "ok": false,
+      "why": "That divides by 1,440 (minutes in a day), not by 86,400 seconds."
+     }
+    ]
+   },
+   {
+    "id": "sd-01-scale-q02",
+    "type": "mc",
+    "obj": "o1",
+    "sec": "queueing",
+    "stem": "Peak 5,800 req/s; each request spends 50 ms in the server. How many requests are in flight on average?",
+    "options": [
+     {
+      "t": "290",
+      "ok": true,
+      "why": "Little's law: $L = \\lambda W = 5{,}800 \\times 0.05 = 290$."
+     },
+     {
+      "t": "116",
+      "ok": false,
+      "why": "That would be 20 ms in the system, not 50 ms."
+     },
+     {
+      "t": "116,000",
+      "ok": false,
+      "why": "That is $\\lambda / W$. Little's law multiplies rate by time."
+     },
+     {
+      "t": "5,800",
+      "ok": false,
+      "why": "That is the arrival rate, not the concurrency."
+     }
+    ]
+   },
+   {
+    "id": "sd-01-scale-q03",
+    "type": "mc",
+    "obj": "o1",
+    "sec": "queueing",
+    "stem": "One server behaves like an M/M/1 queue with service time 10 ms. Load rises from $\\rho = 0.5$ to $\\rho = 0.9$. Mean time in system?",
+    "options": [
+     {
+      "t": "20 ms → 100 ms",
+      "ok": true,
+      "why": "$W = S/(1-\\rho)$: $10/0.5 = 20$; $10/0.1 = 100$. Load ×1.8, latency ×5."
+     },
+     {
+      "t": "20 ms → 36 ms",
+      "ok": false,
+      "why": "That assumes latency grows in proportion to load. Queueing delay is not linear."
+     },
+     {
+      "t": "10 ms → 10 ms",
+      "ok": false,
+      "why": "The service time stays 10 ms, but requests also wait in the queue."
+     },
+     {
+      "t": "5 ms → 9 ms",
+      "ok": false,
+      "why": "That is $S \\times \\rho$, the busy time per request slot, not the time in system."
+     }
+    ]
+   },
+   {
+    "id": "sd-01-scale-q04",
+    "type": "mc",
+    "obj": "o1",
+    "sec": "caching",
+    "stem": "Cache-aside, hit ratio 90%, peak 5,800 req/s. A deploy changes the key format and the hit ratio drops to 80%. What happens to the DB load?",
+    "options": [
+     {
+      "t": "It doubles: 580 → 1,160 req/s",
+      "ok": true,
+      "why": "The DB sees the miss rate: 10% → 20% of 5,800."
+     },
+     {
+      "t": "It rises about 11%",
+      "ok": false,
+      "why": "11% is the relative drop in hit ratio (90 → 80). The DB load follows the misses."
+     },
+     {
+      "t": "It rises to 4,640 req/s",
+      "ok": false,
+      "why": "5,800 × 0.8 is the traffic the cache serves (hits). The DB gets the misses."
+     },
+     {
+      "t": "Nothing changes; the cache absorbs it",
+      "ok": false,
+      "why": "Every miss goes to the DB by definition of cache-aside."
+     }
+    ]
+   },
+   {
+    "id": "sd-01-scale-q05",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "tail",
+    "stem": "The stats page reads 20 shards in parallel and waits for all of them. Each shard is slow 1% of the time, independently. What share of page loads is slow?",
+    "options": [
+     {
+      "t": "About 18%",
+      "ok": true,
+      "why": "$1 - 0.99^{20} \\approx 0.18$."
+     },
+     {
+      "t": "1%",
+      "ok": false,
+      "why": "That holds for one shard. The page waits for the slowest of 20."
+     },
+     {
+      "t": "20%",
+      "ok": false,
+      "why": "Close, but adding 20 × 1% overcounts the cases where two shards are slow."
+     },
+     {
+      "t": "About 63%",
+      "ok": false,
+      "why": "That is the answer for 100 shards."
+     }
+    ]
+   },
+   {
+    "id": "sd-01-scale-q06",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "partitioning",
+    "stem": "The cache cluster grows from 4 to 5 nodes with `hash(key) mod n`. Roughly what share of keys moves to a different node?",
+    "options": [
+     {
+      "t": "About 80%",
+      "ok": true,
+      "why": "A key stays only if $k \\bmod 4 = k \\bmod 5$: 4 of every 20 values. 80% move, and each moved key is a miss."
+     },
+     {
+      "t": "About 20%",
+      "ok": false,
+      "why": "That is consistent hashing: the new node takes about $1/5$ of the keys."
+     },
+     {
+      "t": "About 25%",
+      "ok": false,
+      "why": "That is $1/4$. It is not how mod n remaps."
+     },
+     {
+      "t": "0%",
+      "ok": false,
+      "why": "The node index depends on $n$, so changing $n$ remaps keys."
+     }
+    ]
+   },
+   {
+    "id": "sd-01-scale-q07",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "scaling",
+    "stem": "A nightly job recounts clicks. 90% of it parallelizes. Best speedup with 10 cores, and with unlimited cores?",
+    "options": [
+     {
+      "t": "About 5.3× and 10×",
+      "ok": true,
+      "why": "Amdahl: $1/(0.1 + 0.9/10) \\approx 5.3$; limit $1/0.1 = 10$."
+     },
+     {
+      "t": "9× and unlimited",
+      "ok": false,
+      "why": "That ignores the serial 10%, which every run still pays."
+     },
+     {
+      "t": "10× and 10×",
+      "ok": false,
+      "why": "10 cores only reach 10× if the whole job is parallel."
+     },
+     {
+      "t": "About 5.3× and unlimited",
+      "ok": false,
+      "why": "The serial share sets a ceiling of $1/(1-p)$."
+     }
+    ]
+   },
+   {
+    "id": "sd-01-scale-q08",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "caching",
+    "stem": "Cache-aside. A user edits where a link points. What should the write path do?",
+    "options": [
+     {
+      "t": "Update the DB, then delete the cached key",
+      "ok": true,
+      "why": "The next read misses and loads the new value. A delete is idempotent; two racing writers cannot leave the older value."
+     },
+     {
+      "t": "Update the DB, then write the new value into the cache",
+      "ok": false,
+      "why": "Two concurrent writers can finish in the wrong order and leave the older value cached."
+     },
+     {
+      "t": "Write the cache only; a background job flushes to the DB",
+      "ok": false,
+      "why": "That is write-back: fast, but a cache crash loses the edit."
+     },
+     {
+      "t": "Do nothing; the TTL will expire the old value",
+      "ok": false,
+      "why": "Users get the wrong redirect until the TTL ends."
+     }
+    ]
+   },
+   {
+    "id": "sd-01-scale-q09",
+    "type": "mc",
+    "obj": "o5",
+    "sec": "overload",
+    "stem": "A viral link gets 2,000 req/s. Every hour, at the same moment, DB latency spikes for a second, then recovers. Most likely cause?",
+    "options": [
+     {
+      "t": "Cache stampede: the hot key expires and every request misses at once",
+      "ok": true,
+      "why": "Fix: request coalescing, TTL jitter or refresh before expiry."
+     },
+     {
+      "t": "The DB is under-sized for the average load",
+      "ok": false,
+      "why": "Then latency would be high all the time, not in a short spike."
+     },
+     {
+      "t": "LRU evicted the key because it was rarely used",
+      "ok": false,
+      "why": "LRU keeps hot keys. The hourly pattern points to a TTL."
+     },
+     {
+      "t": "Back-pressure is slowing the producers",
+      "ok": false,
+      "why": "Back-pressure protects the DB; it does not create an hourly spike."
+     }
+    ]
+   },
+   {
+    "id": "sd-01-scale-q10",
+    "type": "mc",
+    "obj": "o5",
+    "sec": "overload",
+    "stem": "Token bucket per client: capacity 100, refill 10 tokens/s, bucket full. The client sends 150 requests at once, then waits 3 s. Result?",
+    "options": [
+     {
+      "t": "100 pass, 50 rejected; 30 tokens after 3 s",
+      "ok": true,
+      "why": "The burst drains the bucket; refill is 10/s × 3 s."
+     },
+     {
+      "t": "150 pass; the average stays under the limit",
+      "ok": false,
+      "why": "A burst can only spend the tokens in the bucket."
+     },
+     {
+      "t": "10 pass, 140 rejected",
+      "ok": false,
+      "why": "That treats the bucket as a fixed 10-per-second window. The bucket allows a burst up to its capacity."
+     },
+     {
+      "t": "100 pass, 50 queued and served over 5 s",
+      "ok": false,
+      "why": "A plain token bucket rejects. Queueing is a leaky-bucket or shaping design."
+     }
+    ]
+   },
+   {
+    "id": "sd-01-scale-q11",
+    "type": "open",
+    "obj": "o4",
+    "sec": "caching",
+    "stem": "Compare write-through and write-back caching. When would you accept write-back?",
+    "answer": "Write-through writes the cache and the DB before the acknowledgement: the cache stays consistent, but each write pays the DB latency. Write-back acknowledges after the cache write and flushes later: writes are fast, but a cache crash loses the unflushed data. Accept write-back only when losing the last few writes is tolerable (counters, metrics, view counts) or the cache itself is durable and replicated."
+   },
+   {
+    "id": "sd-01-scale-q12",
+    "type": "open",
+    "obj": "o2",
+    "sec": "tail",
+    "stem": "Explain why a service that calls many backends should watch p99, not the average latency.",
+    "answer": "The request waits for the slowest backend. With n backends each slow with probability p, the request is slow with probability 1 − (1 − p)^n, which grows fast with n (20 × 1% → 18%). So a rare tail on one backend becomes a common case for users. The average hides that tail; p99 shows it."
+   }
+  ]
  }
 }

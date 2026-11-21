@@ -7211,7 +7211,8 @@
   "source": "Standard system design practice",
   "created": 1794100000149,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-01-scale#envelope"
  },
  "sd-01-scale-002": {
   "deck": "sd-01-scale",
@@ -7224,7 +7225,8 @@
   "source": "Standard system design practice",
   "created": 1794100000150,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-01-scale#tail"
  },
  "sd-01-scale-003": {
   "deck": "sd-01-scale",
@@ -7237,7 +7239,8 @@
   "source": "Standard system design practice",
   "created": 1794100000151,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-01-scale#tail"
  },
  "sd-01-scale-004": {
   "deck": "sd-01-scale",
@@ -7250,7 +7253,8 @@
   "source": "Standard system design practice",
   "created": 1794100000152,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-01-scale#queueing"
  },
  "sd-01-scale-005": {
   "deck": "sd-01-scale",
@@ -7263,7 +7267,8 @@
   "source": "Standard system design practice",
   "created": 1794100000153,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-01-scale#scaling"
  },
  "sd-01-scale-006": {
   "deck": "sd-01-scale",
@@ -7276,7 +7281,8 @@
   "source": "Standard system design practice",
   "created": 1794100000154,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-01-scale#scaling"
  },
  "sd-01-scale-007": {
   "deck": "sd-01-scale",
@@ -7289,7 +7295,8 @@
   "source": "Standard system design practice",
   "created": 1794100000155,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-01-scale#scaling"
  },
  "sd-01-scale-008": {
   "deck": "sd-01-scale",
@@ -7302,7 +7309,8 @@
   "source": "Standard system design practice",
   "created": 1794100000156,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-01-scale#scaling"
  },
  "sd-01-scale-009": {
   "deck": "sd-01-scale",
@@ -7316,7 +7324,8 @@
   "source": "Standard system design practice",
   "created": 1794100000157,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-01-scale#caching"
  },
  "sd-01-scale-010": {
   "deck": "sd-01-scale",
@@ -7329,7 +7338,8 @@
   "source": "Standard system design practice",
   "created": 1794100000158,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-01-scale#overload"
  },
  "sd-01-scale-011": {
   "deck": "sd-01-scale",
@@ -7342,7 +7352,8 @@
   "source": "Standard system design practice",
   "created": 1794100000159,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-01-scale#caching"
  },
  "sd-01-scale-012": {
   "deck": "sd-01-scale",
@@ -7355,7 +7366,8 @@
   "source": "Standard system design practice",
   "created": 1794100000160,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-01-scale#envelope"
  },
  "sd-01-scale-013": {
   "deck": "sd-01-scale",
@@ -7369,7 +7381,8 @@
   "source": "Standard system design practice",
   "created": 1794100000161,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-01-scale#overload"
  },
  "sd-01-scale-014": {
   "deck": "sd-01-scale",
@@ -7383,7 +7396,8 @@
   "source": "Standard system design practice",
   "created": 1794100000162,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-01-scale#overload"
  },
  "sd-01-scale-015": {
   "deck": "sd-01-scale",
@@ -7397,7 +7411,8 @@
   "source": "Standard system design practice",
   "created": 1794100000163,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-01-scale#partitioning"
  },
  "sd-02-data-001": {
   "deck": "sd-02-data",
@@ -9737,7 +9752,8 @@
   "source": "M/M/1 queue; Harchol-Balter, Performance Modeling and Design of Computer Systems (2013), ch. 6",
   "created": 1794300003039,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-01-scale#queueing"
  },
  "sd-01-scale-017": {
   "deck": "sd-01-scale",
@@ -9750,7 +9766,8 @@
   "source": "Standard system design practice",
   "created": 1794300003040,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-01-scale#envelope"
  },
  "sd-01-scale-018": {
   "deck": "sd-01-scale",
@@ -9764,7 +9781,8 @@
   "source": "Standard system design practice",
   "created": 1794300003041,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-01-scale#caching"
  },
  "sd-01-scale-019": {
   "deck": "sd-01-scale",
@@ -9777,7 +9795,8 @@
   "source": "Standard system design practice; RFC 9111 (HTTP caching)",
   "created": 1794300003042,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-01-scale#caching"
  },
  "sd-02-data-016": {
   "deck": "sd-02-data",

@@ -3,6 +3,12 @@
 Newest first. One entry per working day: what changed, the decisions behind it, and the commits.
 Changes that git does not see (Supabase data, private decks) go here too.
 
+## 2026-11-21
+
+- Decision: the Cesari decks stay (the user knows the book). Plan: notes for every deck that has none — System Design (8), Cesari (7, from the book PDF the user will provide) and llm-02/05. Pilot first: `sd-01-scale`, then the user checks format and depth before the rest.
+- New note `sd-01-scale` (8 sections, 12 questions), one worked example throughout: a link shortener at 100 million redirects/day. Every number recomputed in Python, including the 4 → 5 node remap (mod n moves 80%; a 200-vnode ring moved ~23%). The 19 `sd-01-scale` cards now point to its sections (`note` field).
+- The note renderer has no tables: use bullet lists in note bodies.
+
 ## 2026-11-20
 
 - New public deck `prob-01-bayes` (Math › Probability › 01 Bayes' theorem) with note `prob-01-bayes-dice`: Bayes' theorem through the two-dice casino puzzle (fair die vs a die that never rolls a 6; roll 1, switch 5, a 6 pays 20). Six objectives, eight sections, summary, 10 questions (9 multiple choice, 1 open). No cards yet: per the spec, cards come from missed questions. No new tags (notes carry none).
