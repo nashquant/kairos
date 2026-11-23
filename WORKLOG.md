@@ -3,6 +3,15 @@
 Newest first. One entry per working day: what changed, the decisions behind it, and the commits.
 Changes that git does not see (Supabase data, private decks) go here too.
 
+## 2026-11-23
+
+- System Design notes complete: 8 new notes, one per deck, except sd-04, which is split in two (`sd-04-web-security` for web attacks, `sd-04-web-security-2` for identity/OAuth/SSO; 33 cards were too many for one note at pilot depth). Each has 8–9 sections and 12 questions, with one worked example per note: digital wallet (sd-02), shop checkout (sd-03), expense app (sd-04, sd-07), bookstore on Next.js (sd-05), fictional broker and venue (sd-06), shipping service (sd-08). All 161 non-suspended sd cards now link to a note section.
+  - Drafted by 4 parallel agents; the lead read every note, re-ran the numbers (incl. the RFC 7636 PKCE example, the JWT payload, the toy ECDSA nonce-reuse recovery) and compiled all 256 formulas with MathJax 3.
+  - NIST IR 8547 dates (2030/2035) are cited as the 2024 draft's; the final text was not read.
+- Card fixes from the note work (13): sd-06-003 (15c3-5 says credit or capital thresholds, not position limits); sd-03-016 (budget in requests too); sd-04-002/005; sd-05-010; sd-08-014/021/022.
+  - Desk wording out of public decks: sd-06-007 drops "Delta One" and its `delta-one` tag; sd-08-007 (hedge routes → shipping rate rules), sd-08-009 (no more DPR), sd-04-025/026 (`expenses:read`, cost centre).
+- Specific `source` on sd-04-001…027, sd-04-033 (OWASP Top 10:2025) and sd-07-001…016, replacing the boilerplate; plus sd-03-018, sd-06-002/003.
+
 ## 2026-11-21
 
 - Decision: the Cesari decks stay (the user knows the book). Plan: notes for every deck that has none — System Design (8), Cesari (7, from the book PDF the user will provide) and llm-02/05. Pilot first: `sd-01-scale`, then the user checks format and depth before the rest.

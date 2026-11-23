@@ -7425,7 +7425,8 @@
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000164,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-02-data#consistency"
  },
  "sd-02-data-002": {
   "deck": "sd-02-data",
@@ -7438,7 +7439,8 @@
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000165,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-02-data#consistency"
  },
  "sd-02-data-003": {
   "deck": "sd-02-data",
@@ -7451,7 +7453,8 @@
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000166,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-02-data#consistency"
  },
  "sd-02-data-004": {
   "deck": "sd-02-data",
@@ -7464,7 +7467,8 @@
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000167,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-02-data#replication"
  },
  "sd-02-data-005": {
   "deck": "sd-02-data",
@@ -7478,7 +7482,8 @@
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000168,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-02-data#replication"
  },
  "sd-02-data-006": {
   "deck": "sd-02-data",
@@ -7491,7 +7496,8 @@
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000169,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-02-data#replication"
  },
  "sd-02-data-007": {
   "deck": "sd-02-data",
@@ -7505,7 +7511,8 @@
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000170,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-02-data#partitioning"
  },
  "sd-02-data-008": {
   "deck": "sd-02-data",
@@ -7518,7 +7525,8 @@
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000171,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-02-data#storage"
  },
  "sd-02-data-009": {
   "deck": "sd-02-data",
@@ -7531,7 +7539,8 @@
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000172,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-02-data#transactions"
  },
  "sd-02-data-010": {
   "deck": "sd-02-data",
@@ -7544,7 +7553,8 @@
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000173,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-02-data#transactions"
  },
  "sd-02-data-011": {
   "deck": "sd-02-data",
@@ -7557,7 +7567,8 @@
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000174,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-02-data#transactions"
  },
  "sd-02-data-012": {
   "deck": "sd-02-data",
@@ -7570,7 +7581,8 @@
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000175,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-02-data#storage"
  },
  "sd-02-data-013": {
   "deck": "sd-02-data",
@@ -7583,7 +7595,8 @@
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000176,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-02-data#events"
  },
  "sd-02-data-014": {
   "deck": "sd-02-data",
@@ -7596,7 +7609,8 @@
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000177,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-02-data#events"
  },
  "sd-02-data-015": {
   "deck": "sd-02-data",
@@ -7609,7 +7623,8 @@
   "source": "Kleppmann, Designing Data-Intensive Applications; standard practice",
   "created": 1794100000178,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-02-data#storage"
  },
  "sd-03-reliability-001": {
   "deck": "sd-03-reliability",
@@ -7622,7 +7637,8 @@
   "source": "Standard system design practice",
   "created": 1794100000179,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-03-reliability#idempotency"
  },
  "sd-03-reliability-002": {
   "deck": "sd-03-reliability",
@@ -7635,7 +7651,8 @@
   "source": "Standard system design practice",
   "created": 1794100000180,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-03-reliability#retries"
  },
  "sd-03-reliability-003": {
   "deck": "sd-03-reliability",
@@ -7648,7 +7665,8 @@
   "source": "Standard system design practice",
   "created": 1794100000181,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-03-reliability#protection"
  },
  "sd-03-reliability-004": {
   "deck": "sd-03-reliability",
@@ -7661,7 +7679,8 @@
   "source": "Standard system design practice",
   "created": 1794100000182,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-03-reliability#retries"
  },
  "sd-03-reliability-005": {
   "deck": "sd-03-reliability",
@@ -7675,7 +7694,8 @@
   "source": "Standard system design practice",
   "created": 1794100000183,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-03-reliability#idempotency"
  },
  "sd-03-reliability-006": {
   "deck": "sd-03-reliability",
@@ -7688,7 +7708,8 @@
   "source": "Standard system design practice",
   "created": 1794100000184,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-03-reliability#messaging"
  },
  "sd-03-reliability-007": {
   "deck": "sd-03-reliability",
@@ -7702,7 +7723,8 @@
   "created": 1794100000185,
   "suspended": false,
   "verified": "2026-11-20",
-  "checkBy": "2027-11-20"
+  "checkBy": "2027-11-20",
+  "note": "sd-03-reliability#messaging"
  },
  "sd-03-reliability-008": {
   "deck": "sd-03-reliability",
@@ -7716,7 +7738,8 @@
   "source": "Standard system design practice",
   "created": 1794100000186,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-03-reliability#workflows"
  },
  "sd-03-reliability-009": {
   "deck": "sd-03-reliability",
@@ -7730,7 +7753,8 @@
   "source": "Standard system design practice",
   "created": 1794100000187,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-03-reliability#workflows"
  },
  "sd-03-reliability-010": {
   "deck": "sd-03-reliability",
@@ -7743,7 +7767,8 @@
   "source": "Standard system design practice",
   "created": 1794100000188,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-03-reliability#messaging"
  },
  "sd-03-reliability-011": {
   "deck": "sd-03-reliability",
@@ -7756,7 +7781,8 @@
   "source": "Standard system design practice",
   "created": 1794100000189,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-03-reliability#operations"
  },
  "sd-03-reliability-012": {
   "deck": "sd-03-reliability",
@@ -7769,7 +7795,8 @@
   "source": "Standard system design practice",
   "created": 1794100000190,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-03-reliability#protection"
  },
  "sd-03-reliability-013": {
   "deck": "sd-03-reliability",
@@ -7782,7 +7809,8 @@
   "source": "Standard system design practice",
   "created": 1794100000191,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-03-reliability#operations"
  },
  "sd-03-reliability-014": {
   "deck": "sd-03-reliability",
@@ -7795,7 +7823,8 @@
   "source": "Standard system design practice",
   "created": 1794100000192,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-03-reliability#slo"
  },
  "sd-03-reliability-015": {
   "deck": "sd-03-reliability",
@@ -7808,7 +7837,8 @@
   "source": "Standard system design practice",
   "created": 1794100000193,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-03-reliability#operations"
  },
  "sd-04-web-security-001": {
   "deck": "sd-04-web-security",
@@ -7818,23 +7848,25 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "source": "RFC 9110 (HTTP Semantics)",
   "created": 1794100000194,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-04-web-security#basics"
  },
  "sd-04-web-security-002": {
   "deck": "sd-04-web-security",
   "front": "401 vs 403.",
-  "back": "401: not authenticated (no or invalid credentials).\n403: authenticated, but not allowed.",
+  "back": "401: not authenticated (no or invalid credentials).\n403: understood and refused; credentials, if any, are not enough.",
   "tags": [
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "source": "RFC 9110 (HTTP Semantics)",
   "created": 1794100000195,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-23",
+  "note": "sd-04-web-security#basics"
  },
  "sd-04-web-security-003": {
   "deck": "sd-04-web-security",
@@ -7844,10 +7876,11 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "source": "draft-ietf-httpbis-rfc6265bis (Cookies); OWASP Session Management Cheat Sheet",
   "created": 1794100000196,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-04-web-security#cookies"
  },
  "sd-04-web-security-004": {
   "deck": "sd-04-web-security",
@@ -7857,24 +7890,26 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "source": "WHATWG Fetch Standard (CORS protocol); MDN CORS guide",
   "created": 1794100000197,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-04-web-security#cors"
  },
  "sd-04-web-security-005": {
   "deck": "sd-04-web-security",
   "front": "What is CSRF, and its main defences?",
-  "back": "A malicious site makes the victim's browser send an authenticated request (cookies attach automatically).\nPrimary defences: CSRF tokens or Fetch Metadata (`Sec-Fetch-Site`) checks. SameSite cookies and Origin checks add depth.",
+  "back": "A malicious site makes the victim's browser send an authenticated request (cookies attach automatically).\nPrimary defences: the framework's CSRF protection, CSRF tokens (synchronizer or signed double-submit), or Fetch Metadata (`Sec-Fetch-Site`) checks with a fallback. SameSite cookies and Origin checks add depth.",
   "tags": [
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "source": "OWASP CSRF Prevention Cheat Sheet",
   "created": 1794100000198,
   "suspended": false,
-  "verified": "2026-11-20",
-  "checkBy": "2027-11-20"
+  "verified": "2026-11-23",
+  "checkBy": "2027-11-20",
+  "note": "sd-04-web-security#csrf"
  },
  "sd-04-web-security-006": {
   "deck": "sd-04-web-security",
@@ -7884,10 +7919,11 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "source": "OWASP XSS Prevention Cheat Sheet; W3C Content Security Policy Level 3",
   "created": 1794100000199,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-04-web-security#xss"
  },
  "sd-04-web-security-007": {
   "deck": "sd-04-web-security",
@@ -7897,10 +7933,11 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "source": "OWASP Session Management Cheat Sheet; RFC 7519; RFC 7662",
   "created": 1794100000200,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-04-web-security-2#sessions"
  },
  "sd-04-web-security-008": {
   "deck": "sd-04-web-security",
@@ -7910,10 +7947,11 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "source": "RFC 7519; RFC 7515; RFC 8725",
   "created": 1794100000201,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-04-web-security-2#jwt"
  },
  "sd-04-web-security-009": {
   "deck": "sd-04-web-security",
@@ -7923,10 +7961,11 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "source": "RFC 6749; OpenID Connect Core 1.0",
   "created": 1794100000202,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-04-web-security-2#oauth"
  },
  "sd-04-web-security-010": {
   "deck": "sd-04-web-security",
@@ -7936,10 +7975,11 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "source": "OpenID Connect Core 1.0",
   "created": 1794100000203,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-04-web-security-2#oauth"
  },
  "sd-04-web-security-011": {
   "deck": "sd-04-web-security",
@@ -7949,11 +7989,12 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "source": "RFC 6749; RFC 7636; RFC 9700; OpenID Connect Core 1.0",
   "created": 1794100000204,
   "suspended": false,
   "verified": "2026-11-20",
-  "checkBy": "2027-11-20"
+  "checkBy": "2027-11-20",
+  "note": "sd-04-web-security-2#codeflow"
  },
  "sd-04-web-security-012": {
   "deck": "sd-04-web-security",
@@ -7963,10 +8004,11 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "source": "RFC 7636",
   "created": 1794100000205,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-04-web-security-2#codeflow"
  },
  "sd-04-web-security-013": {
   "deck": "sd-04-web-security",
@@ -7976,10 +8018,11 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "source": "RFC 6749; OpenID Connect Core 1.0",
   "created": 1794100000206,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-04-web-security-2#codeflow"
  },
  "sd-04-web-security-014": {
   "deck": "sd-04-web-security",
@@ -7989,10 +8032,11 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "source": "RFC 6749; RFC 9700",
   "created": 1794100000207,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-04-web-security-2#oauth"
  },
  "sd-04-web-security-015": {
   "deck": "sd-04-web-security",
@@ -8002,10 +8046,11 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "source": "OpenID Connect Discovery 1.0; RFC 7517",
   "created": 1794100000208,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-04-web-security-2#jwt"
  },
  "sd-04-web-security-016": {
   "deck": "sd-04-web-security",
@@ -8015,10 +8060,11 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "source": "OASIS SAML 2.0 Profiles; OpenID Connect Core 1.0",
   "created": 1794100000209,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-04-web-security-2#sso"
  },
  "sd-04-web-security-017": {
   "deck": "sd-04-web-security",
@@ -8028,10 +8074,11 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "source": "RFC 9846 (TLS 1.3)",
   "created": 1794100000210,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-04-web-security#basics"
  },
  "sd-04-web-security-018": {
   "deck": "sd-04-web-security",
@@ -8042,11 +8089,12 @@
    "web-security",
    "web-app"
   ],
-  "source": "RFC 6749 (OAuth 2.0), RFC 7636 (PKCE), OpenID Connect Core 1.0, OWASP",
+  "source": "RFC 10017 (BCP 212), sections 6 and 8",
   "created": 1794100000211,
   "suspended": false,
   "verified": "2026-11-20",
-  "checkBy": "2027-11-20"
+  "checkBy": "2027-11-20",
+  "note": "sd-04-web-security-2#browser"
  },
  "sd-05-web-apps-001": {
   "deck": "sd-05-web-apps",
@@ -8060,7 +8108,8 @@
   "created": 1794100000212,
   "suspended": false,
   "verified": "2026-11-20",
-  "checkBy": "2027-05-20"
+  "checkBy": "2027-05-20",
+  "note": "sd-05-web-apps#rendering"
  },
  "sd-05-web-apps-002": {
   "deck": "sd-05-web-apps",
@@ -8074,7 +8123,8 @@
   "created": 1794100000213,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "sd-05-web-apps#rendering"
  },
  "sd-05-web-apps-003": {
   "deck": "sd-05-web-apps",
@@ -8088,7 +8138,8 @@
   "created": 1794100000214,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "sd-05-web-apps#components"
  },
  "sd-05-web-apps-004": {
   "deck": "sd-05-web-apps",
@@ -8103,7 +8154,8 @@
   "created": 1794100000215,
   "suspended": false,
   "verified": "2026-11-20",
-  "checkBy": "2027-05-20"
+  "checkBy": "2027-05-20",
+  "note": "sd-05-web-apps#security"
  },
  "sd-05-web-apps-005": {
   "deck": "sd-05-web-apps",
@@ -8117,7 +8169,8 @@
   "created": 1794100000216,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "sd-05-web-apps#backend"
  },
  "sd-05-web-apps-006": {
   "deck": "sd-05-web-apps",
@@ -8132,7 +8185,8 @@
   "created": 1794100000217,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "sd-05-web-apps#security"
  },
  "sd-05-web-apps-007": {
   "deck": "sd-05-web-apps",
@@ -8147,7 +8201,8 @@
   "created": 1794100000218,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "sd-05-web-apps#backend"
  },
  "sd-05-web-apps-008": {
   "deck": "sd-05-web-apps",
@@ -8161,7 +8216,8 @@
   "created": 1794100000219,
   "suspended": false,
   "verified": "2026-11-20",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "sd-05-web-apps#streaming"
  },
  "sd-06-trading-systems-001": {
   "deck": "sd-06-trading-systems",
@@ -8174,7 +8230,8 @@
   "source": "Standard industry practice",
   "created": 1794100000220,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-06-trading-systems#path"
  },
  "sd-06-trading-systems-002": {
   "deck": "sd-06-trading-systems",
@@ -8184,24 +8241,26 @@
    "system-design",
    "trading-systems"
   ],
-  "source": "Standard industry practice",
+  "source": "FIX Trading Community, FIX 4.4 specification",
   "created": 1794100000221,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-06-trading-systems#fix"
  },
  "sd-06-trading-systems-003": {
   "deck": "sd-06-trading-systems",
   "front": "Which pre-trade risk checks must sit before market access?",
-  "back": "Fat-finger (price and size), credit and position limits, restricted lists, duplicate-order checks.\nIn the US, the SEC market access rule (15c3-5) requires them.",
+  "back": "Fat-finger (price and size, per order or over a short period), credit or capital thresholds per customer and firm-wide, duplicate orders, pre-order regulatory requirements, restricted securities.\nIn the US, SEC Rule 15c3-5 (Market Access Rule) requires them, under the broker's direct and exclusive control.",
   "tags": [
    "system-design",
    "trading-systems"
   ],
-  "source": "Standard industry practice",
+  "source": "SEC Rule 15c3-5, 17 CFR 240.15c3-5(c)",
   "created": 1794100000222,
   "suspended": false,
-  "verified": "2026-11-20",
-  "checkBy": "2027-11-20"
+  "verified": "2026-11-23",
+  "checkBy": "2027-11-20",
+  "note": "sd-06-trading-systems#risk"
  },
  "sd-06-trading-systems-004": {
   "deck": "sd-06-trading-systems",
@@ -8214,7 +8273,8 @@
   "source": "Standard industry practice",
   "created": 1794100000223,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-06-trading-systems#marketdata"
  },
  "sd-06-trading-systems-005": {
   "deck": "sd-06-trading-systems",
@@ -8227,7 +8287,8 @@
   "source": "Standard industry practice",
   "created": 1794100000224,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-06-trading-systems#marketdata"
  },
  "sd-06-trading-systems-006": {
   "deck": "sd-06-trading-systems",
@@ -8241,21 +8302,22 @@
   "source": "Standard industry practice",
   "created": 1794100000225,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-06-trading-systems#posttrade"
  },
  "sd-06-trading-systems-007": {
   "deck": "sd-06-trading-systems",
-  "front": "Decompose a day's P&L for a Delta One book.",
+  "front": "Decompose a day's P&L for a trading book.",
   "back": "1. Position P&L: start-of-day position × price move.\n2. New-trade P&L: new trades vs end-of-day mark.\n3. Carry: financing and dividends accrued.\n4. Fees and other adjustments.\nUnexplained remainder = a break to investigate.",
   "tags": [
    "system-design",
-   "trading-systems",
-   "delta-one"
+   "trading-systems"
   ],
   "source": "Standard industry practice",
   "created": 1794100000226,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-23",
+  "note": "sd-06-trading-systems#posttrade"
  },
  "sd-06-trading-systems-008": {
   "deck": "sd-06-trading-systems",
@@ -8268,7 +8330,8 @@
   "source": "Standard industry practice",
   "created": 1794100000227,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-06-trading-systems#posttrade"
  },
  "sd-06-trading-systems-009": {
   "deck": "sd-06-trading-systems",
@@ -8281,7 +8344,8 @@
   "source": "Standard industry practice",
   "created": 1794100000228,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-06-trading-systems#sequencer"
  },
  "sd-04-web-security-019": {
   "deck": "sd-04-web-security",
@@ -8291,10 +8355,11 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749, RFC 8693, SAML 2.0, OpenID Connect Core 1.0",
+  "source": "OASIS SAML 2.0 Technical Overview; OpenID Connect Core 1.0",
   "created": 1794200000000,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-04-web-security-2#sso"
  },
  "sd-04-web-security-020": {
   "deck": "sd-04-web-security",
@@ -8304,10 +8369,11 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749, RFC 8693, SAML 2.0, OpenID Connect Core 1.0",
+  "source": "OASIS SAML 2.0 Bindings and Profiles; OpenID Connect Core 1.0",
   "created": 1794200000001,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-04-web-security-2#sso"
  },
  "sd-04-web-security-021": {
   "deck": "sd-04-web-security",
@@ -8317,10 +8383,11 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749, RFC 8693, SAML 2.0, OpenID Connect Core 1.0",
+  "source": "OASIS SAML 2.0 Profiles (Web Browser SSO)",
   "created": 1794200000002,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-04-web-security-2#sso"
  },
  "sd-04-web-security-022": {
   "deck": "sd-04-web-security",
@@ -8330,10 +8397,11 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749, RFC 8693, SAML 2.0, OpenID Connect Core 1.0",
+  "source": "OpenID Connect RP-Initiated, Front-Channel and Back-Channel Logout 1.0; SAML 2.0 Single Logout",
   "created": 1794200000003,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-04-web-security-2#sso"
  },
  "sd-04-web-security-023": {
   "deck": "sd-04-web-security",
@@ -8343,10 +8411,11 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749, RFC 8693, SAML 2.0, OpenID Connect Core 1.0",
+  "source": "RFC 6749 (client credentials grant); RFC 7523",
   "created": 1794200000004,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-04-web-security-2#services"
  },
  "sd-04-web-security-024": {
   "deck": "sd-04-web-security",
@@ -8356,36 +8425,39 @@
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749, RFC 8693, SAML 2.0, OpenID Connect Core 1.0",
+  "source": "RFC 7662; RFC 9068",
   "created": 1794200000005,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-04-web-security-2#sessions"
  },
  "sd-04-web-security-025": {
   "deck": "sd-04-web-security",
   "front": "Scopes vs roles.",
-  "back": "Scopes: what the client app may do on the user's behalf (e.g. `read:positions`).\nRoles or claims: what the user is allowed to do. Authorization needs both.",
+  "back": "Scopes: what the client app may do on the user's behalf (e.g. `expenses:read`).\nRoles or claims: what the user is allowed to do. Authorization needs both.",
   "tags": [
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749, RFC 8693, SAML 2.0, OpenID Connect Core 1.0",
+  "source": "RFC 6749 (scopes)",
   "created": 1794200000006,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-23",
+  "note": "sd-04-web-security-2#services"
  },
  "sd-04-web-security-026": {
   "deck": "sd-04-web-security",
   "front": "RBAC vs ABAC.",
-  "back": "RBAC: permissions attach to roles; users get roles.\nABAC: rules on attributes of user, resource and context (desk, region, time). More expressive, harder to audit.",
+  "back": "RBAC: permissions attach to roles; users get roles.\nABAC: rules on attributes of user, resource and context (cost centre, region, time). More expressive, harder to audit.",
   "tags": [
    "system-design",
    "web-security"
   ],
-  "source": "RFC 6749, RFC 8693, SAML 2.0, OpenID Connect Core 1.0",
+  "source": "ANSI INCITS 359-2004 (RBAC); NIST SP 800-162 (ABAC)",
   "created": 1794200000007,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-23",
+  "note": "sd-04-web-security-2#services"
  },
  "sd-04-web-security-027": {
   "deck": "sd-04-web-security",
@@ -8396,10 +8468,11 @@
    "web-security",
    "agents"
   ],
-  "source": "RFC 6749, RFC 8693, SAML 2.0, OpenID Connect Core 1.0",
+  "source": "RFC 8693 (token exchange)",
   "created": 1794200000008,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-04-web-security-2#services"
  },
  "sd-07-crypto-001": {
   "deck": "sd-07-crypto",
@@ -8409,10 +8482,11 @@
    "system-design",
    "cryptography"
   ],
-  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "source": "RFC 2104; FIPS 186-5; RFC 5116",
   "created": 1794200000009,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-07-crypto#primitives"
  },
  "sd-07-crypto-002": {
   "deck": "sd-07-crypto",
@@ -8422,10 +8496,11 @@
    "system-design",
    "cryptography"
   ],
-  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "source": "RFC 2104; FIPS 198-1",
   "created": 1794200000010,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-07-crypto#mac"
  },
  "sd-07-crypto-003": {
   "deck": "sd-07-crypto",
@@ -8435,10 +8510,11 @@
    "system-design",
    "cryptography"
   ],
-  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "source": "RFC 2104; FIPS 180-4",
   "created": 1794200000011,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-07-crypto#mac"
  },
  "sd-07-crypto-004": {
   "deck": "sd-07-crypto",
@@ -8448,10 +8524,11 @@
    "system-design",
    "cryptography"
   ],
-  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "source": "Python docs, hmac.compare_digest",
   "created": 1794200000012,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-07-crypto#mac"
  },
  "sd-07-crypto-005": {
   "deck": "sd-07-crypto",
@@ -8462,10 +8539,11 @@
    "cryptography",
    "web-security"
   ],
-  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "source": "Standard Webhooks specification; RFC 2104",
   "created": 1794200000013,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-07-crypto#mac"
  },
  "sd-07-crypto-006": {
   "deck": "sd-07-crypto",
@@ -8475,10 +8553,11 @@
    "system-design",
    "cryptography"
   ],
-  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "source": "FIPS 186-5; NIST SP 800-175B Rev. 1",
   "created": 1794200000014,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-07-crypto#primitives"
  },
  "sd-07-crypto-007": {
   "deck": "sd-07-crypto",
@@ -8489,10 +8568,11 @@
    "cryptography",
    "web-security"
   ],
-  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "source": "RFC 7518; RFC 8725",
   "created": 1794200000015,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-07-crypto#signatures"
  },
  "sd-07-crypto-008": {
   "deck": "sd-07-crypto",
@@ -8503,10 +8583,11 @@
    "cryptography",
    "web-security"
   ],
-  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "source": "RFC 8725",
   "created": 1794200000016,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-07-crypto#signatures"
  },
  "sd-07-crypto-009": {
   "deck": "sd-07-crypto",
@@ -8517,10 +8598,11 @@
    "cryptography",
    "web-security"
   ],
-  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "source": "OWASP Password Storage Cheat Sheet; RFC 9106",
   "created": 1794200000017,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-07-crypto#passwords"
  },
  "sd-07-crypto-010": {
   "deck": "sd-07-crypto",
@@ -8530,10 +8612,11 @@
    "system-design",
    "cryptography"
   ],
-  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "source": "OWASP Password Storage Cheat Sheet; NIST SP 800-63B-4",
   "created": 1794200000018,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-07-crypto#passwords"
  },
  "sd-07-crypto-011": {
   "deck": "sd-07-crypto",
@@ -8543,10 +8626,11 @@
    "system-design",
    "cryptography"
   ],
-  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "source": "RFC 9846; NIST SP 800-57 Part 1 Rev. 5",
   "created": 1794200000019,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-07-crypto#tls"
  },
  "sd-07-crypto-012": {
   "deck": "sd-07-crypto",
@@ -8556,10 +8640,11 @@
    "system-design",
    "cryptography"
   ],
-  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "source": "RFC 5116; NIST SP 800-38D; Böck et al., Nonce-Disrespecting Adversaries (WOOT 2016)",
   "created": 1794200000020,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-07-crypto#aead"
  },
  "sd-07-crypto-013": {
   "deck": "sd-07-crypto",
@@ -8569,10 +8654,11 @@
    "system-design",
    "cryptography"
   ],
-  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "source": "AWS KMS and Google Cloud KMS docs (envelope encryption)",
   "created": 1794200000021,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-07-crypto#keys"
  },
  "sd-07-crypto-014": {
   "deck": "sd-07-crypto",
@@ -8583,10 +8669,11 @@
    "cryptography",
    "web-security"
   ],
-  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "source": "RFC 9846; RFC 8705",
   "created": 1794200000022,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-07-crypto#tls"
  },
  "sd-07-crypto-015": {
   "deck": "sd-07-crypto",
@@ -8597,10 +8684,11 @@
    "cryptography",
    "web-security"
   ],
-  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "source": "RFC 5280; RFC 9525",
   "created": 1794200000023,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-07-crypto#tls"
  },
  "sd-07-crypto-016": {
   "deck": "sd-07-crypto",
@@ -8611,10 +8699,11 @@
    "cryptography",
    "web-security"
   ],
-  "source": "Standard practice; RFC 2104 (HMAC); OWASP",
+  "source": "OWASP Secrets Management Cheat Sheet",
   "created": 1794200000024,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-07-crypto#keys"
  },
  "sd-08-patterns-001": {
   "deck": "sd-08-patterns",
@@ -8627,7 +8716,8 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000025,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-08-patterns#solid"
  },
  "sd-08-patterns-002": {
   "deck": "sd-08-patterns",
@@ -8640,7 +8730,8 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000026,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-08-patterns#solid"
  },
  "sd-08-patterns-003": {
   "deck": "sd-08-patterns",
@@ -8653,7 +8744,8 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000027,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-08-patterns#solid"
  },
  "sd-08-patterns-004": {
   "deck": "sd-08-patterns",
@@ -8666,7 +8758,8 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000028,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-08-patterns#solid"
  },
  "sd-08-patterns-005": {
   "deck": "sd-08-patterns",
@@ -8679,7 +8772,8 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000029,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-08-patterns#dependencies"
  },
  "sd-08-patterns-006": {
   "deck": "sd-08-patterns",
@@ -8692,12 +8786,13 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000030,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-08-patterns#structural"
  },
  "sd-08-patterns-007": {
   "deck": "sd-08-patterns",
-  "front": "Strategy pattern. Give a desk example.",
-  "back": "A family of interchangeable algorithms behind one interface; the caller picks one at run time.\nExample: hedge-route cost models (physical, dealer swap, options) behind `cost(trade)`.",
+  "front": "Strategy pattern. Give an example.",
+  "back": "A family of interchangeable algorithms behind one interface; the caller picks one at run time.\nExample: shipping rate rules (flat, by weight, by zone) behind `price(parcel)`.",
   "tags": [
    "system-design",
    "design-patterns"
@@ -8705,7 +8800,8 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000031,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-23",
+  "note": "sd-08-patterns#behavioral"
  },
  "sd-08-patterns-008": {
   "deck": "sd-08-patterns",
@@ -8718,12 +8814,13 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000032,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-08-patterns#creational"
  },
  "sd-08-patterns-009": {
   "deck": "sd-08-patterns",
   "front": "Builder pattern.",
-  "back": "Construct a complex object step by step, then build it, often validated at the end.\nUseful for objects with many optional parts (e.g. a swap with optional resets, fees, DPR).",
+  "back": "Construct a complex object step by step, then build it, often validated at the end.\nUseful for objects with many optional parts (e.g. a shipment with optional insurance, signature, customs form).",
   "tags": [
    "system-design",
    "design-patterns"
@@ -8731,7 +8828,8 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000033,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-23",
+  "note": "sd-08-patterns#creational"
  },
  "sd-08-patterns-010": {
   "deck": "sd-08-patterns",
@@ -8744,7 +8842,8 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000034,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-08-patterns#structural"
  },
  "sd-08-patterns-011": {
   "deck": "sd-08-patterns",
@@ -8757,7 +8856,8 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000035,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-08-patterns#structural"
  },
  "sd-08-patterns-012": {
   "deck": "sd-08-patterns",
@@ -8770,7 +8870,8 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000036,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-08-patterns#structural"
  },
  "sd-08-patterns-013": {
   "deck": "sd-08-patterns",
@@ -8784,12 +8885,13 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000037,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-08-patterns#events"
  },
  "sd-08-patterns-014": {
   "deck": "sd-08-patterns",
   "front": "Command pattern.",
-  "back": "Represent a request as an object.\nIt can then be queued, logged, retried or undone. Examples: a write outbox; LangGraph's `Command`.",
+  "back": "Represent a request as an object.\nIt can then be queued, logged, retried or undone. Examples: queued jobs; LangGraph's `Command`.",
   "tags": [
    "system-design",
    "design-patterns"
@@ -8797,7 +8899,8 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000038,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-23",
+  "note": "sd-08-patterns#events"
  },
  "sd-08-patterns-015": {
   "deck": "sd-08-patterns",
@@ -8811,7 +8914,8 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000039,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-08-patterns#behavioral"
  },
  "sd-08-patterns-016": {
   "deck": "sd-08-patterns",
@@ -8824,7 +8928,8 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000040,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-08-patterns#behavioral"
  },
  "sd-08-patterns-017": {
   "deck": "sd-08-patterns",
@@ -8837,7 +8942,8 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000041,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-08-patterns#behavioral"
  },
  "sd-08-patterns-018": {
   "deck": "sd-08-patterns",
@@ -8850,7 +8956,8 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000042,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-08-patterns#architecture"
  },
  "sd-08-patterns-019": {
   "deck": "sd-08-patterns",
@@ -8863,7 +8970,8 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000043,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-08-patterns#architecture"
  },
  "sd-08-patterns-020": {
   "deck": "sd-08-patterns",
@@ -8876,12 +8984,13 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000044,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "sd-08-patterns#dependencies"
  },
  "sd-08-patterns-021": {
   "deck": "sd-08-patterns",
   "front": "Value objects and immutability: why use them for trades and money?",
-  "back": "Equality by value, no accidental mutation, safe to share across threads and cache.\nPython: `@dataclass(frozen=True)`.",
+  "back": "Equality by value, no accidental mutation, safe to share across threads and cache.\nPython: `@dataclass(frozen=True)`. It is shallow: use tuples, not lists, for fields.",
   "tags": [
    "system-design",
    "design-patterns"
@@ -8889,12 +8998,13 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000045,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-23",
+  "note": "sd-08-patterns#architecture"
  },
  "sd-08-patterns-022": {
   "deck": "sd-08-patterns",
   "front": "How do you declare an interface in modern Python?",
-  "back": "`typing.Protocol` (structural: any class with the right methods fits) or `abc.ABC` (nominal: must inherit).\nProtocols keep adapters decoupled from your base classes.",
+  "back": "`typing.Protocol` (structural: any class with the right methods fits) or `abc.ABC` (nominal: must inherit or be registered with `register()`).\nProtocols keep adapters decoupled from your base classes.",
   "tags": [
    "system-design",
    "design-patterns"
@@ -8902,7 +9012,8 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000046,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-23",
+  "note": "sd-08-patterns#dependencies"
  },
  "sd-08-patterns-023": {
   "deck": "sd-08-patterns",
@@ -8915,7 +9026,8 @@
   "source": "Gamma et al., Design Patterns (1994); Martin, SOLID; standard practice",
   "created": 1794200000047,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-08-patterns#architecture"
  },
  "llm-05-inference-001": {
   "deck": "llm-05-inference",
@@ -9586,12 +9698,13 @@
   "created": 1794300003027,
   "suspended": false,
   "verified": "2026-11-20",
-  "checkBy": "2027-05-20"
+  "checkBy": "2027-05-20",
+  "note": "sd-05-web-apps#caching"
  },
  "sd-05-web-apps-010": {
   "deck": "sd-05-web-apps",
   "front": "Next.js: how do you cache per-user data with `\"use cache\"` when it depends on a cookie?",
-  "back": "Read the cookie outside the cached function and pass the value in as an argument: arguments and captured values form the cache key.\n(Alternative: `\"use cache: private\"`.)",
+  "back": "Read the cookie outside the cached function and pass the value in as an argument: arguments and captured values form the cache key.\n(Rare escape hatch: `\"use cache: private\"`, cached only in the browser.)",
   "tags": [
    "system-design",
    "web-app",
@@ -9600,8 +9713,9 @@
   "source": "Next.js docs, Caching (Passing runtime values to cached functions): https://nextjs.org/docs/app/getting-started/caching",
   "created": 1794300003028,
   "suspended": false,
-  "verified": "2026-11-20",
-  "checkBy": "2027-05-20"
+  "verified": "2026-11-23",
+  "checkBy": "2027-05-20",
+  "note": "sd-05-web-apps#caching"
  },
  "sd-05-web-apps-011": {
   "deck": "sd-05-web-apps",
@@ -9616,7 +9730,8 @@
   "created": 1794300003029,
   "suspended": false,
   "verified": "2026-11-20",
-  "checkBy": "2027-05-20"
+  "checkBy": "2027-05-20",
+  "note": "sd-05-web-apps#mutations"
  },
  "sd-05-web-apps-012": {
   "deck": "sd-05-web-apps",
@@ -9631,7 +9746,8 @@
   "created": 1794300003030,
   "suspended": false,
   "verified": "2026-11-20",
-  "checkBy": "2027-05-20"
+  "checkBy": "2027-05-20",
+  "note": "sd-05-web-apps#security"
  },
  "sd-06-trading-systems-010": {
   "deck": "sd-06-trading-systems",
@@ -9644,7 +9760,8 @@
   "source": "Harris, Trading and Exchanges (2003), ch. 6 (order precedence rules); exchange rulebooks (e.g. CME Globex FIFO matching)",
   "created": 1794300003031,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-06-trading-systems#matching"
  },
  "sd-06-trading-systems-011": {
   "deck": "sd-06-trading-systems",
@@ -9658,7 +9775,8 @@
   "source": "Fowler, 'The LMAX Architecture' (2011): https://martinfowler.com/articles/lmax.html",
   "created": 1794300003032,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-06-trading-systems#sequencer"
  },
  "sd-06-trading-systems-012": {
   "deck": "sd-06-trading-systems",
@@ -9672,7 +9790,8 @@
   "source": "CME Group MDP 3.0 documentation (Feed A / Feed B, packet sequence numbers); standard practice",
   "created": 1794300003033,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-06-trading-systems#marketdata"
  },
  "sd-06-trading-systems-013": {
   "deck": "sd-06-trading-systems",
@@ -9686,7 +9805,8 @@
   "source": "SEC press release 2013-222: https://www.sec.gov/newsroom/press-releases/2013-222 ; SEC Order, Release No. 34-70694 (2013)",
   "created": 1794300003034,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-06-trading-systems#risk"
  },
  "sd-07-crypto-017": {
   "deck": "sd-07-crypto",
@@ -9700,7 +9820,8 @@
   "created": 1794300003035,
   "suspended": false,
   "verified": "2026-11-20",
-  "checkBy": "2027-11-20"
+  "checkBy": "2027-11-20",
+  "note": "sd-07-crypto#aead"
  },
  "sd-07-crypto-018": {
   "deck": "sd-07-crypto",
@@ -9713,7 +9834,8 @@
   "source": "RFC 5869, sec. 4 ('can concentrate existing entropy but cannot amplify entropy'; 'a slowing down mechanism is not part of this specification')",
   "created": 1794300003036,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-07-crypto#passwords"
  },
  "sd-07-crypto-019": {
   "deck": "sd-07-crypto",
@@ -9726,7 +9848,8 @@
   "source": "RFC 8032 (EdDSA), sec. 5.1.6; RFC 6979 (deterministic ECDSA); fail0verflow, 27C3 talk 'Console Hacking 2010'",
   "created": 1794300003037,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-07-crypto#signatures"
  },
  "sd-08-patterns-024": {
   "deck": "sd-08-patterns",
@@ -9739,7 +9862,8 @@
   "source": "Martin, 'The Interface Segregation Principle' (1996); Martin, Agile Software Development (2002)",
   "created": 1794300003038,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-08-patterns#solid"
  },
  "sd-01-scale-016": {
   "deck": "sd-01-scale",
@@ -9809,7 +9933,8 @@
   "source": "Kleppmann, Designing Data-Intensive Applications, ch. 5",
   "created": 1794300003043,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-02-data#replication"
  },
  "sd-02-data-017": {
   "deck": "sd-02-data",
@@ -9822,7 +9947,8 @@
   "source": "Kleppmann, Designing Data-Intensive Applications, ch. 9 'Linearizability'",
   "created": 1794300003044,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-02-data#consistency"
  },
  "sd-02-data-018": {
   "deck": "sd-02-data",
@@ -9835,7 +9961,8 @@
   "source": "Kleppmann, Designing Data-Intensive Applications, ch. 7 'Weak Isolation Levels'",
   "created": 1794300003045,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-02-data#transactions"
  },
  "sd-02-data-019": {
   "deck": "sd-02-data",
@@ -9849,7 +9976,8 @@
   "source": "Kleppmann, Designing Data-Intensive Applications, ch. 9 'Atomic Commit and Two-Phase Commit'",
   "created": 1794300003046,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-02-data#coordination"
  },
  "sd-02-data-020": {
   "deck": "sd-02-data",
@@ -9863,7 +9991,8 @@
   "source": "Ongaro & Ousterhout, 'In Search of an Understandable Consensus Algorithm' (Raft), USENIX ATC 2014",
   "created": 1794300003047,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-02-data#coordination"
  },
  "sd-02-data-021": {
   "deck": "sd-02-data",
@@ -9877,12 +10006,13 @@
   "source": "Kleppmann, Designing Data-Intensive Applications, ch. 8 'Fencing tokens'",
   "created": 1794300003048,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-02-data#coordination"
  },
  "sd-03-reliability-016": {
   "deck": "sd-03-reliability",
   "front": "SLO of 99.9% over 30 days: how big is the error budget, and how is it used?",
-  "back": "$0.001 \\times 30 \\times 24 \\times 60 = 43.2$ min of unavailability.\nWhile budget remains, ship changes; when it is spent, slow releases and work on reliability.",
+  "back": "0.1% of requests may fail. As full outage: $0.001 \\times 30 \\times 24 \\times 60 = 43.2$ min.\nWhile budget remains, ship changes; when it is spent, slow releases and work on reliability.",
   "tags": [
    "system-design",
    "reliability"
@@ -9890,7 +10020,8 @@
   "source": "Google SRE book, ch. 3 'Embracing Risk' (error budgets)",
   "created": 1794300003049,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-23",
+  "note": "sd-03-reliability#slo"
  },
  "sd-03-reliability-017": {
   "deck": "sd-03-reliability",
@@ -9903,7 +10034,8 @@
   "source": "Standard reliability engineering (series/parallel availability)",
   "created": 1794300003050,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-03-reliability#slo"
  },
  "sd-03-reliability-018": {
   "deck": "sd-03-reliability",
@@ -9913,10 +10045,11 @@
    "system-design",
    "reliability"
   ],
-  "source": "Google SRE book, ch. 22 'Addressing Cascading Failures'",
+  "source": "Google SRE book, ch. 22 'Addressing Cascading Failures'; Brooker, Timeouts, retries, and backoff with jitter (Amazon Builders' Library)",
   "created": 1794300003051,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-03-reliability#retries"
  },
  "sd-03-reliability-019": {
   "deck": "sd-03-reliability",
@@ -9929,7 +10062,8 @@
   "source": "Standard DR practice; AWS Well-Architected Reliability Pillar, 'Disaster recovery objectives'",
   "created": 1794300003052,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-03-reliability#operations"
  },
  "sd-03-reliability-020": {
   "deck": "sd-03-reliability",
@@ -9943,7 +10077,8 @@
   "created": 1794300003053,
   "suspended": false,
   "verified": "2026-11-20",
-  "checkBy": "2027-11-20"
+  "checkBy": "2027-11-20",
+  "note": "sd-03-reliability#messaging"
  },
  "sd-04-web-security-028": {
   "deck": "sd-04-web-security",
@@ -9957,7 +10092,8 @@
   "created": 1794300003054,
   "suspended": false,
   "verified": "2026-11-20",
-  "checkBy": "2027-11-20"
+  "checkBy": "2027-11-20",
+  "note": "sd-04-web-security-2#codeflow"
  },
  "sd-04-web-security-029": {
   "deck": "sd-04-web-security",
@@ -9970,7 +10106,8 @@
   "source": "RFC 6454 (The Web Origin Concept); MDN Same-origin policy",
   "created": 1794300003055,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-04-web-security#origin"
  },
  "sd-04-web-security-030": {
   "deck": "sd-04-web-security",
@@ -9983,7 +10120,8 @@
   "source": "MDN Set-Cookie SameSite; draft-ietf-httpbis-rfc6265bis; OWASP CSRF Prevention Cheat Sheet",
   "created": 1794300003056,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-04-web-security#cookies"
  },
  "sd-04-web-security-031": {
   "deck": "sd-04-web-security",
@@ -9996,7 +10134,8 @@
   "source": "MDN CORS guide, 'Credentialed requests and wildcards', https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS",
   "created": 1794300003057,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-04-web-security#cors"
  },
  "sd-04-web-security-032": {
   "deck": "sd-04-web-security",
@@ -10009,7 +10148,8 @@
   "source": "OWASP SQL Injection Prevention Cheat Sheet",
   "created": 1794300003058,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-04-web-security#server"
  },
  "sd-04-web-security-033": {
   "deck": "sd-04-web-security",
@@ -10019,10 +10159,11 @@
    "system-design",
    "web-security"
   ],
-  "source": "OWASP SSRF Prevention Cheat Sheet; OWASP Top 10 2021 A10",
+  "source": "OWASP SSRF Prevention Cheat Sheet; OWASP Top 10:2025 A01 (SSRF folded in; was A10:2021)",
   "created": 1794300003059,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "sd-04-web-security#server"
  },
  "d1-05-products-021": {
   "deck": "d1-05-products",
