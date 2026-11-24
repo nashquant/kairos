@@ -6422,10 +6422,11 @@
    "llm",
    "llm-training"
   ],
-  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "source": "Radford et al. 2019 (GPT-2); Ouyang et al. 2022 (InstructGPT)",
   "created": 1794100000094,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-02-training#pretraining"
  },
  "llm-02-training-002": {
   "deck": "llm-02-training",
@@ -6435,10 +6436,11 @@
    "llm",
    "llm-training"
   ],
-  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "source": "Kaplan et al. 2020 (Scaling Laws for Neural Language Models); Hoffmann et al. 2022 (Chinchilla)",
   "created": 1794100000095,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-02-training#scaling"
  },
  "llm-02-training-003": {
   "deck": "llm-02-training",
@@ -6448,11 +6450,12 @@
    "llm",
    "llm-training"
   ],
-  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "source": "Hoffmann et al. 2022 (Chinchilla), Table 3; Meta, Llama 3 announcement (2024)",
   "created": 1794100000096,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "llm-02-training#scaling"
  },
  "llm-02-training-004": {
   "deck": "llm-02-training",
@@ -6462,10 +6465,11 @@
    "llm",
    "llm-training"
   ],
-  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "source": "Kaplan et al. 2020; Hoffmann et al. 2022 (FLOPs ≈ 6ND)",
   "created": 1794100000097,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-02-training#scaling"
  },
  "llm-02-training-005": {
   "deck": "llm-02-training",
@@ -6475,10 +6479,11 @@
    "llm",
    "llm-training"
   ],
-  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "source": "Ouyang et al. 2022 (InstructGPT)",
   "created": 1794100000098,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-02-training#sft"
  },
  "llm-02-training-006": {
   "deck": "llm-02-training",
@@ -6488,10 +6493,11 @@
    "llm",
    "llm-training"
   ],
-  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "source": "Ouyang et al. 2022 (InstructGPT); Stiennon et al. 2020",
   "created": 1794100000099,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-02-training#preferences"
  },
  "llm-02-training-007": {
   "deck": "llm-02-training",
@@ -6501,10 +6507,11 @@
    "llm",
    "llm-training"
   ],
-  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "source": "Ouyang et al. 2022 (InstructGPT); Rafailov et al. 2023 (DPO), eq. 3",
   "created": 1794100000100,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-02-training#preferences"
  },
  "llm-02-training-008": {
   "deck": "llm-02-training",
@@ -6514,10 +6521,11 @@
    "llm",
    "llm-training"
   ],
-  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "source": "Rafailov et al. 2023 (DPO)",
   "created": 1794100000101,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-02-training#preferences"
  },
  "llm-02-training-009": {
   "deck": "llm-02-training",
@@ -6527,10 +6535,11 @@
    "llm",
    "llm-training"
   ],
-  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "source": "Lambert et al. 2024 (Tülu 3, RLVR); DeepSeek-AI 2025 (R1)",
   "created": 1794100000102,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-02-training#rlvr"
  },
  "llm-02-training-010": {
   "deck": "llm-02-training",
@@ -6540,10 +6549,11 @@
    "llm",
    "llm-training"
   ],
-  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "source": "Hu et al. 2021 (LoRA); count checked with peft 0.17.1",
   "created": 1794100000103,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "llm-02-training#lora"
  },
  "llm-02-training-011": {
   "deck": "llm-02-training",
@@ -6553,10 +6563,11 @@
    "llm",
    "llm-training"
   ],
-  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "source": "Dettmers et al. 2022 (LLM.int8()); Dettmers et al. 2023 (QLoRA)",
   "created": 1794100000104,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-02-training#compress"
  },
  "llm-02-training-012": {
   "deck": "llm-02-training",
@@ -6566,10 +6577,11 @@
    "llm",
    "llm-training"
   ],
-  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "source": "Hinton, Vinyals & Dean 2015 (Distilling the Knowledge in a Neural Network)",
   "created": 1794100000105,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-02-training#compress"
  },
  "llm-02-training-013": {
   "deck": "llm-02-training",
@@ -6580,10 +6592,11 @@
    "llm-training",
    "agents"
   ],
-  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "source": "Kalai et al. 2025 (Why Language Models Hallucinate)",
   "created": 1794100000106,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-02-training#choose"
  },
  "llm-02-training-014": {
   "deck": "llm-02-training",
@@ -6594,10 +6607,11 @@
    "llm-training",
    "rag"
   ],
-  "source": "Standard LLM practice; Hoffmann et al. 2022 (Chinchilla); Hu et al. 2021 (LoRA)",
+  "source": "Lewis et al. 2020 (RAG); standard practice",
   "created": 1794100000107,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-02-training#choose"
  },
  "llm-03-agents-001": {
   "deck": "llm-03-agents",
@@ -9041,12 +9055,13 @@
   "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
   "created": 1794200000048,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-05-inference#phases"
  },
  "llm-05-inference-002": {
   "deck": "llm-05-inference",
   "front": "What does the KV cache save, and what does it cost?",
-  "back": "Saves recomputing K and V for the whole prefix at every step: each new token does work for one token, not for all.\nCosts GPU memory that grows linearly with context length and with the number of concurrent sequences.",
+  "back": "Saves recomputing K and V for the whole prefix at every step: the projections and the MLP run for the new token only; attention still reads every cached token.\nCosts GPU memory that grows linearly with context length and with the number of concurrent sequences.",
   "tags": [
    "llm",
    "inference"
@@ -9054,7 +9069,8 @@
   "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
   "created": 1794200000049,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-24",
+  "note": "llm-05-inference#phases"
  },
  "llm-05-inference-003": {
   "deck": "llm-05-inference",
@@ -9067,7 +9083,8 @@
   "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
   "created": 1794200000050,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-05-inference#weights"
  },
  "llm-05-inference-004": {
   "deck": "llm-05-inference",
@@ -9080,7 +9097,8 @@
   "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
   "created": 1794200000051,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-05-inference#kvcache"
  },
  "llm-05-inference-005": {
   "deck": "llm-05-inference",
@@ -9093,7 +9111,8 @@
   "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
   "created": 1794200000052,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "llm-05-inference#kvcache"
  },
  "llm-05-inference-006": {
   "deck": "llm-05-inference",
@@ -9107,7 +9126,8 @@
   "created": 1794200000053,
   "suspended": false,
   "verified": "2026-11-05",
-  "checkBy": "2027-05-05"
+  "checkBy": "2027-05-05",
+  "note": "llm-05-inference#sizing"
  },
  "llm-05-inference-007": {
   "deck": "llm-05-inference",
@@ -9121,7 +9141,8 @@
   "created": 1794200000054,
   "suspended": false,
   "verified": "2026-11-20",
-  "checkBy": "2027-05-20"
+  "checkBy": "2027-05-20",
+  "note": "llm-05-inference#bandwidth"
  },
  "llm-05-inference-008": {
   "deck": "llm-05-inference",
@@ -9134,7 +9155,8 @@
   "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
   "created": 1794200000055,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-05-inference#batching"
  },
  "llm-05-inference-009": {
   "deck": "llm-05-inference",
@@ -9148,7 +9170,8 @@
   "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
   "created": 1794200000056,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-05-inference#bandwidth"
  },
  "llm-05-inference-010": {
   "deck": "llm-05-inference",
@@ -9161,7 +9184,8 @@
   "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
   "created": 1794200000057,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "llm-05-inference#kvcache"
  },
  "llm-05-inference-011": {
   "deck": "llm-05-inference",
@@ -9174,7 +9198,8 @@
   "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
   "created": 1794200000058,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-05-inference#batching"
  },
  "llm-05-inference-012": {
   "deck": "llm-05-inference",
@@ -9184,10 +9209,11 @@
    "llm",
    "inference"
   ],
-  "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
+  "source": "Shoeybi et al. 2019 (Megatron-LM); Narayanan et al. 2021 (Megatron-LM pipeline + tensor)",
   "created": 1794200000059,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-05-inference#parallel"
  },
  "llm-05-inference-013": {
   "deck": "llm-05-inference",
@@ -9198,10 +9224,11 @@
    "inference",
    "transformers"
   ],
-  "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
+  "source": "Mistral AI 2023 (Mixtral of experts); Fedus et al. 2022 (Switch Transformer)",
   "created": 1794200000060,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-05-inference#weights"
  },
  "llm-05-inference-014": {
   "deck": "llm-05-inference",
@@ -9212,10 +9239,11 @@
    "inference",
    "llm-training"
   ],
-  "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
+  "source": "Rajbhandari et al. 2020 (ZeRO)",
   "created": 1794200000061,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-05-inference#parallel"
  },
  "llm-05-inference-015": {
   "deck": "llm-05-inference",
@@ -9229,7 +9257,8 @@
   "source": "Standard practice; public model configs (Llama 3); NVIDIA spec sheets; Kwon et al. 2023 (vLLM)",
   "created": 1794200000062,
   "suspended": false,
-  "verified": "2026-11-05"
+  "verified": "2026-11-05",
+  "note": "llm-05-inference#speedups"
  },
  "llm-05-inference-016": {
   "deck": "llm-05-inference",
@@ -9243,7 +9272,8 @@
   "created": 1794200000063,
   "suspended": false,
   "verified": "2026-11-20",
-  "checkBy": "2027-05-20"
+  "checkBy": "2027-05-20",
+  "note": "llm-05-inference#sizing"
  },
  "d1-05-products-017": {
   "deck": "d1-05-products",
@@ -10335,7 +10365,8 @@
   "source": "Hu et al. 2021 (LoRA); mixed-precision Adam accounting",
   "created": 1794300003072,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "llm-02-training#lora"
  },
  "llm-02-training-016": {
   "deck": "llm-02-training",
@@ -10348,7 +10379,8 @@
   "source": "Dettmers et al. 2023 (QLoRA)",
   "created": 1794300003073,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "llm-02-training#lora"
  },
  "llm-02-training-017": {
   "deck": "llm-02-training",
@@ -10361,7 +10393,8 @@
   "source": "Shao et al. 2024 (DeepSeekMath); DeepSeek-AI 2025 (R1)",
   "created": 1794300003074,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "llm-02-training#rlvr"
  },
  "llm-05-inference-017": {
   "deck": "llm-05-inference",
@@ -10374,7 +10407,8 @@
   "source": "Yu et al. 2022 (Orca, iteration-level scheduling); vLLM",
   "created": 1794300003075,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "llm-05-inference#batching"
  },
  "llm-05-inference-018": {
   "deck": "llm-05-inference",
@@ -10387,7 +10421,8 @@
   "source": "Leviathan et al. 2023; Chen et al. 2023 (speculative sampling)",
   "created": 1794300003076,
   "suspended": false,
-  "verified": "2026-11-20"
+  "verified": "2026-11-20",
+  "note": "llm-05-inference#speedups"
  },
  "llm-05-inference-019": {
   "deck": "llm-05-inference",
@@ -10401,7 +10436,8 @@
   "created": 1794300003077,
   "suspended": false,
   "verified": "2026-11-20",
-  "checkBy": "2027-05-20"
+  "checkBy": "2027-05-20",
+  "note": "llm-05-inference#bandwidth"
  },
  "llm-03-agents-028": {
   "deck": "llm-03-agents",

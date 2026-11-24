@@ -3,6 +3,16 @@
 Newest first. One entry per working day: what changed, the decisions behind it, and the commits.
 Changes that git does not see (Supabase data, private decks) go here too.
 
+## 2026-11-24
+
+- LLM notes complete: `llm-02-training` (9 sections, 12 questions, 6 objectives; example: **Tutor**, a math assistant pretrained at 70B, then SFT → preferences → RLVR → LoRA/QLoRA → distilled to 8B) and `llm-05-inference` (9 sections, 12 questions, 6 objectives; example: a Llama-3-70B-style model served to 32 users at 8k context on H100s). All 17 llm-02 and 19 llm-05 cards link to a section.
+- Checks:
+  - Every number recomputed in Python (6ND, Chinchilla-fit losses, GPU-days, Bradley–Terry, DPO loss, GRPO advantages, quantization round-trip, KV sizes, decode ceilings, roofline, paged vs reserved KV, speculative-decoding expectation, also by simulation).
+  - Library claims run in a scratch venv: peft 0.17.1 (LoRA r=8 on 4096×4096 → 65,536 trainable; B starts at zero; defaults r=8, alpha=8; merge matches), transformers 4.57.6 (Llama 3 70B/8B parameter counts from the public `config.json`: 70.55B / 8.03B).
+  - Primary sources read: Chinchilla eq. 10 and Tables 2–3 (PDF), DPO eqs. 1/3/7, DeepSeekMath (GRPO), QLoRA (blocksize 64, 0.127 bits/param), Kalai et al. 2025 (confidence targets), vLLM paper (block 16, 20–38% KV use), Leviathan eq. 1, Mixtral post, NVIDIA H100 page, Meta Llama 3 post.
+  - All 184 formulas in the two notes and their cards compile with MathJax 3.2.2 (`mathjax-full`, all packages except autoload/require/noundefined, so an unknown macro is an error). The earlier checker was not kept; this one lived in the session scratchpad.
+- Card fixes: `llm-05-inference-002` (the cache does not make each step "work for one token": attention still reads every cached token). Specific `source` replaces the boilerplate on llm-02-001…014 and llm-05-012/013/014 (the RLHF/DPO cards cited Chinchilla and LoRA).
+
 ## 2026-11-23
 
 - System Design notes complete: 8 new notes, one per deck, except sd-04, which is split in two (`sd-04-web-security` for web attacks, `sd-04-web-security-2` for identity/OAuth/SSO; 33 cards were too many for one note at pilot depth). Each has 8–9 sections and 12 questions, with one worked example per note: digital wallet (sd-02), shop checkout (sd-03), expense app (sd-04, sd-07), bookstore on Next.js (sd-05), fictional broker and venue (sd-06), shipping service (sd-08). All 161 non-suspended sd cards now link to a note section.

@@ -8226,5 +8226,913 @@
     "answer": "The core holds domain logic with no IO: quoting, the shipment state machine, business rules. It owns ports, i.e. interfaces such as RateSource, ShipmentRepository and Notifier. Adapters outside implement them: carrier HTTP clients, a Postgres repository, an email sender; driving adapters (web API, CLI) call into the core. Source dependencies point inward, which is dependency inversion at system scale. Tests run the core with in-memory fakes, fast and without network, and infrastructure can be swapped without touching the core."
    }
   ]
+ },
+ "llm-02-training": {
+  "deck": "llm-02-training",
+  "title": "Training and adaptation: from base model to assistant",
+  "order": 1,
+  "created": 1794700000010,
+  "verified": "2026-11-24",
+  "source": "Kaplan et al. 2020 (Scaling Laws for Neural Language Models); Hoffmann et al. 2022 (Chinchilla), eq. 10, Tables 2–3; Meta, Llama 3 announcement (2024); Ouyang et al. 2022 (InstructGPT); Rafailov et al. 2023 (DPO), eqs. 1, 3, 7; Shao et al. 2024 (DeepSeekMath, GRPO); Hu et al. 2021 (LoRA); Dettmers et al. 2023 (QLoRA); Hinton, Vinyals & Dean 2015 (distillation); Kalai et al. 2025 (Why Language Models Hallucinate); LoRA defaults checked with peft 0.17.1",
+  "intro": "Student notes. One example runs to the end: a lab builds **Tutor**, a math-tutoring assistant.\nPath: pretrain a 70B base model → teach it to follow instructions (SFT) → align it to preferences → train it on checkable math answers → adapt it cheaply (LoRA, QLoRA) → shrink it for serving (distillation to an 8B student, quantization).\nShapes follow the public Llama 3 configs (70B: 80 layers, width 8192; 8B: width 4096). All other numbers are illustrative.",
+  "objectives": [
+   {
+    "id": "o1",
+    "verb": "explain",
+    "text": "what each training stage adds: pretraining, SFT, preference tuning and RL with verifiable rewards"
+   },
+   {
+    "id": "o2",
+    "verb": "calculate",
+    "text": "training compute ($C \\approx 6ND$) and the compute-optimal split between parameters and tokens"
+   },
+   {
+    "id": "o3",
+    "verb": "compare",
+    "text": "RLHF with PPO, DPO and GRPO: what each needs and what it optimizes"
+   },
+   {
+    "id": "o4",
+    "verb": "calculate",
+    "text": "LoRA trainable parameters and fine-tuning memory for full, LoRA and QLoRA training"
+   },
+   {
+    "id": "o5",
+    "verb": "compare",
+    "text": "quantization and distillation; prompting, RAG and fine-tuning"
+   },
+   {
+    "id": "o6",
+    "verb": "diagnose",
+    "text": "training failures: reward hacking, groups with no learning signal, and hallucination rewarded by grading"
+   }
+  ],
+  "sections": [
+   {
+    "id": "pretraining",
+    "title": "1. Pretraining: next-token prediction",
+    "obj": [
+     "o1"
+    ],
+    "body": "- Task: predict the next token over a huge corpus. Loss = $-\\ln p(\\text{correct token})$, averaged over positions (see the LLM 01 note).\n- Scale: Llama 3 trained on over 15T tokens.\n- What it learns: language, facts, patterns, some reasoning.\n- What it does not learn: to follow instructions, to stop, to say \"I don't know\".\n- Example. Prompt to the Tutor base model: `Q: What is 7 × 8?\\nA:`\n  - It may answer `56`, then write `Q: What is 9 × 6?` and go on.\n  - It continues the document. A quiz page usually has more questions.\n- → the base model **completes text**. The later stages turn it into an assistant."
+   },
+   {
+    "id": "scaling",
+    "title": "2. Scaling laws and the compute budget",
+    "obj": [
+     "o2"
+    ],
+    "body": "- **Scaling laws** (Kaplan 2020): loss falls as a **power law** in parameters $N$, tokens $D$ and compute $C$, if the other two do not bind.\n- Chinchilla fit (Hoffmann 2022, eq. 10):\n$$L(N, D) = E + \\frac{A}{N^{\\alpha}} + \\frac{B}{D^{\\beta}}$$\n  - $E = 1.69$ (the floor), $A = 406.4$, $B = 410.7$, $\\alpha = 0.34$, $\\beta = 0.28$.\n  - Tutor-70B on 1.4T tokens: $L \\approx 1.937$.\n  - Each 4× of compute (2× $N$, 2× $D$): 1.937 → 1.890 → 1.853 → 1.822. Each step buys less.\n- **Compute**: $C \\approx 6ND$ FLOPs.\n  - 2 per parameter per token for the forward pass, 4 for the backward pass.\n  - Tutor: $6 \\times 70 \\times 10^{9} \\times 1.4 \\times 10^{12} \\approx 5.9 \\times 10^{23}$ FLOPs.\n- **Compute-optimal** (Chinchilla): grow $N$ and $D$ together, each about $\\propto C^{0.5}$.\n  - Rule of thumb: **≈ 20 tokens per parameter**. 70B → 1.4T tokens (Chinchilla itself). Table 3: 10B → 205B tokens.\n  - 4× compute → 2× parameters and 2× tokens, not 4× parameters.\n  - The parametric fit leans a bit more to data ($N \\propto C^{0.46}$, $D \\propto C^{0.54}$).\n- Time: H100 dense bf16 = 989 TFLOPS. At 40% utilization: $5.9 \\times 10^{23} / (0.4 \\times 989 \\times 10^{12}) \\approx 1.5 \\times 10^{9}$ GPU-seconds ≈ 17,200 GPU-days → **1,000 GPUs for about 17 days**.\n- **Over-training** on purpose: Llama 3 8B saw 15T tokens, about 1,900 per parameter. Chinchilla-optimal is about 200B tokens.\n  - Why: inference cost grows with $N$. A smaller model trained longer is cheaper to serve for its whole life."
+   },
+   {
+    "id": "sft",
+    "title": "3. Supervised fine-tuning (SFT)",
+    "obj": [
+     "o1"
+    ],
+    "body": "- SFT = train on **demonstrations**: prompt → ideal response. Same next-token loss as pretraining.\n- The loss usually counts only the response tokens. The prompt is context, not a target.\n- Dialogues follow a **chat template**: special tokens mark system, user and assistant turns, and the end of a turn.\n- It teaches format and instruction following: answer the question, show the steps, then stop.\n- Example: 20,000 tutor dialogues × 1,000 tokens = 20M tokens. That is 1/70,000 of the 1.4T pretraining tokens.\n- → SFT changes **behavior**. The knowledge comes almost all from pretraining.\n- Limit: the model copies the demonstrations. It cannot get better than them, and it learns nothing from comparing two answers."
+   },
+   {
+    "id": "preferences",
+    "title": "4. Preference tuning: RLHF and DPO",
+    "obj": [
+     "o1",
+     "o3",
+     "o6"
+    ],
+    "body": "- Data: a prompt and two answers; a human marks the better one ($y_w$ wins, $y_l$ loses).\n- **RLHF** (InstructGPT recipe):\n  1. Humans compare pairs of responses.\n  2. A **reward model** learns the preferences. Bradley–Terry: $P(y_1 \\succ y_2) = \\sigma(r_1 - r_2)$.\n  3. The policy is optimized with RL (PPO) to maximize reward, with a KL penalty to a reference model (the SFT model).\n- Objective (DPO paper, eq. 3):\n$$\\max_{\\pi_\\theta}\\; \\mathbb{E}[r(x, y)] - \\beta\\, \\mathrm{KL}\\left[\\pi_\\theta \\,\\|\\, \\pi_{\\text{ref}}\\right]$$\n- Example: the reward model scores Tutor answer A at 1.2 and B at 0.2 → $P(A \\succ B) = \\sigma(1.0) \\approx 0.73$.\n- **Why the KL penalty**: the reward model is an imperfect proxy. Without the leash, the policy drifts and finds its flaws (**reward hacking**).\n  - Example: the reward model likes long answers → Tutor learns to pad every answer.\n- **DPO**: no reward model, no RL loop. A classification-style loss on the pairs (eq. 7):\n$$\\mathcal{L} = -\\ln \\sigma\\left(\\beta \\ln \\frac{\\pi_\\theta(y_w)}{\\pi_{\\text{ref}}(y_w)} - \\beta \\ln \\frac{\\pi_\\theta(y_l)}{\\pi_{\\text{ref}}(y_l)}\\right)$$\n  - At the start $\\pi_\\theta = \\pi_{\\text{ref}}$: margin 0 → $\\mathcal{L} = \\ln 2 \\approx 0.693$.\n  - Example, $\\beta = 0.1$: log-ratio of the winner +2, of the loser −3 → margin $0.1 \\times 5 = 0.5$ → $\\mathcal{L} = -\\ln \\sigma(0.5) \\approx 0.474$.\n  - The loss pushes the winner up and the loser down, **relative to the reference**. $\\beta$ plays the role of the KL weight.\n- Trade-off: DPO is simpler and more stable. RLHF samples fresh answers during training, so it can explore beyond the fixed pairs."
+   },
+   {
+    "id": "rlvr",
+    "title": "5. RL with verifiable rewards and GRPO",
+    "obj": [
+     "o1",
+     "o3",
+     "o6"
+    ],
+    "body": "- **RLVR**: RL on tasks whose answer a program can check. The checker is the reward.\n  - Math: final answer = answer key → 1, else 0. Code: unit tests pass → 1.\n  - No human labels and no learned reward model → it scales. Central to reasoning models (DeepSeek-R1).\n- **PPO** needs a value (critic) model, usually as large as the policy, to estimate a baseline.\n- **GRPO** (DeepSeekMath) drops the critic. For each prompt:\n  1. Sample a group of $G$ answers.\n  2. Score each one.\n  3. Advantage = (reward − group mean) / group std.\n$$\\hat{A}_i = \\frac{r_i - \\operatorname{mean}(r)}{\\operatorname{std}(r)}$$\n- Example: Tutor answers one problem $G = 4$ times; rewards $[1, 0, 0, 1]$.\n  - Mean 0.5, std 0.5 → advantages $[+1, -1, -1, +1]$.\n  - Right answers become more likely, wrong ones less likely.\n  - Code that uses the sample std ($n - 1$) gives ±0.87: same signs, same order.\n- The KL to the reference goes **into the loss**, not into the reward.\n- **No signal**: if all 4 answers are right (or all wrong), std = 0 and every advantage is 0. Code usually adds a small ε to the std. The prompt teaches nothing → too-easy and too-hard prompts waste compute.\n- **Reward hacking** still happens if the checker is weak.\n  - Example: the checker accepts an answer if the key number appears anywhere. Tutor learns to list several candidate numbers.\n  - Fix the checker: parse one final answer in a fixed format."
+   },
+   {
+    "id": "lora",
+    "title": "6. LoRA and QLoRA",
+    "obj": [
+     "o4"
+    ],
+    "body": "- Full fine-tuning updates every weight. With Adam in mixed precision: **16 bytes per parameter** = bf16 weights 2 + gradients 2 + fp32 master weights 4 + Adam moments 8.\n  - Tutor-70B: $70 \\times 10^{9} \\times 16$ = **1.12 TB** before activations → at least 14 H100s just to hold it.\n- **LoRA**: freeze $W$; learn a low-rank update.\n$$W' = W + \\frac{\\alpha}{r} BA, \\quad B \\in \\mathbb{R}^{d \\times r},\\; A \\in \\mathbb{R}^{r \\times k}$$\n  - Trainable: $r(d + k)$ instead of $dk$.\n  - Example: a 4096×4096 projection (the width of the 8B model), $r = 8$: $2 \\times 4096 \\times 8 = 65{,}536$ parameters = **0.39%** of 16.8M.\n  - Whole Tutor-70B, $r = 8$ on the query and value projections of all 80 layers: 16.4M trainable = 0.023%.\n  - $B$ starts at zero → at step 0 the model equals the base model.\n  - peft 0.17.1 defaults: $r = 8$, $\\alpha = 8$ (scale 1).\n  - The bet: the fine-tuning update has low rank.\n- Memory with LoRA: gradients and Adam states only for the adapters (16.4M × 16 B ≈ 0.26 GB). The frozen base remains: **140 GB** in bf16.\n- After training, merge: $W' = W + \\frac{\\alpha}{r}BA$ → no extra inference cost. Or keep several small adapters on one base.\n- **QLoRA**: the frozen base in **4-bit NF4**; adapters train in bf16.\n  - Base: $70 \\times 10^{9} \\times 0.5$ B = **35 GB**, 4× less than bf16.\n  - One scale per block of 64 weights. Double quantization (quantize the scales too) cuts their cost from 0.5 to 0.127 bits per parameter: ≈ 1.1 GB for 70B.\n  - The paper fine-tunes a 65B model on one 48 GB GPU."
+   },
+   {
+    "id": "compress",
+    "title": "7. Shrinking for serving: quantization and distillation",
+    "obj": [
+     "o5"
+    ],
+    "body": "- **Quantization**: store weights (and sometimes activations) in fewer bits.\n  - 70B: bf16 140 GB · int8/fp8 70 GB · int4 35 GB.\n  - Less memory and faster decode (fewer bytes to read per token, LLM 05 note), for a small quality loss.\n- Absmax int8 on a block $w = [0.12, -0.50, 0.03, 0.31]$:\n  - Scale $s = 0.50/127 \\approx 0.00394$. Store $\\text{round}(w/s) = [30, -127, 8, 79]$.\n  - Read back $q \\cdot s = [0.118, -0.500, 0.031, 0.311]$. Error ≤ $s/2$.\n- **Outliers** break it: add 8.0 to the block → $s = 8/127 \\approx 0.063$ → 0.03 rounds to 0. Hence small blocks, each with its own scale.\n- **Distillation**: a small **student** learns to match a large **teacher**'s output probabilities (soft targets), not only the right token.\n  - Example: teacher on `7 × 8 =`: 56 → 0.90, 54 → 0.06, 48 → 0.04. The soft targets say 54 is the nearer mistake; a one-hot label does not.\n  - Tutor-8B, distilled from Tutor-70B: 16 GB in bf16, 8.75× fewer bytes per token than the teacher. It keeps much of the quality.\n- They stack: distill to 8B, then int4 → about 4 GB.\n- Quantization keeps the network and cuts bits. Distillation trains a new, smaller network."
+   },
+   {
+    "id": "choose",
+    "title": "8. Hallucination, and which tool to use",
+    "obj": [
+     "o5",
+     "o6"
+    ],
+    "body": "- **Hallucination**: a fluent, confident, wrong answer.\n- Why: training rewards plausible continuations, not calibrated \"I don't know\". Most evals grade right/wrong; under that scoring, guessing beats abstaining (Kalai et al. 2025).\n- Example: Tutor is 30% sure of an answer.\n  - Binary grading: guess → expected score 0.3; abstain → 0. It guesses.\n  - Confidence target $t = 0.75$: a wrong answer costs $t/(1-t) = 3$ points. Guess → $0.3 - 0.7 \\times 3 = -1.8$. It abstains.\n  - In general, guessing pays only when $p > t$.\n- Mitigations: ground with retrieval, cite sources, use tools (a calculator for arithmetic), reward abstention in training and evals.\n- **Prompting vs RAG vs fine-tuning**:\n  - Prompting first: cheap, fast to change.\n  - RAG: knowledge that changes or is private. Example: this term's syllabus and exercise sheets.\n  - Fine-tuning: stable behavior, style or format at scale. Example: Tutor's step-by-step hint format on every answer.\n  - Fine-tuning is a poor way to add fresh facts: hard to update, and the model can still mix them up. Fresh facts → RAG."
+   },
+   {
+    "id": "traps",
+    "title": "9. Where I get confused",
+    "obj": [
+     "o1",
+     "o2",
+     "o3",
+     "o4",
+     "o5",
+     "o6"
+    ],
+    "body": "- Pretraining gives knowledge, not obedience. A base model continues the document.\n- $C \\approx 6ND$, not $2ND$: $2ND$ is the forward pass only (that is the inference cost per token × tokens).\n- Compute-optimal is not \"biggest model\". 4× compute → 2× $N$ and 2× $D$.\n- Over-training a small model is not a mistake. It trades extra training compute for cheaper inference.\n- The KL term is not a regularizer for overfitting the data. It stops the policy exploiting the reward model.\n- DPO still uses a reference model. It drops the reward model and the RL loop, not $\\pi_{\\text{ref}}$.\n- GRPO drops the **critic**, not the reward. A group where every answer scores the same teaches nothing.\n- LoRA cuts the trainable states, not the frozen base weights. 70B LoRA still holds 140 GB of base in bf16.\n- LoRA params = $r(d + k)$, not $r^2$ and not $d \\times r$.\n- QLoRA quantizes the frozen base, not the adapters.\n- Quantization ≠ distillation: same network with fewer bits vs a new smaller network.\n- Fine-tuning for fresh facts → use RAG."
+   }
+  ],
+  "summary": "### Stages\n- Pretrain (next token) → SFT (demonstrations) → preferences (RLHF or DPO) → RLVR (checkable answers).\n### Scaling\n- $L = E + A/N^{0.34} + B/D^{0.28}$: power law, diminishing gains.\n- $C \\approx 6ND$. 70B × 1.4T ≈ $5.9 \\times 10^{23}$.\n- Compute-optimal ≈ 20 tokens/param; 4× compute → 2× N, 2× D.\n### Preferences\n- Bradley–Terry: $P(A \\succ B) = \\sigma(r_A - r_B)$.\n- RLHF: reward model + PPO + KL to reference.\n- DPO: $-\\ln\\sigma(\\beta\\,\\Delta\\text{log-ratio})$; starts at $\\ln 2$.\n- GRPO: $\\hat A = (r - \\text{mean})/\\text{std}$ over $G$ samples; no critic; equal rewards → no signal.\n### Adapt\n- Full FT: 16 B/param → 70B ≈ 1.12 TB.\n- LoRA: $r(d+k)$ params; 4096², r 8 → 65,536 (0.39%). Base stays: 140 GB.\n- QLoRA: base in NF4 → 35 GB + ≈ 1 GB scales.\n### Shrink\n- Quantize: fewer bits, same net. Distill: smaller net learns teacher's probabilities.\n### Choose\n- Prompt → RAG (fresh/private facts) → fine-tune (behavior, format).\n- Guess only if $p > t$ when wrong costs $t/(1-t)$.",
+  "questions": [
+   {
+    "id": "llm-02-training-q01",
+    "type": "mc",
+    "obj": "o1",
+    "sec": "pretraining",
+    "stem": "You prompt the Tutor base model (pretraining only) with `Q: What is 7 × 8?\\nA:`. It answers `56`, then writes three more quiz questions. What explains this?",
+    "options": [
+     {
+      "t": "It is a base model: it continues the document; following instructions and stopping come from SFT",
+      "ok": true,
+      "why": "Pretraining teaches next-token prediction. A quiz page usually has more questions, so the model writes them."
+     },
+     {
+      "t": "The temperature is too high",
+      "ok": false,
+      "why": "Temperature changes how random each token is. Greedy decoding would still continue the quiz."
+     },
+     {
+      "t": "The model lacks the knowledge; it needs RLHF to learn arithmetic",
+      "ok": false,
+      "why": "It got 56 right. The missing part is behavior, not knowledge, and preference tuning does not add facts."
+     },
+     {
+      "t": "The context window is too short",
+      "ok": false,
+      "why": "The prompt is a few tokens. Length is not the issue."
+     }
+    ]
+   },
+   {
+    "id": "llm-02-training-q02",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "scaling",
+    "stem": "About how many FLOPs does it take to train Tutor-70B on 1.4T tokens?",
+    "options": [
+     {
+      "t": "About $5.9 \\times 10^{23}$",
+      "ok": true,
+      "why": "$C \\approx 6ND = 6 \\times 70 \\times 10^{9} \\times 1.4 \\times 10^{12}$."
+     },
+     {
+      "t": "About $2.0 \\times 10^{23}$",
+      "ok": false,
+      "why": "That is $2ND$: the forward pass only. The backward pass costs about twice the forward."
+     },
+     {
+      "t": "About $9.8 \\times 10^{22}$",
+      "ok": false,
+      "why": "That is $N \\times D$ without the factor 6."
+     },
+     {
+      "t": "About $5.9 \\times 10^{21}$",
+      "ok": false,
+      "why": "Off by 100×: $70 \\times 10^{9} \\times 1.4 \\times 10^{12} \\approx 10^{23}$ before the factor 6."
+     }
+    ]
+   },
+   {
+    "id": "llm-02-training-q03",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "scaling",
+    "stem": "The lab gets 4× the compute of the Tutor-70B run (70B, 1.4T tokens). Following Chinchilla, how should it spend it?",
+    "options": [
+     {
+      "t": "About 140B parameters on 2.8T tokens",
+      "ok": true,
+      "why": "$N$ and $D$ grow together, each about $\\propto C^{0.5}$: 2 × 2 = 4× compute, still ≈ 20 tokens per parameter."
+     },
+     {
+      "t": "About 280B parameters on 1.4T tokens",
+      "ok": false,
+      "why": "All the compute into parameters: the pre-Chinchilla habit. The model ends up under-trained (5 tokens per parameter)."
+     },
+     {
+      "t": "About 280B parameters on 5.6T tokens",
+      "ok": false,
+      "why": "4× both is 16× the compute, since $C \\approx 6ND$."
+     },
+     {
+      "t": "70B parameters on 5.6T tokens, always",
+      "ok": false,
+      "why": "Over-training can pay off for inference cost, but it is not the compute-optimal split for training loss."
+     }
+    ]
+   },
+   {
+    "id": "llm-02-training-q04",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "preferences",
+    "stem": "DPO with $\\beta = 0.1$. After some training, the policy's log-ratio vs the reference is +2 on the winning answer and −3 on the losing one. What is the loss on this pair?",
+    "options": [
+     {
+      "t": "About 0.474",
+      "ok": true,
+      "why": "Margin $= 0.1 \\times (2 - (-3)) = 0.5$; $-\\ln\\sigma(0.5) \\approx 0.474$."
+     },
+     {
+      "t": "About 0.693",
+      "ok": false,
+      "why": "That is $\\ln 2$, the loss at the start, when policy = reference and the margin is 0."
+     },
+     {
+      "t": "About 0.0067",
+      "ok": false,
+      "why": "That drops $\\beta$: $-\\ln\\sigma(5)$."
+     },
+     {
+      "t": "About 0.974",
+      "ok": false,
+      "why": "That flips the sign of the margin: $-\\ln\\sigma(-0.5)$. The winner's term enters with a plus."
+     }
+    ]
+   },
+   {
+    "id": "llm-02-training-q05",
+    "type": "mc",
+    "obj": "o6",
+    "sec": "preferences",
+    "stem": "After RLHF with a very small KL weight, Tutor's reward-model score keeps rising, but human raters say answers got worse: long, padded, full of praise. Diagnosis?",
+    "options": [
+     {
+      "t": "Reward hacking: the policy drifted far from the reference and exploits flaws of the reward model",
+      "ok": true,
+      "why": "The reward model is a proxy. The KL penalty keeps the policy near the reference; with almost none, it optimizes the proxy's flaws."
+     },
+     {
+      "t": "Overfitting of the SFT data",
+      "ok": false,
+      "why": "SFT copies demonstrations; it does not push a score up while quality falls."
+     },
+     {
+      "t": "Hallucination from pretraining",
+      "ok": false,
+      "why": "The change came with RL and tracks the reward score, not missing knowledge."
+     },
+     {
+      "t": "The learning rate is too low",
+      "ok": false,
+      "why": "A low rate slows change. Here the policy changed a lot, in the wrong direction."
+     }
+    ]
+   },
+   {
+    "id": "llm-02-training-q06",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "rlvr",
+    "stem": "GRPO, group of $G = 4$ answers to one problem, rewards $[1, 0, 0, 1]$. What advantages does the paper's formula give?",
+    "options": [
+     {
+      "t": "$[+1, -1, -1, +1]$",
+      "ok": true,
+      "why": "Mean 0.5, std 0.5: $(1 - 0.5)/0.5 = 1$ and $(0 - 0.5)/0.5 = -1$."
+     },
+     {
+      "t": "$[+0.5, -0.5, -0.5, +0.5]$",
+      "ok": false,
+      "why": "That subtracts the mean but does not divide by the std."
+     },
+     {
+      "t": "$[1, 0, 0, 1]$",
+      "ok": false,
+      "why": "Raw rewards with no baseline: wrong answers would get no push down."
+     },
+     {
+      "t": "It needs a value model to estimate the baseline",
+      "ok": false,
+      "why": "That is PPO. GRPO uses the group mean as the baseline."
+     }
+    ]
+   },
+   {
+    "id": "llm-02-training-q07",
+    "type": "mc",
+    "obj": "o6",
+    "sec": "rlvr",
+    "stem": "In GRPO training, half of the prompts get 4 out of 4 correct answers every time. What do those prompts contribute?",
+    "options": [
+     {
+      "t": "Nothing: equal rewards → std 0 → every advantage is 0, so no gradient",
+      "ok": true,
+      "why": "With a small ε added to the std, the advantages are exactly 0. Too-easy prompts waste the sampling compute."
+     },
+     {
+      "t": "A strong positive update, since every answer is right",
+      "ok": false,
+      "why": "Advantages are relative to the group. All equal → no answer beats the mean."
+     },
+     {
+      "t": "A strong negative update from the KL term",
+      "ok": false,
+      "why": "The KL term keeps the policy near the reference; it does not turn correct answers into a penalty."
+     },
+     {
+      "t": "The same signal as a group with one right answer",
+      "ok": false,
+      "why": "A group with one right answer has spread: that answer gets a large positive advantage."
+     }
+    ]
+   },
+   {
+    "id": "llm-02-training-q08",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "lora",
+    "stem": "LoRA with rank $r = 16$ on one 4096×4096 projection. How many trainable parameters?",
+    "options": [
+     {
+      "t": "131,072 (0.78% of the matrix)",
+      "ok": true,
+      "why": "$r(d + k) = 16 \\times (4096 + 4096)$."
+     },
+     {
+      "t": "65,536",
+      "ok": false,
+      "why": "That is $r = 8$, or only one of the two factors at $r = 16$."
+     },
+     {
+      "t": "256",
+      "ok": false,
+      "why": "That is $r^2$. $B$ is $d \\times r$ and $A$ is $r \\times k$."
+     },
+     {
+      "t": "16,777,216",
+      "ok": false,
+      "why": "That is the full matrix $W$, which LoRA freezes."
+     }
+    ]
+   },
+   {
+    "id": "llm-02-training-q09",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "lora",
+    "stem": "Tutor-70B. Memory for weights plus training states (no activations): full fine-tuning with Adam in mixed precision, LoRA, and QLoRA?",
+    "options": [
+     {
+      "t": "≈ 1.12 TB · ≈ 140 GB · ≈ 36 GB",
+      "ok": true,
+      "why": "Full: 16 B/param. LoRA: frozen bf16 base (2 B/param) plus tiny adapter states. QLoRA: 4-bit base (0.5 B/param) plus ≈ 1 GB of scales."
+     },
+     {
+      "t": "≈ 140 GB · ≈ 140 GB · ≈ 35 GB",
+      "ok": false,
+      "why": "Full fine-tuning also stores gradients, fp32 master weights and two Adam moments."
+     },
+     {
+      "t": "≈ 1.12 TB · ≈ 1.12 TB · ≈ 35 GB",
+      "ok": false,
+      "why": "LoRA needs gradients and Adam states only for the adapters, under 0.1% of the parameters."
+     },
+     {
+      "t": "≈ 1.12 TB · ≈ 0.26 GB · ≈ 0.26 GB",
+      "ok": false,
+      "why": "That counts only the adapter states. The frozen base must still sit in memory."
+     }
+    ]
+   },
+   {
+    "id": "llm-02-training-q10",
+    "type": "mc",
+    "obj": "o6",
+    "sec": "rlvr",
+    "stem": "After RLVR, Tutor's math accuracy on the training checker is 95%, but teachers say answers now end with lines like \"the answer is 12, or 14, or 16\". Most likely cause?",
+    "options": [
+     {
+      "t": "Reward hacking: the checker accepts the answer if the key appears anywhere, so listing candidates scores",
+      "ok": true,
+      "why": "RLVR optimizes the checker. Fix the checker: parse one final answer in a fixed format."
+     },
+     {
+      "t": "The KL weight is too high",
+      "ok": false,
+      "why": "A high KL weight holds the policy near the reference; it does not invent a new answer pattern."
+     },
+     {
+      "t": "The model hallucinates from missing knowledge",
+      "ok": false,
+      "why": "The pattern appeared with the RL reward and scores well on it. It is learned, not missing knowledge."
+     },
+     {
+      "t": "The group size is too small",
+      "ok": false,
+      "why": "Small groups give noisier advantages, not a systematic trick."
+     }
+    ]
+   },
+   {
+    "id": "llm-02-training-q11",
+    "type": "mc",
+    "obj": "o6",
+    "sec": "choose",
+    "stem": "Tutor is 30% sure of an answer. The eval states: answer only if more than 75% confident; a wrong answer costs 3 points, a right one earns 1, \"I don't know\" earns 0. Best action and why?",
+    "options": [
+     {
+      "t": "Abstain: guessing has expected score $0.3 - 0.7 \\times 3 = -1.8$",
+      "ok": true,
+      "why": "With penalty $t/(1-t)$, guessing pays only when $p > t$. Here $0.3 < 0.75$."
+     },
+     {
+      "t": "Guess: expected score 0.3 beats 0",
+      "ok": false,
+      "why": "That is binary grading, where a wrong answer costs nothing. This eval penalizes mistakes."
+     },
+     {
+      "t": "Guess: a 30% chance is better than zero",
+      "ok": false,
+      "why": "Ignores the 70% chance of losing 3 points."
+     },
+     {
+      "t": "Abstain: the expected score of guessing is −0.4",
+      "ok": false,
+      "why": "That uses a penalty of 1 point ($t = 0.5$), not 3."
+     }
+    ]
+   },
+   {
+    "id": "llm-02-training-q12",
+    "type": "open",
+    "obj": "o5",
+    "sec": "choose",
+    "stem": "Tutor must (a) use this term's syllabus and exercise sheets, which change every few weeks, and (b) always answer in the house hint-first format. Compare prompting, RAG and fine-tuning for each need.",
+    "answer": "Start with prompting for both: it is cheap and fast to change. (a) The syllabus is changing, private knowledge: use RAG, which retrieves the current sheets at answer time; fine-tuning would need retraining at each change and the model could still mix old and new facts. (b) A fixed format on every answer is stable behavior: if the prompt alone is not reliable or costs too many tokens at scale, fine-tune (SFT, cheaply with LoRA) on examples in that format."
+   }
+  ]
+ },
+ "llm-05-inference": {
+  "deck": "llm-05-inference",
+  "title": "Inference: memory, bandwidth and GPU sizing",
+  "order": 1,
+  "created": 1794700000011,
+  "verified": "2026-11-24",
+  "source": "Llama 3 70B and 8B config.json (layers, heads, KV heads; parameter counts checked with transformers 4.57.6); NVIDIA H100 product page (H100 SXM: 80 GB, 3.35 TB/s, 1,979 TFLOPS bf16 with sparsity = 989 dense, NVLink 900 GB/s); Kwon et al. 2023 (vLLM, PagedAttention); Yu et al. 2022 (Orca); Leviathan et al. 2023 (speculative decoding), eq. 1; Mistral AI 2023 (Mixtral of experts); Rajbhandari et al. 2020 (ZeRO); Shoeybi et al. 2019 (Megatron-LM); roofline model",
+  "intro": "Student notes. One example runs to the end: serve a **Llama-3-70B-style model** to **32 users at once, each with up to 8k tokens of context**, in bf16, on NVIDIA H100 SXM GPUs.\nModel shape (public config): 80 layers, 64 query heads, 8 KV heads, head dimension 128, ≈ 70.6B parameters (we round to 70B).\nGPU: 80 GB, 3.35 TB/s memory bandwidth, 989 TFLOPS dense bf16.\nQuestion of the note: how many GPUs, how fast per user, and which lever to pull when it does not fit?",
+  "objectives": [
+   {
+    "id": "o1",
+    "verb": "explain",
+    "text": "why the KV cache works, and how prefill and decode differ"
+   },
+   {
+    "id": "o2",
+    "verb": "calculate",
+    "text": "weight and KV-cache memory, and the number of GPUs needed to serve a model"
+   },
+   {
+    "id": "o3",
+    "verb": "calculate",
+    "text": "decode speed from memory bandwidth, and the batch size where compute becomes the limit"
+   },
+   {
+    "id": "o4",
+    "verb": "compare",
+    "text": "static and continuous batching, PagedAttention, tensor and pipeline parallelism"
+   },
+   {
+    "id": "o5",
+    "verb": "compare",
+    "text": "prompt caching, speculative decoding and quantization: what each saves, and whether the output changes"
+   },
+   {
+    "id": "o6",
+    "verb": "diagnose",
+    "text": "out-of-memory and slow serving, and pick the right lever"
+   }
+  ],
+  "sections": [
+   {
+    "id": "phases",
+    "title": "1. Prefill, decode and the KV cache",
+    "obj": [
+     "o1"
+    ],
+    "body": "- Generation has two phases:\n  1. **Prefill**: the whole prompt in one parallel pass. Fills the KV cache. Bound by **compute**. Sets the time to first token.\n  2. **Decode**: one token per step. Each step reads all the weights and the cache. Bound by **memory bandwidth**. Sets the time per output token.\n- Forward cost ≈ $2N$ FLOPs per token (training is $6N$: see the LLM 02 note).\n  - Example: a 6,000-token prompt → $2 \\times 70 \\times 10^{9} \\times 6{,}000 = 8.4 \\times 10^{14}$ FLOPs → ≈ 0.2 s on 4 H100s at full speed.\n- **Why the KV cache is possible**: with the causal mask, a token's K and V depend only on itself and earlier tokens. New tokens never change them → compute once, store.\n  - Frozen weights alone are not enough: in a bidirectional encoder, a new token would change the old tokens' vectors.\n- **What it saves**: recomputing K and V of the whole prefix at every step. Each step runs the projections and the MLP for the new token only.\n- **What it costs**: GPU memory, linear in context length and in the number of concurrent sequences. Attention still **reads** every cached token at each step."
+   },
+   {
+    "id": "weights",
+    "title": "2. Memory for weights",
+    "obj": [
+     "o2"
+    ],
+    "body": "- Rule: **parameters × bytes per parameter**.\n  - bf16/fp16: 2 bytes · int8/fp8: 1 · int4: 0.5.\n- Example, 70B:\n  - bf16: **140 GB** · fp8: 70 GB · int4: 35 GB (plus a little for scales).\n  - One H100 has 80 GB → the bf16 weights alone need 2 GPUs.\n- **MoE** (mixture of experts): a router sends each token to a few experts.\n  - Memory follows **total** parameters: every expert must be loaded.\n  - Compute per token follows **active** parameters.\n  - Example: Mixtral 8x7B has 46.7B total, 12.9B used per token (2 of 8 experts). bf16 weights ≈ 93 GB; compute per token like a 13B dense model.\n- Training needs far more than serving (section 7): 16 bytes per parameter with Adam."
+   },
+   {
+    "id": "kvcache",
+    "title": "3. KV-cache size",
+    "obj": [
+     "o2"
+    ],
+    "body": "- Bytes per token:\n$$2 \\times L \\times h_{kv} \\times d_{head} \\times b$$\n  - 2 for K and V · $L$ layers · $h_{kv}$ KV heads · $d_{head}$ head dimension · $b$ bytes per value.\n- Total = per token × context length × concurrent sequences.\n- Example: $2 \\times 80 \\times 8 \\times 128 \\times 2 = 327{,}680$ bytes = **320 KiB per token**.\n  - One user at 8,192 tokens: **2.5 GiB**.\n  - 32 users: **80 GiB ≈ 86 GB**. More than one H100, before any weights.\n- **GQA** pays off here: with 64 KV heads (one per query head) the cache would be 8× larger: 2.5 MiB per token, 640 GiB for the 32 users.\n- Levers that shrink KV **per token or per sequence**:\n  1. Fewer KV heads (GQA/MQA) or a compressed KV (MLA). Built into the model.\n  2. KV quantization: fp8 halves it → ≈ 43 GB for the 32 users.\n  3. Shorter context, or sliding-window attention.\n- Paged allocation (section 6) cuts **waste**, not the size per token."
+   },
+   {
+    "id": "sizing",
+    "title": "4. Sizing the GPUs",
+    "obj": [
+     "o2",
+     "o6"
+    ],
+    "body": "- Sum: weights + KV + overhead (activations, CUDA context, fragmentation; ~10–20%).\n- Example: 140 GB + 86 GB = 226 GB → with overhead ≈ 250–270 GB.\n  - 3 H100s = 240 GB: too tight. → **4 H100s (320 GB)** with tensor parallelism.\n  - Per GPU: 35 GB of weights + 21.5 GB of KV ≈ 57 GB, out of 80.\n  - Tensor parallelism splits the heads evenly: 64 heads split over 2, 4 or 8 GPUs, not 3.\n- If it does not fit, the levers:\n  - Quantize weights: int4 → 35 + 86 ≈ 121 GB → 2 H100s.\n  - Quantize KV: fp8 → 140 + 43 ≈ 183 GB.\n  - Fewer concurrent users, or a shorter context.\n  - A bigger GPU: 2 × H200 = 282 GB ≥ ≈ 250 GB, but tight.\n- GPU memory to remember:\n  - A100: 40 or 80 GB · H100: 80 GB · H200: 141 GB.\n  - B200: 180 GB usable (192 GB physical) · B300: 288 GB.\n  - L4 and RTX 4090: 24 GB."
+   },
+   {
+    "id": "bandwidth",
+    "title": "5. Decode speed: bandwidth and the roofline",
+    "obj": [
+     "o3"
+    ],
+    "body": "- One decode step reads **every weight once**. With one sequence, that read dominates.\n- Ceiling: tokens/s per sequence ≈ bandwidth / bytes read per step.\n  - Llama-3-8B, bf16 (16 GB), one H100: $3.35 \\text{ TB/s} / 16 \\text{ GB} \\approx 210$ tokens/s.\n  - Our 70B on 4 H100s (13.4 TB/s together): $13.4 / 0.14 \\approx$ **96 tokens/s**. Real numbers are lower (communication, kernels).\n  - int4 weights (35 GB): ≈ 383 tokens/s. Quantization speeds decode, not only memory.\n- **Batching** reuses each weight read for every sequence in the batch.\n  - Per token, a 2-byte weight gives 2 FLOPs (multiply-add): **1 FLOP per byte** per sequence. A batch of $B$ → $B$ FLOPs/byte.\n  - H100: $989 \\text{ TFLOPS} / 3.35 \\text{ TB/s} \\approx 295$ FLOPs/byte → weights stop being the bottleneck near $B \\approx 300$.\n- But the **KV cache is per sequence**: its reads grow with $B$ and keep attention bandwidth-bound.\n  - Example: 32 users at full 8k. Each step reads 140 GB of weights + 86 GB of KV = 226 GB → 16.9 ms.\n  - → ≈ **59 tokens/s per user**, ≈ 1,900 tokens/s in total.\n  - One user at 8k: 94 tokens/s. Batch 32 → 20× the throughput, each user 1.6× slower."
+   },
+   {
+    "id": "batching",
+    "title": "6. Batching and KV memory management",
+    "obj": [
+     "o4",
+     "o6"
+    ],
+    "body": "- Why batch: one weight read serves the whole batch → cost per token falls.\n- Cap: KV memory first (each sequence has its own cache), then compute. → KV size sets how many users one GPU serves.\n- **Static batching**: the batch starts and ends together. It waits for the longest sequence; finished slots sit idle.\n- **Continuous (in-flight) batching** (Orca): schedule per decode step. A finished sequence leaves at once; a waiting one joins.\n- **PagedAttention** (vLLM): KV in fixed-size blocks, like OS memory pages. vLLM's default: 16 tokens per block.\n  - Old way: one contiguous slab per sequence, reserved for the maximum length. The vLLM paper measured only 20–38% of KV memory holding real tokens.\n  - Paged: waste < 1 block per sequence (16 × 320 KiB = 5 MiB). Shared prefixes can share blocks.\n- Example on 4 H100s: 320 GB × 0.9 − 140 GB of weights ≈ 148 GB for KV. Users average 2k tokens; the maximum is 8k.\n  - Reserve 8k each (2.5 GiB): ≈ **55** sequences.\n  - Paged, pay for 2k each: ≈ **220** sequences.\n- Paging does not shrink a token's KV. It stops paying for tokens that never come."
+   },
+   {
+    "id": "parallel",
+    "title": "7. Splitting across GPUs, and training memory",
+    "obj": [
+     "o4"
+    ],
+    "body": "- **Tensor parallelism (TP)**: split each layer's matrices across GPUs. Every layer needs all-reduces between them.\n  - Needs fast links (NVLink, 900 GB/s on H100). Lowers latency: all GPUs work on every token.\n  - Example: TP = 4, each GPU holds 1/4 of every layer.\n- **Pipeline parallelism (PP)**: different layers on different GPUs (80 layers / 4 = 20 each).\n  - Less communication: only activations pass between stages.\n  - Stages wait on each other (bubbles). Raises throughput with many requests in flight, not single-request latency.\n- Common layout: TP inside a server (NVLink), PP across servers (slower network).\n- **Training memory** with Adam in mixed precision: ≈ **16 bytes per parameter** = bf16 weights 2 + gradients 2 + fp32 master weights 4 + Adam moments 8.\n  - 70B → ≈ 1.12 TB before activations.\n  - ZeRO/FSDP shard these states across GPUs: 64 GPUs → ≈ 17.5 GB each."
+   },
+   {
+    "id": "speedups",
+    "title": "8. Speedups: what changes the output and what does not",
+    "obj": [
+     "o5",
+     "o6"
+    ],
+    "body": "- **Prompt caching**: keep the KV cache of a repeated prompt prefix; the next request skips that prefill.\n  - Example: every request starts with the same 6,000-token system prompt (≈ 1.8 GiB of KV). Cached → no 0.2 s prefill for it; faster time to first token, cheaper.\n  - Needs a **byte-identical prefix**. A timestamp at the start of the prompt makes every prefix new.\n  - Output: unchanged.\n- **Speculative decoding**: a small draft model proposes $k$ tokens; the big model checks all $k$ in one pass.\n  - That pass costs about as much as one token: decode is bandwidth-bound, so the weights are read once.\n  - Rejection sampling keeps the big model's output distribution **exactly**.\n  - Tokens per big-model pass (Leviathan eq. 1), acceptance rate $\\alpha$:\n$$\\mathbb{E}[\\text{tokens}] = \\frac{1 - \\alpha^{k+1}}{1 - \\alpha}$$\n  - Example: $\\alpha = 0.8$, $k = 4$ → $(1 - 0.8^5)/0.2 \\approx 3.36$ tokens per pass, minus the draft model's cost.\n- **Quantization**: fewer bytes to read → faster decode and more room for KV. Output: changes a little."
+   },
+   {
+    "id": "traps",
+    "title": "9. Where I get confused",
+    "obj": [
+     "o1",
+     "o2",
+     "o3",
+     "o4",
+     "o5",
+     "o6"
+    ],
+    "body": "- The KV cache avoids recomputing the past; it does not avoid reading it. Each step still attends to every cached token.\n- KV per token uses the **KV heads** ($h_{kv} = 8$), not the query heads (64).\n- Forgetting the 2 (K and V) halves the cache estimate.\n- Sizing only the weights. 32 users at 8k add 86 GB, more than one H100.\n- MoE: memory follows **total** parameters, compute follows **active**.\n- Decode is bandwidth-bound: more FLOPS do not help one sequence. Fewer bytes (quantization) do.\n- The roofline batch (≈ 300) is for **weights**. KV reads grow with the batch and stay bandwidth-bound.\n- PagedAttention removes waste. It does not shrink a token's KV; fp8 KV or fewer KV heads do.\n- Static batching waits for the longest sequence; continuous batching refills every step.\n- TP lowers latency but needs NVLink; PP tolerates slow links but adds bubbles.\n- Speculative decoding and prompt caching keep the output. Quantization does not, quite."
+   }
+  ],
+  "summary": "### Phases\n- Prefill: whole prompt, parallel, compute-bound → time to first token.\n- Decode: one token per step, bandwidth-bound → time per token.\n- KV cache works because of the causal mask.\n### Memory\n- Weights = params × bytes (2 · 1 · 0.5). 70B bf16 = 140 GB.\n- KV/token = $2 L h_{kv} d_{head} b$. 70B: 320 KiB; 8k → 2.5 GiB; 32 users → 86 GB.\n- Serve 70B, 32 × 8k: ≈ 250 GB → 4 × H100.\n- MoE: memory = total, compute = active.\n- Train with Adam: 16 B/param.\n### Speed\n- Decode ceiling ≈ bandwidth / bytes read per step.\n- Roofline: H100 ≈ 295 FLOPs/byte → weights stop binding near batch 300.\n- KV reads grow with batch.\n### Serving\n- Continuous batching: refill every step. Paged KV: no reserved waste.\n- TP: inside a node, lower latency. PP: across nodes, bubbles.\n### Speedups\n- Prompt cache: identical prefix, skips prefill.\n- Speculative: $(1-\\alpha^{k+1})/(1-\\alpha)$ tokens per pass, exact output.\n- Quantize: faster and smaller, output shifts a little.",
+  "questions": [
+   {
+    "id": "llm-05-inference-q01",
+    "type": "mc",
+    "obj": "o1",
+    "sec": "phases",
+    "stem": "Why can a decoder-only LLM cache the K and V of past tokens and reuse them at every step?",
+    "options": [
+     {
+      "t": "The causal mask: a token's K and V depend only on itself and earlier tokens, so new tokens never change them",
+      "ok": true,
+      "why": "Compute once, store, reuse."
+     },
+     {
+      "t": "The weights are frozen at inference",
+      "ok": false,
+      "why": "Not enough: in a bidirectional encoder the weights are frozen too, but a new token changes every old token's vectors."
+     },
+     {
+      "t": "K and V are the same in every layer",
+      "ok": false,
+      "why": "Each layer has its own K and V; that is why the cache size has the factor $L$."
+     },
+     {
+      "t": "Attention only looks at the last token",
+      "ok": false,
+      "why": "The new token attends to every cached token. The cache avoids recomputing them, not reading them."
+     }
+    ]
+   },
+   {
+    "id": "llm-05-inference-q02",
+    "type": "open",
+    "obj": "o1",
+    "sec": "phases",
+    "stem": "Explain the difference between prefill and decode, what limits each, and which user-facing latency each sets.",
+    "answer": "Prefill runs the whole prompt in one parallel pass and fills the KV cache; it does many FLOPs per weight read, so it is compute-bound, and it sets the time to first token. Decode generates one token per step; each step reads all the weights and the KV cache for little compute, so it is memory-bandwidth-bound, and it sets the time per output token."
+   },
+   {
+    "id": "llm-05-inference-q03",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "kvcache",
+    "stem": "Llama-3-70B shape: 80 layers, 64 query heads, 8 KV heads, head dimension 128, bf16. KV cache per token?",
+    "options": [
+     {
+      "t": "320 KiB",
+      "ok": true,
+      "why": "$2 \\times 80 \\times 8 \\times 128 \\times 2 = 327{,}680$ bytes."
+     },
+     {
+      "t": "160 KiB",
+      "ok": false,
+      "why": "That forgets the 2 for K and V."
+     },
+     {
+      "t": "2.5 MiB",
+      "ok": false,
+      "why": "That uses the 64 query heads. With GQA only the 8 KV heads are cached."
+     },
+     {
+      "t": "640 KiB",
+      "ok": false,
+      "why": "That uses 4 bytes per value (fp32). bf16 is 2."
+     }
+    ]
+   },
+   {
+    "id": "llm-05-inference-q04",
+    "type": "mc",
+    "obj": "o2",
+    "sec": "sizing",
+    "stem": "Serve the 70B model in bf16 to 32 concurrent users at 8k context (KV 320 KiB per token) on H100 80 GB. Minimum sensible number of GPUs?",
+    "options": [
+     {
+      "t": "4: weights 140 GB + KV ≈ 86 GB + overhead ≈ 250–270 GB",
+      "ok": true,
+      "why": "4 × 80 = 320 GB fits with room; the 64 heads split evenly over 4 GPUs."
+     },
+     {
+      "t": "2: the weights are 140 GB",
+      "ok": false,
+      "why": "That sizes only the weights. The 32 caches add ≈ 86 GB."
+     },
+     {
+      "t": "3: 226 GB fits in 240 GB",
+      "ok": false,
+      "why": "No room for activations and fragmentation, and 64 heads do not split evenly over 3 GPUs."
+     },
+     {
+      "t": "8: one GPU per 4 users",
+      "ok": false,
+      "why": "Works, but double what the memory needs."
+     }
+    ]
+   },
+   {
+    "id": "llm-05-inference-q05",
+    "type": "mc",
+    "obj": "o6",
+    "sec": "kvcache",
+    "stem": "The 70B service runs out of memory at 32 users × 8k, and you cannot add GPUs. Which change does **not** reduce the KV bytes each token needs?",
+    "options": [
+     {
+      "t": "Switching to paged KV allocation (PagedAttention)",
+      "ok": true,
+      "why": "Paging removes reserved but unused memory. A stored token still takes 320 KiB."
+     },
+     {
+      "t": "Storing the KV cache in fp8",
+      "ok": false,
+      "why": "1 byte instead of 2: halves each token's KV."
+     },
+     {
+      "t": "A model with fewer KV heads (GQA/MQA)",
+      "ok": false,
+      "why": "$h_{kv}$ is a factor in the per-token formula."
+     },
+     {
+      "t": "Sliding-window attention",
+      "ok": false,
+      "why": "It caps how many past tokens each sequence keeps."
+     }
+    ]
+   },
+   {
+    "id": "llm-05-inference-q06",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "bandwidth",
+    "stem": "The 70B model in bf16 runs on 4 H100s (3.35 TB/s each) with tensor parallelism. One user, short context. Upper bound on decode speed?",
+    "options": [
+     {
+      "t": "About 96 tokens/s",
+      "ok": true,
+      "why": "Each step reads 140 GB of weights; together the GPUs read 13.4 TB/s → 13.4 / 0.14 ≈ 96."
+     },
+     {
+      "t": "About 24 tokens/s",
+      "ok": false,
+      "why": "That uses one GPU's bandwidth. With TP each GPU reads only its quarter of the weights."
+     },
+     {
+      "t": "About 28,000 tokens/s",
+      "ok": false,
+      "why": "That is the compute bound ($4 \\times 989$ TFLOPS / $2N$). One sequence cannot use the compute; bandwidth binds first."
+     },
+     {
+      "t": "About 383 tokens/s",
+      "ok": false,
+      "why": "That is with int4 weights (35 GB)."
+     }
+    ]
+   },
+   {
+    "id": "llm-05-inference-q07",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "bandwidth",
+    "stem": "H100: 989 TFLOPS dense bf16, 3.35 TB/s. Decoding with bf16 weights, at about what batch size do weight reads stop being the bottleneck?",
+    "options": [
+     {
+      "t": "About 300",
+      "ok": true,
+      "why": "Each 2-byte weight gives 2 FLOPs per sequence: 1 FLOP/byte. The GPU balances at 989/3.35 ≈ 295 FLOPs/byte."
+     },
+     {
+      "t": "About 600",
+      "ok": false,
+      "why": "That counts 1 FLOP per 2-byte weight. A multiply-add is 2 FLOPs: 1 FLOP per byte."
+     },
+     {
+      "t": "1: decode is always compute-bound",
+      "ok": false,
+      "why": "At batch 1, decode does 1 FLOP per byte read, far below 295: bandwidth-bound."
+     },
+     {
+      "t": "About 3,000",
+      "ok": false,
+      "why": "Off by 10× from $989 \\times 10^{12} / 3.35 \\times 10^{12}$."
+     }
+    ]
+   },
+   {
+    "id": "llm-05-inference-q08",
+    "type": "mc",
+    "obj": "o3",
+    "sec": "bandwidth",
+    "stem": "4 H100s (13.4 TB/s), 70B in bf16 (140 GB). 32 users, each with 8k tokens of context (86 GB of KV in total). Roughly how fast does each user see tokens?",
+    "options": [
+     {
+      "t": "About 59 tokens/s (≈ 1,900 tokens/s in total)",
+      "ok": true,
+      "why": "Each step reads weights and every cache: 226 GB / 13.4 TB/s ≈ 16.9 ms."
+     },
+     {
+      "t": "About 96 tokens/s (≈ 3,060 in total)",
+      "ok": false,
+      "why": "That ignores the KV reads, which grow with the batch."
+     },
+     {
+      "t": "About 3 tokens/s",
+      "ok": false,
+      "why": "That treats the 32 users as served one after another. One weight read serves the whole batch."
+     },
+     {
+      "t": "About 156 tokens/s",
+      "ok": false,
+      "why": "That divides by the KV bytes only (86 GB). The weights are read each step too."
+     }
+    ]
+   },
+   {
+    "id": "llm-05-inference-q09",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "batching",
+    "stem": "148 GB is left for KV (320 KiB per token). Users average 2k tokens; the maximum is 8k. How many sequences fit with contiguous reservation at the maximum, and with paged KV?",
+    "options": [
+     {
+      "t": "About 55 and about 220",
+      "ok": true,
+      "why": "Reserved: 148 GB / 2.68 GB per 8k sequence ≈ 55. Paged: pay for 2k → 0.67 GB each ≈ 220."
+     },
+     {
+      "t": "About 55 both ways",
+      "ok": false,
+      "why": "Paging allocates blocks as tokens arrive; it does not reserve the maximum."
+     },
+     {
+      "t": "About 220 and about 880",
+      "ok": false,
+      "why": "Too high: 2k tokens × 320 KiB ≈ 0.67 GB per sequence."
+     },
+     {
+      "t": "About 110 and about 440",
+      "ok": false,
+      "why": "That counts 160 KiB per token, forgetting the 2 for K and V."
+     }
+    ]
+   },
+   {
+    "id": "llm-05-inference-q10",
+    "type": "mc",
+    "obj": "o4",
+    "sec": "parallel",
+    "stem": "A model needs 16 GPUs: two servers with 8 GPUs each. NVLink inside a server, a slower network between them. How do you split it?",
+    "options": [
+     {
+      "t": "Tensor parallelism inside each server, pipeline parallelism across the two",
+      "ok": true,
+      "why": "TP all-reduces every layer and needs NVLink. PP only passes activations between stages, so the slow link can carry it."
+     },
+     {
+      "t": "Tensor parallelism across all 16 GPUs",
+      "ok": false,
+      "why": "Every layer's all-reduce would cross the slow network."
+     },
+     {
+      "t": "Pipeline parallelism with 16 stages",
+      "ok": false,
+      "why": "Works, but 16 stages add bubbles and latency, and waste the NVLink inside each server."
+     },
+     {
+      "t": "Data parallelism: a full copy of the model on each GPU",
+      "ok": false,
+      "why": "The model needs 16 GPUs of memory; a full copy does not fit on one."
+     }
+    ]
+   },
+   {
+    "id": "llm-05-inference-q11",
+    "type": "mc",
+    "obj": "o5",
+    "sec": "speedups",
+    "stem": "Speculative decoding with $k = 4$ draft tokens and acceptance rate $\\alpha = 0.8$. Expected tokens per big-model pass?",
+    "options": [
+     {
+      "t": "About 3.36",
+      "ok": true,
+      "why": "$(1 - 0.8^{5}) / (1 - 0.8) \\approx 3.36$: accepted drafts plus the one token the big model always adds."
+     },
+     {
+      "t": "5",
+      "ok": false,
+      "why": "That assumes every draft is accepted."
+     },
+     {
+      "t": "3.2",
+      "ok": false,
+      "why": "That is $\\alpha k$. Acceptance stops at the first rejection, and the big model always adds one token."
+     },
+     {
+      "t": "About 1.25",
+      "ok": false,
+      "why": "That is $1/\\alpha$, not the expected run length."
+     }
+    ]
+   },
+   {
+    "id": "llm-05-inference-q12",
+    "type": "mc",
+    "obj": "o6",
+    "sec": "speedups",
+    "stem": "Every request starts with the same 6,000-token system prompt, and prompt caching is on, but the time to first token never improves. The prompt begins with `Today is 2026-11-24 09:41:07`. Diagnosis?",
+    "options": [
+     {
+      "t": "The timestamp changes the prefix on every request, so no cached prefix ever matches",
+      "ok": true,
+      "why": "The cache needs a byte-identical prefix. Move changing content to the end."
+     },
+     {
+      "t": "The KV cache is too small for 6,000 tokens",
+      "ok": false,
+      "why": "6,000 × 320 KiB ≈ 1.8 GiB: small next to the GPU memory."
+     },
+     {
+      "t": "Decode is bandwidth-bound",
+      "ok": false,
+      "why": "True, but time to first token is set by prefill, which caching would skip."
+     },
+     {
+      "t": "Speculative decoding is off",
+      "ok": false,
+      "why": "Speculative decoding speeds decode, not the prefill before the first token."
+     }
+    ]
+   }
+  ]
  }
 }
