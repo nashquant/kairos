@@ -14,9 +14,7 @@ The mark is the spaced-repetition sawtooth. Memory decays along the forgetting c
 
 ## Accounts, sync and private decks
 
-Login is optional (6-digit email code via Supabase Auth). Without login, progress stays on the device. Signed-in users get progress synced across devices (newest write per card wins; daily logs merge) and their private decks. Sign-out clears the device. Schema: `supabase/schema.sql`.
-
-Private decks reach Supabase through an encrypted chunk in `data/private/` and the *Ingest private decks* workflow; see `docs/spec.md`.
+Disabled since 2026-11-26: there is no Supabase project, so the app has no login and progress stays on the device. The sync and private-deck code is still in the repo (`web-src/adapter.js`, `supabase/schema.sql`, `scripts/encrypt_private.py`); `docs/spec.md` says how to reactivate it.
 
 ## Notebook
 

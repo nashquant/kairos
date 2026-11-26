@@ -8,12 +8,13 @@ The website (https://nashquant.github.io/kairos/) is the app. Claude adds cards 
 
 ## Public vs private
 - **Public decks** live in plain JSON: `data/decks.json` and `data/cards.json`. The repo is public: anyone can read them.
-- **Private decks** live in Supabase (`private_docs`), readable only by the owner after login. To add them, Claude writes a plain chunk `{decks:{}, cards:{}}` (null deletes), encrypts it with `python3 scripts/encrypt_private.py <plain.json> <chunk-name>` (uses `data/ingest-public-key.json`) and commits `data/private/`. The "Ingest private decks" workflow decrypts it and writes to Supabase for `KAIROS_OWNER_EMAIL`. Never commit the plain JSON. Claude cannot read private decks back; to change a private card, send a new chunk with the same id.
-- Every new deck is **private by default**. Ask the user for visibility before creating a deck.
+- **Private decks are disabled** (since 2026-11-26): Supabase is off, so there is nowhere to store them. Every new deck is public. Material that cannot be public does not go into Kairos.
+- The private pipeline code stays for a possible reactivation: `scripts/encrypt_private.py`, `supabase/schema.sql`, `tests/test_ingest.py`. Reactivating needs a new Supabase project, its keys in `data/config.json`, and the `db.yml` and `ingest.yml` workflows restored from git history (removed in the 2026-11-26 commit).
 - Never put anything about the user's employer, clients, positions or internal material in a public deck, even if asked to make it public.
 
 ## Accounts and sync
-- Login is optional: Supabase Auth with a 6-digit email code. Without login, progress stays on the device.
+- Login and sync are **disabled** (since 2026-11-26): `supabaseAnonKey` in `data/config.json` is empty, so the app hides the account panel. Progress stays on the device. The rest of this section describes the code, which still exists.
+- Login: Supabase Auth with a 6-digit email code.
 - With login, progress (`reviews/*`, `log/*`, `config/settings`, own card edits) syncs through `user_docs`: newest write per document wins; daily logs merge entry by entry. Schema: `supabase/schema.sql`.
 - Sign-out clears the device.
 

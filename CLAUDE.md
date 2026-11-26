@@ -13,8 +13,8 @@ Flashcards with spaced repetition (FSRS), served as a single-page PWA on GitHub 
 ## Layout
 - `app.html`: the whole app. `web-src/`: data adapter, service worker, icons.
 - `scripts/build_web.py`: builds `web/` (git-ignored) from `app.html` + `web-src/`.
-- `data/`: public decks, cards, notes; `data/private/` holds encrypted chunks only.
-- `supabase/schema.sql`: auth, sync and private decks.
+- `data/`: public decks, cards, notes.
+- `supabase/schema.sql`: auth, sync and private decks. Disabled since 2026-11-26 (no Supabase project); see `docs/spec.md`.
 
 ## Test
 ```bash

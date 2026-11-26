@@ -6,7 +6,8 @@ Changes that git does not see (Supabase data, private decks) go here too.
 ## 2026-11-26
 
 - Removed `.github/workflows/keepalive.yml`. It never worked: the `SUPABASE_SERVICE_ROLE_KEY` secret was never set, so every run failed (Nov 22, Nov 25). Supabase sync was never activated (schema not applied, `db.yml` never ran), and the user will delete the Supabase project. The app keeps progress on the device and does not need Supabase.
-- Kept for now: `db.yml`, `ingest.yml`, `supabase/`, and the keys in `data/config.json`. Removing them is a separate decision.
+- Then turned Supabase off in the app, with the user's approval: `supabaseAnonKey` is empty in `data/config.json`, so the account panel is hidden. Removed `db.yml` (never ran) and `ingest.yml` (failed Nov 5). Private decks are disabled: every new deck is public, and material that cannot be public stays out (spec updated). Kept the code (`web-src/adapter.js`, `supabase/`, `scripts/encrypt_private.py`, `tests/test_ingest.py`) for a possible reactivation; spec says how.
+- The repo stays as the base for future study work: decks, cards and notes.
 
 ## 2026-11-24
 
