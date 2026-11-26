@@ -3,6 +3,11 @@
 Newest first. One entry per working day: what changed, the decisions behind it, and the commits.
 Changes that git does not see (Supabase data, private decks) go here too.
 
+## 2026-11-26
+
+- Removed `.github/workflows/keepalive.yml`. It never worked: the `SUPABASE_SERVICE_ROLE_KEY` secret was never set, so every run failed (Nov 22, Nov 25). Supabase sync was never activated (schema not applied, `db.yml` never ran), and the user will delete the Supabase project. The app keeps progress on the device and does not need Supabase.
+- Kept for now: `db.yml`, `ingest.yml`, `supabase/`, and the keys in `data/config.json`. Removing them is a separate decision.
+
 ## 2026-11-24
 
 - LLM notes complete: `llm-02-training` (9 sections, 12 questions, 6 objectives; example: **Tutor**, a math assistant pretrained at 70B, then SFT → preferences → RLVR → LoRA/QLoRA → distilled to 8B) and `llm-05-inference` (9 sections, 12 questions, 6 objectives; example: a Llama-3-70B-style model served to 32 users at 8k context on H100s). All 17 llm-02 and 19 llm-05 cards link to a section.
